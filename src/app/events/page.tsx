@@ -1,6 +1,6 @@
 import SectionHeading from "@/components/SectionHeading";
-import { events } from "@/data/events";
-import { Calendar, MapPin } from "lucide-react";
+import EventCard from "@/components/EventCard";
+import { upcomingEvents, pastEvents } from "@/data/events";
 
 export default function Events() {
   return (
@@ -9,25 +9,41 @@ export default function Events() {
         title="Events" 
         subtitle="Join us for workshops, hackathons, tech talks, and more"
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {events.map((event) => (
-          <div 
-            key={event.id} 
-            className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow"
-          >
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">{event.title}</h3>
-            <p className="text-gray-600 mb-4">{event.description}</p>
-            <div className="flex items-center text-sm text-gray-500 mb-2">
-              <Calendar size={16} className="mr-2" />
-              {event.date}
-            </div>
-            <div className="flex items-center text-sm text-gray-500">
-              <MapPin size={16} className="mr-2" />
-              {event.location}
-            </div>
+
+      {/* Upcoming Events */}
+      {upcomingEvents.length > 0 && (
+        <div className="mb-16">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            Upcoming Events
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {upcomingEvents.map((event) => (
+              <EventCard key={event.id} event={event} />
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      )}
+
+      {/* Past Events */}
+      {pastEvents.length > 0 && (
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            Past Events
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {pastEvents.map((event) => (
+              <EventCard key={event.id} event={event} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* No Events Message */}
+      {upcomingEvents.length === 0 && pastEvents.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-gray-500 text-lg">No events available at the moment.</p>
+        </div>
+      )}
     </div>
   );
 }
