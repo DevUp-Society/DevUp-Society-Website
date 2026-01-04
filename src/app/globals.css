@@ -1,3 +1,33 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --font-primary: var(--font-primary);
+  
+  --color-background: 0 0% 0%;
+  --color-foreground: 0 0% 100%;
+  --color-primary: 217 91% 60%;
+  --color-primary-foreground: 0 0% 100%;
+  --color-secondary: 240 4% 16%;
+  --color-secondary-foreground: 0 0% 100%;
+  --color-accent: 240 4% 16%;
+  --color-accent-foreground: 0 0% 100%;
+  --color-destructive: 0 72% 51%;
+  --color-destructive-foreground: 0 0% 100%;
+  --color-border: 240 4% 16%;
+  --color-input: 240 4% 16%;
+  --color-ring: 217 91% 60%;
+  
+  --radius-lg: 0.5rem;
+  --radius-md: 0.375rem;
+  --radius-sm: 0.25rem;
+}
+
+:root {
+  --background: #000000;
+}
+
+body {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: var(--font-primary);
+}
