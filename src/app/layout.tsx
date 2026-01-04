@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Montserrat_Alternates } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import { Header } from "@/components/ui/header-2";
 import Footer from "@/components/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const montserratAlternates = Montserrat_Alternates({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-primary",
+});
 
 export const metadata: Metadata = {
   title: "DevUp Society | College Tech Club",
@@ -17,10 +21,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Navbar />
-        <main className="min-h-screen">
+    <html lang="en" className={montserratAlternates.variable}>
+      <body className="font-primary bg-black text-white">
+        <Header />
+        <main className="min-h-screen bg-black">
           {children}
         </main>
         <Footer />
