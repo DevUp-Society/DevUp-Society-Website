@@ -306,8 +306,8 @@ const registrationDeadline = event.timeline?.find(item =>
 // With comprehensive error handling and debugging
 // ============================================
 
-// Configuration
-const BACKEND_URL = 'https://devup-society-website.onrender.com';
+// Configuration - Now using Vercel Serverless Functions (No cold starts!)
+const BACKEND_URL = import.meta.env.PUBLIC_SITE_URL || 'https://www.devupvjit.in';
 const UPI_ID = 'aliffaizan1212@oksbi';
 const UPI_PAYEE = 'DevUp Society';
 
@@ -336,7 +336,7 @@ async function fetchWithRetry(url, options = {}, retries = 3) {
 
 async function getNextTeamNumber(slug) {
   try {
-    const url = `${BACKEND_URL}/api/get-team-number?slug=${encodeURIComponent(slug)}`;
+    const url = `${BACKEND_URL}/api/registrations/get-team-number?slug=${encodeURIComponent(slug)}`;
     const response = await fetchWithRetry(url);
     if (!response.ok) throw new Error('Failed to fetch team number');
     const data = await response.json();
@@ -350,7 +350,7 @@ async function getNextTeamNumber(slug) {
 
 async function submitRegistration(formData) {
   try {
-    const url = `${BACKEND_URL}/api/register`;
+    const url = `${BACKEND_URL}/api/registrations/register`;
     const response = await fetchWithRetry(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

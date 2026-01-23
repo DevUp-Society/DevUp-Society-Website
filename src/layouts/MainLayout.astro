@@ -703,10 +703,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
     <!-- Chat Panel -->
     <div 
       id="ai-chat-panel" 
-      class="hidden opacity-0 translate-y-4 scale-95 origin-bottom-right transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] w-[380px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-8rem)] bg-[#030303]/98 backdrop-blur-2xl border border-signal/30 shadow-[0_0_60px_rgba(204,255,0,0.15),0_0_100px_rgba(204,255,0,0.05),inset_0_0_60px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden cyber-clip-panel perspective-1000"
+      class="hidden opacity-0 translate-y-4 scale-95 origin-bottom-right transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] w-[400px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-8rem)] bg-[#030303]/98 backdrop-blur-2xl border-2 border-signal/40 shadow-[0_0_80px_rgba(204,255,0,0.2),0_0_120px_rgba(204,255,0,0.08),inset_0_0_80px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden cyber-clip-panel perspective-1000"
     >
       <!-- Header -->
-      <div class="flex items-center justify-between px-6 py-5 border-b border-signal/20 bg-gradient-to-r from-signal/5 via-transparent to-transparent relative overflow-hidden">
+      <div class="flex items-center justify-between px-6 py-5 border-b-2 border-signal/30 bg-gradient-to-r from-signal/8 via-signal/3 to-transparent relative overflow-hidden">
         <!-- Scanner Effect -->
         <div class="absolute top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-signal/30 to-transparent blur-[1px] animate-[scan_4s_linear_infinite]"></div>
         
@@ -716,18 +716,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
             <span class="absolute inset-0 rounded-full bg-signal blur-[4px]"></span>
           </div>
           <div class="flex flex-col gap-0.5">
-            <span class="font-display font-bold text-white text-sm tracking-wider flex items-center gap-2">
-              DEVUP INTELLIGENCE
+            <span class="font-display font-bold text-white text-base tracking-wider flex items-center gap-2">
+              DEVUP AI
             </span>
-            <span class="text-[9px] text-zinc-500 font-mono tracking-widest flex items-center gap-2">
-               <span class="w-1 h-1 bg-signal rounded-full shadow-[0_0_4px_var(--signal)]"></span> ONLINE
-               <span class="text-zinc-700">|</span> V.2.4.0
+            <span class="text-[10px] text-zinc-400 font-mono tracking-widest flex items-center gap-2">
+               <span class="w-1.5 h-1.5 bg-signal rounded-full shadow-[0_0_6px_var(--signal)] animate-ti-pulse"></span> ONLINE
+               <span class="text-zinc-600">•</span>
+               <span class="text-signal/70">READY</span>
             </span>
           </div>
         </div>
         <button 
           id="ai-chat-close" 
-          class="w-8 h-8 rounded-lg hover:bg-white/5 border border-white/10 hover:border-signal/40 flex items-center justify-center transition-all group backdrop-blur-sm hover:shadow-[0_0_10px_rgba(204,255,0,0.2)]"
+          class="w-9 h-9 clip-corner hover:bg-white/5 border-2 border-white/10 hover:border-signal/50 flex items-center justify-center transition-all group backdrop-blur-sm hover:shadow-[0_0_15px_rgba(204,255,0,0.25)]"
           aria-label="Close chat"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-zinc-400 group-hover:text-signal transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -750,30 +751,30 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
              <div class="w-1 h-1 bg-signal rounded-full shadow-[0_0_4px_var(--signal)]"></div>
              <span class="text-[9px] uppercase tracking-widest text-signal font-mono">System Message</span>
           </div>
-          <div class="bg-zinc-900/60 border border-signal/10 rounded-2xl rounded-tl-sm p-4 backdrop-blur-md shadow-lg hover:border-signal/20 transition-all cyber-clip-message-ai">
+          <div class="bg-zinc-900/70 border-2 border-signal/15 rounded-2xl rounded-tl-sm p-4 backdrop-blur-md shadow-lg hover:border-signal/25 transition-all cyber-clip-message-ai">
             <p class="text-[13px] text-zinc-300 leading-relaxed font-sans">
-              <span class="text-white font-semibold block mb-2 text-sm flex items-center gap-2">
-                 ⚡ Systems Online
+              <span class="text-white font-bold block mb-2 text-sm flex items-center gap-2">
+                 <span class="text-signal">⚡</span> Systems Online
               </span>
-              Welcome to the DevUp Society Intelligence Hub. I can assist with event details, team info, or registration queries.
+              Hey there! I'm <span class="text-signal font-semibold">DevUp AI</span>. I can help with event details, team info, how to join, and anything DevUp Society!
             </p>
           </div>
           
           <!-- Quick Suggestions -->
           <div class="grid grid-cols-2 gap-2 mt-2" id="ai-suggestions">
-            <button class="suggestion-chip bg-zinc-900/40 border border-white/10 hover:border-signal/50 hover:bg-zinc-800/60 hover:shadow-[0_0_15px_rgba(204,255,0,0.1)] p-3 text-left group rounded-lg transition-all duration-300" onclick="window.sendSuggestion('How do I join DevUp?')">
+            <button class="suggestion-chip bg-zinc-900/50 border-2 border-white/10 hover:border-signal/60 hover:bg-zinc-800/70 hover:shadow-[0_0_20px_rgba(204,255,0,0.15)] p-3 text-left group clip-corner transition-all duration-300" onclick="window.sendSuggestion('How do I join DevUp?')">
               <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider group-hover:text-signal transition-colors font-mono">Career</span>
               <span class="text-xs text-zinc-200 group-hover:text-white transition-colors">How do I join?</span>
             </button>
-            <button class="suggestion-chip bg-zinc-900/40 border border-white/10 hover:border-signal/50 hover:bg-zinc-800/60 hover:shadow-[0_0_15px_rgba(204,255,0,0.1)] p-3 text-left group rounded-lg transition-all duration-300" onclick="window.sendSuggestion('Upcoming events?')">
+            <button class="suggestion-chip bg-zinc-900/50 border-2 border-white/10 hover:border-signal/60 hover:bg-zinc-800/70 hover:shadow-[0_0_20px_rgba(204,255,0,0.15)] p-3 text-left group clip-corner transition-all duration-300" onclick="window.sendSuggestion('Upcoming events?')">
               <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider group-hover:text-signal transition-colors font-mono">Calendar</span>
               <span class="text-xs text-zinc-200 group-hover:text-white transition-colors">Upcoming events?</span>
             </button>
-             <button class="suggestion-chip bg-zinc-900/40 border border-white/10 hover:border-signal/50 hover:bg-zinc-800/60 hover:shadow-[0_0_15px_rgba(204,255,0,0.1)] p-3 text-left group rounded-lg transition-all duration-300" onclick="window.sendSuggestion('What is DevUp?')">
+             <button class="suggestion-chip bg-zinc-900/50 border-2 border-white/10 hover:border-signal/60 hover:bg-zinc-800/70 hover:shadow-[0_0_20px_rgba(204,255,0,0.15)] p-3 text-left group clip-corner transition-all duration-300" onclick="window.sendSuggestion('What is DevUp?')">
               <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider group-hover:text-signal transition-colors font-mono">Mission</span>
               <span class="text-xs text-zinc-200 group-hover:text-white transition-colors">What is DevUp?</span>
             </button>
-             <button class="suggestion-chip bg-zinc-900/40 border border-white/10 hover:border-signal/50 hover:bg-zinc-800/60 hover:shadow-[0_0_15px_rgba(204,255,0,0.1)] p-3 text-left group rounded-lg transition-all duration-300" onclick="window.sendSuggestion('Who is the founder?')">
+             <button class="suggestion-chip bg-zinc-900/50 border-2 border-white/10 hover:border-signal/60 hover:bg-zinc-800/70 hover:shadow-[0_0_20px_rgba(204,255,0,0.15)] p-3 text-left group clip-corner transition-all duration-300" onclick="window.sendSuggestion('Who is the founder?')">
               <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider group-hover:text-signal transition-colors font-mono">Legacy</span>
               <span class="text-xs text-zinc-200 group-hover:text-white transition-colors">Who founded this?</span>
             </button>
@@ -782,7 +783,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
       </div>
 
       <!-- Input Area (Modern Chat) -->
-      <div class="p-4 bg-[#030303]/95 border-t border-signal/20 relative z-20 backdrop-blur-xl" id="chat-input-container">
+      <div class="p-4 bg-[#030303]/95 border-t-2 border-signal/30 relative z-20 backdrop-blur-xl" id="chat-input-container">
         
         <!-- Command Mode Background (Hidden by default) -->
         <div id="cmd-mode-bg" class="absolute inset-0 bg-red-900/5 opacity-0 transition-opacity pointer-events-none"></div>
@@ -791,15 +792,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
           <input 
             type="text" 
             id="ai-chat-input" 
-            placeholder="Ask AI Assistant..."
+            placeholder="Ask DevUp AI anything..."
             autocomplete="off"
-            class="w-full bg-zinc-900/70 border border-white/10 focus:border-signal/50 focus:bg-zinc-900 focus:shadow-[0_0_20px_rgba(204,255,0,0.1),inset_0_0_20px_rgba(204,255,0,0.05)] hover:border-white/20 rounded-xl px-4 py-3.5 pr-12 text-[13px] text-white placeholder-zinc-600 outline-none transition-all font-sans shadow-inner z-10 relative"
+            class="w-full bg-zinc-900/80 border-2 border-white/15 focus:border-signal/60 focus:bg-zinc-900 focus:shadow-[0_0_25px_rgba(204,255,0,0.15),inset_0_0_25px_rgba(204,255,0,0.05)] hover:border-white/25 rounded-xl px-4 py-4 pr-12 text-sm text-white placeholder-zinc-500 outline-none transition-all font-sans shadow-inner z-10 relative"
           />
           
           <button 
             type="submit" 
             id="ai-chat-send"
-            class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-signal text-black rounded-lg flex items-center justify-center hover:scale-110 hover:shadow-[0_0_20px_rgba(204,255,0,0.5)] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none z-20 font-bold"
+            class="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-signal text-black clip-corner flex items-center justify-center hover:scale-110 hover:shadow-[0_0_25px_rgba(204,255,0,0.6)] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none z-20 font-bold"
             aria-label="Send"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -882,9 +883,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
     let isLoading = false;
     let loadingInterval;
 
-    // Globals for suggestion clicks
+    // Globals for suggestion clicks and external triggers
     window.sendSuggestion = function(text) {
       sendMessage(text);
+    };
+    
+    // Global function to open AI chat from anywhere (e.g., EventPopup)
+    window.openAIChat = function() {
+      if (!isOpen) {
+        toggleChat();
+      }
     };
 
     function toggleChat() {
@@ -1008,7 +1016,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
              <span class="text-[9px] uppercase tracking-widest text-white font-mono">YOU</span>
              <div class="w-1 h-1 bg-white rounded-full"></div>
           </div>
-          <div class="self-end max-w-[90%] overflow-hidden bg-zinc-800/80 border border-white/20 p-3 rounded-2xl rounded-tr-sm backdrop-blur-sm shadow-lg cyber-clip-message-user hover:border-signal/30 transition-colors">
+          <div class="self-end max-w-[90%] overflow-hidden bg-zinc-800/80 border-2 border-white/30 p-3 rounded-2xl rounded-tr-sm backdrop-blur-sm shadow-lg cyber-clip-message-user hover:border-signal/40 transition-colors">
             <p class="text-[13px] text-white leading-relaxed font-sans break-words">${escapeHtml(content)}</p>
           </div>
         `;
@@ -1023,7 +1031,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
              <span class="text-[9px] uppercase tracking-widest text-signal font-mono">DevUp AI</span>
              <span class="text-[9px] font-mono text-zinc-500">${timestamp}</span>
           </div>
-          <div class="self-start max-w-[90%] overflow-hidden ${isError ? 'bg-red-900/20 border-red-500/50' : 'bg-zinc-900/60 border-signal/10'} border p-4 rounded-2xl rounded-tl-sm backdrop-blur-sm shadow-lg group hover:border-signal/30 transition-colors cyber-clip-message-ai">
+          <div class="self-start max-w-[90%] overflow-hidden ${isError ? 'bg-red-900/20 border-red-500/50 border-2' : 'bg-zinc-900/70 border-2 border-signal/15'} p-4 rounded-2xl rounded-tl-sm backdrop-blur-sm shadow-lg group hover:border-signal/35 transition-colors cyber-clip-message-ai">
             <p class="text-[13px] ${isError ? 'text-red-300' : 'text-zinc-200'} leading-relaxed font-sans break-words [overflow-wrap:anywhere]" id="typing-${Date.now()}"></p>
           </div>
         `;
@@ -1054,7 +1062,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
              <div class="w-1 h-1 bg-signal rounded-full shadow-[0_0_4px_var(--signal)]"></div>
              <span class="text-[9px] uppercase tracking-widest text-signal font-mono">NEURAL NET</span>
           </div>
-          <div class="self-start bg-zinc-900/60 border border-signal/10 p-3 rounded-xl rounded-tl-sm flex items-center gap-3 backdrop-blur-sm shadow-lg cyber-clip-message-ai">
+          <div class="self-start bg-zinc-900/70 border-2 border-signal/15 p-3 rounded-xl rounded-tl-sm flex items-center gap-3 backdrop-blur-sm shadow-lg cyber-clip-message-ai">
              <!-- Wave Animation -->
              <div class="flex items-center gap-0.5 h-3">
                 <span class="w-0.5 h-3 bg-signal shadow-[0_0_4px_var(--signal)] animate-[wave_1s_ease-in-out_infinite]"></span>
