@@ -37,7 +37,7 @@ const { event } = Astro.props;
       <div class="text-center mb-10">
         <a href={`/events/${event.slug}`} class="inline-flex items-center gap-2 text-zinc-500 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors mb-6">
           <Icon name="lucide:arrow-left" />
-          <span>Back to Event Details</span>
+          <span>Back to Event details</span>
         </a>
         <h1 class="font-display text-4xl md:text-5xl text-white font-bold mb-4">
           REGISTER NOW
@@ -204,17 +204,16 @@ const { event } = Astro.props;
     */
 
     // Define vars passed from Astro frontmatter
-    const eventFeeRaw = document.querySelector('meta[name="event-fee"]')?.content || "0";
+    const eventFeeRaw = (document.querySelector('meta[name="event-fee"]') as HTMLMetaElement)?.content || "0";
     const eventFee = parseInt(eventFeeRaw);
 
-    // DOM Elements
-    const form = document.getElementById('registration-form');
-    // const teamSizeSelect = document.getElementById('team-size'); // Removed
-    const teamSizeInput = document.getElementById('team-size-display');
+    // DOM Elements - Explicit Casts
+    const form = document.getElementById('registration-form') as HTMLFormElement | null;
+    const teamSizeInput = document.getElementById('team-size-display') as HTMLInputElement | null;
     const increaseBtn = document.getElementById('increase-size');
     const decreaseBtn = document.getElementById('decrease-size');
     const membersContainer = document.getElementById('members-container');
-    const qrImage = document.getElementById('payment-qr');
+    const qrImage = document.getElementById('payment-qr') as HTMLImageElement | null;
     const totalAmountDisplay = document.getElementById('total-amount');
 
     // Function to render member fields
@@ -233,16 +232,16 @@ const { event } = Astro.props;
         // Create fields for Member 2 to Size
         for (let i = 2; i <= size; i++) {
             const memberHtml = `
-                <div class="space-y-6 pt-6 border-t border-zinc-900">
+                    <div class="space-y-6 pt-6 border-t border-zinc-900">
                     <div class="flex items-center gap-3 mb-2">
-                         <span class="font-mono text-[10px] bg-zinc-900 text-signal px-2 py-1 rounded border border-zinc-800 uppercase tracking-widest">
+                            <span class="font-mono text-[10px] bg-zinc-900 text-signal px-2 py-1 rounded border border-zinc-800 uppercase tracking-widest">
                             // Member 0${i}
                         </span>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <input type="text" name="member_${i}_name" required placeholder="Name" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
                         <input type="email" name="member_${i}_email" required placeholder="Email" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
-                         <input type="tel" name="member_${i}_phone" required placeholder="Phone Number" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
+                            <input type="tel" name="member_${i}_phone" required placeholder="Phone Number" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
                     </div>
                 </div>
             `;
@@ -255,13 +254,14 @@ const { event } = Astro.props;
             totalAmountDisplay.textContent = `Total: ₹${total}`;
             // Update QR URL
             if (qrImage) {
-                 const slug = document.querySelector('input[name="event_slug"]')?.value || "event";
-                 qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=devup@upi&pn=DevUpSociety&am=${total}&tn=${slug}_reg`;
+                    const slugInput = document.querySelector('input[name="event_slug"]') as HTMLInputElement;
+                    const slug = slugInput?.value || "event";
+                    qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=devup@upi&pn=DevUpSociety&am=${total}&tn=${slug}_reg`;
             }
         }
     }
 
-      // Button Listeners
+        // Button Listeners
     if (increaseBtn && decreaseBtn && teamSizeInput) {
         increaseBtn.addEventListener('click', () => {
             let current = parseInt(teamSizeInput.value) || 2;
@@ -285,13 +285,13 @@ const { event } = Astro.props;
 
 
     // Form Submission Logic
-    if (form) {
+    if (form && teamSizeInput) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const overlay = document.getElementById('loading-overlay');
             const successScreen = document.getElementById('success-screen');
-            const submitBtn = form.querySelector('button[type="submit"]');
-            
+            if (!overlay || !successScreen) return; // Type safety check
+
             // Show loading
             overlay.classList.remove('hidden');
             overlay.classList.add('flex');
@@ -366,7 +366,11 @@ const { event } = Astro.props;
 
             } catch (error) {
                 console.error('Registration Error:', error);
-                alert('Registration failed: ' + error.message);
+                
+                // Keep error handling gentle
+                const errorMessage = error instanceof Error ? error.message : "Unknown error";
+                alert('Registration failed: ' + errorMessage);
+                
                 overlay.classList.add('hidden');
                 overlay.classList.remove('flex');
             }
