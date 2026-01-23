@@ -509,8 +509,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
     // Load GSAP with timeout for proxy-blocked networks
     (function() {
       const timeout = 3000;
-      const loadScript = (src) => {
-        return new Promise((resolve, reject) => {
+      const loadScript = (src: string) => {
+        return new Promise<void>((resolve, reject) => {
           const script = document.createElement('script');
           script.src = src;
           script.async = true;
@@ -530,7 +530,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
   <!-- FONTS (Async load, won't block if proxied) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;">
 </head>
 
 <body class="loading">
