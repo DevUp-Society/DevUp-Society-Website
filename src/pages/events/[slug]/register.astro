@@ -300,14 +300,14 @@ const registrationDeadline = event.timeline?.find(item =>
   </div>
 </MainLayout>
 
-<script is:inline>
+<script is:inline define:vars={{ BACKEND_URL: import.meta.env.PUBLIC_SITE_URL || 'https://www.devupvjit.in' }}>
 // ============================================
 // PRODUCTION-READY REGISTRATION CLIENT
 // With comprehensive error handling and debugging
 // ============================================
 
 // Configuration - Now using Vercel Serverless Functions (No cold starts!)
-const BACKEND_URL = import.meta.env.PUBLIC_SITE_URL || 'https://www.devupvjit.in';
+// BACKEND_URL is injected from Astro context above
 const UPI_ID = 'aliffaizan1212@oksbi';
 const UPI_PAYEE = 'DevUp Society';
 
@@ -429,13 +429,30 @@ function isMobileDevice() {
 // Countdown Timer
 function initCountdownTimer() {
   const timerEl = document.getElementById('countdown-timer');
-  if (!timerEl) return;
+  if (!timerEl) {
+    logger.error('Countdown timer element not found');
+    return;
+  }
   
   const deadlineStr = timerEl.dataset.deadline;
-  if (!deadlineStr) return;
+  if (!deadlineStr) {
+    logger.error('No deadline found in data-deadline attribute');
+    timerEl.textContent = 'Date not set';
+    return;
+  }
+  
+  logger.info('Initializing countdown timer', { deadlineStr });
   
   // Parse deadline (format: "Feb 25, 2026")
   const deadline = new Date(deadlineStr + ' 23:59:59');
+  
+  if (isNaN(deadline.getTime())) {
+    logger.error('Invalid deadline date', { deadlineStr, parsed: deadline });
+    timerEl.textContent = 'Invalid date';
+    return;
+  }
+  
+  logger.info('Deadline parsed successfully', { deadline: deadline.toString() });
   
   function updateCountdown() {
     const now = new Date();
@@ -465,7 +482,7 @@ function initCountdownTimer() {
   updateCountdown();
   setInterval(updateCountdown, 1000);
   
-  logger.info('Countdown timer initialized');
+  logger.info('Countdown timer initialized and running');
 }
 
 // Wait for DOM to be fully loaded
@@ -513,17 +530,38 @@ document.addEventListener('DOMContentLoaded', async () => {
     // PAYMENT UI UPDATE
     // ============================================
     function updatePaymentUI(total, teamNumber) {
-      logger.debug('Updating payment UI', { total, teamNumber });
+      logger.info('Updating payment UI', { total, teamNumber });
       
       const upiLink = buildUpiLink(total, teamNumber);
+      logger.debug('UPI link generated', { upiLink });
 
-      if (upiIdDisplay) upiIdDisplay.textContent = UPI_ID;
-      if (upiNoteDisplay) upiNoteDisplay.textContent = teamNumber;
-      if (paymentAmountInput) paymentAmountInput.value = total.toString();
+      if (upiIdDisplay) {
+        upiIdDisplay.textContent = UPI_ID;
+        logger.debug('UPI ID set', { UPI_ID });
+      } else {
+        logger.error('UPI ID display element not found');
+      }
+      
+      if (upiNoteDisplay) {
+        upiNoteDisplay.textContent = teamNumber;
+        logger.debug('UPI note set', { teamNumber });
+      } else {
+        logger.error('UPI note display element not found');
+      }
+      
+      if (paymentAmountInput) {
+        paymentAmountInput.value = total.toString();
+        logger.debug('Payment amount set', { total });
+      } else {
+        logger.error('Payment amount input not found');
+      }
 
       if (qrImage) {
-        qrImage.src = getQRCodeUrl(upiLink);
-        logger.debug('QR code URL set', { url: qrImage.src });
+        const qrUrl = getQRCodeUrl(upiLink);
+        qrImage.src = qrUrl;
+        logger.info('✅ QR code URL set successfully', { url: qrUrl });
+      } else {
+        logger.error('❌ QR image element not found - QR code will not display!');
       }
 
       if (upiOpenButton) {
@@ -535,9 +573,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       if (upiMobile && upiDesktop) {
         const mobile = isMobileDevice();
-        logger.debug('Device type detected', { mobile });
+        logger.info('Device type detected', { mobile });
         upiMobile.classList.toggle('hidden', !mobile);
         upiDesktop.classList.toggle('hidden', mobile);
+      } else {
+        logger.error('UPI mobile/desktop containers not found');
       }
     }
 
