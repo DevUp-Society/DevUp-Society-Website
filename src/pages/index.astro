@@ -1,0 +1,325 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout 
+  title="DevUp Society | Code. Build. Deploy." 
+  description="The premier tech community for innovators, developers, and builders. Join DevUp Society and level up your skills."
+>
+  <!-- HERO -->
+  <section class="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0">
+      <img src="https://i.ibb.co/WWhbDQRw/ezgif-frame-001-2.png" class="w-full h-full object-cover opacity-50 mix-blend-luminosity scale-105 animate-[pulse_10s_ease-in-out_infinite]" alt="Signal">
+      <!-- Heavy Gradients to blend into void -->
+      <div class="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/50 to-[#030303]/30"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#030303_100%)]"></div>
+    </div>
+
+    <!-- 3D Environment -->
+    <div class="grid-floor opacity-40"></div>
+    
+    <!-- Reactor Core Visual -->
+    <div class="atom">
+      <div class="ring w-[600px] h-[600px] opacity-20"></div>
+      <div class="ring w-[400px] h-[400px] border-dashed opacity-30 animate-spin-slow" style="animation-duration: 40s"></div>
+      <div class="orbit w-[500px] h-[500px] opacity-30" style="animation-duration: 15s; transform: rotateX(70deg)"></div>
+      <div class="orbit w-[500px] h-[500px] opacity-30" style="animation-duration: 25s; transform: rotateY(70deg)"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-20 flex flex-col items-center text-center px-4 pt-10">
+      
+      <!-- Status Badge -->
+      <div class="mb-6 opacity-0 animate-[fadeInUp_0.5s_ease-out_1.2s_forwards]">
+        <div class="inline-flex items-center gap-3 px-4 py-1.5 border border-zinc-800 bg-black/40 backdrop-blur-sm clip-corner">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-signal opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-signal"></span>
+          </span>
+          <span class="font-mono text-[9px] text-zinc-400 uppercase tracking-widest">
+            Systems Nominal // Ready to Deploy
+          </span>
+        </div>
+      </div>
+
+      <!-- Main Title -->
+      <h1 class="font-display font-bold leading-[0.8] tracking-tighter mb-8 mix-blend-screen relative perspective-1000">
+        <div class="overflow-hidden">
+          <span class="block text-[13vw] md:text-[11vw] hero-title animate-[slideUp_1s_cubic-bezier(0.16,1,0.3,1)_0.5s_both]">
+            CODE BUILD
+          </span>
+        </div>
+        <div class="overflow-hidden flex items-center justify-center gap-2 md:gap-6">
+          <span class="block text-[13vw] md:text-[11vw] text-stroke-white opacity-40 animate-[slideUp_1s_cubic-bezier(0.16,1,0.3,1)_0.6s_both]">
+            DEPLOY
+          </span>
+        </div>
+      </h1>
+
+      <!-- Subheadline -->
+      <div class="max-w-xl mx-auto space-y-8 opacity-0 animate-[fadeIn_1s_ease-out_1s_forwards]">
+        <div class="flex items-center gap-4 justify-center">
+          <div class="h-px w-12 bg-zinc-700"></div>
+          <p class="font-mono text-xs md:text-sm text-zinc-400 text-center uppercase tracking-widest leading-relaxed">
+            We don't just learn code. We ship products.<br>
+            <span class="text-white">Innovation is our protocol.</span>
+          </p>
+          <div class="h-px w-12 bg-zinc-700"></div>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+          <a href="#about" class="group relative w-64 h-14 bg-signal text-black clip-corner flex items-center justify-center overflow-hidden btn-glitch">
+            <span class="relative z-10 font-mono text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-3">
+              Join DevUp
+              <iconify-icon icon="lucide:chevron-right"></iconify-icon>
+            </span>
+          </a>
+          <div class="flex items-center gap-3">
+            <div class="flex -space-x-2">
+              <div class="w-8 h-8 rounded-full border border-zinc-800 bg-zinc-900 flex items-center justify-center text-[10px] text-zinc-500 font-mono">50</div>
+              <div class="w-8 h-8 rounded-full border border-zinc-800 bg-zinc-900 flex items-center justify-center text-[10px] text-zinc-500 font-mono">+</div>
+            </div>
+            <span class="font-mono text-[9px] text-zinc-500 uppercase tracking-widest">
+              Active Members: <span class="text-signal">Growing</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HUD Elements -->
+    <div class="absolute bottom-8 left-8 hidden lg:block font-mono text-[10px] text-zinc-600 uppercase tracking-widest space-y-1">
+      <div>Location: Your College Campus</div>
+      <div>Focus: Full-Stack // DevOps // AI/ML</div>
+    </div>
+    <div class="absolute bottom-8 right-8 hidden lg:block">
+      <div class="w-32 h-32 border border-zinc-800 rounded-full flex items-center justify-center animate-spin-slow">
+        <div class="w-24 h-24 border border-zinc-800 border-dashed rounded-full"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="py-6 bg-signal border-y border-black relative z-30 -skew-y-1 origin-left overflow-hidden">
+    <div class="marquee-wrapper">
+      <div class="marquee-track">
+        <span class="font-display text-4xl font-bold uppercase tracking-tight text-black mx-8">/// 100+ PROJECTS SHIPPED /// ZERO EXCUSES /// HANDS-ON LEARNING /// REAL WORLD SKILLS /// 100+ PROJECTS SHIPPED /// ZERO EXCUSES /// HANDS-ON LEARNING /// REAL WORLD SKILLS</span>
+        <span class="font-display text-4xl font-bold uppercase tracking-tight text-black mx-8">/// 100+ PROJECTS SHIPPED /// ZERO EXCUSES /// HANDS-ON LEARNING /// REAL WORLD SKILLS /// 100+ PROJECTS SHIPPED /// ZERO EXCUSES /// HANDS-ON LEARNING /// REAL WORLD SKILLS</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="py-32 relative border-b border-zinc-900">
+    <div class="max-w-5xl mx-auto px-6 relative z-10">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+        <!-- Left: Header -->
+        <div class="md:col-span-4">
+          <div class="sticky top-32">
+            <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Who We Are</span>
+            <h2 class="font-display text-5xl text-white font-medium leading-[0.9] mb-8">
+              UNLIKE<br>
+              <span class="text-zinc-600">THE REST.</span>
+            </h2>
+            <p class="font-mono text-xs text-zinc-500 leading-relaxed uppercase tracking-wide">
+              Data encryption: Standard<br>
+              Read Clearance: Public
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: The Content -->
+        <div class="md:col-span-8">
+          <div class="glass-panel p-8 md:p-12 clip-corner-tl relative group">
+            <!-- Scanning line for effect -->
+            <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-signal to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+            <div class="space-y-10">
+              <div>
+                <h3 class="font-mono text-sm text-zinc-400 uppercase tracking-widest mb-4 border-l-2 border-signal pl-4">Mission</h3>
+                <p class="font-display text-2xl md:text-3xl text-white leading-tight">
+                  DevUp Society is where theory meets execution. We're not your typical college club. 
+                  <span class="text-zinc-500">We build, we break, we deploy.</span>
+                </p>
+              </div>
+
+              <div>
+                <h3 class="font-mono text-sm text-zinc-400 uppercase tracking-widest mb-4 border-l-2 border-zinc-700 pl-4 group-hover:border-signal transition-colors">What We Do</h3>
+                <p class="font-display text-2xl md:text-3xl text-white leading-tight">
+                  From hackathons to production-grade projects, we <span class="text-signal underline decoration-1 underline-offset-4">ship code that matters</span>. Every week, new challenges. Every month, new skills.
+                </p>
+              </div>
+
+              <div>
+                <h3 class="font-mono text-sm text-zinc-400 uppercase tracking-widest mb-4 border-l-2 border-zinc-700 pl-4 group-hover:border-signal transition-colors">The Promise</h3>
+                <p class="font-display text-2xl md:text-3xl text-white leading-tight">
+                  Join us and you'll leave with <span class="bg-white/10 px-1 text-white">portfolio-ready projects</span>, industry connections, and skills that actually land jobs.
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-12 pt-8 border-t border-white/5 flex justify-between items-center font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
+              <span>Founded: 2024</span>
+              <iconify-icon icon="lucide:fingerprint" class="text-2xl text-zinc-700"></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE DO / FOCUS AREAS -->
+  <section id="focus" class="py-32 relative bg-[#050505] overflow-hidden">
+    <!-- Background Grid -->
+    <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] opacity-20 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-20">
+        <div>
+          <span class="text-signal font-mono text-xs tracking-widest uppercase mb-2 block">/// Core Domains</span>
+          <h2 class="font-display text-6xl md:text-8xl text-white font-medium leading-[0.85] tracking-tight">
+            WHAT WE<br><span class="text-stroke-white opacity-30">BUILD</span>
+          </h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Domain 1 -->
+        <div class="spotlight-card group border border-zinc-800 hover:border-zinc-600 transition-colors duration-500 overflow-hidden">
+          <div class="p-8 relative">
+            <div class="flex justify-between items-start mb-6">
+              <div>
+                <div class="w-16 h-16 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center mb-4">
+                  <iconify-icon icon="lucide:code" class="text-signal text-3xl"></iconify-icon>
+                </div>
+                <h3 class="font-display text-3xl text-white mb-1">Full-Stack Dev</h3>
+                <div class="font-mono text-xs text-zinc-500 uppercase tracking-widest">MERN // Django // Next.js</div>
+              </div>
+            </div>
+            <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 border-l border-zinc-800 pl-4">
+              Build production-ready web applications. From database design to deployment. API development, authentication, performance optimization.
+            </p>
+            <div class="flex items-center gap-4 pt-6 border-t border-white/5">
+              <span class="text-[10px] font-mono text-zinc-600 uppercase">Weekly Workshops</span>
+              <span class="text-[10px] font-mono text-zinc-600 uppercase">Pair Programming</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Domain 2 -->
+        <div class="spotlight-card group border border-zinc-800 hover:border-zinc-600 transition-colors duration-500 overflow-hidden mt-0 md:mt-24">
+          <div class="p-8 relative">
+            <div class="flex justify-between items-start mb-6">
+              <div>
+                <div class="w-16 h-16 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center mb-4">
+                  <iconify-icon icon="lucide:cloud" class="text-signal text-3xl"></iconify-icon>
+                </div>
+                <h3 class="font-display text-3xl text-white mb-1">DevOps & Cloud</h3>
+                <div class="font-mono text-xs text-zinc-500 uppercase tracking-widest">Docker // K8s // AWS</div>
+              </div>
+            </div>
+            <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 border-l border-zinc-800 pl-4">
+              Master containerization, CI/CD pipelines, infrastructure as code. Deploy with confidence. Scale without fear.
+            </p>
+            <div class="flex items-center gap-4 pt-6 border-t border-white/5">
+              <span class="text-[10px] font-mono text-zinc-600 uppercase">Hands-On Labs</span>
+              <span class="text-[10px] font-mono text-zinc-600 uppercase">Real Infrastructure</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Domain 3 -->
+        <div class="spotlight-card group border border-zinc-800 hover:border-zinc-600 transition-colors duration-500 overflow-hidden">
+          <div class="p-8 relative">
+            <div class="flex justify-between items-start mb-6">
+              <div>
+                <div class="w-16 h-16 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center mb-4">
+                  <iconify-icon icon="lucide:brain" class="text-signal text-3xl"></iconify-icon>
+                </div>
+                <h3 class="font-display text-3xl text-white mb-1">AI/ML Engineering</h3>
+                <div class="font-mono text-xs text-zinc-500 uppercase tracking-widest">PyTorch // TensorFlow // LLMs</div>
+              </div>
+            </div>
+            <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 border-l border-zinc-800 pl-4">
+              Build intelligent systems. Train models. Fine-tune LLMs. From neural networks to production AI applications.
+            </p>
+            <div class="flex items-center gap-4 pt-6 border-t border-white/5">
+              <span class="text-[10px] font-mono text-zinc-600 uppercase">Kaggle Competitions</span>
+              <span class="text-[10px] font-mono text-zinc-600 uppercase">Research Projects</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Domain 4 -->
+        <div class="spotlight-card group border border-zinc-800 hover:border-zinc-600 transition-colors duration-500 overflow-hidden mt-0 md:mt-24">
+          <div class="p-8 relative">
+            <div class="flex justify-between items-start mb-6">
+              <div>
+                <div class="w-16 h-16 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center mb-4">
+                  <iconify-icon icon="lucide:smartphone" class="text-signal text-3xl"></iconify-icon>
+                </div>
+                <h3 class="font-display text-3xl text-white mb-1">Mobile Development</h3>
+                <div class="font-mono text-xs text-zinc-500 uppercase tracking-widest">React Native // Flutter</div>
+              </div>
+            </div>
+            <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 border-l border-zinc-800 pl-4">
+              Cross-platform mobile apps. Native performance. App store deployments. Build the next viral app.
+            </p>
+            <div class="flex items-center gap-4 pt-6 border-t border-white/5">
+              <span class="text-[10px] font-mono text-zinc-600 uppercase">Build & Ship</span>
+              <span class="text-[10px] font-mono text-zinc-600 uppercase">User Feedback</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT / CTA -->
+  <section id="contact" class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden bg-[#030303] border-t border-zinc-900">
+    <!-- Glitchy Grid -->
+    <div class="absolute inset-0 bg-[linear-gradient(rgba(204,255,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(204,255,0,0.03)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 pointer-events-none"></div>
+    
+    <div class="relative z-10 max-w-4xl px-6 text-center">
+      <div class="font-mono text-[10px] text-signal uppercase tracking-[0.3em] mb-12 animate-pulse">
+        /// Recruitment: Always Open
+      </div>
+
+      <h2 class="font-display text-[10vw] md:text-[8vw] font-bold text-white leading-[0.8] tracking-tighter mb-12 select-none group cursor-default">
+        JOIN THE<br>
+        <span class="text-transparent text-stroke-signal group-hover:text-signal transition-colors duration-500">MOVEMENT</span>
+      </h2>
+
+      <div class="flex flex-col items-center gap-8">
+        <p class="font-mono text-zinc-500 text-sm max-w-md leading-relaxed">
+          Stop watching tutorials. Start building real projects.<br>
+          Your journey to production starts here.
+        </p>
+        
+        <a href="#" class="group relative w-full md:w-96 h-20 bg-signal flex items-center justify-center clip-corner overflow-hidden btn-glitch">
+          <span class="relative z-10 font-mono text-sm font-bold text-black uppercase tracking-[0.2em] flex items-center gap-4">
+            Apply Now
+            <iconify-icon icon="lucide:rocket" class="text-xl"></iconify-icon>
+          </span>
+        </a>
+
+        <div class="flex gap-6 mt-8">
+          <a href="#" class="text-zinc-600 hover:text-signal transition-colors">
+            <iconify-icon icon="lucide:github" class="text-2xl"></iconify-icon>
+          </a>
+          <a href="#" class="text-zinc-600 hover:text-signal transition-colors">
+            <iconify-icon icon="lucide:linkedin" class="text-2xl"></iconify-icon>
+          </a>
+          <a href="#" class="text-zinc-600 hover:text-signal transition-colors">
+            <iconify-icon icon="lucide:twitter" class="text-2xl"></iconify-icon>
+          </a>
+          <a href="#" class="text-zinc-600 hover:text-signal transition-colors">
+            <iconify-icon icon="lucide:instagram" class="text-2xl"></iconify-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>

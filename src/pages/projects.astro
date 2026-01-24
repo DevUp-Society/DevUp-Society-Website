@@ -1,0 +1,324 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout 
+  title="Projects | DevUp Society" 
+  description="Explore production-ready projects built by DevUp Society members"
+>
+  <!-- HERO SECTION -->
+  <section class="relative h-[60vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-zinc-900">
+    <div class="grid-floor opacity-30"></div>
+    
+    <div class="relative z-20 text-center px-4">
+      <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Portfolio</span>
+      <h1 class="font-display text-6xl md:text-9xl text-white font-medium leading-[0.85] tracking-tight mb-6">
+        LIVE<br/>
+        <span class="text-stroke-white opacity-30">DEPLOYMENTS</span>
+      </h1>
+      <p class="font-mono text-zinc-400 text-sm max-w-2xl mx-auto">
+        From hackathon prototypes to production apps. Real projects, real users, real impact.
+      </p>
+    </div>
+  </section>
+
+  <!-- FEATURED PROJECTS -->
+  <section class="py-32 bg-void">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-20">
+        <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Highlighted</span>
+        <h2 class="font-display text-6xl text-white font-medium leading-[0.9]">
+          FEATURED WORK
+        </h2>
+      </div>
+
+      <div class="space-y-8">
+        <!-- Project 1 -->
+        <div class="spotlight-card group border border-zinc-800 hover:border-zinc-600 transition-all p-8 bg-[#080808]">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Project Image/Visual -->
+            <div class="md:col-span-1">
+              <div class="aspect-square border border-zinc-800 bg-zinc-900/50 flex items-center justify-center group-hover:border-signal transition-colors">
+                <iconify-icon icon="lucide:globe" class="text-6xl text-signal"></iconify-icon>
+              </div>
+            </div>
+
+            <!-- Project Details -->
+            <div class="md:col-span-2">
+              <div class="flex items-center gap-4 mb-4">
+                <span class="px-3 py-1 bg-signal/10 border border-signal/30 font-mono text-[9px] text-signal uppercase tracking-widest">
+                  Production
+                </span>
+                <span class="font-mono text-xs text-zinc-600">12,000+ Active Users</span>
+              </div>
+              
+              <h3 class="font-display text-4xl text-white mb-4">Campus Connect</h3>
+              <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 max-w-2xl">
+                Real-time college event aggregator. Built with Next.js, Node.js, and Socket.io. WebSocket-powered live updates. 
+                PostgreSQL database. Redis caching. Deployed on AWS with auto-scaling. Zero downtime in 6 months. 
+                Winner of Best Student Project Award 2025.
+              </p>
+              
+              <div class="flex flex-wrap gap-2 mb-6">
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-500">Next.js</span>
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-500">Node.js</span>
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-500">Socket.io</span>
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-500">PostgreSQL</span>
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-500">Redis</span>
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-500">AWS</span>
+              </div>
+
+              <div class="flex gap-4">
+                <a href="#" class="inline-flex items-center gap-2 px-4 py-2 bg-signal/10 border border-signal/30 text-signal font-mono text-[10px] uppercase tracking-widest hover:bg-signal hover:text-black transition-all">
+                  Live Demo
+                  <iconify-icon icon="lucide:external-link"></iconify-icon>
+                </a>
+                <a href="#" class="inline-flex items-center gap-2 px-4 py-2 border border-zinc-800 text-zinc-400 font-mono text-[10px] uppercase tracking-widest hover:border-signal hover:text-signal transition-all">
+                  GitHub
+                  <iconify-icon icon="lucide:github"></iconify-icon>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="spotlight-card group border border-zinc-800 hover:border-zinc-600 transition-all p-8 bg-[#080808]">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="md:col-span-1">
+              <div class="aspect-square border border-zinc-800 bg-zinc-900/50 flex items-center justify-center group-hover:border-signal transition-colors">
+                <iconify-icon icon="lucide:brain" class="text-6xl text-signal"></iconify-icon>
+              </div>
+            </div>
+
+            <div class="md:col-span-2">
+              <div class="flex items-center gap-4 mb-4">
+                <span class="px-3 py-1 bg-signal/10 border border-signal/30 font-mono text-[9px] text-signal uppercase tracking-widest">
+                  Research
+                </span>
+                <span class="font-mono text-xs text-zinc-600">Published Paper</span>
+              </div>
+              
+              <h3 class="font-display text-4xl text-white mb-4">SmartStudy AI</h3>
+              <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 max-w-2xl">
+                AI-powered study assistant using fine-tuned LLMs. Custom BERT model for subject classification. 
+                GPT-based answer generation. Deployed on Hugging Face. 5000+ students using daily. 
+                Featured in college research symposium.
+              </p>
+              
+              <div class="flex flex-wrap gap-2 mb-6">
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-500">Python</span>
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-500">PyTorch</span>
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-500">Transformers</span>
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-500">FastAPI</span>
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-500">Hugging Face</span>
+              </div>
+
+              <div class="flex gap-4">
+                <a href="#" class="inline-flex items-center gap-2 px-4 py-2 bg-signal/10 border border-signal/30 text-signal font-mono text-[10px] uppercase tracking-widest hover:bg-signal hover:text-black transition-all">
+                  Try It
+                  <iconify-icon icon="lucide:external-link"></iconify-icon>
+                </a>
+                <a href="#" class="inline-flex items-center gap-2 px-4 py-2 border border-zinc-800 text-zinc-400 font-mono text-[10px] uppercase tracking-widest hover:border-signal hover:text-signal transition-all">
+                  Paper
+                  <iconify-icon icon="lucide:file-text"></iconify-icon>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="spotlight-card group border border-zinc-800 hover:border-zinc-600 transition-all p-8 bg-[#080808]">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="md:col-span-1">
+              <div class="aspect-square border border-zinc-800 bg-zinc-900/50 flex items-center justify-center group-hover:border-signal transition-colors">
+                <iconify-icon icon="lucide:smartphone" class="text-6xl text-signal"></iconify-icon>
+              </div>
+            </div>
+
+            <div class="md:col-span-2">
+              <div class="flex items-center gap-4 mb-4">
+                <span class="px-3 py-1 bg-signal/10 border border-signal/30 font-mono text-[9px] text-signal uppercase tracking-widest">
+                  Mobile App
+                </span>
+                <span class="font-mono text-xs text-zinc-600">100K+ Downloads</span>
+              </div>
+              
+              <h3 class="font-display text-4xl text-white mb-4">FitTrack Pro</h3>
+              <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 max-w-2xl">
+                Cross-platform fitness tracking app. Built with Flutter. Real-time workout tracking. Custom analytics dashboard. 
+                Firebase backend. Push notifications. Payment gateway integration. 4.8★ rating on Play Store. 
+                Monetized with premium tier.
+              </p>
+              
+              <div class="flex flex-wrap gap-2 mb-6">
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-500">Flutter</span>
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-500">Dart</span>
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-500">Firebase</span>
+                <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-500">Stripe</span>
+              </div>
+
+              <div class="flex gap-4">
+                <a href="#" class="inline-flex items-center gap-2 px-4 py-2 bg-signal/10 border border-signal/30 text-signal font-mono text-[10px] uppercase tracking-widest hover:bg-signal hover:text-black transition-all">
+                  Play Store
+                  <iconify-icon icon="lucide:smartphone"></iconify-icon>
+                </a>
+                <a href="#" class="inline-flex items-center gap-2 px-4 py-2 border border-zinc-800 text-zinc-400 font-mono text-[10px] uppercase tracking-widest hover:border-signal hover:text-signal transition-all">
+                  GitHub
+                  <iconify-icon icon="lucide:github"></iconify-icon>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALL PROJECTS -->
+  <section class="py-32 bg-[#050505] border-t border-zinc-900">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-20">
+        <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Complete Portfolio</span>
+        <h2 class="font-display text-6xl text-white font-medium leading-[0.9]">
+          ALL PROJECTS
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Small Project Card 1 -->
+        <div class="group border border-zinc-800 hover:border-signal/30 transition-all p-6 bg-[#080808]">
+          <div class="w-12 h-12 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center mb-4 group-hover:border-signal transition-colors">
+            <iconify-icon icon="lucide:cloud" class="text-2xl text-signal"></iconify-icon>
+          </div>
+          <h3 class="font-display text-xl text-white mb-2">CloudDeploy CLI</h3>
+          <p class="font-mono text-xs text-zinc-500 mb-4">
+            DevOps tool for automated deployments. 500+ GitHub stars.
+          </p>
+          <div class="flex gap-2 mb-4">
+            <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-600">Go</span>
+            <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-600">Docker</span>
+          </div>
+          <a href="#" class="text-signal font-mono text-[10px] uppercase hover:text-white transition-colors">
+            View Project →
+          </a>
+        </div>
+
+        <!-- Small Project Card 2 -->
+        <div class="group border border-zinc-800 hover:border-signal/30 transition-all p-6 bg-[#080808]">
+          <div class="w-12 h-12 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center mb-4 group-hover:border-signal transition-colors">
+            <iconify-icon icon="lucide:database" class="text-2xl text-signal"></iconify-icon>
+          </div>
+          <h3 class="font-display text-xl text-white mb-2">DataViz Dashboard</h3>
+          <p class="font-mono text-xs text-zinc-500 mb-4">
+            Real-time analytics platform. Interactive charts and graphs.
+          </p>
+          <div class="flex gap-2 mb-4">
+            <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-600">React</span>
+            <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-600">D3.js</span>
+          </div>
+          <a href="#" class="text-signal font-mono text-[10px] uppercase hover:text-white transition-colors">
+            View Project →
+          </a>
+        </div>
+
+        <!-- Small Project Card 3 -->
+        <div class="group border border-zinc-800 hover:border-signal/30 transition-all p-6 bg-[#080808]">
+          <div class="w-12 h-12 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center mb-4 group-hover:border-signal transition-colors">
+            <iconify-icon icon="lucide:shield" class="text-2xl text-signal"></iconify-icon>
+          </div>
+          <h3 class="font-display text-xl text-white mb-2">SecureAuth</h3>
+          <p class="font-mono text-xs text-zinc-500 mb-4">
+            Authentication library with JWT, OAuth, 2FA support.
+          </p>
+          <div class="flex gap-2 mb-4">
+            <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-600">Node.js</span>
+            <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-600">Express</span>
+          </div>
+          <a href="#" class="text-signal font-mono text-[10px] uppercase hover:text-white transition-colors">
+            View Project →
+          </a>
+        </div>
+
+        <!-- Small Project Card 4 -->
+        <div class="group border border-zinc-800 hover:border-signal/30 transition-all p-6 bg-[#080808]">
+          <div class="w-12 h-12 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center mb-4 group-hover:border-signal transition-colors">
+            <iconify-icon icon="lucide:git-branch" class="text-2xl text-signal"></iconify-icon>
+          </div>
+          <h3 class="font-display text-xl text-white mb-2">CodeReview Bot</h3>
+          <p class="font-mono text-xs text-zinc-500 mb-4">
+            AI-powered code review assistant for GitHub PRs.
+          </p>
+          <div class="flex gap-2 mb-4">
+            <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-600">Python</span>
+            <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-600">OpenAI</span>
+          </div>
+          <a href="#" class="text-signal font-mono text-[10px] uppercase hover:text-white transition-colors">
+            View Project →
+          </a>
+        </div>
+
+        <!-- Small Project Card 5 -->
+        <div class="group border border-zinc-800 hover:border-signal/30 transition-all p-6 bg-[#080808]">
+          <div class="w-12 h-12 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center mb-4 group-hover:border-signal transition-colors">
+            <iconify-icon icon="lucide:rocket" class="text-2xl text-signal"></iconify-icon>
+          </div>
+          <h3 class="font-display text-xl text-white mb-2">LaunchPad</h3>
+          <p class="font-mono text-xs text-zinc-500 mb-4">
+            Startup idea validator. MVP generator with templates.
+          </p>
+          <div class="flex gap-2 mb-4">
+            <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-600">Next.js</span>
+            <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-600">Supabase</span>
+          </div>
+          <a href="#" class="text-signal font-mono text-[10px] uppercase hover:text-white transition-colors">
+            View Project →
+          </a>
+        </div>
+
+        <!-- Small Project Card 6 -->
+        <div class="group border border-zinc-800 hover:border-signal/30 transition-all p-6 bg-[#080808]">
+          <div class="w-12 h-12 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center mb-4 group-hover:border-signal transition-colors">
+            <iconify-icon icon="lucide:palette" class="text-2xl text-signal"></iconify-icon>
+          </div>
+          <h3 class="font-display text-xl text-white mb-2">DesignKit Pro</h3>
+          <p class="font-mono text-xs text-zinc-500 mb-4">
+            Component library with 100+ pre-built UI elements.
+          </p>
+          <div class="flex gap-2 mb-4">
+            <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-600">React</span>
+            <span class="px-2 py-1 bg-zinc-900 border border-zinc-800 font-mono text-[9px] text-zinc-600">Tailwind</span>
+          </div>
+          <a href="#" class="text-signal font-mono text-[10px] uppercase hover:text-white transition-colors">
+            View Project →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECT STATS -->
+  <section class="py-32 bg-void border-t border-zinc-900">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div class="text-center">
+          <div class="font-display text-5xl md:text-6xl text-signal mb-2">120+</div>
+          <div class="font-mono text-xs text-zinc-500 uppercase tracking-widest">Total Projects</div>
+        </div>
+        <div class="text-center">
+          <div class="font-display text-5xl md:text-6xl text-signal mb-2">50K+</div>
+          <div class="font-mono text-xs text-zinc-500 uppercase tracking-widest">Combined Users</div>
+        </div>
+        <div class="text-center">
+          <div class="font-display text-5xl md:text-6xl text-signal mb-2">1.2K+</div>
+          <div class="font-mono text-xs text-zinc-500 uppercase tracking-widest">GitHub Stars</div>
+        </div>
+        <div class="text-center">
+          <div class="font-display text-5xl md:text-6xl text-signal mb-2">15+</div>
+          <div class="font-mono text-xs text-zinc-500 uppercase tracking-widest">Awards Won</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>

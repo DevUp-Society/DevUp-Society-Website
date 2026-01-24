@@ -1,0 +1,246 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout 
+  title="Events | DevUp Society" 
+  description="Upcoming hackathons, workshops, and tech events organized by DevUp Society"
+>
+  <!-- HERO SECTION -->
+  <section class="relative h-[60vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-zinc-900">
+    <div class="grid-floor opacity-30"></div>
+    
+    <div class="relative z-20 text-center px-4">
+      <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Scheduled Operations</span>
+      <h1 class="font-display text-6xl md:text-9xl text-white font-medium leading-[0.85] tracking-tight mb-6">
+        UPCOMING<br/>
+        <span class="text-stroke-white opacity-30">EVENTS</span>
+      </h1>
+      <p class="font-mono text-zinc-400 text-sm max-w-2xl mx-auto">
+        From hands-on workshops to 24-hour hackathons. Every event is a learning opportunity. Every challenge levels you up.
+      </p>
+    </div>
+  </section>
+
+  <!-- EVENTS GRID -->
+  <section class="py-32 bg-void">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Event Card 1 -->
+        <div class="spotlight-card group border border-zinc-800 hover:border-signal/30 transition-all duration-500 p-8 clip-corner">
+          <div class="flex justify-between items-start mb-6">
+            <div class="font-mono text-xs text-signal uppercase tracking-widest">
+              Jan 28, 2026 // 18:00 IST
+            </div>
+            <div class="w-10 h-10 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center group-hover:border-signal transition-colors">
+              <iconify-icon icon="lucide:code" class="text-signal"></iconify-icon>
+            </div>
+          </div>
+          
+          <h3 class="font-display text-4xl text-white mb-4">Hackathon 2026</h3>
+          <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 border-l-2 border-zinc-800 pl-4 group-hover:border-signal transition-colors">
+            24-hour code sprint. Build, break, deploy. Three problem statements. Infinite possibilities. Winner takes all. Registration closes in 72 hours.
+          </p>
+          
+          <div class="space-y-3 mb-8">
+            <div class="flex items-center gap-2 font-mono text-[10px] text-zinc-500">
+              <iconify-icon icon="lucide:calendar" class="text-signal"></iconify-icon>
+              <span>Duration: 24 Hours Non-Stop</span>
+            </div>
+            <div class="flex items-center gap-2 font-mono text-[10px] text-zinc-500">
+              <iconify-icon icon="lucide:trophy" class="text-signal"></iconify-icon>
+              <span>Prize Pool: ₹50,000</span>
+            </div>
+            <div class="flex items-center gap-2 font-mono text-[10px] text-zinc-500">
+              <iconify-icon icon="lucide:users" class="text-signal"></iconify-icon>
+              <span>Teams: 3-4 Members</span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-6 border-t border-white/5">
+            <span class="text-[10px] font-mono text-zinc-600 uppercase">Seats: 50/100</span>
+            <a href="#" class="px-4 py-2 bg-signal/10 border border-signal/30 text-signal font-mono text-[10px] uppercase tracking-widest hover:bg-signal hover:text-black transition-all">
+              Register
+            </a>
+          </div>
+        </div>
+
+        <!-- Event Card 2 -->
+        <div class="spotlight-card group border border-zinc-800 hover:border-signal/30 transition-all duration-500 p-8 clip-corner mt-0 md:mt-12">
+          <div class="flex justify-between items-start mb-6">
+            <div class="font-mono text-xs text-signal uppercase tracking-widest">
+              Feb 05, 2026 // 19:00 IST
+            </div>
+            <div class="w-10 h-10 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center group-hover:border-signal transition-colors">
+              <iconify-icon icon="lucide:cpu" class="text-signal"></iconify-icon>
+            </div>
+          </div>
+          
+          <h3 class="font-display text-4xl text-white mb-4">AI/ML Workshop Series</h3>
+          <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 border-l-2 border-zinc-800 pl-4 group-hover:border-signal transition-colors">
+            Hands-on LLM training. From zero to deployment. Neural nets demystified. Fine-tuning, prompt engineering, model evaluation. Bring your laptop.
+          </p>
+          
+          <div class="space-y-3 mb-8">
+            <div class="flex items-center gap-2 font-mono text-[10px] text-zinc-500">
+              <iconify-icon icon="lucide:calendar" class="text-signal"></iconify-icon>
+              <span>Duration: 4 Weeks (Every Wednesday)</span>
+            </div>
+            <div class="flex items-center gap-2 font-mono text-[10px] text-zinc-500">
+              <iconify-icon icon="lucide:award" class="text-signal"></iconify-icon>
+              <span>Certificate: Completion Badge</span>
+            </div>
+            <div class="flex items-center gap-2 font-mono text-[10px] text-zinc-500">
+              <iconify-icon icon="lucide:zap" class="text-signal"></iconify-icon>
+              <span>Prerequisites: Python Basics</span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-6 border-t border-white/5">
+            <span class="text-[10px] font-mono text-zinc-600 uppercase">Free Entry</span>
+            <a href="#" class="px-4 py-2 bg-signal/10 border border-signal/30 text-signal font-mono text-[10px] uppercase tracking-widest hover:bg-signal hover:text-black transition-all">
+              Register
+            </a>
+          </div>
+        </div>
+
+        <!-- Event Card 3 -->
+        <div class="spotlight-card group border border-zinc-800 hover:border-signal/30 transition-all duration-500 p-8 clip-corner">
+          <div class="flex justify-between items-start mb-6">
+            <div class="font-mono text-xs text-signal uppercase tracking-widest">
+              Feb 15, 2026 // 17:00 IST
+            </div>
+            <div class="w-10 h-10 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center group-hover:border-signal transition-colors">
+              <iconify-icon icon="lucide:cloud" class="text-signal"></iconify-icon>
+            </div>
+          </div>
+          
+          <h3 class="font-display text-4xl text-white mb-4">DevOps Bootcamp</h3>
+          <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 border-l-2 border-zinc-800 pl-4 group-hover:border-signal transition-colors">
+            Master Docker, Kubernetes, CI/CD. Deploy your first container. Build automated pipelines. Infrastructure as code. Production-ready skills.
+          </p>
+          
+          <div class="space-y-3 mb-8">
+            <div class="flex items-center gap-2 font-mono text-[10px] text-zinc-500">
+              <iconify-icon icon="lucide:calendar" class="text-signal"></iconify-icon>
+              <span>Duration: 2 Days Intensive</span>
+            </div>
+            <div class="flex items-center gap-2 font-mono text-[10px] text-zinc-500">
+              <iconify-icon icon="lucide:server" class="text-signal"></iconify-icon>
+              <span>Hands-On: Real AWS Environment</span>
+            </div>
+            <div class="flex items-center gap-2 font-mono text-[10px] text-zinc-500">
+              <iconify-icon icon="lucide:users" class="text-signal"></iconify-icon>
+              <span>Limited: 30 Seats Only</span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-6 border-t border-white/5">
+            <span class="text-[10px] font-mono text-zinc-600 uppercase">Seats: 12/30</span>
+            <a href="#" class="px-4 py-2 bg-signal/10 border border-signal/30 text-signal font-mono text-[10px] uppercase tracking-widest hover:bg-signal hover:text-black transition-all">
+              Register
+            </a>
+          </div>
+        </div>
+
+        <!-- Event Card 4 -->
+        <div class="spotlight-card group border border-zinc-800 hover:border-signal/30 transition-all duration-500 p-8 clip-corner mt-0 md:mt-12">
+          <div class="flex justify-between items-start mb-6">
+            <div class="font-mono text-xs text-signal uppercase tracking-widest">
+              Mar 01, 2026 // 18:30 IST
+            </div>
+            <div class="w-10 h-10 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center group-hover:border-signal transition-colors">
+              <iconify-icon icon="lucide:mic" class="text-signal"></iconify-icon>
+            </div>
+          </div>
+          
+          <h3 class="font-display text-4xl text-white mb-4">Tech Talk: Industry Insights</h3>
+          <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 border-l-2 border-zinc-800 pl-4 group-hover:border-signal transition-colors">
+            Senior engineers from FAANG companies. Real stories. Career advice. Technical deep-dives. Q&A session. Network with industry veterans.
+          </p>
+          
+          <div class="space-y-3 mb-8">
+            <div class="flex items-center gap-2 font-mono text-[10px] text-zinc-500">
+              <iconify-icon icon="lucide:calendar" class="text-signal"></iconify-icon>
+              <span>Duration: 2 Hours + Networking</span>
+            </div>
+            <div class="flex items-center gap-2 font-mono text-[10px] text-zinc-500">
+              <iconify-icon icon="lucide:star" class="text-signal"></iconify-icon>
+              <span>Speakers: 3 Industry Leaders</span>
+            </div>
+            <div class="flex items-center gap-2 font-mono text-[10px] text-zinc-500">
+              <iconify-icon icon="lucide:coffee" class="text-signal"></iconify-icon>
+              <span>Format: Hybrid (In-Person + Virtual)</span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-6 border-t border-white/5">
+            <span class="text-[10px] font-mono text-zinc-600 uppercase">Open to All</span>
+            <a href="#" class="px-4 py-2 bg-signal/10 border border-signal/30 text-signal font-mono text-[10px] uppercase tracking-widest hover:bg-signal hover:text-black transition-all">
+              RSVP
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PAST EVENTS -->
+  <section class="py-32 bg-[#050505] border-t border-zinc-900">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-20">
+        <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Event Archives</span>
+        <h2 class="font-display text-6xl md:text-8xl text-white font-medium leading-[0.85] tracking-tight">
+          PAST<br/>
+          <span class="text-zinc-700">OPERATIONS</span>
+        </h2>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Past Event 1 -->
+        <div class="group border border-zinc-800 hover:border-zinc-600 transition-all p-6 bg-[#080808] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div class="flex-1">
+            <h3 class="font-display text-2xl text-white mb-2">Winter Hackathon 2025</h3>
+            <p class="font-mono text-xs text-zinc-500">48-hour marathon • 80 participants • 15 projects shipped</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="font-mono text-[10px] text-zinc-600 uppercase">Dec 2025</span>
+            <a href="#" class="text-zinc-600 hover:text-signal transition-colors">
+              <iconify-icon icon="lucide:external-link" class="text-lg"></iconify-icon>
+            </a>
+          </div>
+        </div>
+
+        <!-- Past Event 2 -->
+        <div class="group border border-zinc-800 hover:border-zinc-600 transition-all p-6 bg-[#080808] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div class="flex-1">
+            <h3 class="font-display text-2xl text-white mb-2">Web3 Workshop Series</h3>
+            <p class="font-mono text-xs text-zinc-500">6-week intensive • Smart contracts • DeFi fundamentals</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="font-mono text-[10px] text-zinc-600 uppercase">Nov 2025</span>
+            <a href="#" class="text-zinc-600 hover:text-signal transition-colors">
+              <iconify-icon icon="lucide:external-link" class="text-lg"></iconify-icon>
+            </a>
+          </div>
+        </div>
+
+        <!-- Past Event 3 -->
+        <div class="group border border-zinc-800 hover:border-zinc-600 transition-all p-6 bg-[#080808] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div class="flex-1">
+            <h3 class="font-display text-2xl text-white mb-2">Code & Coffee Meetup</h3>
+            <p class="font-mono text-xs text-zinc-500">Monthly networking • Open source contributions • Pair programming</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="font-mono text-[10px] text-zinc-600 uppercase">Oct 2025</span>
+            <a href="#" class="text-zinc-600 hover:text-signal transition-colors">
+              <iconify-icon icon="lucide:external-link" class="text-lg"></iconify-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>
