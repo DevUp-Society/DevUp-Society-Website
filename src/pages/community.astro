@@ -1,0 +1,109 @@
+---
+// /community - Under Construction
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout 
+  title="DevUp Community | Under Construction"
+  description="The DevUp Community platform is currently under construction. Stay tuned for updates!"
+>
+  <section class="relative min-h-screen w-full flex flex-col justify-center items-center overflow-hidden pt-32 md:pt-24">
+    <div class="grid-floor opacity-30"></div>
+    
+    <div class="relative z-20 text-center px-4 max-w-3xl mx-auto">
+      <!-- Construction Icon -->
+      <div class="mb-8 inline-flex items-center justify-center w-24 h-24 border-2 border-signal bg-signal/5">
+        <iconify-icon icon="lucide:construction" class="text-6xl text-signal"></iconify-icon>
+      </div>
+
+      <!-- Title -->
+      <h1 class="font-display text-5xl md:text-8xl text-white font-medium leading-[0.9] tracking-tight mb-8">
+        UNDER<br/>
+        <span class="text-stroke-white">CONSTRUCTION</span>
+      </h1>
+
+      <!-- Description -->
+      <p class="font-mono text-sm text-zinc-400 leading-relaxed mb-12 max-w-xl mx-auto">
+        We're building something awesome! The DevUp Community platform is currently under development. 
+        Stay tuned for updates on our social channels.
+      </p>
+
+      <!-- Progress Bar -->
+      <div class="mb-12 max-w-md mx-auto">
+        <div class="flex justify-between font-mono text-xs text-zinc-500 mb-2">
+          <span>Building in progress...</span>
+          <span>45%</span>
+        </div>
+        <div class="w-full h-2 bg-zinc-900 border border-zinc-800">
+          <div class="h-full bg-signal" style="width: 45%"></div>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a 
+          href="/join"
+          class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner btn-glitch"
+        >
+          <span class="relative z-10">Join DevUp Society</span>
+          <iconify-icon icon="lucide:arrow-right" class="relative z-10"></iconify-icon>
+        </a>
+
+        <a 
+          href="/"
+          class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-zinc-900 text-white font-mono text-xs font-bold tracking-widest uppercase hover:bg-zinc-800 transition-colors border border-zinc-700"
+        >
+          <iconify-icon icon="lucide:home"></iconify-icon>
+          <span>Back to Home</span>
+        </a>
+      </div>
+
+      <!-- Coming Soon Features -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20">
+        <div class="glass-panel p-6 clip-corner-tl text-center">
+          <iconify-icon icon="lucide:users" class="text-4xl text-zinc-600 mb-4"></iconify-icon>
+          <h3 class="font-display text-lg text-white mb-2">Member Portal</h3>
+          <p class="font-mono text-xs text-zinc-500">Exclusive access for members</p>
+        </div>
+        <div class="glass-panel p-6 clip-corner-tl text-center">
+          <iconify-icon icon="lucide:message-square" class="text-4xl text-zinc-600 mb-4"></iconify-icon>
+          <h3 class="font-display text-lg text-white mb-2">Discussion Forum</h3>
+          <p class="font-mono text-xs text-zinc-500">Connect with fellow members</p>
+        </div>
+        <div class="glass-panel p-6 clip-corner-tl text-center">
+          <iconify-icon icon="lucide:book-open" class="text-4xl text-zinc-600 mb-4"></iconify-icon>
+          <h3 class="font-display text-lg text-white mb-2">Resource Hub</h3>
+          <p class="font-mono text-xs text-zinc-500">Study materials & guides</p>
+        </div>
+      </div>
+
+      <!-- Social Links -->
+      <div class="mt-16">
+        <p class="font-mono text-xs text-zinc-500 uppercase tracking-widest mb-6">
+          Follow us for updates
+        </p>
+        <div class="flex gap-6 justify-center">
+          <a href="https://github.com/DevUp-Society" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+            <iconify-icon icon="lucide:github" class="text-2xl"></iconify-icon>
+          </a>
+          <a href="https://www.linkedin.com/company/devup-community" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+            <iconify-icon icon="lucide:linkedin" class="text-2xl"></iconify-icon>
+          </a>
+          <a href="https://www.instagram.com/devupcommunity/" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+            <iconify-icon icon="lucide:instagram" class="text-2xl"></iconify-icon>
+          </a>
+          <a href="https://chat.whatsapp.com/CvU68WlMmoo5PvIBpOU5Dy" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+            <iconify-icon icon="lucide:message-circle" class="text-2xl"></iconify-icon>
+          </a>
+        </div>
+      </div>
+
+      <!-- Status Footer -->
+      <div class="mt-12 pt-8 border-t border-zinc-900">
+        <p class="font-mono text-xs text-zinc-600 uppercase tracking-widest">
+          Expected Launch: Q2 2026 // Stay Tuned
+        </p>
+      </div>
+    </div>
+  </section>
+</MainLayout>

@@ -10,6 +10,8 @@
 body {
   overflow-x: hidden;
   background-color: var(--void);
+  cursor: none;
+  /* Hide default cursor, using custom cursor */
 }
 
 /* --- VISUAL FX --- */
@@ -70,11 +72,23 @@ body {
 .text-stroke-signal {
   -webkit-text-stroke: 1px var(--signal);
   color: transparent;
+  transition: all 0.3s ease;
+}
+
+.text-stroke-signal:hover {
+  color: var(--signal);
+  -webkit-text-stroke: 0px;
 }
 
 .text-stroke-white {
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
-  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.text-stroke-white:hover {
+  color: rgba(255, 255, 255, 1);
+  -webkit-text-stroke: 0px;
 }
 
 .hero-title {
@@ -82,6 +96,19 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* Force hide cursor on all interactive elements */
+a,
+button,
+input,
+textarea,
+select,
+.cursor-pointer,
+[role="button"],
+nav a,
+.spotlight-card {
+  cursor: none !important;
 }
 
 /* --- 3D GRID FLOOR --- */

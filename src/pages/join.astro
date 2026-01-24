@@ -1,0 +1,234 @@
+---
+// /join - Join DevUp Society (Currently not recruiting)
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout 
+  title="Join DevUp Society | Not Recruiting Currently"
+  description="Stay connected with DevUp Society. Join our WhatsApp community and subscribe to our newsletter for updates."
+>
+  <!-- HERO SECTION -->
+  <section class="relative min-h-screen w-full flex flex-col justify-center items-center overflow-hidden">
+    <div class="grid-floor opacity-30"></div>
+    
+    <div class="relative z-20 text-center px-4 max-w-3xl mx-auto">
+      <!-- Status Badge -->
+      <div class="mb-8 inline-flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 px-6 py-3 font-mono text-xs tracking-widest uppercase">
+        <span class="w-2 h-2 bg-zinc-500 rounded-full animate-pulse"></span>
+        <span class="text-zinc-400">Recruitment Closed</span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="font-display text-5xl md:text-8xl text-white font-medium leading-[0.9] tracking-tight mb-8">
+        WE'RE NOT<br/>
+        <span class="text-stroke-white">RECRUITING</span><br/>
+        <span class="text-signal">RIGHT NOW</span>
+      </h1>
+
+      <!-- Description -->
+      <p class="font-mono text-sm text-zinc-400 leading-relaxed mb-12 max-w-xl mx-auto">
+        Our recruitment cycle isn't active at the moment, but we'd love to stay connected! 
+        Join our WhatsApp community and subscribe to our newsletter to stay updated on future opportunities, events, and tech talks.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+        <!-- WhatsApp Community -->
+        <a 
+          href="https://chat.whatsapp.com/CvU68WlMmoo5PvIBpOU5Dy"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner btn-glitch"
+        >
+          <iconify-icon icon="lucide:message-circle" class="relative z-10 text-lg"></iconify-icon>
+          <span class="relative z-10">Join WhatsApp Community</span>
+        </a>
+
+        <!-- Newsletter Scroll -->
+        <button 
+          onclick="document.getElementById('newsletter-section').scrollIntoView({ behavior: 'smooth' })"
+          class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-zinc-900 text-white font-mono text-xs font-bold tracking-widest uppercase hover:bg-zinc-800 transition-colors border border-zinc-700 hover:border-signal"
+        >
+          <iconify-icon icon="lucide:mail" class="text-lg"></iconify-icon>
+          <span>Subscribe to Newsletter</span>
+        </button>
+      </div>
+
+      <!-- Info Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+        <div class="glass-panel p-6 clip-corner-tl text-center">
+          <iconify-icon icon="lucide:bell" class="text-4xl text-signal mb-4"></iconify-icon>
+          <h3 class="font-display text-lg text-white mb-2">Stay Updated</h3>
+          <p class="font-mono text-xs text-zinc-500">Get notified when recruitment opens</p>
+        </div>
+        <div class="glass-panel p-6 clip-corner-tl text-center">
+          <iconify-icon icon="lucide:users" class="text-4xl text-signal mb-4"></iconify-icon>
+          <h3 class="font-display text-lg text-white mb-2">Join Community</h3>
+          <p class="font-mono text-xs text-zinc-500">Connect with tech enthusiasts</p>
+        </div>
+        <div class="glass-panel p-6 clip-corner-tl text-center">
+          <iconify-icon icon="lucide:calendar" class="text-4xl text-signal mb-4"></iconify-icon>
+          <h3 class="font-display text-lg text-white mb-2">Attend Events</h3>
+          <p class="font-mono text-xs text-zinc-500">Participate in workshops & hackathons</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER SECTION -->
+  <section id="newsletter-section" class="py-32 bg-[#050505] border-t border-zinc-900">
+    <div class="max-w-2xl mx-auto px-6">
+      <div class="glass-panel p-12 clip-corner">
+        <div class="text-center mb-8">
+          <iconify-icon icon="lucide:mail-open" class="text-5xl text-signal mb-4"></iconify-icon>
+          <h2 class="font-display text-4xl text-white mb-4">Subscribe to Our Newsletter</h2>
+          <p class="font-mono text-sm text-zinc-400">
+            Get the latest updates on events, workshops, and recruitment openings delivered to your inbox.
+          </p>
+        </div>
+
+        <!-- Newsletter Form -->
+        <form class="space-y-6" id="newsletter-form">
+          <div>
+            <label for="email" class="block font-mono text-xs text-zinc-500 uppercase tracking-widest mb-2">
+              Email Address
+            </label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email"
+              required
+              placeholder="your.email@example.com"
+              class="w-full bg-zinc-900 border border-zinc-800 px-4 py-3 font-mono text-sm text-white placeholder-zinc-600 focus:border-signal focus:outline-none transition-colors"
+            />
+          </div>
+
+          <div>
+            <label for="name" class="block font-mono text-xs text-zinc-500 uppercase tracking-widest mb-2">
+              Name (Optional)
+            </label>
+            <input 
+              type="text" 
+              id="name" 
+              name="name"
+              placeholder="Your Name"
+              class="w-full bg-zinc-900 border border-zinc-800 px-4 py-3 font-mono text-sm text-white placeholder-zinc-600 focus:border-signal focus:outline-none transition-colors"
+            />
+          </div>
+
+          <button 
+            type="submit"
+            class="w-full bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase py-4 px-6 hover:bg-white transition-colors clip-corner btn-glitch"
+          >
+            <span class="relative z-10">Subscribe Now</span>
+          </button>
+
+          <p class="text-center font-mono text-xs text-zinc-600">
+            We respect your privacy. Unsubscribe anytime.
+          </p>
+        </form>
+
+        <!-- Success Message (Hidden by default) -->
+        <div id="success-message" class="hidden mt-6 p-4 bg-signal/10 border border-signal text-center">
+          <p class="font-mono text-sm text-signal">
+            ✓ Successfully subscribed! Check your email for confirmation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAY CONNECTED SECTION -->
+  <section class="py-32 bg-void border-t border-zinc-900">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Stay Connected</span>
+        <h2 class="font-display text-5xl text-white font-medium leading-[0.9] mb-6">
+          JOIN OUR COMMUNITY
+        </h2>
+        <p class="font-mono text-sm text-zinc-400 max-w-2xl mx-auto">
+          While you wait for recruitment to open, join our active WhatsApp community to network, 
+          collaborate, and stay updated with everything DevUp Society.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- WhatsApp Card -->
+        <div class="glass-panel p-8 clip-corner-tl hover:border-signal/30 transition-all">
+          <div class="flex items-start gap-4">
+            <div class="w-16 h-16 bg-signal/10 border border-signal flex items-center justify-center shrink-0">
+              <iconify-icon icon="lucide:message-circle" class="text-3xl text-signal"></iconify-icon>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-display text-2xl text-white mb-2">WhatsApp Community</h3>
+              <p class="font-mono text-xs text-zinc-400 mb-6">
+                Join 100+ tech enthusiasts, get instant updates, and participate in discussions.
+              </p>
+              <a 
+                href="https://chat.whatsapp.com/CvU68WlMmoo5PvIBpOU5Dy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 text-signal font-mono text-xs uppercase tracking-widest hover:text-white transition-colors"
+              >
+                <span>Join Now</span>
+                <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Events Card -->
+        <div class="glass-panel p-8 clip-corner-tl hover:border-signal/30 transition-all">
+          <div class="flex items-start gap-4">
+            <div class="w-16 h-16 bg-signal/10 border border-signal flex items-center justify-center shrink-0">
+              <iconify-icon icon="lucide:calendar" class="text-3xl text-signal"></iconify-icon>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-display text-2xl text-white mb-2">Explore Events</h3>
+              <p class="font-mono text-xs text-zinc-400 mb-6">
+                Check out our past and upcoming workshops, hackathons, and tech talks.
+              </p>
+              <a 
+                href="/events"
+                class="inline-flex items-center gap-2 text-signal font-mono text-xs uppercase tracking-widest hover:text-white transition-colors"
+              >
+                <span>View Events</span>
+                <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    // Newsletter form submission
+    const form = document.getElementById('newsletter-form');
+    const successMessage = document.getElementById('success-message');
+    
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const name = document.getElementById('name').value;
+        
+        // TODO: Replace with your actual newsletter API endpoint
+        // For now, just show success message
+        console.log('Newsletter signup:', { email, name });
+        
+        // Show success message
+        form.classList.add('hidden');
+        successMessage.classList.remove('hidden');
+        
+        // Reset form after 3 seconds
+        setTimeout(() => {
+          form.reset();
+          form.classList.remove('hidden');
+          successMessage.classList.add('hidden');
+        }, 3000);
+      });
+    }
+  </script>
+</MainLayout>

@@ -75,11 +75,11 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
       <a href="/#about" class="px-6 py-2 text-[10px] font-mono uppercase tracking-widest text-zinc-400 hover:text-white hover:bg-white/5 transition-all">About</a>
       <a href="/events" class="px-6 py-2 text-[10px] font-mono uppercase tracking-widest text-zinc-400 hover:text-white hover:bg-white/5 transition-all">Events</a>
       <a href="/team" class="px-6 py-2 text-[10px] font-mono uppercase tracking-widest text-zinc-400 hover:text-white hover:bg-white/5 transition-all">Team</a>
-      <a href="/projects" class="px-6 py-2 text-[10px] font-mono uppercase tracking-widest text-zinc-400 hover:text-white hover:bg-white/5 transition-all">Projects</a>
+      <a href="/join" class="px-6 py-2 text-[10px] font-mono uppercase tracking-widest text-zinc-400 hover:text-white hover:bg-white/5 transition-all">Join Now</a>
     </div>
 
-    <a href="/#contact" class="hidden md:flex items-center gap-3 px-6 py-2.5 bg-signal text-black font-mono text-[11px] font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner btn-glitch">
-      <span class="relative z-10">Join Now</span>
+    <a href="/community" class="hidden md:flex items-center gap-3 px-6 py-2.5 bg-signal text-black font-mono text-[11px] font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner btn-glitch">
+      <span class="relative z-10">DevUp Community</span>
       <iconify-icon icon="lucide:arrow-up-right" class="relative z-10"></iconify-icon>
     </a>
   </nav>
@@ -95,6 +95,7 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
         <a href="https://www.instagram.com/devupcommunity/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Instagram</a>
         <a href="https://www.linkedin.com/company/devup-community" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">LinkedIn</a>
         <a href="https://github.com/DevUp-Society" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">GitHub</a>
+        <a href="https://chat.whatsapp.com/CvU68WlMmoo5PvIBpOU5Dy" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">WhatsApp</a>
       </div>
       <div>
         © 2026 DevUp Society // All Rights Reserved
@@ -154,8 +155,8 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
       });
 
       const animateRing = () => {
-        ringX += (mouseX - ringX) * 0.15;
-        ringY += (mouseY - ringY) * 0.15;
+        ringX += (mouseX - ringX) * 0.3; // Increased from 0.15 to 0.3 for faster response
+        ringY += (mouseY - ringY) * 0.3;
         cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
         requestAnimationFrame(animateRing);
       }

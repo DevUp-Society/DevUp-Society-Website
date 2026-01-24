@@ -101,24 +101,150 @@ function formatDate(dateString: string) {
     </div>
   </section>
 
-  <!-- IMAGE GALLERY -->
+  <!-- IMAGE CAROUSEL -->
   {event.images.length > 0 && (
     <section class="py-32 bg-void">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {event.images.map((_image, index) => (
-            <div class="aspect-video bg-zinc-900 border border-zinc-800 overflow-hidden group hover:border-signal/30 transition-colors">
-              <div class="w-full h-full flex items-center justify-center">
-                <iconify-icon icon="lucide:image" class="text-6xl text-zinc-700 group-hover:text-signal transition-colors"></iconify-icon>
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="mb-12 text-center">
+          <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Gallery</span>
+          <h2 class="font-display text-5xl text-white font-medium leading-[0.9]">
+            EVENT HIGHLIGHTS
+          </h2>
+        </div>
+        
+        <div class="relative">
+          <!-- Carousel Container -->
+          <div class="relative overflow-hidden aspect-video bg-zinc-900 border border-zinc-800" id="event-carousel">
+            <!-- Images -->
+            {event.images.map((imageUrl, index) => (
+              <div 
+                class={`carousel-slide absolute inset-0 transition-opacity duration-500 ${index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+                data-slide={index}
+              >
+                <img 
+                  src={imageUrl}
+                  alt={`${event.title} - Image ${index + 1}`}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  class="w-full h-full object-cover"
+                />
               </div>
-              <div class="text-center font-mono text-xs text-zinc-600 mt-2">
-                Event Image {index + 1}
-              </div>
+            ))}
+            
+            <!-- Navigation Arrows -->
+            {event.images.length > 1 && (
+              <>
+                <button 
+                  id="carousel-prev"
+                  class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-black/50 hover:bg-signal/20 border border-zinc-700 hover:border-signal flex items-center justify-center transition-all group"
+                  aria-label="Previous image"
+                >
+                  <iconify-icon icon="lucide:chevron-left" class="text-white group-hover:text-signal text-2xl"></iconify-icon>
+                </button>
+                <button 
+                  id="carousel-next"
+                  class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-black/50 hover:bg-signal/20 border border-zinc-700 hover:border-signal flex items-center justify-center transition-all group"
+                  aria-label="Next image"
+                >
+                  <iconify-icon icon="lucide:chevron-right" class="text-white group-hover:text-signal text-2xl"></iconify-icon>
+                </button>
+              </>
+            )}
+            
+            <!-- Image Counter -->
+            <div class="absolute bottom-4 left-4 z-20 bg-black/70 backdrop-blur-sm px-4 py-2 border border-zinc-800">
+              <span id="carousel-counter" class="font-mono text-xs text-white">1 / {event.images.length}</span>
             </div>
-          ))}
+          </div>
+          
+          <!-- Dots Indicators -->
+          {event.images.length > 1 && (
+            <div class="flex justify-center gap-2 mt-8">
+              {event.images.map((_, index) => (
+                <button
+                  class={`carousel-dot w-3 h-3 border border-zinc-700 transition-all ${index === 0 ? 'bg-signal border-signal' : 'bg-transparent hover:border-signal'}`}
+                  data-slide={index}
+                  aria-label={`Go to image ${index + 1}`}
+                >
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>
+    
+    <script is:inline>
+      // Carousel functionality
+      if (document.getElementById('event-carousel')) {
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+        const counter = document.getElementById('carousel-counter');
+        const totalSlides = slides.length;
+        
+        function showSlide(index) {
+          // Hide all slides
+          slides.forEach((slide, i) => {
+            if (i === index) {
+              slide.classList.add('opacity-100', 'z-10');
+              slide.classList.remove('opacity-0', 'z-0');
+            } else {
+              slide.classList.add('opacity-0', 'z-0');
+              slide.classList.remove('opacity-100', 'z-10');
+            }
+          });
+          
+          // Update dots
+          dots.forEach((dot, i) => {
+            if (i === index) {
+              dot.classList.add('bg-signal', 'border-signal');
+              dot.classList.remove('bg-transparent');
+            } else {
+              dot.classList.remove('bg-signal', 'border-signal');
+              dot.classList.add('bg-transparent');
+            }
+          });
+          
+          // Update counter
+          if (counter) {
+            counter.textContent = `${index + 1} / ${totalSlides}`;
+          }
+          
+          currentSlide = index;
+        }
+        
+        function nextSlide() {
+          const next = (currentSlide + 1) % totalSlides;
+          showSlide(next);
+        }
+        
+        function prevSlide() {
+          const prev = (currentSlide - 1 + totalSlides) % totalSlides;
+          showSlide(prev);
+        }
+        
+        // Navigation buttons
+        const nextBtn = document.getElementById('carousel-next');
+        const prevBtn = document.getElementById('carousel-prev');
+        
+        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+        
+        // Dot navigation
+        dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => showSlide(index));
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') prevSlide();
+          if (e.key === 'ArrowRight') nextSlide();
+        });
+        
+        // Auto-play (optional, uncomment to enable)
+        // setInterval(nextSlide, 5000);
+      }
+    </script>
   )}
 
   <!-- DESCRIPTION -->
