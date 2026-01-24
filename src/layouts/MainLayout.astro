@@ -102,7 +102,9 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
     </div>
   </footer>
 
-  <script>
+  <script is:inline>
+    // @ts-nocheck - GSAP loaded from CDN, types not available at build time
+    
     // --- LOADER LOGIC ---
     const loader = document.getElementById('loader');
     const loaderText = document.getElementById('loader-text');
@@ -141,7 +143,7 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
     const cursorDot = document.querySelector('.cursor-dot');
     const cursorRing = document.querySelector('.cursor-ring');
 
-    if (window.matchMedia("(pointer: fine)").matches) {
+    if (window.matchMedia("(pointer: fine)").matches && cursorDot && cursorRing) {
       let mouseX = 0, mouseY = 0;
       let ringX = 0, ringY = 0;
 
@@ -160,7 +162,7 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
       animateRing();
 
       // Interactive Elements
-      document.querySelectorAll('a, button, .spotlight-card').forEach(el => {
+      document.querySelectorAll('a, button, .spotlight-card').forEach((el) => {
         el.addEventListener('mouseenter', () => {
           cursorRing.style.width = '50px';
           cursorRing.style.height = '50px';
@@ -178,8 +180,8 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
 
     // --- SPOTLIGHT EFFECT ---
     const cards = document.querySelectorAll('.spotlight-card');
-    window.addEventListener('mousemove', e => {
-      cards.forEach(card => {
+    window.addEventListener('mousemove', (e) => {
+      cards.forEach((card) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -189,23 +191,26 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
     });
 
     // --- GSAP ANIMATIONS ---
-    gsap.registerPlugin(ScrollTrigger);
+    // Wait for GSAP to load from CDN
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
 
-    // Scroll reveal for sections
-    gsap.utils.toArray('section').forEach(section => {
-      gsap.from(section.querySelectorAll('h2, h3, p'), {
-        scrollTrigger: {
-          trigger: section,
-          start: "top 80%",
-          toggleActions: "play none none reverse"
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power3.out"
+      // Scroll reveal for sections
+      gsap.utils.toArray('section').forEach((section) => {
+        gsap.from(section.querySelectorAll('h2, h3, p'), {
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            toggleActions: "play none none reverse"
+          },
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power3.out"
+        });
       });
-    });
+    }
   </script>
 </body>
 </html>

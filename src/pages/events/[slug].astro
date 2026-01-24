@@ -106,7 +106,7 @@ function formatDate(dateString: string) {
     <section class="py-32 bg-void">
       <div class="max-w-7xl mx-auto px-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {event.images.map((image, index) => (
+          {event.images.map((_image, index) => (
             <div class="aspect-video bg-zinc-900 border border-zinc-800 overflow-hidden group hover:border-signal/30 transition-colors">
               <div class="w-full h-full flex items-center justify-center">
                 <iconify-icon icon="lucide:image" class="text-6xl text-zinc-700 group-hover:text-signal transition-colors"></iconify-icon>
