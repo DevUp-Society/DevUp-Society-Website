@@ -1,0 +1,264 @@
+---
+// /teams/[slug].astro - Dynamic team pages
+// Routes: /teams/tech, /teams/marketing, etc.
+
+import MainLayout from '../../layouts/MainLayout.astro';
+import { teamMembers } from '../../data/team';
+
+// Generate static paths for all unique team slugs
+export async function getStaticPaths() {
+  // Get all unique team slugs
+  const uniqueSlugs = [...new Set(teamMembers.map(m => m.teamSlug))];
+  
+  return uniqueSlugs.map((slug) => ({
+    params: { slug },
+  }));
+}
+
+const { slug } = Astro.params;
+
+// Check if team exists
+const teamExists = teamMembers.some((member) => member.teamSlug === slug);
+
+// Get team name
+const teamName = teamMembers.find((m) => m.teamSlug === slug)?.teamName || 'Team';
+
+// Filter core members (leads) for this team
+const coreMembers = teamMembers.filter(
+  (member) => member.teamSlug === slug && member.teamType === "core"
+);
+
+// Filter regular team members
+const members = teamMembers.filter(
+  (member) => member.teamSlug === slug && member.teamType === "member"
+);
+---
+
+{!teamExists ? (
+  <MainLayout title="Team Not Found | DevUp Society" description="Team not found">
+    <section class="py-32 bg-void">
+      <div class="max-w-4xl mx-auto px-6 text-center">
+        <iconify-icon icon="lucide:alert-circle" class="text-6xl text-zinc-700 mb-6"></iconify-icon>
+        <h1 class="font-display text-5xl text-white mb-4">Team Not Found</h1>
+        <p class="font-mono text-zinc-400 text-sm mb-8">
+          The team you're looking for doesn't exist.
+        </p>
+        <a 
+          href="/team"
+          class="inline-flex items-center gap-3 px-8 py-4 bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner"
+        >
+          <iconify-icon icon="lucide:arrow-left"></iconify-icon>
+          <span>Back to Team</span>
+        </a>
+      </div>
+    </section>
+  </MainLayout>
+) : (
+  <MainLayout 
+    title={`${teamName} | DevUp Society`}
+    description={`Meet the ${teamName} members of DevUp Society`}
+  >
+    <!-- HERO SECTION -->
+    <section class="relative h-[60vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-zinc-900">
+      <div class="grid-floor opacity-30"></div>
+      
+      <!-- Back Button (Absolute) -->
+      <a 
+        href="/team"
+        class="absolute top-32 left-6 z-30 inline-flex items-center gap-2 text-zinc-400 hover:text-signal font-mono text-xs uppercase tracking-widest transition-colors"
+      >
+        <iconify-icon icon="lucide:arrow-left"></iconify-icon>
+        <span>Back to Team</span>
+      </a>
+      
+      <div class="relative z-20 text-center px-4">
+        <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// {teamName}</span>
+        <h1 class="font-display text-6xl md:text-9xl text-white font-medium leading-[0.85] tracking-tight mb-6">
+          {teamName.split(' ')[0]}<br/>
+          <span class="text-zinc-700">{teamName.split(' ').slice(1).join(' ')}</span>
+        </h1>
+        <p class="font-mono text-zinc-400 text-sm max-w-2xl mx-auto">
+          Meet the members of our {teamName.toLowerCase()}
+        </p>
+      </div>
+    </section>
+
+    <!-- TEAM LEAD SECTION (if any) -->
+    {coreMembers.length > 0 && (
+      <section class="py-32 bg-void border-b border-zinc-900">
+        <div class="max-w-7xl mx-auto px-6">
+          <div class="mb-20">
+            <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Leadership</span>
+            <h2 class="font-display text-5xl text-white font-medium leading-[0.9]">
+              TEAM LEAD
+            </h2>
+          </div>
+
+          {/* LEAD CENTERED */}
+          <div class="max-w-md mx-auto">
+            {coreMembers.map((member) => (
+              <div class="group relative">
+                <div class="glass-panel p-10 clip-corner-tl hover:border-signal/30 transition-all h-full flex flex-col">
+                  <!-- Photo -->
+                  <div class="w-40 h-40 mb-6 border-2 border-zinc-800 group-hover:border-signal transition-colors overflow-hidden mx-auto">
+                    {member.photo ? (
+                      <img src={member.photo} alt={member.name} class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+                    ) : (
+                      <div class="w-full h-full bg-zinc-900 flex items-center justify-center">
+                        <span class="text-signal font-mono text-2xl font-bold">
+                          {member.name.split(' ').map(n => n[0]).join('')}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <!-- Info -->
+                  <div class="text-center mb-6">
+                    <h3 class="font-display text-2xl text-white mb-3 group-hover:text-signal transition-colors">
+                      {member.name}
+                    </h3>
+                    <p class="font-mono text-sm text-signal uppercase tracking-widest mb-2">
+                      {member.role}
+                    </p>
+                    <p class="font-mono text-xs text-zinc-500 mb-4">
+                      {member.year}
+                    </p>
+                  </div>
+
+                  {/* Quote */}
+                  {member.quote && (
+                    <p class="font-mono text-xs text-zinc-400 leading-relaxed text-center flex-1 border-t border-zinc-800 pt-6">
+                      "{member.quote}"
+                    </p>
+                  )}
+
+                  <!-- Social Links -->
+                  {member.socialLinks && Object.keys(member.socialLinks).length > 0 && (
+                    <div class="flex gap-4 justify-center pt-6 border-t border-zinc-800 mt-6">
+                      {member.socialLinks.linkedin && (
+                        <a href={member.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                          <iconify-icon icon="lucide:linkedin" class="text-lg"></iconify-icon>
+                        </a>
+                      )}
+                      {member.socialLinks.github && (
+                        <a href={member.socialLinks.github} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                          <iconify-icon icon="lucide:github" class="text-lg"></iconify-icon>
+                        </a>
+                      )}
+                      {member.socialLinks.instagram && (
+                        <a href={member.socialLinks.instagram} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                          <iconify-icon icon="lucide:instagram" class="text-lg"></iconify-icon>
+                        </a>
+                      )}
+                      {member.socialLinks.twitter && (
+                        <a href={member.socialLinks.twitter} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                          <iconify-icon icon="lucide:twitter" class="text-lg"></iconify-icon>
+                        </a>
+                      )}
+                      {member.socialLinks.portfolio && (
+                        <a href={member.socialLinks.portfolio} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                          <iconify-icon icon="lucide:globe" class="text-lg"></iconify-icon>
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- TEAM MEMBERS SECTION -->
+    <section class="py-32 bg-[#050505]">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="mb-20">
+          <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Team</span>
+          <h2 class="font-display text-5xl text-white font-medium leading-[0.9]">
+            TEAM MEMBERS
+          </h2>
+        </div>
+
+        {members.length > 0 ? (
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {members.map((member, index) => (
+              <div class={`group relative ${index % 2 === 1 ? 'md:mt-8' : ''}`}>
+                <div class="glass-panel p-6 clip-corner-tl hover:border-signal/30 transition-all h-full flex flex-col">
+                  <!-- Photo -->
+                  <div class="w-24 h-24 mb-4 border-2 border-zinc-800 group-hover:border-signal transition-colors overflow-hidden mx-auto">
+                    {member.photo ? (
+                      <img src={member.photo} alt={member.name} class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+                    ) : (
+                      <div class="w-full h-full bg-zinc-900 flex items-center justify-center">
+                        <span class="text-signal font-mono text-lg font-bold">
+                          {member.name.split(' ').map(n => n[0]).join('')}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <!-- Info -->
+                  <div class="text-center flex-1">
+                    <h3 class="font-display text-lg text-white mb-1 group-hover:text-signal transition-colors">
+                      {member.name}
+                    </h3>
+                    <p class="font-mono text-xs text-zinc-400 mb-1">
+                      {member.role}
+                    </p>
+                    <p class="font-mono text-xs text-zinc-500 mb-4">
+                      {member.year}
+                    </p>
+                    {member.quote && (
+                      <p class="font-mono text-xs text-zinc-600 leading-relaxed italic">
+                        "{member.quote}"
+                      </p>
+                    )}
+                  </div>
+
+                  <!-- Social Links -->
+                  {member.socialLinks && Object.keys(member.socialLinks).length > 0 && (
+                    <div class="flex gap-3 justify-center pt-4 border-t border-zinc-800 mt-4">
+                      {member.socialLinks.linkedin && (
+                        <a href={member.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                          <iconify-icon icon="lucide:linkedin" class="text-base"></iconify-icon>
+                        </a>
+                      )}
+                      {member.socialLinks.github && (
+                        <a href={member.socialLinks.github} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                          <iconify-icon icon="lucide:github" class="text-base"></iconify-icon>
+                        </a>
+                      )}
+                      {member.socialLinks.instagram && (
+                        <a href={member.socialLinks.instagram} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                          <iconify-icon icon="lucide:instagram" class="text-base"></iconify-icon>
+                        </a>
+                      )}
+                      {member.socialLinks.twitter && (
+                        <a href={member.socialLinks.twitter} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                          <iconify-icon icon="lucide:twitter" class="text-base"></iconify-icon>
+                        </a>
+                      )}
+                      {member.socialLinks.portfolio && (
+                        <a href={member.socialLinks.portfolio} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                          <iconify-icon icon="lucide:globe" class="text-base"></iconify-icon>
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="glass-panel p-12 clip-corner text-center">
+            <iconify-icon icon="lucide:users" class="text-6xl text-zinc-700 mb-4"></iconify-icon>
+            <p class="font-mono text-zinc-500 text-sm">
+              Team members will be added soon.
+            </p>
+          </div>
+        )}
+      </div>
+    </section>
+  </MainLayout>
+)}

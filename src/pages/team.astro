@@ -1,0 +1,165 @@
+---
+// /team - Main team overview page showing core team
+// Faizan centered at top, other leads in 3-column grid below
+import MainLayout from '../layouts/MainLayout.astro';
+import { coreTeam } from '../data/team';
+
+// Faizan is the first member (id: tm-001)
+const faizan = coreTeam.find(m => m.id === 'tm-001');
+// Other core team members
+const otherLeads = coreTeam.filter(m => m.id !== 'tm-001');
+---
+
+<MainLayout 
+  title="Team | DevUp Society" 
+  description="Meet the leadership behind DevUp Society"
+>
+  <!-- HERO SECTION -->
+  <section class="relative h-[60vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-zinc-900">
+    <div class="grid-floor opacity-30"></div>
+    
+    <div class="relative z-20 text-center px-4">
+      <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Leadership</span>
+      <h1 class="font-display text-6xl md:text-9xl text-white font-medium leading-[0.85] tracking-tight mb-6">
+        OUR<br/>
+        <span class="text-zinc-700">TEAM</span>
+      </h1>
+      <p class="font-mono text-zinc-400 text-sm max-w-2xl mx-auto">
+        Meet the leadership behind DevUp Society. Building the future of tech, one student at a time.
+      </p>
+    </div>
+  </section>
+
+  <!-- CORE TEAM SECTION -->
+  <section class="py-32 bg-void">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-20">
+        <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Core Leadership</span>
+        <h2 class="font-display text-6xl text-white font-medium leading-[0.9]">
+          MEET THE LEADS
+        </h2>
+      </div>
+
+      {/* FAIZAN - CENTERED AT TOP */}
+      {faizan && (
+        <div class="max-w-md mx-auto mb-20">
+          <div class="group relative">
+            <div class="glass-panel p-10 clip-corner-tl hover:border-signal/30 transition-all h-full flex flex-col">
+              <!-- Photo -->
+              <div class="w-40 h-40 mb-6 border-2 border-zinc-800 group-hover:border-signal transition-colors overflow-hidden mx-auto">
+                {faizan.photo ? (
+                  <img src={faizan.photo} alt={faizan.name} class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+                ) : (
+                  <div class="w-full h-full bg-zinc-900 flex items-center justify-center">
+                    <span class="text-signal font-mono text-2xl font-bold">
+                      {faizan.name.split(' ').map(n => n[0]).join('')}
+                    </span>
+                  </div>
+                )}
+              </div>
+              
+              <!-- Name & Role -->
+              <div class="text-center mb-6">
+                <h3 class="font-display text-2xl text-white mb-3 group-hover:text-signal transition-colors">
+                  {faizan.name}
+                </h3>
+                <div class="font-mono text-sm text-signal uppercase tracking-widest mb-2">
+                  {faizan.role}
+                </div>
+                <div class="font-mono text-xs text-zinc-500">
+                  {faizan.year}
+                </div>
+              </div>
+              
+              <!-- Quote -->
+              {faizan.quote && (
+                <p class="font-mono text-xs text-zinc-400 leading-relaxed text-center flex-1 border-t border-zinc-800 pt-6">
+                  "{faizan.quote}"
+                </p>
+              )}
+              
+              <!-- View Team Button -->
+              <a 
+                href={`/teams/${faizan.teamSlug}`}
+                class="mt-6 w-full bg-zinc-900 hover:bg-signal text-white hover:text-black font-mono text-xs font-bold tracking-widest uppercase py-3 px-4 transition-all text-center border border-zinc-800 hover:border-signal"
+              >
+                View {faizan.teamName}
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* OTHER LEADS - 3 COLUMN GRID */}
+      {otherLeads.length > 0 && (
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {otherLeads.map((member, index) => (
+            <div class={`group relative ${index % 2 === 1 ? 'md:mt-12' : ''}`}>
+              <div class="glass-panel p-8 clip-corner-tl hover:border-signal/30 transition-all h-full flex flex-col">
+                <!-- Photo -->
+                <div class="w-32 h-32 mb-6 border-2 border-zinc-800 group-hover:border-signal transition-colors overflow-hidden mx-auto">
+                  {member.photo ? (
+                    <img src={member.photo} alt={member.name} class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+                  ) : (
+                    <div class="w-full h-full bg-zinc-900 flex items-center justify-center">
+                      <span class="text-signal font-mono text-xl font-bold">
+                        {member.name.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                
+                <!-- Name & Role -->
+                <div class="text-center mb-4">
+                  <h3 class="font-display text-xl text-white mb-2 group-hover:text-signal transition-colors">
+                    {member.name}
+                  </h3>
+                  <div class="font-mono text-xs text-signal uppercase tracking-widest mb-1">
+                    {member.role}
+                  </div>
+                  <div class="font-mono text-xs text-zinc-500">
+                    {member.year}
+                  </div>
+                </div>
+                
+                <!-- Quote -->
+                {member.quote && (
+                  <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 text-center flex-1 border-t border-zinc-800 pt-4">
+                    "{member.quote}"
+                  </p>
+                )}
+                
+                <!-- View Team Button -->
+                <a 
+                  href={`/teams/${member.teamSlug}`}
+                  class="mt-auto w-full bg-zinc-900 hover:bg-signal text-white hover:text-black font-mono text-xs font-bold tracking-widest uppercase py-3 px-4 transition-all text-center border border-zinc-800 hover:border-signal"
+                >
+                  View {member.teamName}
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="py-32 bg-[#050505] border-t border-zinc-900">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <div class="glass-panel p-12 clip-corner">
+        <iconify-icon icon="lucide:users" class="text-signal text-6xl mb-6"></iconify-icon>
+        <h2 class="font-display text-5xl text-white mb-6 leading-tight">
+          Want to Join<br/>the Core Team?
+        </h2>
+        <p class="font-mono text-zinc-400 text-sm mb-8 max-w-lg mx-auto">
+          We're always looking for passionate builders. If you have the skills and the drive, we want to hear from you.
+        </p>
+        <a href="/join" class="inline-flex items-center gap-3 px-8 py-4 bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner btn-glitch">
+          <span class="relative z-10">Apply Now</span>
+          <iconify-icon icon="lucide:arrow-right" class="relative z-10"></iconify-icon>
+        </a>
+      </div>
+    </div>
+  </section>
+</MainLayout>

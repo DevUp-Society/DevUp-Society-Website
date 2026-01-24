@@ -1,0 +1,105 @@
+---
+// /teams/index.astro - Teams overview page
+// Shows all unique teams
+
+import MainLayout from '../../layouts/MainLayout.astro';
+import { teamMembers } from '../../data/team';
+
+// Get unique teams (slug + name)
+const uniqueTeamsMap = new Map();
+teamMembers.forEach(member => {
+  if (!uniqueTeamsMap.has(member.teamSlug)) {
+    uniqueTeamsMap.set(member.teamSlug, {
+      slug: member.teamSlug,
+      name: member.teamName
+    });
+  }
+});
+const teams = Array.from(uniqueTeamsMap.values());
+
+// Get member count for each team
+function getMemberCount(teamSlug: string) {
+  return teamMembers.filter(m => m.teamSlug === teamSlug).length;
+}
+---
+
+<MainLayout 
+  title="Teams | DevUp Society"
+  description="Explore all the teams that power DevUp Society"
+>
+  <!-- HERO SECTION -->
+  <section class="relative h-[60vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-zinc-900">
+    <div class="grid-floor opacity-30"></div>
+    
+    <div class="relative z-20 text-center px-4">
+      <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Organization</span>
+      <h1 class="font-display text-6xl md:text-9xl text-white font-medium leading-[0.85] tracking-tight mb-6">
+        OUR<br/>
+        <span class="text-zinc-700">TEAMS</span>
+      </h1>
+      <p class="font-mono text-zinc-400 text-sm max-w-2xl mx-auto">
+        Different specializations, one mission: Building the future of tech.
+      </p>
+    </div>
+  </section>
+
+  <!-- TEAMS GRID -->
+  <section class="py-32 bg-void">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {teams.map((team, index) => {
+          const memberCount = getMemberCount(team.slug);
+          return (
+            <a 
+              href={`/teams/${team.slug}`}
+              class={`group relative bg-[#080808] border border-zinc-800 p-8 hover:bg-zinc-900/30 hover:border-signal/30 transition-all duration-300 ${index % 2 === 1 ? 'md:mt-12' : ''}`}
+            >
+              <div class="absolute left-0 top-0 bottom-0 w-1 bg-signal transform scale-y-0 group-hover:scale-y-100 transition-transform origin-top"></div>
+              
+              <div class="flex flex-col gap-6">
+                <!-- Title & Count -->
+                <div class="flex items-center justify-between">
+                  <div class="flex-1">
+                    <h3 class="font-display text-3xl text-white mb-2 group-hover:text-signal transition-colors">
+                      {team.name}
+                    </h3>
+                    <p class="font-mono text-xs text-zinc-500">
+                      {memberCount} {memberCount === 1 ? 'member' : 'members'}
+                    </p>
+                  </div>
+                  <iconify-icon icon="lucide:arrow-right" class="text-2xl text-zinc-700 group-hover:text-signal group-hover:translate-x-1 transition-all"></iconify-icon>
+                </div>
+
+                <!-- View Team Button -->
+                <div class="font-mono text-xs text-zinc-400 uppercase tracking-widest group-hover:text-signal transition-colors">
+                  View Team →
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- BACK TO MAIN TEAM CTA -->
+  <section class="py-32 bg-[#050505] border-t border-zinc-900">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <div class="glass-panel p-12 clip-corner">
+        <h2 class="font-display text-4xl text-white mb-6 leading-tight">
+          Meet the Core Team
+        </h2>
+        <p class="font-mono text-zinc-400 text-sm mb-8 max-w-lg mx-auto">
+          Want to see our core leadership? Check out the main team page.
+        </p>
+        <a 
+          href="/team" 
+          class="inline-flex items-center gap-3 px-8 py-4 bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner btn-glitch"
+        >
+          <span class="relative z-10">View Core Team</span>
+          <iconify-icon icon="lucide:arrow-right" class="relative z-10"></iconify-icon>
+        </a>
+      </div>
+    </div>
+  </section>
+</MainLayout>

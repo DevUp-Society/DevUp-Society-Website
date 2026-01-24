@@ -43,7 +43,6 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
   <!-- OVERLAYS -->
   <div class="noise"></div>
   <div class="scanlines"></div>
-  <div class="vignette"></div>
   
   <!-- CURSOR -->
   <div class="cursor-dot hidden md:block"></div>
@@ -54,7 +53,7 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
     <div class="flex flex-col items-center gap-4">
       <div class="font-mono text-signal text-xs tracking-[0.5em] uppercase">System Boot</div>
       <div class="w-48 h-[1px] bg-zinc-800 relative overflow-hidden">
-        <div class="absolute inset-0 bg-signal w-full origin-left animate-[grow_1.5s_ease-in-out]"></div>
+        <div id="loader-bar" class="absolute inset-0 bg-signal origin-left" style="width: 0%"></div>
       </div>
       <div class="font-display font-bold text-6xl text-white tracking-tighter" id="loader-text">000</div>
     </div>
@@ -93,10 +92,9 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
   <footer class="border-t border-zinc-900/50 py-12 px-12">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-[10px] font-mono text-zinc-600 uppercase tracking-widest gap-4">
       <div class="flex gap-8">
-        <a href="#" class="hover:text-white transition-colors">Twitter</a>
-        <a href="#" class="hover:text-white transition-colors">Instagram</a>
-        <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
-        <a href="#" class="hover:text-white transition-colors">GitHub</a>
+        <a href="https://www.instagram.com/devupcommunity/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Instagram</a>
+        <a href="https://www.linkedin.com/company/devup-community" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">LinkedIn</a>
+        <a href="https://github.com/DevUp-Society" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">GitHub</a>
       </div>
       <div>
         © 2026 DevUp Society // All Rights Reserved
@@ -108,21 +106,36 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
     // --- LOADER LOGIC ---
     const loader = document.getElementById('loader');
     const loaderText = document.getElementById('loader-text');
+    const loaderBar = document.getElementById('loader-bar');
     
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += Math.floor(Math.random() * 10) + 1;
-      if(progress > 100) progress = 100;
-      loaderText.innerText = progress < 100 ? `0${progress}` : '100';
-      
-      if(progress === 100) {
-        clearInterval(interval);
-        setTimeout(() => {
-          loader.style.transform = 'translateY(-100%)';
-          document.body.classList.remove('loading');
-        }, 500);
-      }
-    }, 30);
+    // Only show loader on home page
+    const isHomePage = window.location.pathname === '/';
+    
+    if (!isHomePage) {
+      // Not home page - skip loader entirely
+      loader.style.display = 'none';
+      document.body.classList.remove('loading');
+    } else {
+      // Home page - show loader EVERY time with 4-5 second animation
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 4) + 2; // Gradual increment (2-5 per tick)
+        if(progress > 100) progress = 100;
+        
+        // Update both percentage text AND bar width
+        loaderText.innerText = progress < 100 ? `0${progress}` : '100';
+        loaderBar.style.width = `${progress}%`;
+        
+        if(progress === 100) {
+          clearInterval(interval);
+          // Wait 800ms at 100% before hiding
+          setTimeout(() => {
+            loader.style.transform = 'translateY(-100%)';
+            document.body.classList.remove('loading');
+          }, 800);
+        }
+      }, 80); // Faster interval (80ms per tick) = ~4-5 seconds total
+    }
 
     // --- CURSOR LOGIC ---
     const cursorDot = document.querySelector('.cursor-dot');

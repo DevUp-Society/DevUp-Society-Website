@@ -33,13 +33,7 @@ body {
   opacity: 0.3;
 }
 
-.vignette {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at center, transparent 0%, #030303 140%);
-  z-index: 10;
-  pointer-events: none;
-}
+/* .vignette removed to prevent edge darkening */
 
 /* --- CURSOR --- */
 .cursor-dot {
