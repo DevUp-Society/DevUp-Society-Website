@@ -48,7 +48,7 @@ const otherLeads = coreTeam.filter(m => m.id !== 'tm-001');
               <!-- Photo -->
               <div class="w-40 h-40 mb-6 border-2 border-zinc-800 group-hover:border-signal transition-colors overflow-hidden mx-auto">
                 {faizan.photo ? (
-                  <img src={faizan.photo} alt={faizan.name} class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+                  <img src={faizan.photo} alt={faizan.name} class="w-full h-full object-cover md:grayscale md:group-hover:grayscale-0 transition-all" />
                 ) : (
                   <div class="w-full h-full bg-zinc-900 flex items-center justify-center">
                     <span class="text-signal font-mono text-2xl font-bold">
@@ -99,7 +99,7 @@ const otherLeads = coreTeam.filter(m => m.id !== 'tm-001');
                 <!-- Photo -->
                 <div class="w-32 h-32 mb-6 border-2 border-zinc-800 group-hover:border-signal transition-colors overflow-hidden mx-auto">
                   {member.photo ? (
-                    <img src={member.photo} alt={member.name} class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+                    <img src={member.photo} alt={member.name} class="w-full h-full object-cover md:grayscale md:group-hover:grayscale-0 transition-all" />
                   ) : (
                     <div class="w-full h-full bg-zinc-900 flex items-center justify-center">
                       <span class="text-signal font-mono text-xl font-bold">

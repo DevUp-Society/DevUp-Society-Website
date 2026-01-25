@@ -71,6 +71,7 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
       </div>
     </a>
 
+    <!-- Desktop Navigation -->
     <div class="hidden md:flex items-center gap-1 bg-zinc-900/40 backdrop-blur-md p-1 border border-white/5 rounded-none clip-corner">
       <a href="/#about" class="px-6 py-2 text-[10px] font-mono uppercase tracking-widest text-zinc-400 hover:text-white hover:bg-white/5 transition-all">About</a>
       <a href="/events" class="px-6 py-2 text-[10px] font-mono uppercase tracking-widest text-zinc-400 hover:text-white hover:bg-white/5 transition-all">Events</a>
@@ -82,7 +83,103 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
       <span class="relative z-10">DevUp Community</span>
       <iconify-icon icon="lucide:arrow-up-right" class="relative z-10"></iconify-icon>
     </a>
+
+    <!-- Mobile Hamburger Button -->
+    <button id="mobile-menu-toggle" class="md:hidden w-10 h-10 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center clip-corner hover:border-signal/50 transition-colors" aria-label="Toggle menu">
+      <iconify-icon id="hamburger-icon" icon="lucide:menu" class="text-white text-xl"></iconify-icon>
+    </button>
   </nav>
+
+  <!-- Mobile Navigation Panel -->
+  <div id="mobile-menu" class="fixed top-0 right-0 h-screen w-80 bg-black/95 backdrop-blur-lg border-l border-zinc-800 transform translate-x-full transition-transform duration-300 z-40 md:hidden">
+    <div class="flex flex-col h-full p-8">
+      <!-- Close Button -->
+      <div class="flex justify-end mb-12">
+        <button id="mobile-menu-close" class="w-10 h-10 border border-zinc-800 flex items-center justify-center hover:border-signal/50 transition-colors" aria-label="Close menu">
+          <iconify-icon icon="lucide:x" class="text-white text-xl"></iconify-icon>
+        </button>
+      </div>
+
+      <!-- Mobile Links -->
+      <div class="flex flex-col gap-6 mb-12">
+        <a href="/#about" class="font-mono text-sm uppercase tracking-widest text-zinc-400 hover:text-signal transition-colors border-l-2 border-transparent hover:border-signal pl-4">About</a>
+        <a href="/events" class="font-mono text-sm uppercase tracking-widest text-zinc-400 hover:text-signal transition-colors border-l-2 border-transparent hover:border-signal pl-4">Events</a>
+        <a href="/team" class="font-mono text-sm uppercase tracking-widest text-zinc-400 hover:text-signal transition-colors border-l-2 border-transparent hover:border-signal pl-4">Team</a>
+        <a href="/join" class="font-mono text-sm uppercase tracking-widest text-zinc-400 hover:text-signal transition-colors border-l-2 border-transparent hover:border-signal pl-4">Join Now</a>
+      </div>
+
+      <!-- Mobile CTA -->
+      <a href="/community" class="w-full flex items-center justify-center gap-3 px-6 py-4 bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner">
+        <span>DevUp Community</span>
+        <iconify-icon icon="lucide:arrow-up-right"></iconify-icon>
+      </a>
+
+      <!-- Mobile Social Links -->
+      <div class="mt-auto pt-8 border-t border-zinc-900">
+        <p class="font-mono text-xs text-zinc-600 uppercase tracking-widest mb-4">Follow Us</p>
+        <div class="flex gap-4">
+          <a href="https://github.com/DevUp-Society" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+            <iconify-icon icon="lucide:github" class="text-xl"></iconify-icon>
+          </a>
+          <a href="https://www.linkedin.com/company/devup-community" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+            <iconify-icon icon="lucide:linkedin" class="text-xl"></iconify-icon>
+          </a>
+          <a href="https://www.instagram.com/devupcommunity/" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+            <iconify-icon icon="lucide:instagram" class="text-xl"></iconify-icon>
+          </a>
+          <a href="https://chat.whatsapp.com/CvU68WlMmoo5PvIBpOU5Dy" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+            <iconify-icon icon="lucide:message-circle" class="text-xl"></iconify-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Script -->
+  <script is:inline>
+    // Mobile menu toggle
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+
+    function openMobileMenu() {
+      mobileMenu.classList.remove('translate-x-full');
+      hamburgerIcon.setAttribute('icon', 'lucide:x');
+    }
+
+    function closeMobileMenu() {
+      mobileMenu.classList.add('translate-x-full');
+      hamburgerIcon.setAttribute('icon', 'lucide:menu');
+    }
+
+    if (mobileMenuToggle) {
+      mobileMenuToggle.addEventListener('click', () => {
+        if (mobileMenu.classList.contains('translate-x-full')) {
+          openMobileMenu();
+        } else {
+          closeMobileMenu();
+        }
+      });
+    }
+
+    if (mobileMenuClose) {
+      mobileMenuClose.addEventListener('click', closeMobileMenu);
+    }
+
+    // Close menu when clicking on a link
+    const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+    mobileMenuLinks.forEach(link => {
+      link.addEventListener('click', closeMobileMenu);
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target) && !mobileMenu.classList.contains('translate-x-full')) {
+        closeMobileMenu();
+      }
+    });
+  </script>
 
   <main>
     <slot />
