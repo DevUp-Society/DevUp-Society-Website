@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import logoImg from '../assets/devup logo neon.png';
 
 interface Props {
   title: string;
@@ -16,6 +17,7 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
   <meta name="description" content={description}>
+  <link rel="icon" type="image/png" href="/favicon.png">
   
   <!-- SEO Meta Tags -->
   <meta property="og:title" content={title}>
@@ -26,7 +28,15 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
   <meta name="twitter:description" content={description}>
   
   <!-- ICONS -->
-  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <!-- ICONS -->
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.0.0/dist/iconify-icon.min.js"></script>
+  <style>
+    iconify-icon {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+    }
+  </style>
   
   <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -62,8 +72,8 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
   <!-- NAV -->
   <nav class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-gradient-to-b from-[#030303] to-transparent">
     <a href="/" class="flex items-center gap-4 group cursor-pointer">
-      <div class="w-10 h-10 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center clip-corner group-hover:border-signal/50 transition-colors">
-        <iconify-icon icon="lucide:code-2" class="text-signal text-lg"></iconify-icon>
+      <div class="w-10 h-10 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center clip-corner group-hover:border-signal/50 transition-colors p-1">
+        <img src={logoImg.src} alt="DevUp" class="w-full h-full object-contain" />
       </div>
       <div class="flex flex-col">
         <span class="font-display font-bold text-white tracking-tight leading-none group-hover:text-signal transition-colors">DEVUP</span>
