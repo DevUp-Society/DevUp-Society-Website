@@ -90,7 +90,7 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
 
     <!-- Mobile Hamburger Button -->
     <button id="mobile-menu-toggle" class="md:hidden w-10 h-10 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center clip-corner hover:border-signal/50 transition-colors" aria-label="Toggle menu">
-      <iconify-icon id="hamburger-icon" icon="lucide:menu" class="text-white text-xl"></iconify-icon>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
     </button>
   </nav>
 
@@ -100,7 +100,7 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
       <!-- Close Button -->
       <div class="flex justify-end mb-12">
         <button id="mobile-menu-close" class="w-10 h-10 border border-zinc-800 flex items-center justify-center hover:border-signal/50 transition-colors" aria-label="Close menu">
-          <iconify-icon icon="lucide:x" class="text-white text-xl"></iconify-icon>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
 
@@ -149,12 +149,10 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
 
     function openMobileMenu() {
       mobileMenu.classList.remove('translate-x-full');
-      hamburgerIcon.setAttribute('icon', 'lucide:x');
     }
 
     function closeMobileMenu() {
       mobileMenu.classList.add('translate-x-full');
-      hamburgerIcon.setAttribute('icon', 'lucide:menu');
     }
 
     if (mobileMenuToggle) {
