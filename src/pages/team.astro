@@ -4,10 +4,12 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import { coreTeam } from '../data/team';
 
-// Faizan is the first member (id: tm-001)
+// Convener / HOD (id: tm-000)
+const convener = coreTeam.find(m => m.id === 'tm-000');
+// Faizan is the first student member (id: tm-001)
 const faizan = coreTeam.find(m => m.id === 'tm-001');
 // Other core team members
-const otherLeads = coreTeam.filter(m => m.id !== 'tm-001');
+const otherLeads = coreTeam.filter(m => m.id !== 'tm-001' && m.id !== 'tm-000');
 ---
 
 <MainLayout 
@@ -34,13 +36,85 @@ const otherLeads = coreTeam.filter(m => m.id !== 'tm-001');
   <section class="py-32 bg-void">
     <div class="max-w-7xl mx-auto px-6">
       <div class="mb-20">
+        <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Mentorship</span>
+        <h2 class="font-display text-6xl text-white font-medium leading-[0.9]">
+          FACULTY ADVISORS
+        </h2>
+      </div>
+
+       {/* CONVENER - CENTERED AT TOP */}
+       {convener && (
+        <div class="max-w-md mx-auto mb-20 relative z-10">
+          <div class="group relative">
+            {/* Special highlight for HOD */}
+            <div class="absolute -inset-1 bg-gradient-to-r from-signal/20 to-transparent blur opacity-20 group-hover:opacity-100 transition duration-1000"></div>
+            
+            <div class="glass-panel p-10 clip-corner-tl hover:border-signal/30 transition-all h-full flex flex-col relative bg-[#111]">
+              <!-- Photo -->
+              <div class="w-48 h-48 mb-6 border-2 border-zinc-700 group-hover:border-signal transition-colors overflow-hidden mx-auto rounded-none">
+                {convener.photo ? (
+                  <img src={convener.photo} alt={convener.name} class="w-full h-full object-cover md:grayscale md:group-hover:grayscale-0 transition-all" />
+                ) : (
+                  <div class="w-full h-full bg-zinc-900 flex items-center justify-center">
+                    <span class="text-signal font-mono text-2xl font-bold">
+                      {convener.name.split(' ').map(n => n[0]).join('')}
+                    </span>
+                  </div>
+                )}
+              </div>
+              
+              <!-- Name & Role -->
+              <div class="text-center mb-6">
+                <h3 class="font-display text-2xl text-white mb-3 group-hover:text-signal transition-colors">
+                  {convener.name}
+                </h3>
+                 <div class="font-mono text-sm text-signal uppercase tracking-widest mb-1 font-bold">
+                  {convener.year}
+                </div>
+                <div class="font-mono text-xs text-zinc-400 uppercase tracking-widest mb-2">
+                  {convener.role}
+                </div>
+              </div>
+              
+              <!-- Quote -->
+              {convener.quote && (
+                <p class="font-mono text-xs text-zinc-400 leading-relaxed text-center flex-1 border-t border-zinc-800 pt-6">
+                  "{convener.quote}"
+                </p>
+              )}
+
+              <!-- Social Links -->
+              {convener.socialLinks && Object.keys(convener.socialLinks).length > 0 && (
+                <div class="flex gap-4 justify-center mt-4 mb-6">
+                  {convener.socialLinks.linkedin && (
+                    <a href={convener.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* SEPARATOR */}
+      {/* SEPARATOR */}
+      <div class="flex items-center justify-center gap-4 mb-20 opacity-50">
+        <div class="h-px w-32 bg-gradient-to-r from-transparent to-zinc-700"></div>
+        <div class="w-1.5 h-1.5 rounded-full bg-signal"></div>
+        <div class="h-px w-32 bg-gradient-to-l from-transparent to-zinc-700"></div>
+      </div>
+
+      {/* LEADERSHIP HEADING */}
+      <div class="mb-20">
         <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Core Leadership</span>
         <h2 class="font-display text-6xl text-white font-medium leading-[0.9]">
           MEET THE LEADS
         </h2>
       </div>
 
-      {/* FAIZAN - CENTERED AT TOP */}
+      {/* FAIZAN - CENTERED BELOW HOD */}
       {faizan && (
         <div class="max-w-md mx-auto mb-20">
           <div class="group relative">

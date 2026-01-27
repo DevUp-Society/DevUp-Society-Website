@@ -17,9 +17,26 @@ export interface TeamMember {
     photo: string;
     socialLinks: SocialLinks;
     quote: string;
+    isCoLead?: boolean;
 }
 
 export const teamMembers: TeamMember[] = [
+    // ================= FACULTY / ADVISORS =================
+    {
+        id: "tm-000",
+        name: "Dr. A. Obulesu",
+        role: "HOD - Information Technology",
+        year: "Convener",
+        teamType: "core",
+        teamSlug: "leadership",
+        teamName: "Leadership",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769489003/obulesu_thysc0.jpg",
+        socialLinks: {
+            linkedin: "https://www.linkedin.com/in/dr-avuku-obulesh-a04358163/"
+        },
+        quote: "Empowering innovation through technology.",
+    },
+
     // ================= CORE TEAM (LEADS) =================
     {
         id: "tm-001",
@@ -361,6 +378,37 @@ export const teamMembers: TeamMember[] = [
         },
         quote: "Exploring technology.",
     },
+    {
+        id: "tm-052",
+        name: "Hamje Bhagya Shree",
+        role: "Technical Team Member",
+        year: "2nd Year, IT",
+        teamType: "member",
+        teamSlug: "tech",
+        teamName: "Technical Team",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769534219/IMG_20260127_152101_-_Hamjhe_Bhagya_shree_z4lvil.jpg",
+        socialLinks: {
+            linkedin: "https://www.linkedin.com/in/hamjhe-bhagya-shree-b98937331",
+            github: "https://github.com/bhagyashreehamjhe-beep",
+        },
+        quote: "Building with code.",
+    },
+    {
+        id: "tm-053",
+        name: "Haasini Duddela",
+        role: "Technical Team Member",
+        year: "2nd Year, IT",
+        teamType: "member",
+        teamSlug: "tech",
+        teamName: "Technical Team",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769534219/InShot_20260106_200924809_1_-_Haasini_Duddela_g84k72.jpg",
+        socialLinks: {
+            linkedin: "https://www.linkedin.com/in/haasini-duddela-005595335",
+            github: "https://github.com/hasinidudela",
+            instagram: "https://www.instagram.com/hasini.dudela",
+        },
+        quote: "Tech enthusiast.",
+    },
 
     // ================= MARKETING TEAM =================
     {
@@ -440,7 +488,7 @@ export const teamMembers: TeamMember[] = [
     {
         id: "tm-025",
         name: "Mahathi Chinta",
-        role: "Marketing Team Member",
+        role: "Marketing Team Co-Lead",
         year: "2nd Year, IT",
         teamType: "member",
         teamSlug: "marketing",
@@ -452,6 +500,7 @@ export const teamMembers: TeamMember[] = [
             instagram: "https://www.instagram.com/mahathi.verse",
         },
         quote: "Digital storyteller.",
+        isCoLead: true,
     },
     {
         id: "tm-026",
@@ -482,6 +531,23 @@ export const teamMembers: TeamMember[] = [
     },
 
     // ================= CONTENT & OUTREACH =================
+
+    {
+        id: "tm-047",
+        name: "Jithendra",
+        role: "Content & Outreach Co-Lead",
+        year: "2nd Year, IT",
+        teamType: "member",
+        teamSlug: "content",
+        teamName: "Content & Outreach Team",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769534608/jithendra_lfdmjw.jpg",
+        socialLinks: {
+            linkedin: "https://www.linkedin.com/in/jithendra-appari-3234743a4?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+            instagram: "https://www.instagram.com/jithendra__.09?utm_source=qr&igsh=MTd3OHhsZ3VzaG1rZA=="
+        },
+        quote: "Leading content strategy.",
+        isCoLead: true,
+    },
 
     {
         id: "tm-028",
@@ -528,11 +594,11 @@ export const teamMembers: TeamMember[] = [
     {
         id: "tm-031",
         name: "Athikah Abdul Azeem",
-        role: "Content & Outreach Member",
+        role: "Events & Operations Co-Lead",
         year: "2nd Year, IT",
         teamType: "member",
-        teamSlug: "content",
-        teamName: "Content & Outreach Team",
+        teamSlug: "events",
+        teamName: "Events & Operations Team",
         photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769351365/IMG-20250922-WA0024_-_Athikah_Azeem_vfiik9.jpg",
         socialLinks: {
             linkedin: "https://www.linkedin.com/in/athikah-azeem-2287b2328",
@@ -540,16 +606,17 @@ export const teamMembers: TeamMember[] = [
             instagram: "https://www.instagram.com/Athikah_aa",
         },
         quote: "Turning ideas into impactful narratives.",
+        isCoLead: true,
     },
     {
         id: "tm-032",
-        name: "R. Rishika",
+        name: "Rishika",
         role: "Content & Outreach Member",
         year: "2nd Year, IT",
         teamType: "member",
         teamSlug: "content",
         teamName: "Content & Outreach Team",
-        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769351362/IMG-20241112-WA0096_-_rishikarathod_ustw3m.jpg",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769534609/rishika_b7g4jl.jpg",
         socialLinks: {
             linkedin: "https://www.linkedin.com/in/rishika-rathod-574728326",
             instagram: "https://www.instagram.com/riishika_rathod",
@@ -559,17 +626,18 @@ export const teamMembers: TeamMember[] = [
     {
         id: "tm-033",
         name: "Dhanush Reddy",
-        role: "Content & Outreach Member",
+        role: "Technical Team Co-Lead",
         year: "2nd Year, IT",
         teamType: "member",
-        teamSlug: "content",
-        teamName: "Content & Outreach Team",
+        teamSlug: "tech",
+        teamName: "Technical Team",
         photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769351358/Profilephoto_-_Dhanush_Reddy_au56fh.jpg",
         socialLinks: {
             linkedin: "https://www.linkedin.com/in/dhanush-reddy-50551b309/",
             instagram: "https://www.instagram.com/dhanush_reddy21",
         },
         quote: "Content creation with consistency and clarity.",
+        isCoLead: true,
     },
 
     // ================= EVENTS & OPERATIONS =================
@@ -670,7 +738,7 @@ export const teamMembers: TeamMember[] = [
     {
         id: "tm-040",
         name: "Sahasra",
-        role: "Research & Innovation Member",
+        role: "Research & Innovation Co-Lead",
         year: "2nd Year, IT",
         teamType: "member",
         teamSlug: "research",
@@ -678,6 +746,7 @@ export const teamMembers: TeamMember[] = [
         photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769350760/sahasrapic_-_SAHASRA_ykests.jpg",
         socialLinks: {},
         quote: "Exploring ideas through research and experimentation.",
+        isCoLead: true,
     },
     {
         id: "tm-041",
@@ -712,6 +781,20 @@ export const teamMembers: TeamMember[] = [
     },
 
     // ================= DESIGN TEAM =================
+
+    {
+        id: "tm-048",
+        name: "Luv Singh",
+        role: "Design Team Co-Lead",
+        year: "2nd Year, IT",
+        teamType: "member",
+        teamSlug: "design",
+        teamName: "Design Team",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769533345/luv_g19chx.jpg",
+        socialLinks: {},
+        quote: "Crafting visual experiences.",
+        isCoLead: true,
+    },
 
     {
         id: "tm-043",
@@ -757,13 +840,58 @@ export const teamMembers: TeamMember[] = [
         },
         quote: "Exploring creativity through design.",
     },
+    {
+        id: "tm-054",
+        name: "Lucky",
+        role: "Design Team Member",
+        year: "1st Year, CSE - AIML",
+        teamType: "member",
+        teamSlug: "design",
+        teamName: "Design Team",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769534275/1769506664272_-_Lucky_xwnyj0.png",
+        socialLinks: {
+            linkedin: "https://www.linkedin.com/in/lucky-undefined-09b920394",
+            instagram: "https://www.instagram.com/lucky_crystalgirl2310",
+        },
+        quote: "Designing with passion.",
+    },
+    {
+        id: "tm-055",
+        name: "Zunairah",
+        role: "Design Team Member",
+        year: "1st Year, IT",
+        teamType: "member",
+        teamSlug: "design",
+        teamName: "Design Team",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769534275/1000046699_-_Syeda_Zunairah_Fathima_b9zruj.jpg",
+        socialLinks: {
+            linkedin: "https://www.linkedin.com/in/syeda-zunairah-fathima-40360a387",
+            instagram: "https://www.instagram.com/zunairahhh.szf",
+        },
+        quote: "Creative thinker.",
+    },
+    {
+        id: "tm-056",
+        name: "Affan Reza Sheikh",
+        role: "Design Team Member",
+        year: "1st Year, CSE - AIML",
+        teamType: "member",
+        teamSlug: "design",
+        teamName: "Design Team",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769535242/bafa7a2f-1e60-4365-9ece-14945983e736_-_Affan_Gamer_valcsk.jpg",
+        socialLinks: {
+            linkedin: "https://www.linkedin.com/in/affan-reza-sheikh-3627b8366",
+            instagram: "https://www.instagram.com/affanreza_",
+        },
+        quote: "Designing with impact.",
+    },
 
 
     // ================= PARTNERSHIPS =================
     {
-        id: "tm-044",
+        id: "tm-046",
         name: "Shruthi Jaiswal",
-        role: "Collaborations & Partnerships Member",
+        role: "Collaborations & Partnerships Co-Lead",
         year: "2nd Year, IT",
         teamType: "member",
         teamSlug: "partnerships",
@@ -773,6 +901,41 @@ export const teamMembers: TeamMember[] = [
             linkedin: "https://www.linkedin.com/in/shruthi-jaiswal-7165b933b",
         },
         quote: "Creating partnerships that add value.",
+        isCoLead: true,
+    },
+    // ================= MISSION & SUPPORT TEAM =================
+    {
+        id: "tm-050",
+        name: "Md Zaid Ahmed",
+        role: "Mission & Support Co-Lead",
+        year: "2nd Year, IT",
+        teamType: "member",
+        teamSlug: "support",
+        teamName: "Mission & Support Team",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769533618/Zaid_Ahmed_-_Zaid_Ahmed_oovqlc.jpg",
+        socialLinks: {
+            linkedin: "https://www.linkedin.com/in/md-zaid-ahmed",
+            github: "https://github.com/MohdZaidAhmed",
+            instagram: "https://www.instagram.com/zaid_ahmed.22",
+        },
+        quote: "Supporting the mission with dedication.",
+        isCoLead: true,
+    },
+    {
+        id: "tm-051",
+        name: "Praneeth Mekala",
+        role: "Mission & Support Advisor",
+        year: "3rd Year, IT",
+        teamType: "member",
+        teamSlug: "support",
+        teamName: "Mission & Support Team",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769533618/IMG_2614_-_Praneeth_Mekala_dmc6sv.jpg",
+        socialLinks: {
+            linkedin: "https://www.linkedin.com/in/praneeth-mekala-383790259",
+            github: "https://github.com/PraneethMekala",
+            instagram: "https://www.instagram.com/praneeth_mekala",
+        },
+        quote: "Guiding the team towards success.",
     },
 ];
 
