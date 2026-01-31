@@ -3,7 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --signal: #CCFF00;
+  /* CHANGE THIS HEX CODE TO EXPERIMENT WITH THEME COLOR */
+  /* --signal: #CCFF00;  <-- Classic DevUp Green */
+  /* --signal: #00FFFF;  <-- Cyber Cyan */
+  /* --signal: #FF00FF;  <-- Neon Magenta */
+  /* --signal: #FF3300;  <-- Blazing Red */
+
+  /*--signal: #CCFF00;  Currently Active Theme */
+  --signal: #0dff00;
   --void: #030303;
 }
 

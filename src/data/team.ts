@@ -409,6 +409,21 @@ export const teamMembers: TeamMember[] = [
         },
         quote: "Tech enthusiast.",
     },
+    {
+        id: "tm-070",
+        name: "Katta Shanmukh",
+        role: "Technical Team Member",
+        year: "1st Year, CSE",
+        teamType: "member",
+        teamSlug: "tech",
+        teamName: "Technical Team",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769854057/IMG-20260125-WA0043_-_Katta_Shanmukh_fkzsz0.jpg",
+        socialLinks: {
+            linkedin: "https://www.linkedin.com/in/katta-shanmukha-lekhan-5060b5380/",
+            instagram: "https://www.instagram.com/_shannu07_katta",
+        },
+        quote: "Tech enthusiast.",
+    },
 
     // ================= MARKETING TEAM =================
     {
@@ -701,6 +716,18 @@ export const teamMembers: TeamMember[] = [
         socialLinks: {
             instagram: "https://www.instagram.com/vxnavi.3",
         },
+        quote: "Analytical thinker.",
+    },
+    {
+        id: "tm-099",
+        name: "Pilla Rishi datthu",
+        role: "Research & Innovation Member",
+        year: "1st Year, CSE",
+        teamType: "member",
+        teamSlug: "research",
+        teamName: "Research & Innovation Team",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769854508/6967b12d-3655-4949-bf67-bce6ca3dda49_eyvipi.jpg",
+        socialLinks: {},
         quote: "Analytical thinker.",
     },
     {

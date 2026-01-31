@@ -5,7 +5,8 @@ export default {
         extend: {
             colors: {
                 'void': '#030303',
-                'signal': '#CCFF00',
+                // 'signal': '#CCFF00', <-- OLD HARDCODED
+                'signal': 'var(--signal)', // <-- NEW DYNAMIC
                 'zinc': {
                     850: '#1f1f22',
                     900: '#18181b',
