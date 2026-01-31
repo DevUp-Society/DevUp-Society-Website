@@ -1,0 +1,375 @@
+---
+// /events/[slug]/register.astro - Dynamic Registration Page
+import MainLayout from '../../../layouts/MainLayout.astro';
+import { events } from '../../../data/events';
+import { Icon } from 'astro-icon/components';
+
+export async function getStaticPaths() {
+  return events
+    .filter(event => event.status === 'upcoming' && event.registrationLink) // Only generate for upcoming events with links
+    .map((event) => ({
+      params: { slug: event.slug },
+      props: { event },
+    }));
+}
+
+const { event } = Astro.props;
+
+// Logic moved from previous DevthonRegistration.astro
+// Assuming a generic registration form component or structure here.
+// For now, I will create a robust, generic registration form that adapts to the event.
+
+---
+
+<MainLayout 
+  title={`Register for ${event.title} | DevUp Society`}
+  description={`Secure your spot for ${event.title}. Limited seats available.`}
+>
+  <div class="min-h-screen bg-[#030303] flex items-center justify-center p-6 relative overflow-hidden">
+    <!-- Background FX -->
+    <div class="fixed inset-0 pointer-events-none">
+      <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(204,255,0,0.05),transparent_70%)]"></div>
+      <div class="grid-floor opacity-20"></div>
+    </div>
+
+    <div class="relative z-10 w-full max-w-2xl">
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <a href={`/events/${event.slug}`} class="inline-flex items-center gap-2 text-zinc-500 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors mb-6">
+          <Icon name="lucide:arrow-left" />
+          <span>Back to Event Details</span>
+        </a>
+        <h1 class="font-display text-4xl md:text-5xl text-white font-bold mb-4">
+          REGISTER NOW
+        </h1>
+        <p class="font-mono text-zinc-400 text-sm">
+          Event: <span class="text-signal">{event.title}</span>
+        </p>
+        {event.fee && (
+            <div class="mt-4 inline-block px-4 py-1 bg-zinc-900 border border-zinc-800 rounded-full">
+                <span class="font-mono text-xs text-zinc-400">Registration Fee: <span class="text-white font-bold">₹{event.fee}/person</span></span>
+            </div>
+        )}
+      </div>
+
+      <!-- Form Container -->
+      <div class="glass-panel p-8 md:p-12 clip-corner relative overflow-hidden">
+        
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex-col items-center justify-center">
+            <div class="w-16 h-16 border-2 border-zinc-800 border-t-signal rounded-full animate-spin mb-4"></div>
+            <span class="font-mono text-signal text-xs animate-pulse">PROCESSING REGISTRATION...</span>
+        </div>
+
+        <!-- Success Message -->
+        <div id="success-screen" class="hidden text-center py-10">
+            <div class="w-20 h-20 bg-signal/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-signal/20">
+                <Icon name="lucide:check" class="text-4xl text-signal" />
+            </div>
+            <h2 class="font-display text-3xl text-white mb-4">REGISTRATION SUCCESSFUL!</h2>
+            <p class="font-mono text-zinc-400 text-sm mb-8">
+                Your spot has been secured. A confirmation email has been sent to your inbox.
+            </p>
+            <a href="/events" class="inline-flex items-center gap-2 px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-mono text-xs uppercase tracking-widest transition-colors">
+                Return to Events
+            </a>
+        </div>
+
+        <!-- The Form -->
+        <form id="registration-form" class="space-y-8">
+            <input type="hidden" name="event_slug" value={event.slug} />
+            <input type="hidden" name="event_name" value={event.title} />
+
+             {/* Team Details Section */}
+             <div class="space-y-6">
+                <div class="flex items-center gap-3 border-b border-zinc-800 pb-2">
+                    <span class="w-6 h-6 rounded-full bg-signal text-black flex items-center justify-center font-bold text-xs">1</span>
+                    <h3 class="font-display text-xl text-white">Team Details</h3>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="font-mono text-xs text-zinc-500 uppercase">Team Name</label>
+                        <input type="text" name="team_name" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" placeholder="e.g. Code Blasters" />
+                    </div>
+                    
+                    {/* Team Size Counter */}
+                     <div class="space-y-2">
+                        <label class="font-mono text-xs text-zinc-500 uppercase">Team Size</label>
+                        <div class="flex items-center gap-4">
+                            <button type="button" id="decrease-size" class="w-12 h-12 bg-zinc-900 border border-zinc-800 hover:border-signal text-white font-mono text-xl flex items-center justify-center transition-colors clip-corner">-</button>
+                            <input type="text" id="team-size-display" name="team_size" value="2" readonly class="w-16 h-12 bg-black/50 border border-zinc-800 text-white font-mono text-xl text-center outline-none" />
+                            <button type="button" id="increase-size" class="w-12 h-12 bg-zinc-900 border border-zinc-800 hover:border-signal text-white font-mono text-xl flex items-center justify-center transition-colors clip-corner">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="flex items-center gap-3 border-b border-zinc-800 pb-2">
+                    <span class="w-6 h-6 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center font-bold text-xs">2</span>
+                    <h3 class="font-display text-xl text-white">Team Lead (You)</h3>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="font-mono text-xs text-zinc-500 uppercase">Full Name</label>
+                        <input type="text" name="lead_name" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" />
+                    </div>
+                    <div class="space-y-2">
+                        <label class="font-mono text-xs text-zinc-500 uppercase">Email (College ID)</label>
+                        <input type="email" name="lead_email" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" />
+                    </div>
+                    <div class="space-y-2">
+                        <label class="font-mono text-xs text-zinc-500 uppercase">Phone Number</label>
+                        <input type="tel" name="lead_phone" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" />
+                    </div>
+                    <div class="space-y-2">
+                        <label class="font-mono text-xs text-zinc-500 uppercase">College Name</label>
+                        <input type="text" name="lead_college" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" />
+                    </div>
+                </div>
+            </div>
+
+            {/* Member 2, 3, 4 Containers (Toggled via JS) */}
+            <div id="members-container" class="space-y-6">
+                 {/* Populated by JS */}
+            </div>
+
+
+            {/* Payment Section (if fee exists) */}
+            {event.fee && event.fee > 0 && (
+                <div class="space-y-6">
+                    <div class="flex items-center gap-3 border-b border-zinc-800 pb-2">
+                        <span class="w-6 h-6 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center font-bold text-xs">3</span>
+                        <h3 class="font-display text-xl text-white">Payment</h3>
+                    </div>
+                    
+                    <div class="bg-zinc-900/50 p-6 border border-zinc-800 flex flex-col items-center text-center">
+                        <p class="font-mono text-xs text-zinc-400 mb-4">Scan QR to Pay</p>
+                        <div class="w-48 h-48 bg-white p-2 mb-4">
+                            {/* Placeholder QR - Replace with actual dynamic QR or static image */}
+                             <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=devup@upi&pn=DevUpSociety&am=${event.fee * 2}&tn=${event.slug}`} alt="Payment QR" class="w-full h-full object-contain" id="payment-qr" />
+                        </div>
+                        <p class="font-mono text-xl text-white mb-2" id="total-amount">Total: ₹{event.fee * 2}</p>
+                        <p class="font-mono text-[10px] text-zinc-500 max-w-xs mx-auto">
+                            After payment, please enter the Transaction ID (UTR) below for verification.
+                        </p>
+                        
+                        <div class="w-full mt-6">
+                             <label class="font-mono text-xs text-zinc-500 uppercase block text-left mb-2">Transaction ID (UTR)</label>
+                             <input type="text" name="transaction_id" required placeholder="e.g. 403212345678" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-center font-mono tracking-widest" />
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <button type="submit" class="w-full py-4 bg-signal text-black font-mono font-bold uppercase tracking-widest hover:bg-white transition-colors btn-glitch">
+                Submit Registration
+            </button>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</MainLayout>
+
+<script>
+    import { supabase } from '../../../lib/supabase';
+
+    // SUPABASE TABLE SCHEMA REFERENCE
+    /*
+    create table registrations (
+      id uuid default uuid_generate_v4() primary key,
+      created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+      event_slug text not null,
+      team_name text not null,
+      lead_name text not null,
+      lead_email text not null,
+      lead_phone text not null,
+      lead_college text not null,
+      transaction_id text,
+      status text default 'pending', -- pending, approved, rejected
+      team_size integer not null
+    );
+
+    create table team_members (
+      id uuid default uuid_generate_v4() primary key,
+      registration_id uuid references registrations(id) on delete cascade,
+      name text not null,
+      email text not null,
+      phone text not null
+    );
+    */
+
+    // Define vars passed from Astro frontmatter
+    const eventFeeRaw = document.querySelector('meta[name="event-fee"]')?.content || "0";
+    const eventFee = parseInt(eventFeeRaw);
+
+    // DOM Elements
+    const form = document.getElementById('registration-form');
+    // const teamSizeSelect = document.getElementById('team-size'); // Removed
+    const teamSizeInput = document.getElementById('team-size-display');
+    const increaseBtn = document.getElementById('increase-size');
+    const decreaseBtn = document.getElementById('decrease-size');
+    const membersContainer = document.getElementById('members-container');
+    const qrImage = document.getElementById('payment-qr');
+    const totalAmountDisplay = document.getElementById('total-amount');
+
+    // Function to render member fields
+    function updateMemberFields() {
+        if (!membersContainer || !teamSizeInput) return;
+        
+        // Safely parse or default to 2
+        let size = parseInt(teamSizeInput.value) || 2;
+        
+        // Validation for min/max logic inside
+        if (size < 2) size = 2; 
+        if (size > 4) size = 4;
+
+        membersContainer.innerHTML = ''; // Clear current
+
+        // Create fields for Member 2 to Size
+        for (let i = 2; i <= size; i++) {
+            const memberHtml = `
+                <div class="space-y-6 pt-6 border-t border-zinc-900">
+                    <div class="flex items-center gap-3 mb-2">
+                         <span class="font-mono text-[10px] bg-zinc-900 text-signal px-2 py-1 rounded border border-zinc-800 uppercase tracking-widest">
+                            // Member 0${i}
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <input type="text" name="member_${i}_name" required placeholder="Name" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
+                        <input type="email" name="member_${i}_email" required placeholder="Email" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
+                         <input type="tel" name="member_${i}_phone" required placeholder="Phone Number" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
+                    </div>
+                </div>
+            `;
+            membersContainer.insertAdjacentHTML('beforeend', memberHtml);
+        }
+
+        // Update Payment Info
+        if (eventFee > 0 && totalAmountDisplay) {
+            const total = eventFee * size;
+            totalAmountDisplay.textContent = `Total: ₹${total}`;
+            // Update QR URL
+            if (qrImage) {
+                 const slug = document.querySelector('input[name="event_slug"]')?.value || "event";
+                 qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=devup@upi&pn=DevUpSociety&am=${total}&tn=${slug}_reg`;
+            }
+        }
+    }
+
+      // Button Listeners
+    if (increaseBtn && decreaseBtn && teamSizeInput) {
+        increaseBtn.addEventListener('click', () => {
+            let current = parseInt(teamSizeInput.value) || 2;
+            if (current < 4) { // Max 4 members now
+                teamSizeInput.value = (current + 1).toString();
+                updateMemberFields();
+            }
+        });
+
+        decreaseBtn.addEventListener('click', () => {
+            let current = parseInt(teamSizeInput.value) || 2;
+            if (current > 2) { 
+                teamSizeInput.value = (current - 1).toString();
+                updateMemberFields();
+            }
+        });
+        
+        // Init
+        updateMemberFields(); 
+    }
+
+
+    // Form Submission Logic
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const overlay = document.getElementById('loading-overlay');
+            const successScreen = document.getElementById('success-screen');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            
+            // Show loading
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+            
+            try {
+                const formData = new FormData(form);
+                const eventSlug = formData.get('event_slug');
+                const teamName = formData.get('team_name');
+                const leadName = formData.get('lead_name');
+                const leadEmail = formData.get('lead_email');
+                const leadPhone = formData.get('lead_phone');
+                const leadCollege = formData.get('lead_college'); 
+                const transactionId = formData.get('transaction_id');
+                const teamSize = parseInt(teamSizeInput.value);
+
+                // Generate ID client-side to allow Write-Only security policy
+                const registrationId = crypto.randomUUID();
+
+                // 1. Insert Registration (Lead + Team Info)
+                const { error: regError } = await supabase
+                    .from('registrations')
+                    .insert([
+                        {
+                            id: registrationId, // Manual ID
+                            event_slug: eventSlug,
+                            team_name: teamName,
+                            lead_name: leadName,
+                            lead_email: leadEmail,
+                            lead_phone: leadPhone,
+                            lead_college: leadCollege,
+                            transaction_id: transactionId,
+                            team_size: teamSize,
+                            status: 'pending' 
+                        }
+                    ]); // No .select() needed
+
+                if (regError) throw regError;
+
+                // 2. Insert Team Members
+                // We loop from 2 to teamSize to gather extra members
+                const members = [];
+                for(let i=2; i<=teamSize; i++) {
+                    const mName = formData.get(`member_${i}_name`);
+                    const mEmail = formData.get(`member_${i}_email`);
+                    const mPhone = formData.get(`member_${i}_phone`); 
+                    
+                    if (mName && mEmail && mPhone) {
+                        members.push({
+                            registration_id: registrationId,
+                            name: mName,
+                            email: mEmail,
+                            phone: mPhone
+                        });
+                    }
+                }
+
+                if (members.length > 0) {
+                    const { error: memError } = await supabase
+                        .from('team_members')
+                        .insert(members);
+                    
+                    if (memError) throw memError;
+                }
+
+                // Success!
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    overlay.classList.remove('flex');
+                    form.classList.add('hidden');
+                    successScreen.classList.remove('hidden');
+                }, 1000);
+
+            } catch (error) {
+                console.error('Registration Error:', error);
+                alert('Registration failed: ' + error.message);
+                overlay.classList.add('hidden');
+                overlay.classList.remove('flex');
+            }
+        });
+    }
+</script>

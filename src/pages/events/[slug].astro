@@ -14,329 +14,298 @@ export async function getStaticPaths() {
 
 const { event } = Astro.props;
 
-// Format date helper
-function formatDate(dateString: string) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
-}
+// Date helpers
+const eventDate = new Date(event.date);
+const formattedDate = eventDate.toLocaleDateString('en-US', {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+});
+
+const isUpcoming = event.status === 'upcoming';
 ---
 
 <MainLayout 
   title={`${event.title} | DevUp Society`}
   description={event.shortDescription}
 >
-  <!-- HERO SECTION -->
-  <section class="relative min-h-[60vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-zinc-900 py-32">
-    <div class="grid-floor opacity-30"></div>
-    
-    <!-- Back Button -->
-    <a 
-      href="/events"
-      class="absolute top-32 left-6 z-30 inline-flex items-center gap-2 text-zinc-400 hover:text-signal font-mono text-xs uppercase tracking-widest transition-colors"
-    >
-      <Icon name="lucide:arrow-left" />
-      <span>Back to Events</span>
-    </a>
-    
-    <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
-      <!-- Status Badge -->
-      <div class="mb-6">
-        <span class={`font-mono text-xs px-4 py-2 uppercase tracking-widest ${
-          event.status === 'upcoming' 
-            ? 'bg-signal/20 text-signal' 
-            : 'bg-zinc-800 text-zinc-500'
-        }`}>
-          {event.status === 'upcoming' ? 'Upcoming Event' : 'Past Event'}
-        </span>
-      </div>
 
-      <!-- Title -->
-      <h1 class="font-display text-4xl md:text-7xl text-white font-medium leading-[0.9] tracking-tight mb-8">
-        {event.title}
-      </h1>
+  {/* ========================================== */}
+  {/*           UPCOMING / HYPE LAYOUT           */}
+  {/* ========================================== */}
+  {isUpcoming ? (
+    <>
+      <!-- HERO SECTION (HYPE) -->
+      <section class="relative min-h-screen w-full flex flex-col justify-center items-center overflow-hidden border-b border-zinc-900 pt-32 pb-20">
+        <div class="grid-floor opacity-40 fixed inset-0 z-0"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-void/50 to-void z-10 pointer-events-none"></div>
 
-      <!-- Event Meta Info -->
-      <div class="flex flex-wrap justify-center gap-6 font-mono text-xs text-zinc-400">
-        <div class="flex items-center gap-2">
-          <Icon name="lucide:calendar" class="text-signal" />
-          <span>{formatDate(event.date)}</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <Icon name="lucide:map-pin" class="text-signal" />
-          <span>{event.location}</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <Icon name={event.mode === 'Online' ? 'lucide:monitor' : event.mode === 'Offline' ? 'lucide:map-pin' : 'lucide:globe'} class="text-signal" />
-          <span>{event.mode}</span>
-        </div>
-      </div>
-
-      <!-- Tags -->
-      <div class="flex flex-wrap justify-center gap-2 mt-8">
-        {event.tags.map(tag => (
-          <span class="font-mono text-xs bg-zinc-900 text-zinc-400 px-3 py-1 border border-zinc-800">
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      <!-- Registration Button -->
-      {event.status === 'upcoming' && event.registrationLink && (
-        <div class="mt-10">
-          <a 
-            href={event.registrationLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-3 px-8 py-4 bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner btn-glitch"
-          >
-            <span class="relative z-10">Register Now</span>
-            <Icon name="lucide:arrow-right" class="relative z-10" />
-          </a>
-        </div>
-      )}
-    </div>
-  </section>
-
-  <!-- IMAGE CAROUSEL -->
-  {event.images.length > 0 && (
-    <section class="py-32 bg-void">
-      <div class="max-w-5xl mx-auto px-6">
-        <div class="mb-12 text-center">
-          <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Gallery</span>
-          <h2 class="font-display text-5xl text-white font-medium leading-[0.9]">
-            EVENT HIGHLIGHTS
-          </h2>
-        </div>
-        
-        <div class="relative">
-          <!-- Carousel Container -->
-          <div class="relative overflow-hidden aspect-video bg-zinc-900 border border-zinc-800" id="event-carousel">
-            <!-- Images -->
-            {event.images.map((imageUrl, index) => (
-              <div 
-                class={`carousel-slide absolute inset-0 transition-opacity duration-500 ${index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
-                data-slide={index}
-              >
-                <img 
-                  src={imageUrl}
-                  alt={`${event.title} - Image ${index + 1}`}
-                  loading={index === 0 ? 'eager' : 'lazy'}
-                  class="w-full h-full object-cover"
-                />
-              </div>
-            ))}
-            
-            <!-- Navigation Arrows -->
-            {event.images.length > 1 && (
-              <>
-                <button 
-                  id="carousel-prev"
-                  class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-black/50 hover:bg-signal/20 border border-zinc-700 hover:border-signal flex items-center justify-center transition-all group"
-                  aria-label="Previous image"
-                >
-                  <Icon name="lucide:chevron-left" class="text-white group-hover:text-signal text-2xl" />
-                </button>
-                <button 
-                  id="carousel-next"
-                  class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-black/50 hover:bg-signal/20 border border-zinc-700 hover:border-signal flex items-center justify-center transition-all group"
-                  aria-label="Next image"
-                >
-                  <Icon name="lucide:chevron-right" class="text-white group-hover:text-signal text-2xl" />
-                </button>
-              </>
-            )}
-            
-            <!-- Image Counter -->
-            <div class="absolute bottom-4 left-4 z-20 bg-black/70 backdrop-blur-sm px-4 py-2 border border-zinc-800">
-              <span id="carousel-counter" class="font-mono text-xs text-white">1 / {event.images.length}</span>
-            </div>
-          </div>
-          
-          <!-- Dots Indicators -->
-          {event.images.length > 1 && (
-            <div class="flex justify-center gap-2 mt-8">
-              {event.images.map((_, index) => (
-                <button
-                  class={`carousel-dot w-3 h-3 border border-zinc-700 transition-all ${index === 0 ? 'bg-signal border-signal' : 'bg-transparent hover:border-signal'}`}
-                  data-slide={index}
-                  aria-label={`Go to image ${index + 1}`}
-                >
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
-    
-    <script is:inline>
-      // Carousel functionality
-      if (document.getElementById('event-carousel')) {
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.carousel-slide');
-        const dots = document.querySelectorAll('.carousel-dot');
-        const counter = document.getElementById('carousel-counter');
-        const totalSlides = slides.length;
-        
-        function showSlide(index) {
-          // Hide all slides
-          slides.forEach((slide, i) => {
-            if (i === index) {
-              slide.classList.add('opacity-100', 'z-10');
-              slide.classList.remove('opacity-0', 'z-0');
-            } else {
-              slide.classList.add('opacity-0', 'z-0');
-              slide.classList.remove('opacity-100', 'z-10');
-            }
-          });
-          
-          // Update dots
-          dots.forEach((dot, i) => {
-            if (i === index) {
-              dot.classList.add('bg-signal', 'border-signal');
-              dot.classList.remove('bg-transparent');
-            } else {
-              dot.classList.remove('bg-signal', 'border-signal');
-              dot.classList.add('bg-transparent');
-            }
-          });
-          
-          // Update counter
-          if (counter) {
-            counter.textContent = `${index + 1} / ${totalSlides}`;
-          }
-          
-          currentSlide = index;
-        }
-        
-        function nextSlide() {
-          const next = (currentSlide + 1) % totalSlides;
-          showSlide(next);
-        }
-        
-        function prevSlide() {
-          const prev = (currentSlide - 1 + totalSlides) % totalSlides;
-          showSlide(prev);
-        }
-        
-        // Navigation buttons
-        const nextBtn = document.getElementById('carousel-next');
-        const prevBtn = document.getElementById('carousel-prev');
-        
-        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-        
-        // Dot navigation
-        dots.forEach((dot, index) => {
-          dot.addEventListener('click', () => showSlide(index));
-        });
-        
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'ArrowLeft') prevSlide();
-          if (e.key === 'ArrowRight') nextSlide();
-        });
-        
-        // Auto-play (optional, uncomment to enable)
-        // setInterval(nextSlide, 5000);
-      }
-    </script>
-  )}
-
-  <!-- DESCRIPTION -->
-  <section class="py-32 bg-[#050505] border-t border-zinc-900">
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="mb-12">
-        <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Details</span>
-        <h2 class="font-display text-5xl text-white font-medium leading-[0.9] mb-8">
-          ABOUT THIS EVENT
-        </h2>
-      </div>
-
-      <div class="glass-panel p-10 clip-corner">
-        <p class="font-mono text-sm text-zinc-300 leading-relaxed whitespace-pre-line">
-          {event.fullDescription}
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SPEAKERS -->
-  {event.speakers.length > 0 && (
-    <section class="py-32 bg-void border-t border-zinc-900">
-      <div class="max-w-5xl mx-auto px-6">
-        <div class="mb-20">
-          <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Speakers</span>
-          <h2 class="font-display text-5xl text-white font-medium leading-[0.9]">
-            MEET THE SPEAKERS
-          </h2>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {event.speakers.map((speaker) => (
-            <div class="glass-panel p-8 clip-corner-tl hover:border-signal/30 transition-all flex items-start gap-6">
-              <!-- Speaker Avatar -->
-              <div class="w-20 h-20 bg-zinc-900 border-2 border-zinc-800 flex items-center justify-center shrink-0">
-                <Icon name="lucide:user" class="text-3xl text-signal" />
-              </div>
-
-              <!-- Speaker Info -->
-              <div class="flex-1">
-                <h3 class="font-display text-2xl text-white mb-2">
-                  {speaker.name}
-                </h3>
-                <p class="font-mono text-xs text-signal uppercase tracking-widest mb-1">
-                  {speaker.designation}
-                </p>
-                {speaker.company && (
-                  <p class="font-mono text-xs text-zinc-500">
-                    {speaker.company}
-                  </p>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
-
-  <!-- QUICK SUMMARY BOX -->
-  <section class="py-32 bg-[#050505] border-t border-zinc-900">
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="glass-panel p-10 clip-corner border-l-4 border-signal">
-        <h3 class="font-display text-2xl text-white mb-4">Quick Summary</h3>
-        <p class="font-mono text-sm text-zinc-400 leading-relaxed">
-          {event.shortDescription}
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA BACK TO EVENTS -->
-  <section class="py-32 bg-void border-t border-zinc-900">
-    <div class="max-w-4xl mx-auto px-6 text-center">
-      <div class="glass-panel p-12 clip-corner">
-        <Icon name="lucide:calendar" class="text-signal text-6xl mb-6" />
-        <h2 class="font-display text-4xl text-white mb-6 leading-tight">
-          Explore More Events
-        </h2>
-        <p class="font-mono text-zinc-400 text-sm mb-8 max-w-lg mx-auto">
-          Check out our other workshops, hackathons, and tech talks.
-        </p>
-        <a 
-          href="/events" 
-          class="inline-flex items-center gap-3 px-8 py-4 bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner btn-glitch"
-        >
-          <span class="relative z-10">View All Events</span>
-          <Icon name="lucide:arrow-right" class="relative z-10" />
+        <!-- Back Button -->
+        <a href="/events" class="absolute top-32 left-6 z-30 inline-flex items-center gap-2 text-zinc-400 hover:text-signal font-mono text-xs uppercase tracking-widest transition-colors">
+          <Icon name="lucide:arrow-left" />
+          <span>Back</span>
         </a>
-      </div>
-    </div>
-  </section>
+
+        <div class="relative z-20 text-center px-4 max-w-5xl mx-auto">
+          <!-- Countdown (Placeholder for simple logic, can be componentized) -->
+          <div class="mb-8 inline-flex items-center gap-2 px-4 py-2 border border-signal bg-signal/10 clip-corner animate-pulse">
+            <Icon name="lucide:timer" class="text-signal" />
+            <span class="font-mono text-signal text-sm font-bold tracking-widest uppercase">
+               Starts {formattedDate}
+            </span>
+          </div>
+
+          <h1 class="font-display text-5xl md:text-8xl text-white font-bold leading-[0.85] tracking-tight mb-8 text-stroke-white">
+            {event.title}
+          </h1>
+
+          <p class="font-mono text-zinc-400 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-12">
+            {event.shortDescription}
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col md:flex-row items-center gap-6 justify-center">
+             {/* Dynamic Registration Link */}
+             {event.registrationLink && (
+               <a 
+                 href={`/events/${event.slug}/register`}
+                 class="group relative w-64 h-16 bg-signal text-black clip-corner flex items-center justify-center overflow-hidden btn-glitch"
+               >
+                 <span class="relative z-10 font-mono text-sm font-bold uppercase tracking-[0.2em] flex items-center gap-3">
+                   Register Now
+                   <Icon name="lucide:arrow-right" />
+                 </span>
+               </a>
+             )}
+             
+             <a href="#details" class="text-zinc-500 hover:text-white font-mono text-xs uppercase tracking-widest border-b border-transparent hover:border-white transition-all pb-1">
+                View Full Details
+             </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- STATS BAR -->
+      {event.stats && (
+          <div class="border-y border-zinc-900 bg-black/50 backdrop-blur-sm relative z-20">
+              <div class="max-w-6xl mx-auto px-6 py-6 flex flex-wrap justify-around gap-8 text-center">
+                  <div>
+                      <div class="font-display text-3xl text-white">{event.stats.participants}</div>
+                      <div class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">Participants</div>
+                  </div>
+                  <div>
+                      <div class="font-display text-3xl text-signal">{event.stats.prizePool}</div>
+                      <div class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">Prize Pool</div>
+                  </div>
+                  <div>
+                      <div class="font-display text-3xl text-white">{event.stats.teams}</div>
+                      <div class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">Teams</div>
+                  </div>
+              </div>
+          </div>
+      )}
+
+      <!-- TIMELINE -->
+      {event.timeline && (
+        <section id="details" class="py-32 bg-void relative">
+            <div class="max-w-4xl mx-auto px-6">
+                <div class="mb-16 text-center">
+                    <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Schedule</span>
+                    <h2 class="font-display text-4xl text-white">EVENT TIMELINE</h2>
+                </div>
+                
+                <div class="relative space-y-12 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-zinc-800 before:to-transparent">
+                    {event.timeline.map((item, index) => (
+                        <div class={`relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group ${index % 2 === 0 ? '' : ''}`}>
+                            
+                            {/* Icon Dot */}
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border border-zinc-700 bg-zinc-900 group-hover:border-signal group-hover:bg-signal/20 transition-colors shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 shadow-[0_0_20px_rgba(0,0,0,1)]">
+                                <span class="font-mono text-xs font-bold text-white group-hover:text-signal">{item.id}</span>
+                            </div>
+                            
+                            {/* Content Card */}
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-panel p-6 clip-corner hover:border-signal/50 transition-colors">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-bold text-white font-display text-xl">{item.title}</h3>
+                                    <span class="text-xs font-mono text-signal bg-signal/10 px-2 py-1 rounded">{item.date}</span>
+                                </div>
+                                <p class="text-zinc-400 text-sm font-mono leading-relaxed">{item.description}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+      )}
+
+      <!-- PRIZES AREA -->
+      {event.prizes && (
+        <section class="py-32 bg-[#050505] border-t border-zinc-900 relative overflow-hidden">
+            {/* Background Glow */}
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+            <div class="max-w-6xl mx-auto px-6 relative z-10">
+                <div class="mb-20 text-center">
+                    <span class="text-purple-400 font-mono text-xs tracking-widest uppercase mb-4 block">/// Rewards</span>
+                    <h2 class="font-display text-5xl text-white">GLORY & PRIZES</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-end">
+                    {/* SILVER */}
+                    <div class="glass-panel p-8 clip-corner border-b-4 border-zinc-400 flex flex-col items-center text-center transform hover:-translate-y-2 transition-transform duration-500">
+                        <Icon name="lucide:award" class="text-6xl text-zinc-400 mb-6" />
+                        <h3 class="font-display text-2xl text-white mb-2">SILVER</h3>
+                        <div class="text-4xl font-mono font-bold text-zinc-400 mb-6">{event.prizes[1]?.amount || "TBA"}</div>
+                        <ul class="text-zinc-500 text-xs font-mono space-y-2">
+                             {event.prizes[1]?.perks.map(p => <li>{p}</li>) || <li>Swag Kit</li>}
+                        </ul>
+                    </div>
+
+                    {/* GOLD - MAIN */}
+                    <div class="glass-panel p-10 clip-corner border-b-4 border-yellow-400 flex flex-col items-center text-center transform scale-110 z-10 hover:-translate-y-2 transition-transform duration-500 shadow-[0_0_50px_rgba(250,204,21,0.1)] bg-zinc-900/80">
+                        <Icon name="lucide:trophy" class="text-7xl text-yellow-400 mb-6 animate-pulse-slow" />
+                        <h3 class="font-display text-3xl text-white mb-2">GOLD</h3>
+                        <div class="text-5xl font-mono font-bold text-yellow-400 mb-8">{event.prizes[0]?.amount || "TBA"}</div>
+                        <ul class="text-zinc-300 text-sm font-mono space-y-3">
+                             {event.prizes[0]?.perks.map(p => <li>{p}</li>) || <li>Trophy & Certs</li>}
+                        </ul>
+                    </div>
+
+                    {/* BRONZE */}
+                    <div class="glass-panel p-8 clip-corner border-b-4 border-orange-700 flex flex-col items-center text-center transform hover:-translate-y-2 transition-transform duration-500">
+                        <Icon name="lucide:medal" class="text-6xl text-orange-700 mb-6" />
+                        <h3 class="font-display text-2xl text-white mb-2">BRONZE</h3>
+                        <div class="text-4xl font-mono font-bold text-orange-700 mb-6">{event.prizes[2]?.amount || "TBA"}</div>
+                        <ul class="text-zinc-500 text-xs font-mono space-y-2">
+                             {event.prizes[2]?.perks.map(p => <li>{p}</li>) || <li>Swag Kit</li>}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+      )}
+    
+      <!-- MAP & INFO GRID -->
+      <section class="py-32 bg-void border-t border-zinc-900">
+        <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
+            
+            {/* MAP */}
+            {event.mapEmbedLink && (
+                <div class="space-y-6">
+                    <h3 class="font-display text-2xl text-white flex items-center gap-3">
+                        <Icon name="lucide:map-pin" class="text-signal" />
+                        THE VENUE
+                    </h3>
+                    <div class="w-full h-80 glass-panel p-2 clip-corner">
+                        <iframe 
+                            src={event.mapEmbedLink} 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0; filter: grayscale(1) invert(1) contrast(1.2) brightness(0.8);" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade"
+                            class="opacity-70 hover:opacity-100 transition-opacity"
+                        ></iframe>
+                    </div>
+                    <p class="font-mono text-zinc-500 text-sm">
+                        {event.location}
+                    </p>
+                </div>
+            )}
+
+            {/* FAQs */}
+            {event.faqs && (
+                <div class="space-y-6">
+                     <h3 class="font-display text-2xl text-white flex items-center gap-3">
+                        <Icon name="lucide:help-circle" class="text-signal" />
+                        FAQs
+                    </h3>
+                    <div class="space-y-4">
+                        {event.faqs.map(faq => (
+                            <details class="group glass-panel border border-zinc-800 open:border-signal/50 open:bg-zinc-900/50 transition-colors">
+                                <summary class="flex items-center justify-between p-4 cursor-pointer list-none text-white font-mono text-sm hover:text-signal transition-colors">
+                                    {faq.question}
+                                    <Icon name="lucide:chevron-down" class="group-open:rotate-180 transition-transform" />
+                                </summary>
+                                <div class="px-4 pb-4 text-zinc-400 text-xs font-mono leading-relaxed border-t border-dashed border-zinc-800 pt-4 mt-2">
+                                    {faq.answer}
+                                </div>
+                            </details>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+        </div>
+      </section>
+
+    </>
+  ) : (
+    /* ========================================== */
+    /*           PAST / ARCHIVE LAYOUT            */
+    /* ========================================== */
+    <>
+      <!-- HERO SECTION (PAST) -->
+      <section class="relative min-h-[60vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-zinc-900 py-32">
+        <div class="grid-floor opacity-10"></div>
+        <div class="absolute inset-0 bg-void/80 z-10"></div>
+        
+        <!-- Back Button -->
+        <a href="/events" class="absolute top-32 left-6 z-30 inline-flex items-center gap-2 text-zinc-500 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors">
+          <Icon name="lucide:arrow-left" />
+          <span>Back</span>
+        </a>
+
+        <!-- Content -->
+        <div class="relative z-20 text-center px-4 max-w-4xl mx-auto opacity-70">
+            <div class="mb-6 inline-flex px-3 py-1 bg-zinc-800 text-zinc-400 font-mono text-xs uppercase tracking-widest border border-zinc-700">
+                Archived Event
+            </div>
+            <h1 class="font-display text-4xl md:text-6xl text-white font-medium mb-6 grayscale">
+                {event.title}
+            </h1>
+            <p class="font-mono text-zinc-500 text-sm">
+                Concluded on {formattedDate}
+            </p>
+        </div>
+      </section>
+
+      <!-- PAST GALLERY -->
+        {event.images.length > 0 && (
+            <section class="py-20 bg-void">
+                <div class="max-w-6xl mx-auto px-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {event.images.map((img, i) => (
+                            <div class={`relative group overflow-hidden border border-zinc-800 ${i === 0 ? 'md:col-span-2 md:row-span-2' : ''}`}>
+                                <img 
+                                    src={img} 
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" 
+                                    loading="lazy"
+                                />
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                                    <span class="text-white font-mono text-xs">Highlights</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        )}
+
+      <section class="py-20 bg-[#050505] border-t border-zinc-900 text-center">
+        <div class="max-w-2xl mx-auto px-6">
+             <h3 class="font-display text-2xl text-white mb-4">Missed out?</h3>
+             <p class="font-mono text-zinc-500 text-sm mb-8">
+                Don't worry, more events are on the horizon. Join the community to stay updated.
+             </p>
+             <a href="/join" class="text-signal hover:underline decoration-dashed underline-offset-4 font-mono text-xs uppercase tracking-widest">
+                Join DevUp Society
+             </a>
+        </div>
+      </section>
+    </>
+  )}
+
 </MainLayout>

@@ -4,12 +4,44 @@ export interface Speaker {
     company?: string;
 }
 
+// Rich Event Details Interfaces
+export interface TimelineItem {
+    id: number;
+    title: string;
+    date: string;
+    description: string;
+}
+
+export interface PrizeItem {
+    id: number;
+    type: "Gold" | "Silver" | "Bronze" | "Consolation";
+    amount: string;
+    perks: string[];
+}
+
+export interface ThemeItem {
+    title: string;
+    description: string;
+}
+
+export interface FAQItem {
+    question: string;
+    answer: string;
+}
+
+export interface EventStats {
+    participants: string;
+    teams: string;
+    prizePool: string;
+}
+
 export interface Event {
     id: string;
     title: string;
     slug: string;
-    date: string;
+    date: string; // ISO Date YYYY-MM-DD
     location: string;
+    mapEmbedLink?: string; // For Venue Map
     mode: "Online" | "Offline" | "Hybrid";
     shortDescription: string;
     fullDescription: string;
@@ -18,6 +50,15 @@ export interface Event {
     tags: string[];
     status: "upcoming" | "past";
     registrationLink?: string;
+
+    // Feature Flags & Extended Data
+    isHackathon?: boolean;
+    stats?: EventStats;
+    timeline?: TimelineItem[];
+    prizes?: PrizeItem[];
+    themes?: ThemeItem[];
+    faqs?: FAQItem[];
+    fee?: number; // Fee per person in INR
 }
 
 export const events: Event[] = [
@@ -54,18 +95,50 @@ export const events: Event[] = [
     },
     {
         id: "evt-002",
-        title: "Devathon 2026",
-        slug: "devathon-2026",
-        date: "2026-02-28",
+        title: "Devthon 2026",
+        slug: "devthon-2026",
+        date: "2026-02-27",
         location: "VJIT Campus",
+        mapEmbedLink: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d18711.1396264906!2d78.33616666991054!3d17.39169720077843!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb95a2780aa0eb%3A0xe5495572621379da!2sVidya%20Jyothi%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1706698654321!5m2!1sen!2sin",
         mode: "Offline",
         shortDescription: "An intense 24-hour hackathon challenging you to build future-ready solutions.",
-        fullDescription: "Get ready for the ultimate coding challenge! DevUp Society presents 'Devathon', a 24-hour hackathon scheduled for the last week of February 2026. This event calls upon developers, designers, and problem solvers to collaborate and build innovative solutions overnight. Whether you are into AI, Blockchain, or App Dev, this is your platform to showcase your skills. Stay tuned for track announcements and registration details.",
+        fullDescription: "Get ready for the ultimate coding challenge! DevUp Society presents 'Devthon', a 24-hour hackathon scheduled for the last week of February 2026. This event calls upon developers, designers, and problem solvers to collaborate and build innovative solutions overnight. Whether you are into AI, Blockchain, or App Dev, this is your platform to showcase your skills. Stay tuned for track announcements and registration details.",
         images: ["/events/devathon-teaser.jpg"],
         speakers: [],
         tags: ["Hackathon", "Devathon", "Innovation", "24HourChallenge", "Competition"],
         status: "upcoming",
-        registrationLink: "#",
+        fee: 150,
+        registrationLink: "/events/devthon-2026/register",
+        isHackathon: true,
+        stats: {
+            participants: "400+",
+            teams: "100+",
+            prizePool: "₹35K+"
+        },
+        timeline: [
+            { id: 1, title: "Registration Open", date: "Nov 20", description: "Team Registration Begins" },
+            { id: 2, title: "Problem Statements", date: "Feb 14", description: "Tracks Announced" },
+            { id: 3, title: "Devthon Kickoff", date: "Feb 27, 10:00 AM", description: "Opening Ceremony" },
+            { id: 4, title: "Hacking Ends", date: "Feb 28, 10:00 AM", description: "Submission Deadline" },
+            { id: 5, title: "Results", date: "Feb 28, 02:00 PM", description: "Closing Ceremony & Prizes" }
+        ],
+        prizes: [
+            { id: 1, type: "Gold", amount: "₹15,000", perks: ["Trophy", "Merch Kit", "Internship Refferal"] },
+            { id: 2, type: "Silver", amount: "₹10,000", perks: ["Trophy", "Merch Kit"] },
+            { id: 3, type: "Bronze", amount: "₹5,000", perks: ["Trophy", "Swag"] }
+        ],
+        themes: [
+            { title: "Smart City", description: "Solutions for urban challenges." },
+            { title: "HealthTech", description: "Innovating healthcare with AI." },
+            { title: "EdTech", description: "Revolutionizing learning." },
+            { title: "Open Innovation", description: "Build what you believe in." }
+        ],
+        faqs: [
+            { question: "Team Size?", answer: "2-4 Members. You can't participate alone." },
+            { question: "Registration Fee?", answer: "₹150 per person. Includes food and swag." },
+            { question: "Who can participate?", answer: "Exclusively for 1st Year VJIT Students." },
+            { question: "Do I need to code?", answer: "No code solutions are welcome, but prototypes win." }
+        ]
     }
 ];
 
