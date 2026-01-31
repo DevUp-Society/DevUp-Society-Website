@@ -1,0 +1,165 @@
+---
+import logoImg from '../assets/devup logo neon.png';
+
+const currentYear = new Date().getFullYear();
+
+const navLinks = [
+  { name: 'Home', href: '/' },
+  { name: 'About DevUp', href: '/#about' },
+  { name: 'Events & Hackathons', href: '/events' },
+  { name: 'Team', href: '/team' },
+  { name: 'Join DevUp', href: '/join' },
+];
+
+const socialLinks = [
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/company/devup-community', icon: 'lucide:linkedin' },
+  { name: 'GitHub', href: 'https://github.com/DevUp-Society', icon: 'lucide:github' },
+  { name: 'Instagram', href: 'https://www.instagram.com/devupcommunity/', icon: 'lucide:instagram' },
+  { name: 'Twitter', href: 'https://twitter.com/devup_society', icon: 'lucide:twitter' },
+];
+---
+
+<footer class="relative bg-[#030303] border-t border-zinc-900 pt-20 pb-10 overflow-hidden">
+  <!-- Grid Background Pattern -->
+  <div class="absolute inset-0 bg-[linear-gradient(to_right,#1f1f22_1px,transparent_1px),linear-gradient(to_bottom,#1f1f22_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20 pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
+      
+      <!-- 1. Brand Block -->
+      <div class="col-span-1 lg:col-span-4 flex flex-col gap-6">
+        <a href="/" class="flex items-center gap-3 w-fit group">
+          <div class="w-12 h-12 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center clip-corner group-hover:border-signal/50 transition-colors p-1.5">
+            <img src={logoImg.src} alt="DevUp Society" class="w-full h-full object-contain" />
+          </div>
+          <div class="flex flex-col">
+            <span class="font-display font-bold text-xl text-white tracking-tight leading-none group-hover:text-signal transition-colors">DEVUP SOCIETY</span>
+            <span class="font-mono text-[10px] text-zinc-500 tracking-widest uppercase">VJIT Hyderabad</span>
+          </div>
+        </a>
+        
+        <p class="font-display text-2xl md:text-3xl text-white font-medium leading-tight">
+          Building India’s <br/>
+          <span class="text-zinc-600">Next-Gen Developers</span>
+        </p>
+        
+        <p class="text-zinc-400 text-sm leading-relaxed max-w-sm">
+          A national-level tech community fostering innovation, open-source culture, and engineering excellence at Vidya Jyothi Institute of Technology.
+        </p>
+      </div>
+
+      <!-- 2. LOCATE US (Expanded) -->
+      <div class="col-span-1 lg:col-span-5 flex flex-col h-full">
+        <h3 class="font-mono text-xs text-signal uppercase tracking-widest mb-6 border-l-2 border-signal pl-3">HQ LOCATION</h3>
+        
+        <div class="relative w-full h-64 rounded-xl border border-zinc-800 overflow-hidden group">
+          <!-- Cyberpunk/Tech Overlay -->
+          <div class="absolute inset-0 pointer-events-none z-10 border border-white/5 bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-no-repeat animate-[shine_2s_infinite]"></div>
+          
+          <!-- Map Status Header -->
+          <div class="absolute top-4 left-4 z-20 flex gap-3">
+             <div class="px-3 py-1 bg-black/80 backdrop-blur-md border border-zinc-700 rounded-full flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-signal rounded-full animate-pulse-fast"></span>
+                <span class="font-mono text-[10px] text-white tracking-widest uppercase">VJIT CAMPUS</span>
+             </div>
+             <a href="https://www.google.com/maps/search/?api=1&query=Vidya+Jyothi+Institute+of+Technology+Hyderabad" target="_blank" class="px-3 py-1 bg-signal text-black border border-signal rounded-full flex items-center gap-1 hover:bg-white transition-colors">
+                <iconify-icon icon="lucide:external-link" class="text-xs"></iconify-icon>
+                <span class="font-mono text-[10px] font-bold tracking-widest uppercase">OPEN MAP</span>
+             </a>
+          </div>
+
+          <!-- The Map -->
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15233.52044275062!2d78.3374836!3d17.3615636!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb94a2caae64c9%3A0x6bba3c15383f733!2sVidya%20Jyothi%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1709405445214!5m2!1sen!2sin" 
+            width="100%" 
+            height="100%" 
+            style="border:0; filter: grayscale(100%) invert(90%) contrast(85%);" 
+            allowfullscreen="" 
+            loading="lazy" 
+            class="group-hover:filter-none transition-all duration-700 opacity-80 group-hover:opacity-100"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+
+          <!-- Center Marker Overlay -->
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none">
+             <div class="relative flex items-center justify-center">
+                <!-- Ping Effect -->
+                <div class="w-8 h-8 bg-signal/30 rounded-full animate-ping absolute"></div>
+                <!-- Core Marker -->
+                <div class="w-3 h-3 bg-signal rounded-full shadow-[0_0_15px_rgba(204,255,0,0.8)] border border-white relative z-10"></div>
+                <!-- Crosshair Rings -->
+                <div class="absolute w-12 h-12 border border-signal/30 rounded-full animate-[spin-slow_10s_linear_infinite]"></div>
+                <div class="absolute w-16 h-16 border border-dashed border-white/20 rounded-full animate-[spin_20s_linear_infinite_reverse]"></div>
+                
+                <!-- Tooltip -->
+                <div class="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/90 text-signal text-[9px] font-mono px-2 py-0.5 rounded border border-signal/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-2 group-hover:translate-y-0">
+                   VJIT HQ // TARGET LOCK
+                </div>
+             </div>
+          </div>
+          
+          <!-- Corner Accents -->
+          <div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-signal rounded-tl-xl opacity-50"></div>
+          <div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-signal rounded-br-xl opacity-50"></div>
+        </div>
+
+        <div class="mt-4 flex flex-col md:flex-row md:items-center justify-between gap-4 border-l border-zinc-800 pl-4 py-2">
+           <div>
+              <p class="text-white text-sm font-medium">Vidya Jyothi Institute of Technology</p>
+              <p class="text-zinc-500 text-xs">Aziz Nagar Gate, Chilkur Balaji Road,</p>
+              <p class="text-zinc-500 text-xs">Hyderabad, Telangana, India – 500 075</p>
+           </div>
+           <a href="mailto:contact@devupsociety.in" class="flex items-center gap-2 text-zinc-400 hover:text-signal transition-colors text-xs font-mono uppercase">
+              <iconify-icon icon="lucide:mail"></iconify-icon>
+              contact@devupsociety.in
+           </a>
+        </div>
+      </div>
+
+      <!-- 4. Social & Engagement -->
+      <div class="col-span-1 md:col-span-2 lg:col-span-3">
+        <h3 class="font-mono text-xs text-signal uppercase tracking-widest mb-6 border-l-2 border-signal pl-3">Join The Movement</h3>
+        
+        <div class="flex gap-4 mb-8">
+          {socialLinks.map((social) => (
+            <a 
+              href={social.href} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="w-10 h-10 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center text-zinc-400 hover:text-black hover:bg-signal hover:border-signal transition-all duration-300 clip-corner group"
+              aria-label={social.name}
+            >
+              <iconify-icon icon={social.icon} class="text-xl group-hover:scale-110 transition-transform"></iconify-icon>
+            </a>
+          ))}
+        </div>
+
+        <a href="/join" class="group relative w-full flex items-center justify-between px-6 py-4 bg-zinc-900 border border-zinc-800 text-white hover:border-signal transition-colors overflow-hidden">
+          <div class="absolute inset-0 bg-signal/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+          <div class="relative z-10 flex flex-col">
+            <span class="font-display font-medium">Join Community</span>
+            <span class="text-[10px] font-mono text-zinc-500 group-hover:text-signal transition-colors">BECOME A MEMBER</span>
+          </div>
+          <iconify-icon icon="lucide:arrow-right" class="relative z-10 text-xl group-hover:text-signal group-hover:translate-x-1 transition-all"></iconify-icon>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- 6. Legal / Closing Strip -->
+    <div class="border-t border-zinc-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 bg-signal rounded-full animate-pulse"></span>
+        <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
+          © {currentYear} DevUp Society VJIT
+        </p>
+      </div>
+      
+      <p class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest flex items-center gap-2">
+        Designed & Built by <span class="text-zinc-400">DevUp Team</span>
+      </p>
+
+    </div>
+  </div>
+</footer>
+

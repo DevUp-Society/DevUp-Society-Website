@@ -46,12 +46,12 @@ import MainLayout from '../layouts/MainLayout.astro';
       <!-- Main Title -->
       <h1 class="font-display font-bold leading-[0.8] tracking-tighter mb-8 mix-blend-screen relative perspective-1000">
         <div class="overflow-hidden">
-          <span class="block text-[13vw] md:text-[11vw] hero-title animate-[slideUp_1s_cubic-bezier(0.16,1,0.3,1)_0.5s_both]">
+          <span class="block text-[13vw] md:text-[11vw] hero-title animate-[slideUp_1s_cubic-bezier(0.16,1,0.3,1)_0.5s_both] scramble-target" data-original="DEVUP">
             DEVUP
           </span>
         </div>
         <div class="overflow-hidden flex items-center justify-center gap-2 md:gap-6">
-          <span class="block text-[13vw] md:text-[11vw] text-stroke-white animate-[slideUp_1s_cubic-bezier(0.16,1,0.3,1)_0.6s_both]">
+          <span class="block text-[13vw] md:text-[11vw] text-stroke-white animate-[slideUp_1s_cubic-bezier(0.16,1,0.3,1)_0.6s_both] scramble-target" data-original="SOCIETY">
             SOCIETY
           </span>
         </div>
@@ -99,6 +99,50 @@ import MainLayout from '../layouts/MainLayout.astro';
       </div>
     </div>
   </section>
+
+  <!-- BACKGROUND DECORATIONS -->
+  <div class="fixed inset-0 pointer-events-none z-0">
+    <div class="absolute top-1/4 left-10 w-72 h-72 bg-signal/5 rounded-full blur-[100px] animate-pulse-slow"></div>
+    <div class="absolute bottom-1/4 right-10 w-96 h-96 bg-purple-500/5 rounded-full blur-[120px] animate-pulse-slow" style="animation-delay: 2s"></div>
+  </div>
+
+<script>
+  // Wait for GSAP and TextPlugin
+  window.addEventListener('load', () => {
+    // Slight delay to sync with loader exit
+    setTimeout(() => {
+        const targets = document.querySelectorAll('.scramble-target');
+        
+        targets.forEach((target) => {
+          // @ts-ignore
+          if (typeof gsap !== 'undefined') {
+            const originalText = target.getAttribute('data-original');
+            
+            // Re-assert text just in case
+            target.textContent = originalText;
+
+            // @ts-ignore
+            gsap.to(target, {
+              duration: 1.5,
+              text: {
+                value: originalText,
+                delimiter: "",
+                padSpace: true,
+                scrambleText: {
+                    text: originalText,
+                    chars: "DEVUP01!@#$<>?{}",
+                    revealDelay: 0.1,
+                    speed: 0.3,
+                    tweenLength: false
+                }
+              },
+              ease: "none"
+            });
+          }
+        });
+    }, 2000); // Start scrambling as the curtain lifts
+  });
+</script>
 
   <!-- MARQUEE -->
   <div class="py-6 bg-signal border-y border-black relative z-30 -skew-y-1 origin-left overflow-hidden">
