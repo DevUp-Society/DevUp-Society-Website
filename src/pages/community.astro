@@ -1,6 +1,7 @@
 ---
 // /community - Under Construction
 import MainLayout from '../layouts/MainLayout.astro';
+import { Icon } from 'astro-icon/components';
 ---
 
 <MainLayout 
@@ -13,7 +14,7 @@ import MainLayout from '../layouts/MainLayout.astro';
     <div class="relative z-20 text-center px-4 max-w-3xl mx-auto">
       <!-- Construction Icon -->
       <div class="mb-8 inline-flex items-center justify-center w-24 h-24 border-2 border-signal bg-signal/5">
-        <iconify-icon icon="lucide:construction" class="text-6xl text-signal"></iconify-icon>
+        <Icon name="lucide:construction" class="text-6xl text-signal" />
       </div>
 
       <!-- Title -->
@@ -46,14 +47,14 @@ import MainLayout from '../layouts/MainLayout.astro';
           class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner btn-glitch"
         >
           <span class="relative z-10">Join DevUp Society</span>
-          <iconify-icon icon="lucide:arrow-right" class="relative z-10"></iconify-icon>
+          <Icon name="lucide:arrow-right" class="relative z-10" />
         </a>
 
         <a 
           href="/"
           class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-zinc-900 text-white font-mono text-xs font-bold tracking-widest uppercase hover:bg-zinc-800 transition-colors border border-zinc-700"
         >
-          <iconify-icon icon="lucide:home"></iconify-icon>
+          <Icon name="lucide:home" />
           <span>Back to Home</span>
         </a>
       </div>
@@ -61,17 +62,17 @@ import MainLayout from '../layouts/MainLayout.astro';
       <!-- Coming Soon Features -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20">
         <div class="glass-panel p-6 clip-corner-tl text-center">
-          <iconify-icon icon="lucide:users" class="text-4xl text-zinc-600 mb-4"></iconify-icon>
+          <Icon name="lucide:users" class="text-4xl text-zinc-600 mb-4" />
           <h3 class="font-display text-lg text-white mb-2">Member Portal</h3>
           <p class="font-mono text-xs text-zinc-500">Exclusive access for members</p>
         </div>
         <div class="glass-panel p-6 clip-corner-tl text-center">
-          <iconify-icon icon="lucide:message-square" class="text-4xl text-zinc-600 mb-4"></iconify-icon>
+          <Icon name="lucide:message-square" class="text-4xl text-zinc-600 mb-4" />
           <h3 class="font-display text-lg text-white mb-2">Discussion Forum</h3>
           <p class="font-mono text-xs text-zinc-500">Connect with fellow members</p>
         </div>
         <div class="glass-panel p-6 clip-corner-tl text-center">
-          <iconify-icon icon="lucide:book-open" class="text-4xl text-zinc-600 mb-4"></iconify-icon>
+          <Icon name="lucide:book-open" class="text-4xl text-zinc-600 mb-4" />
           <h3 class="font-display text-lg text-white mb-2">Resource Hub</h3>
           <p class="font-mono text-xs text-zinc-500">Study materials & guides</p>
         </div>
@@ -84,16 +85,16 @@ import MainLayout from '../layouts/MainLayout.astro';
         </p>
         <div class="flex gap-6 justify-center">
           <a href="https://github.com/DevUp-Society" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
-            <iconify-icon icon="lucide:github" class="text-2xl"></iconify-icon>
+            <Icon name="lucide:github" class="text-2xl" />
           </a>
           <a href="https://www.linkedin.com/company/devup-community" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
-            <iconify-icon icon="lucide:linkedin" class="text-2xl"></iconify-icon>
+            <Icon name="lucide:linkedin" class="text-2xl" />
           </a>
           <a href="https://www.instagram.com/devupcommunity/" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
-            <iconify-icon icon="lucide:instagram" class="text-2xl"></iconify-icon>
+            <Icon name="lucide:instagram" class="text-2xl" />
           </a>
           <a href="https://chat.whatsapp.com/CvU68WlMmoo5PvIBpOU5Dy" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
-            <iconify-icon icon="lucide:message-circle" class="text-2xl"></iconify-icon>
+            <Icon name="lucide:message-circle" class="text-2xl" />
           </a>
         </div>
       </div>

@@ -4,6 +4,7 @@
 
 import MainLayout from '../../layouts/MainLayout.astro';
 import { teamMembers } from '../../data/team';
+import { Icon } from 'astro-icon/components';
 
 // Get unique teams (slug + name)
 const uniqueTeamsMap = new Map();
@@ -67,7 +68,7 @@ function getMemberCount(teamSlug: string) {
                       {memberCount} {memberCount === 1 ? 'member' : 'members'}
                     </p>
                   </div>
-                  <iconify-icon icon="lucide:arrow-right" class="text-2xl text-zinc-700 group-hover:text-signal group-hover:translate-x-1 transition-all"></iconify-icon>
+                  <Icon name="lucide:arrow-right" class="text-2xl text-zinc-700 group-hover:text-signal group-hover:translate-x-1 transition-all" />
                 </div>
 
                 <!-- View Team Button -->
@@ -97,7 +98,7 @@ function getMemberCount(teamSlug: string) {
           class="inline-flex items-center gap-3 px-8 py-4 bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner btn-glitch"
         >
           <span class="relative z-10">View Core Team</span>
-          <iconify-icon icon="lucide:arrow-right" class="relative z-10"></iconify-icon>
+          <Icon name="lucide:arrow-right" class="relative z-10" />
         </a>
       </div>
     </div>

@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import logoImg from '../assets/devup logo neon.png';
 import Footer from '../components/Footer.astro';
+import { Icon } from 'astro-icon/components';
 
 interface Props {
   title: string;
@@ -29,9 +30,7 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
   <meta name="twitter:description" content={description}>
   
   <!-- ICONS -->
-  <!-- ICONS -->
-  <!-- ICONS -->
-  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <!-- Iconify script removed for production bundling -->
   
   <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -92,13 +91,13 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
       
       <!-- Terminal Toggle Button -->
       <button id="terminal-btn" class="px-3 py-2 text-zinc-500 hover:text-signal hover:bg-white/5 transition-all border-l border-white/5" aria-label="Open Terminal">
-        <iconify-icon icon="lucide:terminal" class="text-sm"></iconify-icon>
+        <Icon name="mdi:console" class="text-sm w-4 h-4" />
       </button>
     </div>
 
     <a href="/community" class="hidden md:flex items-center gap-3 px-6 py-2.5 bg-signal text-black font-mono text-[11px] font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner btn-glitch">
       <span class="relative z-10">DevUp Community</span>
-      <iconify-icon icon="lucide:arrow-up-right" class="relative z-10"></iconify-icon>
+      <Icon name="mdi:arrow-top-right" class="relative z-10 w-4 h-4" />
     </a>
 
     <!-- Mobile Hamburger Button -->
@@ -128,7 +127,7 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
       <!-- Mobile CTA -->
       <a href="/community" class="w-full flex items-center justify-center gap-3 px-6 py-4 bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner">
         <span>DevUp Community</span>
-        <iconify-icon icon="lucide:arrow-up-right"></iconify-icon>
+        <Icon name="mdi:arrow-top-right" class="w-4 h-4" />
       </a>
 
       <!-- Mobile Social Links -->
@@ -136,16 +135,16 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
         <p class="font-mono text-xs text-zinc-600 uppercase tracking-widest mb-4">Follow Us</p>
         <div class="flex gap-4">
           <a href="https://github.com/DevUp-Society" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
-            <iconify-icon icon="lucide:github" class="text-xl"></iconify-icon>
+            <Icon name="mdi:github" class="text-xl w-6 h-6" />
           </a>
           <a href="https://www.linkedin.com/company/devup-community" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
-            <iconify-icon icon="lucide:linkedin" class="text-xl"></iconify-icon>
+            <Icon name="mdi:linkedin" class="text-xl w-6 h-6" />
           </a>
           <a href="https://www.instagram.com/devupcommunity/" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
-            <iconify-icon icon="lucide:instagram" class="text-xl"></iconify-icon>
+            <Icon name="mdi:instagram" class="text-xl w-6 h-6" />
           </a>
           <a href="https://chat.whatsapp.com/CvU68WlMmoo5PvIBpOU5Dy" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
-            <iconify-icon icon="lucide:message-circle" class="text-xl"></iconify-icon>
+            <Icon name="mdi:whatsapp" class="text-xl w-6 h-6" />
           </a>
         </div>
       </div>

@@ -1,5 +1,6 @@
 ---
 import logoImg from '../assets/devup logo neon.png';
+import { Icon } from 'astro-icon/components';
 
 const currentYear = new Date().getFullYear();
 
@@ -12,10 +13,10 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  { name: 'LinkedIn', href: 'https://www.linkedin.com/company/devup-community', icon: 'lucide:linkedin' },
-  { name: 'GitHub', href: 'https://github.com/DevUp-Society', icon: 'lucide:github' },
-  { name: 'Instagram', href: 'https://www.instagram.com/devupcommunity/', icon: 'lucide:instagram' },
-  { name: 'Twitter', href: 'https://twitter.com/devup_society', icon: 'lucide:twitter' },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/company/devup-community', icon: 'mdi:linkedin' },
+  { name: 'GitHub', href: 'https://github.com/DevUp-Society', icon: 'mdi:github' },
+  { name: 'Instagram', href: 'https://www.instagram.com/devupcommunity/', icon: 'mdi:instagram' },
+  { name: 'Twitter', href: 'https://twitter.com/devup_society', icon: 'mdi:twitter' },
 ];
 ---
 
@@ -63,7 +64,7 @@ const socialLinks = [
                 <span class="font-mono text-[10px] text-white tracking-widest uppercase">VJIT CAMPUS</span>
              </div>
              <a href="https://www.google.com/maps/search/?api=1&query=Vidya+Jyothi+Institute+of+Technology+Hyderabad" target="_blank" class="px-3 py-1 bg-signal text-black border border-signal rounded-full flex items-center gap-1 hover:bg-white transition-colors">
-                <iconify-icon icon="lucide:external-link" class="text-xs"></iconify-icon>
+                <Icon name="mdi:open-in-new" class="text-xs w-3 h-3" />
                 <span class="font-mono text-[10px] font-bold tracking-widest uppercase">OPEN MAP</span>
              </a>
           </div>
@@ -110,7 +111,7 @@ const socialLinks = [
               <p class="text-zinc-500 text-xs">Hyderabad, Telangana, India – 500 075</p>
            </div>
            <a href="mailto:contact@devupsociety.in" class="flex items-center gap-2 text-zinc-400 hover:text-signal transition-colors text-xs font-mono uppercase">
-              <iconify-icon icon="lucide:mail"></iconify-icon>
+              <Icon name="mdi:email" class="w-4 h-4" />
               contact@devupsociety.in
            </a>
         </div>
@@ -129,7 +130,7 @@ const socialLinks = [
               class="w-10 h-10 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center text-zinc-400 hover:text-black hover:bg-signal hover:border-signal transition-all duration-300 clip-corner group"
               aria-label={social.name}
             >
-              <iconify-icon icon={social.icon} class="text-xl group-hover:scale-110 transition-transform"></iconify-icon>
+              <Icon name={social.icon} class="text-xl group-hover:scale-110 transition-transform w-5 h-5" />
             </a>
           ))}
         </div>
@@ -140,7 +141,7 @@ const socialLinks = [
             <span class="font-display font-medium">Join Community</span>
             <span class="text-[10px] font-mono text-zinc-500 group-hover:text-signal transition-colors">BECOME A MEMBER</span>
           </div>
-          <iconify-icon icon="lucide:arrow-right" class="relative z-10 text-xl group-hover:text-signal group-hover:translate-x-1 transition-all"></iconify-icon>
+          <Icon name="mdi:arrow-right" class="relative z-10 text-xl group-hover:text-signal group-hover:translate-x-1 transition-all w-5 h-5" />
         </a>
       </div>
 

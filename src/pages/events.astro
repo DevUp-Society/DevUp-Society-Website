@@ -2,6 +2,7 @@
 // /events - Events listing page
 import MainLayout from '../layouts/MainLayout.astro';
 import { upcomingEvents, pastEvents } from '../data/events';
+import { Icon } from 'astro-icon/components';
 ---
 
 <MainLayout 
@@ -45,7 +46,7 @@ import { upcomingEvents, pastEvents } from '../data/events';
                 <!-- Event Image Placeholder -->
                 <div class="w-full aspect-video bg-zinc-900 border border-zinc-800 mb-6 overflow-hidden group-hover:border-signal transition-colors">
                   <div class="w-full h-full flex items-center justify-center">
-                    <iconify-icon icon="lucide:calendar" class="text-4xl text-zinc-700 group-hover:text-signal transition-colors"></iconify-icon>
+                    <Icon name="lucide:calendar" class="text-4xl text-zinc-700 group-hover:text-signal transition-colors" />
                   </div>
                 </div>
 
@@ -64,15 +65,15 @@ import { upcomingEvents, pastEvents } from '../data/events';
                 <!-- Event Info -->
                 <div class="space-y-2 mb-4 flex-1">
                   <div class="flex items-center gap-2 font-mono text-xs text-zinc-400">
-                    <iconify-icon icon="lucide:calendar" class="text-signal"></iconify-icon>
+                    <Icon name="lucide:calendar" class="text-signal" />
                     <span>{new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                   </div>
                   <div class="flex items-center gap-2 font-mono text-xs text-zinc-400">
-                    <iconify-icon icon="lucide:map-pin" class="text-signal"></iconify-icon>
+                    <Icon name="lucide:map-pin" class="text-signal" />
                     <span>{event.location}</span>
                   </div>
                   <div class="flex items-center gap-2 font-mono text-xs text-zinc-400">
-                    <iconify-icon icon="lucide:monitor" class="text-signal"></iconify-icon>
+                    <Icon name="lucide:monitor" class="text-signal" />
                     <span>{event.mode}</span>
                   </div>
                 </div>
@@ -126,7 +127,7 @@ import { upcomingEvents, pastEvents } from '../data/events';
                 <!-- Event Image Placeholder -->
                 <div class="w-full aspect-video bg-zinc-900 border border-zinc-800 mb-6 overflow-hidden">
                   <div class="w-full h-full flex items-center justify-center">
-                    <iconify-icon icon="lucide:calendar" class="text-4xl text-zinc-700"></iconify-icon>
+                    <Icon name="lucide:calendar" class="text-4xl text-zinc-700" />
                   </div>
                 </div>
 
@@ -145,11 +146,11 @@ import { upcomingEvents, pastEvents } from '../data/events';
                 <!-- Event Info -->
                 <div class="space-y-2 mb-4 flex-1">
                   <div class="flex items-center gap-2 font-mono text-xs text-zinc-500">
-                    <iconify-icon icon="lucide:calendar"></iconify-icon>
+                    <Icon name="lucide:calendar" />
                     <span>{new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                   </div>
                   <div class="flex items-center gap-2 font-mono text-xs text-zinc-500">
-                    <iconify-icon icon="lucide:map-pin"></iconify-icon>
+                    <Icon name="lucide:map-pin" />
                     <span>{event.location}</span>
                   </div>
                 </div>
@@ -178,7 +179,7 @@ import { upcomingEvents, pastEvents } from '../data/events';
     <section class="py-32 bg-void">
       <div class="max-w-4xl mx-auto px-6 text-center">
         <div class="glass-panel p-12 clip-corner">
-          <iconify-icon icon="lucide:calendar-x" class="text-6xl text-zinc-700 mb-6"></iconify-icon>
+          <Icon name="lucide:calendar-x" class="text-6xl text-zinc-700 mb-6" />
           <h2 class="font-display text-3xl text-white mb-4">No Events Available</h2>
           <p class="font-mono text-zinc-500 text-sm">
             Check back soon for upcoming workshops, hackathons, and tech talks.

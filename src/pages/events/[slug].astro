@@ -2,6 +2,7 @@
 // /events/[slug].astro - Dynamic event detail pages
 import MainLayout from '../../layouts/MainLayout.astro';
 import { events } from '../../data/events';
+import { Icon } from 'astro-icon/components';
 
 // Generate static paths for all events
 export async function getStaticPaths() {
@@ -38,7 +39,7 @@ function formatDate(dateString: string) {
       href="/events"
       class="absolute top-32 left-6 z-30 inline-flex items-center gap-2 text-zinc-400 hover:text-signal font-mono text-xs uppercase tracking-widest transition-colors"
     >
-      <iconify-icon icon="lucide:arrow-left"></iconify-icon>
+      <Icon name="lucide:arrow-left" />
       <span>Back to Events</span>
     </a>
     
@@ -62,15 +63,15 @@ function formatDate(dateString: string) {
       <!-- Event Meta Info -->
       <div class="flex flex-wrap justify-center gap-6 font-mono text-xs text-zinc-400">
         <div class="flex items-center gap-2">
-          <iconify-icon icon="lucide:calendar" class="text-signal"></iconify-icon>
+          <Icon name="lucide:calendar" class="text-signal" />
           <span>{formatDate(event.date)}</span>
         </div>
         <div class="flex items-center gap-2">
-          <iconify-icon icon="lucide:map-pin" class="text-signal"></iconify-icon>
+          <Icon name="lucide:map-pin" class="text-signal" />
           <span>{event.location}</span>
         </div>
         <div class="flex items-center gap-2">
-          <iconify-icon icon={event.mode === 'Online' ? 'lucide:monitor' : event.mode === 'Offline' ? 'lucide:map-pin' : 'lucide:globe'} class="text-signal"></iconify-icon>
+          <Icon name={event.mode === 'Online' ? 'lucide:monitor' : event.mode === 'Offline' ? 'lucide:map-pin' : 'lucide:globe'} class="text-signal" />
           <span>{event.mode}</span>
         </div>
       </div>
@@ -94,7 +95,7 @@ function formatDate(dateString: string) {
             class="inline-flex items-center gap-3 px-8 py-4 bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner btn-glitch"
           >
             <span class="relative z-10">Register Now</span>
-            <iconify-icon icon="lucide:arrow-right" class="relative z-10"></iconify-icon>
+            <Icon name="lucide:arrow-right" class="relative z-10" />
           </a>
         </div>
       )}
@@ -138,14 +139,14 @@ function formatDate(dateString: string) {
                   class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-black/50 hover:bg-signal/20 border border-zinc-700 hover:border-signal flex items-center justify-center transition-all group"
                   aria-label="Previous image"
                 >
-                  <iconify-icon icon="lucide:chevron-left" class="text-white group-hover:text-signal text-2xl"></iconify-icon>
+                  <Icon name="lucide:chevron-left" class="text-white group-hover:text-signal text-2xl" />
                 </button>
                 <button 
                   id="carousel-next"
                   class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-black/50 hover:bg-signal/20 border border-zinc-700 hover:border-signal flex items-center justify-center transition-all group"
                   aria-label="Next image"
                 >
-                  <iconify-icon icon="lucide:chevron-right" class="text-white group-hover:text-signal text-2xl"></iconify-icon>
+                  <Icon name="lucide:chevron-right" class="text-white group-hover:text-signal text-2xl" />
                 </button>
               </>
             )}
@@ -281,7 +282,7 @@ function formatDate(dateString: string) {
             <div class="glass-panel p-8 clip-corner-tl hover:border-signal/30 transition-all flex items-start gap-6">
               <!-- Speaker Avatar -->
               <div class="w-20 h-20 bg-zinc-900 border-2 border-zinc-800 flex items-center justify-center shrink-0">
-                <iconify-icon icon="lucide:user" class="text-3xl text-signal"></iconify-icon>
+                <Icon name="lucide:user" class="text-3xl text-signal" />
               </div>
 
               <!-- Speaker Info -->
@@ -321,7 +322,7 @@ function formatDate(dateString: string) {
   <section class="py-32 bg-void border-t border-zinc-900">
     <div class="max-w-4xl mx-auto px-6 text-center">
       <div class="glass-panel p-12 clip-corner">
-        <iconify-icon icon="lucide:calendar" class="text-signal text-6xl mb-6"></iconify-icon>
+        <Icon name="lucide:calendar" class="text-signal text-6xl mb-6" />
         <h2 class="font-display text-4xl text-white mb-6 leading-tight">
           Explore More Events
         </h2>
@@ -333,7 +334,7 @@ function formatDate(dateString: string) {
           class="inline-flex items-center gap-3 px-8 py-4 bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner btn-glitch"
         >
           <span class="relative z-10">View All Events</span>
-          <iconify-icon icon="lucide:arrow-right" class="relative z-10"></iconify-icon>
+          <Icon name="lucide:arrow-right" class="relative z-10" />
         </a>
       </div>
     </div>
