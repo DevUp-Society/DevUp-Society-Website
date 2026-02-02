@@ -87,7 +87,7 @@ export const GET: APIRoute = async () => {
    - Location: VJIT Campus, Hyderabad
 
 ### 2026 Events
-1. **Devthon 2026** (February 27, 2026)
+1. **Devthon 2026** (March 27, 2026)
    - Flagship inter-college hackathon
    - Open to students from all colleges
    - Real problem statements with industry mentorship

@@ -699,168 +699,122 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
   <Footer />
 
   <!-- AI CHAT WIDGET -->
-  <div id="ai-chat-widget" class="fixed bottom-6 right-6 z-[90] flex flex-col items-end gap-6 font-mono">
+  <div id="ai-chat-widget" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[90] flex flex-col items-end gap-4 font-mono pointer-events-none">
+    
     <!-- Chat Panel -->
     <div 
       id="ai-chat-panel" 
-      class="hidden opacity-0 translate-y-4 scale-95 origin-bottom-right transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] w-[400px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-8rem)] bg-[#030303]/98 backdrop-blur-2xl border-2 border-signal/40 shadow-[0_0_80px_rgba(204,255,0,0.2),0_0_120px_rgba(204,255,0,0.08),inset_0_0_80px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden cyber-clip-panel perspective-1000"
+      class="hidden opacity-0 translate-y-4 origin-bottom-right transition-all duration-300 pointer-events-auto w-[380px] max-w-[calc(100vw-3rem)] h-[600px] max-h-[calc(100vh-8rem)] glass-panel bg-[#0a0a0a]/95 backdrop-blur-xl border border-zinc-800 flex flex-col clip-corner-tl shadow-2xl"
     >
       <!-- Header -->
-      <div class="flex items-center justify-between px-6 py-5 border-b-2 border-signal/30 bg-gradient-to-r from-signal/8 via-signal/3 to-transparent relative overflow-hidden">
-        <!-- Scanner Effect -->
-        <div class="absolute top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-signal/30 to-transparent blur-[1px] animate-[scan_4s_linear_infinite]"></div>
-        
+      <div class="flex items-center justify-between px-6 py-5 bg-zinc-900/50 border-b border-zinc-800 relative overflow-hidden">
         <div class="flex items-center gap-4">
-          <div class="relative w-2.5 h-2.5">
-            <span class="absolute inset-0 rounded-full bg-signal animate-ti-pulse shadow-[0_0_10px_var(--signal)]"></span>
-            <span class="absolute inset-0 rounded-full bg-signal blur-[4px]"></span>
+          <div class="relative w-2 h-2">
+            <span class="absolute inset-0 rounded-full bg-signal animate-pulse pointer-events-none"></span>
           </div>
           <div class="flex flex-col gap-0.5">
-            <span class="font-display font-bold text-white text-base tracking-wider flex items-center gap-2">
+            <span class="font-display font-medium text-white text-base tracking-wider flex items-center gap-2">
               DEVUP AI
             </span>
-            <span class="text-[10px] text-zinc-400 font-mono tracking-widest flex items-center gap-2">
-               <span class="w-1.5 h-1.5 bg-signal rounded-full shadow-[0_0_6px_var(--signal)] animate-ti-pulse"></span> ONLINE
-               <span class="text-zinc-600">•</span>
-               <span class="text-signal/70">READY</span>
+            <span class="text-[10px] text-zinc-500 font-mono tracking-widest flex items-center gap-2">
+               ONLINE <span class="text-zinc-700">•</span> READY
             </span>
           </div>
         </div>
         <button 
           id="ai-chat-close" 
-          class="w-9 h-9 clip-corner hover:bg-white/5 border-2 border-white/10 hover:border-signal/50 flex items-center justify-center transition-all group backdrop-blur-sm hover:shadow-[0_0_15px_rgba(204,255,0,0.25)]"
+          class="w-8 h-8 flex items-center justify-center text-zinc-500 hover:text-white hover:bg-white/5 transition-colors clip-corner"
           aria-label="Close chat"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-zinc-400 group-hover:text-signal transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
           </svg>
         </button>
       </div>
 
       <!-- Messages Area -->
-      <div id="ai-chat-messages" class="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-hide relative bg-gradient-to-b from-[#030303] to-[#050505]">
-        <!-- Grid Background -->
-        <div class="absolute inset-0 pointer-events-none opacity-[0.04]" style="background-image: radial-gradient(circle, #CCFF00 1px, transparent 1px); background-size: 20px 20px;"></div>
-        
-        <!-- Ambient Glow -->
-        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-signal/8 blur-[120px] rounded-full pointer-events-none"></div>
-
+      <div id="ai-chat-messages" class="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-hide bg-[#050505]">
         <!-- Welcome Message -->
         <div class="flex flex-col gap-2 relative z-10 animate-in fade-in slide-in-from-bottom-2 duration-500">
-          <div class="flex items-center gap-2 mb-1 opacity-50">
-             <div class="w-1 h-1 bg-signal rounded-full shadow-[0_0_4px_var(--signal)]"></div>
-             <span class="text-[9px] uppercase tracking-widest text-signal font-mono">System Message</span>
+          <div class="flex items-center gap-2 mb-1 opacity-70">
+             <div class="w-1 h-1 bg-signal rounded-full"></div>
+             <span class="text-[9px] uppercase tracking-widest text-signal font-mono">System</span>
           </div>
-          <div class="bg-zinc-900/70 border-2 border-signal/15 rounded-2xl rounded-tl-sm p-4 backdrop-blur-md shadow-lg hover:border-signal/25 transition-all cyber-clip-message-ai">
+          <div class="bg-zinc-900 border border-zinc-800 clip-corner-tl p-4">
             <p class="text-[13px] text-zinc-300 leading-relaxed font-sans">
               <span class="text-white font-bold block mb-2 text-sm flex items-center gap-2">
-                 <span class="text-signal">⚡</span> Systems Online
+                 <Icon name="lucide:zap" class="text-signal w-4 h-4" /> Systems Online
               </span>
-              Hey there! I'm <span class="text-signal font-semibold">DevUp AI</span>. I can help with event details, team info, how to join, and anything DevUp Society!
+              Hey there! I'm <span class="text-white font-semibold">DevUp AI</span>. I can help with event details, team info, how to join, and anything DevUp Society!
             </p>
           </div>
           
           <!-- Quick Suggestions -->
           <div class="grid grid-cols-2 gap-2 mt-2" id="ai-suggestions">
-            <button class="suggestion-chip bg-zinc-900/50 border-2 border-white/10 hover:border-signal/60 hover:bg-zinc-800/70 hover:shadow-[0_0_20px_rgba(204,255,0,0.15)] p-3 text-left group clip-corner transition-all duration-300" onclick="window.sendSuggestion('How do I join DevUp?')">
-              <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider group-hover:text-signal transition-colors font-mono">Career</span>
-              <span class="text-xs text-zinc-200 group-hover:text-white transition-colors">How do I join?</span>
+            <button class="bg-[#0a0a0a] border border-zinc-800 hover:border-signal p-3 text-left group clip-corner transition-colors" onclick="window.sendSuggestion('How do I join DevUp?')">
+              <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider font-mono">Career</span>
+              <span class="text-xs text-zinc-300 group-hover:text-white transition-colors">How do I join?</span>
             </button>
-            <button class="suggestion-chip bg-zinc-900/50 border-2 border-white/10 hover:border-signal/60 hover:bg-zinc-800/70 hover:shadow-[0_0_20px_rgba(204,255,0,0.15)] p-3 text-left group clip-corner transition-all duration-300" onclick="window.sendSuggestion('Upcoming events?')">
-              <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider group-hover:text-signal transition-colors font-mono">Calendar</span>
-              <span class="text-xs text-zinc-200 group-hover:text-white transition-colors">Upcoming events?</span>
+            <button class="bg-[#0a0a0a] border border-zinc-800 hover:border-signal p-3 text-left group clip-corner transition-colors" onclick="window.sendSuggestion('Upcoming events?')">
+              <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider font-mono">Calendar</span>
+              <span class="text-xs text-zinc-300 group-hover:text-white transition-colors">Upcoming events?</span>
             </button>
-             <button class="suggestion-chip bg-zinc-900/50 border-2 border-white/10 hover:border-signal/60 hover:bg-zinc-800/70 hover:shadow-[0_0_20px_rgba(204,255,0,0.15)] p-3 text-left group clip-corner transition-all duration-300" onclick="window.sendSuggestion('What is DevUp?')">
-              <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider group-hover:text-signal transition-colors font-mono">Mission</span>
-              <span class="text-xs text-zinc-200 group-hover:text-white transition-colors">What is DevUp?</span>
+             <button class="bg-[#0a0a0a] border border-zinc-800 hover:border-signal p-3 text-left group clip-corner transition-colors" onclick="window.sendSuggestion('What is DevUp?')">
+              <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider font-mono">Mission</span>
+              <span class="text-xs text-zinc-300 group-hover:text-white transition-colors">What is DevUp?</span>
             </button>
-             <button class="suggestion-chip bg-zinc-900/50 border-2 border-white/10 hover:border-signal/60 hover:bg-zinc-800/70 hover:shadow-[0_0_20px_rgba(204,255,0,0.15)] p-3 text-left group clip-corner transition-all duration-300" onclick="window.sendSuggestion('Who is the founder?')">
-              <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider group-hover:text-signal transition-colors font-mono">Legacy</span>
-              <span class="text-xs text-zinc-200 group-hover:text-white transition-colors">Who founded this?</span>
+             <button class="bg-[#0a0a0a] border border-zinc-800 hover:border-signal p-3 text-left group clip-corner transition-colors" onclick="window.sendSuggestion('Who is the founder?')">
+              <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider font-mono">Legacy</span>
+              <span class="text-xs text-zinc-300 group-hover:text-white transition-colors">Who founded this?</span>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Input Area (Modern Chat) -->
-      <div class="p-4 bg-[#030303]/95 border-t-2 border-signal/30 relative z-20 backdrop-blur-xl" id="chat-input-container">
-        
-        <!-- Command Mode Background (Hidden by default) -->
-        <div id="cmd-mode-bg" class="absolute inset-0 bg-red-900/5 opacity-0 transition-opacity pointer-events-none"></div>
-
-        <form id="ai-chat-form" class="relative group">
+      <!-- Input Area -->
+      <div class="px-4 py-4 bg-zinc-950 border-t border-zinc-800" id="chat-input-container">
+        <form id="ai-chat-form" class="relative">
           <input 
             type="text" 
             id="ai-chat-input" 
-            placeholder="Ask DevUp AI anything..."
+            placeholder="Ask DevUp AI..."
             autocomplete="off"
-            class="w-full bg-zinc-900/80 border-2 border-white/15 focus:border-signal/60 focus:bg-zinc-900 focus:shadow-[0_0_25px_rgba(204,255,0,0.15),inset_0_0_25px_rgba(204,255,0,0.05)] hover:border-white/25 rounded-xl px-4 py-4 pr-12 text-sm text-white placeholder-zinc-500 outline-none transition-all font-sans shadow-inner z-10 relative"
+            class="w-full bg-[#050505] border border-zinc-800 focus:border-zinc-500 rounded-none px-4 py-3 pr-12 text-sm text-white placeholder-zinc-600 outline-none transition-colors font-sans"
           />
-          
           <button 
             type="submit" 
             id="ai-chat-send"
-            class="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-signal text-black clip-corner flex items-center justify-center hover:scale-110 hover:shadow-[0_0_25px_rgba(204,255,0,0.6)] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none z-20 font-bold"
+            class="absolute right-1 top-1/2 -translate-y-1/2 w-10 h-10 text-zinc-400 hover:text-signal flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Send"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
             </svg>
           </button>
         </form>
-        
-        <div class="flex justify-center mt-2 opacity-20">
-             <div class="h-0.5 w-16 bg-signal/30 rounded-full"></div>
-        </div>
       </div>
     </div>
 
-    <!-- Floating Button -->
+    <!-- Floating Button Toggle -->
     <button 
       id="ai-chat-toggle" 
-      class="group relative w-20 h-20 flex items-center justify-center outline-none orb-container"
+      class="group w-14 h-14 bg-signal border border-signal hover:bg-white transition-all flex items-center justify-center clip-corner pointer-events-auto"
       aria-label="Open AI Chat"
     >
-      <!-- Orb Rings -->
-      <div class="orb-ring group-hover:scale-110 transition-transform duration-500"></div>
-      <div class="orb-ring group-hover:scale-110 transition-transform duration-500 delay-75"></div>
-      
-      <!-- Core -->
-      <div id="ai-btn-surface" class="orb-core flex items-center justify-center transition-all duration-300 group-hover:shadow-[0_0_70px_var(--signal),0_0_100px_rgba(204,255,0,0.3)]">
+      <div id="ai-btn-surface" class="flex items-center justify-center relative w-full h-full text-black">
         <!-- AI Bot Icon -->
-        <svg id="ai-btn-chat-icon" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 transition-all duration-300 group-hover:scale-0 group-hover:opacity-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <!-- Antenna -->
-          <line x1="12" y1="2" x2="12" y2="4"/>
-          <circle cx="12" cy="2" r="1" fill="currentColor"/>
-          <!-- Head -->
-          <rect x="7" y="4" width="10" height="8" rx="1"/>
-          <!-- Eyes -->
-          <circle cx="9.5" cy="8" r="1" fill="currentColor"/>
-          <circle cx="14.5" cy="8" r="1" fill="currentColor"/>
-          <!-- Body -->
-          <rect x="8" y="12" width="8" height="6" rx="1"/>
-          <!-- Arms -->
-          <line x1="8" y1="14" x2="5" y2="14"/>
-          <line x1="16" y1="14" x2="19" y2="14"/>
-          <circle cx="5" cy="14" r="0.5" fill="currentColor"/>
-          <circle cx="19" cy="14" r="0.5" fill="currentColor"/>
-          <!-- Legs -->
-          <line x1="10" y1="18" x2="10" y2="21"/>
-          <line x1="14" y1="18" x2="14" y2="21"/>
-          <line x1="9" y1="21" x2="11" y2="21"/>
-          <line x1="13" y1="21" x2="15" y2="21"/>
+        <svg id="ai-btn-chat-icon" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 transition-all duration-300 group-hover:scale-0 group-hover:opacity-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v2"/><circle cx="12" cy="2" r="1"/><rect x="7" y="4" width="10" height="8" rx="1"/><circle cx="9.5" cy="8" r="1"/><circle cx="14.5" cy="8" r="1"/><rect x="8" y="12" width="8" height="6" rx="1"/><path d="M8 14H5"/><path d="M16 14h3"/><circle cx="5" cy="14" r=".5"/><circle cx="19" cy="14" r=".5"/><path d="M10 18v3"/><path d="M14 18v3"/><path d="M9 21h2"/><path d="M13 21h2"/>
         </svg>
-        
 
-
-         <!-- Close Icon (Absolute) -->
-        <svg id="ai-btn-close-icon" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 absolute opacity-0 rotate-90 transition-all duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+         <!-- Close Icon -->
+        <svg id="ai-btn-close-icon" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 absolute opacity-0 rotate-90 transition-all duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
         </svg>
       </div>
 
-      <!-- Online Dot (Red for attention) -->
-      <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-[#030303] z-20 transition-all shadow-[0_0_12px_rgba(239,68,68,0.8)] animate-pulse"></span>
+      <!-- Online Indicator -->
+      <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-black z-20 animate-pulse pointer-events-none shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
     </button>
   </div>
 
@@ -1016,7 +970,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
              <span class="text-[9px] uppercase tracking-widest text-white font-mono">YOU</span>
              <div class="w-1 h-1 bg-white rounded-full"></div>
           </div>
-          <div class="self-end max-w-[90%] overflow-hidden bg-zinc-800/80 border-2 border-white/30 p-3 rounded-2xl rounded-tr-sm backdrop-blur-sm shadow-lg cyber-clip-message-user hover:border-signal/40 transition-colors">
+          <div class="self-end max-w-[90%] overflow-hidden bg-zinc-800 border border-zinc-700 p-3 clip-corner-tr backdrop-blur-sm">
             <p class="text-[13px] text-white leading-relaxed font-sans break-words">${escapeHtml(content)}</p>
           </div>
         `;
@@ -1031,7 +985,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
              <span class="text-[9px] uppercase tracking-widest text-signal font-mono">DevUp AI</span>
              <span class="text-[9px] font-mono text-zinc-500">${timestamp}</span>
           </div>
-          <div class="self-start max-w-[90%] overflow-hidden ${isError ? 'bg-red-900/20 border-red-500/50 border-2' : 'bg-zinc-900/70 border-2 border-signal/15'} p-4 rounded-2xl rounded-tl-sm backdrop-blur-sm shadow-lg group hover:border-signal/35 transition-colors cyber-clip-message-ai">
+          <div class="self-start max-w-[90%] overflow-hidden ${isError ? 'bg-red-950/40 border border-red-500/50' : 'bg-zinc-900 border border-zinc-800'} p-4 clip-corner-tl backdrop-blur-sm">
             <p class="text-[13px] ${isError ? 'text-red-300' : 'text-zinc-200'} leading-relaxed font-sans break-words [overflow-wrap:anywhere]" id="typing-${Date.now()}"></p>
           </div>
         `;
@@ -1062,7 +1016,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
              <div class="w-1 h-1 bg-signal rounded-full shadow-[0_0_4px_var(--signal)]"></div>
              <span class="text-[9px] uppercase tracking-widest text-signal font-mono">NEURAL NET</span>
           </div>
-          <div class="self-start bg-zinc-900/70 border-2 border-signal/15 p-3 rounded-xl rounded-tl-sm flex items-center gap-3 backdrop-blur-sm shadow-lg cyber-clip-message-ai">
+          <div class="self-start bg-zinc-900 border border-zinc-800 p-3 clip-corner-tl flex items-center gap-3 backdrop-blur-sm">
              <!-- Wave Animation -->
              <div class="flex items-center gap-0.5 h-3">
                 <span class="w-0.5 h-3 bg-signal shadow-[0_0_4px_var(--signal)] animate-[wave_1s_ease-in-out_infinite]"></span>
@@ -1175,11 +1129,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
         
         // Friendly error messages
         if (error instanceof Error && error.message === 'AI_NOT_CONFIGURED') {
-          addMessage('⚠️ AI Assistant needs setup. Please redeploy on Vercel without build cache. Go to Deployments → ⋯ → Redeploy → Uncheck "Use existing Build Cache".', false, true);
+          addMessage('⚠️ API Error: AI Assistant needs setup. Please redeploy on Vercel without build cache.', false, true);
         } else if (error instanceof Error && error.message.includes('HTTP 429')) {
-          addMessage('⏱️ Rate limit reached. Please wait a moment before trying again.', false, true);
+          addMessage('⏱️ Rate limit reached. please wait a moment before trying again.', false, true);
+        } else if (error instanceof Error && error.name === 'TypeError' && error.message.toLowerCase().includes('fetch')) {
+          addMessage('🌐 NETWORK ERROR: Unable to reach the server. Please check your internet connection and try again.', false, true);
         } else {
-          addMessage('NETWORK ERROR: Connection failed after retries. Please check your internet or try again later.', false, true);
+          addMessage('⚠️ SYSTEM ERROR: Connection failed after retries. Verify your connection or try again later. (' + error.message + ')', false, true);
         }
       } finally {
         isLoading = false;
