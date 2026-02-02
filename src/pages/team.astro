@@ -4,12 +4,35 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import { coreTeam } from '../data/team';
 
-// Convener / HOD (id: tm-000)
-const convener = coreTeam.find(m => m.id === 'tm-000');
-// Faizan is the first student member (id: tm-001)
-const faizan = coreTeam.find(m => m.id === 'tm-001');
-// Other core team members
-const otherLeads = coreTeam.filter(m => m.id !== 'tm-001' && m.id !== 'tm-000');
+// Faculty Advisors - 3 column grid
+const principal = coreTeam.find(m => m.id === 'tm-001');
+const obulesu = coreTeam.find(m => m.id === 'tm-002');
+const ratnakar = coreTeam.find(m => m.id === 'tm-003');
+const facultyAdvisors = [principal, obulesu, ratnakar].filter(Boolean);
+
+// Faizan and Asif - 2 person grid
+const faizan = coreTeam.find(m => m.id === 'tm-010');
+const asif = coreTeam.find(m => m.id === 'tm-011');
+const topLeaders = [faizan, asif].filter(Boolean);
+
+// Special 3-person grid: Thapendra, Narsing, Sanchit
+const specialThree = [
+  coreTeam.find(m => m.id === 'tm-012'), // Thapendra
+  coreTeam.find(m => m.id === 'tm-013'), // Narsing
+  coreTeam.find(m => m.id === 'tm-014'), // Sanchit
+].filter(Boolean);
+
+// Other core team members (rest of the leads)
+const otherLeads = coreTeam.filter(m => 
+  m.id !== 'tm-010' && // Faizan
+  m.id !== 'tm-001' && // Principal
+  m.id !== 'tm-002' && // Obulesu
+  m.id !== 'tm-003' && // Ratnakar
+  m.id !== 'tm-011' && // Asif
+  m.id !== 'tm-012' && // Thapendra
+  m.id !== 'tm-013' && // Narsing
+  m.id !== 'tm-014'    // Sanchit
+);
 ---
 
 <MainLayout 
@@ -42,59 +65,58 @@ const otherLeads = coreTeam.filter(m => m.id !== 'tm-001' && m.id !== 'tm-000');
         </h2>
       </div>
 
-       {/* CONVENER - CENTERED AT TOP */}
-       {convener && (
-        <div class="max-w-md mx-auto mb-20 relative z-10">
-          <div class="group relative">
-            {/* Special highlight for HOD */}
-            <div class="absolute -inset-1 bg-gradient-to-r from-signal/20 to-transparent blur opacity-20 group-hover:opacity-100 transition duration-1000"></div>
-            
-            <div class="glass-panel p-10 clip-corner-tl hover:border-signal/30 transition-all h-full flex flex-col relative bg-[#111]">
-              <!-- Photo -->
-              <div class="w-48 h-48 mb-6 border-2 border-zinc-700 group-hover:border-signal transition-colors overflow-hidden mx-auto rounded-none">
-                {convener.photo ? (
-                  <img src={convener.photo} alt={convener.name} class="w-full h-full object-cover md:grayscale md:group-hover:grayscale-0 transition-all" />
-                ) : (
-                  <div class="w-full h-full bg-zinc-900 flex items-center justify-center">
-                    <span class="text-signal font-mono text-2xl font-bold">
-                      {convener.name.split(' ').map(n => n[0]).join('')}
-                    </span>
+       {/* FACULTY ADVISORS - 3 COLUMN GRID */}
+       {facultyAdvisors.length > 0 && (
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20">
+          {facultyAdvisors.map((member, index) => (
+            <div class="group relative">
+              <div class="glass-panel p-8 clip-corner-tl hover:border-signal/30 transition-all h-full flex flex-col">
+                <!-- Photo -->
+                <div class="w-32 h-32 mb-6 border-2 border-zinc-800 group-hover:border-signal transition-colors overflow-hidden mx-auto">
+                  {member.photo ? (
+                    <img src={member.photo} alt={member.name} class="w-full h-full object-cover md:grayscale md:group-hover:grayscale-0 transition-all" />
+                  ) : (
+                    <div class="w-full h-full bg-zinc-900 flex items-center justify-center">
+                      <span class="text-signal font-mono text-xl font-bold">
+                        {member.name.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                
+                <!-- Name & Role -->
+                <div class="text-center mb-4">
+                  <h3 class="font-display text-xl text-white mb-2 group-hover:text-signal transition-colors">
+                    {member.name}
+                  </h3>
+                  <div class="font-mono text-xs text-signal uppercase tracking-widest mb-1">
+                    {member.year}
+                  </div>
+                  <div class="font-mono text-xs text-zinc-500">
+                    {member.role}
+                  </div>
+                </div>
+                
+                <!-- Quote -->
+                {member.quote && (
+                  <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 text-center flex-1 border-t border-zinc-800 pt-4">
+                    "{member.quote}"
+                  </p>
+                )}
+
+                <!-- Social Links -->
+                {member.socialLinks && Object.keys(member.socialLinks).length > 0 && (
+                  <div class="flex gap-4 justify-center mb-6">
+                    {member.socialLinks.linkedin && (
+                      <a href={member.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                      </a>
+                    )}
                   </div>
                 )}
               </div>
-              
-              <!-- Name & Role -->
-              <div class="text-center mb-6">
-                <h3 class="font-display text-2xl text-white mb-3 group-hover:text-signal transition-colors">
-                  {convener.name}
-                </h3>
-                 <div class="font-mono text-sm text-signal uppercase tracking-widest mb-1 font-bold">
-                  {convener.year}
-                </div>
-                <div class="font-mono text-xs text-zinc-400 uppercase tracking-widest mb-2">
-                  {convener.role}
-                </div>
-              </div>
-              
-              <!-- Quote -->
-              {convener.quote && (
-                <p class="font-mono text-xs text-zinc-400 leading-relaxed text-center flex-1 border-t border-zinc-800 pt-6">
-                  "{convener.quote}"
-                </p>
-              )}
-
-              <!-- Social Links -->
-              {convener.socialLinks && Object.keys(convener.socialLinks).length > 0 && (
-                <div class="flex gap-4 justify-center mt-4 mb-6">
-                  {convener.socialLinks.linkedin && (
-                    <a href={convener.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-                    </a>
-                  )}
-                </div>
-              )}
             </div>
-          </div>
+          ))}
         </div>
       )}
 
@@ -114,78 +136,153 @@ const otherLeads = coreTeam.filter(m => m.id !== 'tm-001' && m.id !== 'tm-000');
         </h2>
       </div>
 
-      {/* FAIZAN - CENTERED BELOW HOD */}
-      {faizan && (
-        <div class="max-w-md mx-auto mb-20">
-          <div class="group relative">
-            <div class="glass-panel p-10 clip-corner-tl hover:border-signal/30 transition-all h-full flex flex-col">
-              <!-- Photo -->
-              <div class="w-40 h-40 mb-6 border-2 border-zinc-800 group-hover:border-signal transition-colors overflow-hidden mx-auto">
-                {faizan.photo ? (
-                  <img src={faizan.photo} alt={faizan.name} class="w-full h-full object-cover md:grayscale md:group-hover:grayscale-0 transition-all" />
-                ) : (
-                  <div class="w-full h-full bg-zinc-900 flex items-center justify-center">
-                    <span class="text-signal font-mono text-2xl font-bold">
-                      {faizan.name.split(' ').map(n => n[0]).join('')}
-                    </span>
+      {/* FAIZAN & ASIF - 2 COLUMN GRID */}
+      {topLeaders.length > 0 && (
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto mb-20">
+          {topLeaders.map((member) => (
+            <div class="group relative">
+              <div class="glass-panel p-8 clip-corner-tl hover:border-signal/30 transition-all h-full flex flex-col">
+                <!-- Photo -->
+                <div class="w-32 h-32 mb-6 border-2 border-zinc-800 group-hover:border-signal transition-colors overflow-hidden mx-auto">
+                  {member.photo ? (
+                    <img src={member.photo} alt={member.name} class="w-full h-full object-cover md:grayscale md:group-hover:grayscale-0 transition-all" />
+                  ) : (
+                    <div class="w-full h-full bg-zinc-900 flex items-center justify-center">
+                      <span class="text-signal font-mono text-xl font-bold">
+                        {member.name.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                
+                <!-- Name & Role -->
+                <div class="text-center mb-4">
+                  <h3 class="font-display text-xl text-white mb-2 group-hover:text-signal transition-colors">
+                    {member.name}
+                  </h3>
+                  <div class="font-mono text-xs text-signal uppercase tracking-widest mb-1">
+                    {member.role}
+                  </div>
+                  <div class="font-mono text-xs text-zinc-500">
+                    {member.year}
+                  </div>
+                </div>
+                
+                <!-- Quote -->
+                {member.quote && (
+                  <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 text-center flex-1 border-t border-zinc-800 pt-4">
+                    "{member.quote}"
+                  </p>
+                )}
+
+                <!-- Social Links -->
+                {member.socialLinks && Object.keys(member.socialLinks).length > 0 && (
+                  <div class="flex gap-4 justify-center mb-6">
+                    {member.socialLinks.linkedin && (
+                      <a href={member.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                      </a>
+                    )}
+                    {member.socialLinks.github && (
+                      <a href={member.socialLinks.github} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                      </a>
+                    )}
+                    {member.socialLinks.instagram && (
+                      <a href={member.socialLinks.instagram} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                      </a>
+                    )}
+                    {member.socialLinks.twitter && (
+                      <a href={member.socialLinks.twitter} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                      </a>
+                    )}
+                    {member.socialLinks.portfolio && (
+                      <a href={member.socialLinks.portfolio} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                      </a>
+                    )}
                   </div>
                 )}
               </div>
-              
-              <!-- Name & Role -->
-              <div class="text-center mb-6">
-                <h3 class="font-display text-2xl text-white mb-3 group-hover:text-signal transition-colors">
-                  {faizan.name}
-                </h3>
-                <div class="font-mono text-sm text-signal uppercase tracking-widest mb-2">
-                  {faizan.role}
-                </div>
-                <div class="font-mono text-xs text-zinc-500">
-                  {faizan.year}
-                </div>
-              </div>
-              
-              <!-- Quote -->
-              {faizan.quote && (
-                <p class="font-mono text-xs text-zinc-400 leading-relaxed text-center flex-1 border-t border-zinc-800 pt-6">
-                  "{faizan.quote}"
-                </p>
-              )}
-
-              <!-- Social Links -->
-              {faizan.socialLinks && Object.keys(faizan.socialLinks).length > 0 && (
-                <div class="flex gap-4 justify-center mt-4 mb-6">
-                  {faizan.socialLinks.linkedin && (
-                    <a href={faizan.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-                    </a>
-                  )}
-                  {faizan.socialLinks.github && (
-                    <a href={faizan.socialLinks.github} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-                    </a>
-                  )}
-                  {faizan.socialLinks.instagram && (
-                    <a href={faizan.socialLinks.instagram} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-                    </a>
-                  )}
-                  {faizan.socialLinks.twitter && (
-                    <a href={faizan.socialLinks.twitter} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-                    </a>
-                  )}
-                  {faizan.socialLinks.portfolio && (
-                    <a href={faizan.socialLinks.portfolio} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-                    </a>
-                  )}
-                </div>
-              )}
-              
-              <!-- View Team Button (Hidden for Faizan) -->
             </div>
-          </div>
+          ))}
+        </div>
+      )}
+
+      {/* SPECIAL 3-PERSON GRID - Thapendra, Narsing, Sanchit */}
+      {specialThree.length > 0 && (
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20">
+          {specialThree.map((member, index) => (
+            <div class={`group relative ${index % 2 === 1 ? 'md:mt-12' : ''}`}>
+              <div class="glass-panel p-8 clip-corner-tl hover:border-signal/30 transition-all h-full flex flex-col">
+                <!-- Photo -->
+                <div class="w-32 h-32 mb-6 border-2 border-zinc-800 group-hover:border-signal transition-colors overflow-hidden mx-auto">
+                  {member.photo ? (
+                    <img src={member.photo} alt={member.name} class="w-full h-full object-cover md:grayscale md:group-hover:grayscale-0 transition-all" />
+                  ) : (
+                    <div class="w-full h-full bg-zinc-900 flex items-center justify-center">
+                      <span class="text-signal font-mono text-xl font-bold">
+                        {member.name.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                
+                <!-- Name & Role -->
+                <div class="text-center mb-4">
+                  <h3 class="font-display text-xl text-white mb-2 group-hover:text-signal transition-colors">
+                    {member.name}
+                  </h3>
+                  <div class="font-mono text-xs text-signal uppercase tracking-widest mb-1">
+                    {member.role}
+                  </div>
+                  <div class="font-mono text-xs text-zinc-500">
+                    {member.year}
+                  </div>
+                </div>
+                
+                <!-- Quote -->
+                {member.quote && (
+                  <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 text-center flex-1 border-t border-zinc-800 pt-4">
+                    "{member.quote}"
+                  </p>
+                )}
+
+                <!-- Social Links -->
+                {member.socialLinks && Object.keys(member.socialLinks).length > 0 && (
+                  <div class="flex gap-4 justify-center mb-6">
+                    {member.socialLinks.linkedin && (
+                      <a href={member.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                      </a>
+                    )}
+                    {member.socialLinks.github && (
+                      <a href={member.socialLinks.github} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                      </a>
+                    )}
+                    {member.socialLinks.instagram && (
+                      <a href={member.socialLinks.instagram} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                      </a>
+                    )}
+                    {member.socialLinks.twitter && (
+                      <a href={member.socialLinks.twitter} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                      </a>
+                    )}
+                    {member.socialLinks.portfolio && (
+                      <a href={member.socialLinks.portfolio} target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-signal transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
@@ -260,7 +357,7 @@ const otherLeads = coreTeam.filter(m => m.id !== 'tm-001' && m.id !== 'tm-000');
                 )}
                 
                 <!-- View Team Button -->
-                {!['tm-101', 'tm-102', 'tm-103', 'tm-010'].includes(member.id) && (
+                {!['tm-011', 'tm-012', 'tm-013', 'tm-014', 'tm-029'].includes(member.id) && (
                   <a 
                     href={`/teams/${member.teamSlug}`}
                     class="mt-auto w-full bg-zinc-900 hover:bg-signal text-white hover:text-black font-mono text-xs font-bold tracking-widest uppercase py-3 px-4 transition-all text-center border border-zinc-800 hover:border-signal"

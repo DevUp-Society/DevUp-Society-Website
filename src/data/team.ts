@@ -21,9 +21,23 @@ export interface TeamMember {
 }
 
 export const teamMembers: TeamMember[] = [
-    // ================= FACULTY / ADVISORS =================
+    // ================= FACULTY / ADVISORS (tm-001 to tm-003, tm-004-005 reserved) =================
     {
-        id: "tm-000",
+        id: "tm-001",
+        name: "Dr. A. Srujana",
+        role: "Principal",
+        year: "Convener",
+        teamType: "core",
+        teamSlug: "leadership",
+        teamName: "Leadership",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770009946/principal_ncnwbn.jpg",
+        socialLinks: {
+            linkedin: "https://www.linkedin.com/in/srujana-avula-a66167ba"
+        },
+        quote: "Empowering innovation through technology and fostering academic excellence.",
+    },
+    {
+        id: "tm-002",
         name: "Dr. A. Obulesu",
         role: "HOD - Information Technology",
         year: "Convener",
@@ -34,12 +48,26 @@ export const teamMembers: TeamMember[] = [
         socialLinks: {
             linkedin: "https://www.linkedin.com/in/dr-avuku-obulesh-a04358163/"
         },
-        quote: "Empowering innovation through technology.",
+        quote: "Guiding students towards technological excellence and innovation.",
+    },
+    {
+        id: "tm-003",
+        name: "M. Ratnakar Babu",
+        role: "Faculty Advisor",
+        year: "Convener",
+        teamType: "core",
+        teamSlug: "leadership",
+        teamName: "Leadership",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770009569/ratnakar_soz1r5.jpg",
+        socialLinks: {
+            linkedin: "https://www.linkedin.com/in/mikkili-ratnakar-babu-31631a251/"
+        },
+        quote: "Mentoring the next generation of tech leaders.",
     },
 
-    // ================= CORE TEAM (LEADS) =================
+    // ================= CORE TEAM (LEADS) (tm-010 to tm-029, tm-030-040 reserved) =================
     {
-        id: "tm-001",
+        id: "tm-010",
         name: "Mohammed Faizan Ali",
         role: "Chief of Community & Vision",
         year: "2nd Year, IT",
@@ -54,9 +82,8 @@ export const teamMembers: TeamMember[] = [
         },
         quote: "Leading the community vision and fostering connections.",
     },
-
     {
-        id: "tm-101",
+        id: "tm-011",
         name: "Syed Asif",
         role: "Chief Executive Director — Strategy & Growth",
         year: "3rd Year",
@@ -71,7 +98,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Driving long-term growth strategy.",
     },
     {
-        id: "tm-102",
+        id: "tm-012",
         name: "Thapendra D",
         role: "Executive Director — Operations & Execution",
         year: "3rd Year",
@@ -87,7 +114,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Ensuring execution excellence.",
     },
     {
-        id: "tm-103",
+        id: "tm-013",
         name: "Narsing Yadav",
         role: "Executive — Innovation & Ecosystem",
         year: "3rd Year",
@@ -103,7 +130,23 @@ export const teamMembers: TeamMember[] = [
         quote: "Expanding innovation networks.",
     },
     {
-        id: "tm-002",
+        id: "tm-014",
+        name: "Sanchit Gupta",
+        role: "Head of Innovation & Ideation",
+        year: "3rd Year",
+        teamType: "core",
+        teamSlug: "leadership",
+        teamName: "Leadership",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770007512/sanchit_xumbte.jpg",
+        socialLinks: {
+            linkedin: "https://www.linkedin.com/in/sanchit26",
+            github: "https://github.com/Sanchit26",
+            instagram: "https://www.instagram.com/volt_0o0?utm_source=qr&igsh=cjg3c251ajV5Mzl5"
+        },
+        quote: "Expanding innovation networks.",
+    },
+    {
+        id: "tm-021",
         name: "Sai Srujan",
         role: "Tech Lead & Advisor",
         year: "2nd Year, IT",
@@ -119,7 +162,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Driving technical innovation.",
     },
     {
-        id: "tm-003",
+        id: "tm-022",
         name: "Harshavardhan",
         role: "Content & Outreach Lead",
         year: "2nd Year, IT",
@@ -135,7 +178,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Managing creative communications.",
     },
     {
-        id: "tm-004",
+        id: "tm-023",
         name: "Karthik",
         role: "Research & Innovation Lead",
         year: "2nd Year, IT",
@@ -151,7 +194,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Driving innovation and research.",
     },
     {
-        id: "tm-005",
+        id: "tm-024",
         name: "Govardhan",
         role: "Design Lead",
         year: "2nd Year, IT",
@@ -166,7 +209,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Leading visual design.",
     },
     {
-        id: "tm-006",
+        id: "tm-025",
         name: "Emmanuel",
         role: "Events Lead",
         year: "2nd Year, IT",
@@ -181,7 +224,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Managing events and logistics.",
     },
     {
-        id: "tm-007",
+        id: "tm-026",
         name: "Nashra Fatima",
         role: "Partnerships Lead",
         year: "2nd Year, IT",
@@ -196,7 +239,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Building collaborations.",
     },
     {
-        id: "tm-008",
+        id: "tm-027",
         name: "Jeevan",
         role: "Marketing Lead",
         year: "2nd Year, IT",
@@ -212,7 +255,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Managing media presence.",
     },
     {
-        id: "tm-009",
+        id: "tm-028",
         name: "Syed Abrar",
         role: "Mission & Support Lead",
         year: "2nd Year, IT",
@@ -227,7 +270,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Ensuring smooth operations.",
     },
     {
-        id: "tm-010",
+        id: "tm-029",
         name: "Chathurya Pandiri",
         role: "IT Branch Representative",
         year: "2nd Year, IT",
@@ -242,10 +285,9 @@ export const teamMembers: TeamMember[] = [
         quote: "Representing student voices.",
     },
 
-    // ================= TECHNICAL TEAM =================
-
+    // ================= TECHNICAL TEAM (tm-101 to tm-115, tm-116-130 reserved) =================
     {
-        id: "tm-011",
+        id: "tm-101",
         name: "Cheerath Aniketh",
         role: "Technical Team Member",
         year: "1st Year, CSE",
@@ -254,10 +296,10 @@ export const teamMembers: TeamMember[] = [
         teamName: "Technical Team",
         photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769349508/Aniketh_nunmkl.png",
         socialLinks: {},
-        quote: "Building practical systems.",
+        quote: "Building practical systems with clean code.",
     },
     {
-        id: "tm-012",
+        id: "tm-102",
         name: "Aitha Sathvika",
         role: "Technical Team Member",
         year: "1st Year, CSE - AIML",
@@ -273,7 +315,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Exploring AI development.",
     },
     {
-        id: "tm-013",
+        id: "tm-103",
         name: "Siledar Shashank",
         role: "Technical Team Member",
         year: "1st Year, CSE",
@@ -285,10 +327,10 @@ export const teamMembers: TeamMember[] = [
             linkedin: "https://www.linkedin.com/in/shashank-siledar-52142a304",
             instagram: "https://www.instagram.com/me_shashank_16",
         },
-        quote: "Passionate about systems.",
+        quote: "Passionate about building robust systems.",
     },
     {
-        id: "tm-014",
+        id: "tm-104",
         name: "Gubba Nithish",
         role: "Technical Team Member",
         year: "2nd Year, IT",
@@ -303,7 +345,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Learning through projects.",
     },
     {
-        id: "tm-015",
+        id: "tm-105",
         name: "Karan Prajapati",
         role: "Technical Team Member",
         year: "2nd Year, IT",
@@ -315,10 +357,25 @@ export const teamMembers: TeamMember[] = [
             linkedin: "https://www.linkedin.com/in/karan-prajapati-680100342",
             instagram: "https://www.instagram.com/_karan._.19",
         },
-        quote: "Hands-on learner.",
+        quote: "Learning through hands-on experimentation.",
     },
     {
-        id: "tm-016",
+        id: "tm-106",
+        name: "Vijay Kumar",
+        role: "Technical Team Member",
+        year: "2nd Year, CSE",
+        teamType: "member",
+        teamSlug: "tech",
+        teamName: "Technical Team",
+        photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770007837/vijay_it1hq6.jpg",
+        socialLinks: {
+            linkedin: "https://www.linkedin.com/in/vijay-kumar-amani-975932359/",
+            github: "https://github.com/Vijaykumar5623"
+        },
+        quote: "Focused on practical software development.",
+    },
+    {
+        id: "tm-107",
         name: "Manasvi Neerudi",
         role: "Technical Team Member",
         year: "1st Year, CSE",
@@ -332,7 +389,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Curious developer.",
     },
     {
-        id: "tm-017",
+        id: "tm-108",
         name: "Mohammed Mohiuddin",
         role: "Technical Team Member",
         year: "1st Year, CSE - AIML",
@@ -348,7 +405,7 @@ export const teamMembers: TeamMember[] = [
         quote: "AI enthusiast.",
     },
     {
-        id: "tm-018",
+        id: "tm-109",
         name: "Furqaan Hussain",
         role: "Technical Team Member",
         year: "1st Year, CSE",
@@ -364,7 +421,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Problem solver.",
     },
     {
-        id: "tm-019",
+        id: "tm-110",
         name: "Laasya Kavuri",
         role: "Technical Team Member",
         year: "1st Year, ECE",
@@ -379,7 +436,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Exploring technology.",
     },
     {
-        id: "tm-052",
+        id: "tm-111",
         name: "Hamje Bhagya Shree",
         role: "Technical Team Member",
         year: "2nd Year, IT",
@@ -394,7 +451,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Building with code.",
     },
     {
-        id: "tm-053",
+        id: "tm-112",
         name: "Haasini Duddela",
         role: "Technical Team Member",
         year: "2nd Year, IT",
@@ -407,10 +464,10 @@ export const teamMembers: TeamMember[] = [
             github: "https://github.com/hasinidudela",
             instagram: "https://www.instagram.com/hasini.dudela",
         },
-        quote: "Tech enthusiast.",
+        quote: "Passionate about emerging technologies.",
     },
     {
-        id: "tm-070",
+        id: "tm-113",
         name: "Katta Shanmukh",
         role: "Technical Team Member",
         year: "1st Year, CSE",
@@ -422,12 +479,12 @@ export const teamMembers: TeamMember[] = [
             linkedin: "https://www.linkedin.com/in/katta-shanmukha-lekhan-5060b5380/",
             instagram: "https://www.instagram.com/_shannu07_katta",
         },
-        quote: "Tech enthusiast.",
+        quote: "Exploring new technologies with curiosity.",
     },
 
-    // ================= MARKETING TEAM =================
+    // ================= MARKETING TEAM (tm-201 to tm-208, tm-209-220 reserved) =================
     {
-        id: "tm-020",
+        id: "tm-201",
         name: "Riya Kumari",
         role: "Marketing Team Member",
         year: "1st Year, IT",
@@ -441,7 +498,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Creative communicator.",
     },
     {
-        id: "tm-021",
+        id: "tm-202",
         name: "P. Yeshwanth Chowdary",
         role: "Marketing Team Member",
         year: "3rd Year, CSE - DS",
@@ -456,7 +513,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Strategic marketer.",
     },
     {
-        id: "tm-022",
+        id: "tm-203",
         name: "Aliya Banu",
         role: "Marketing Team Member",
         year: "2nd Year, IT",
@@ -472,7 +529,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Creative strategist.",
     },
     {
-        id: "tm-023",
+        id: "tm-204",
         name: "Bhanu Prasanna Bathula",
         role: "Marketing Team Member",
         year: "2nd Year, CSE",
@@ -486,7 +543,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Brand promoter.",
     },
     {
-        id: "tm-024",
+        id: "tm-205",
         name: "Syed Naveed Ahmed",
         role: "Marketing Team Member",
         year: "2nd Year, CSE",
@@ -501,7 +558,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Focused on engagement.",
     },
     {
-        id: "tm-025",
+        id: "tm-206",
         name: "Mahathi Chinta",
         role: "Marketing Team Co-Lead",
         year: "2nd Year, IT",
@@ -518,7 +575,7 @@ export const teamMembers: TeamMember[] = [
         isCoLead: true,
     },
     {
-        id: "tm-026",
+        id: "tm-207",
         name: "Neerati Rupasri",
         role: "Marketing Team Member",
         year: "2nd Year, IT",
@@ -530,7 +587,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Outreach specialist.",
     },
     {
-        id: "tm-027",
+        id: "tm-208",
         name: "Juveria Usman",
         role: "Marketing Team Member",
         year: "3rd Year, IT",
@@ -545,10 +602,9 @@ export const teamMembers: TeamMember[] = [
         quote: "Creative marketer.",
     },
 
-    // ================= CONTENT & OUTREACH =================
-
+    // ================= CONTENT & OUTREACH (tm-301 to tm-307, tm-308-320 reserved) =================
     {
-        id: "tm-047",
+        id: "tm-301",
         name: "Jithendra",
         role: "Content & Outreach Co-Lead",
         year: "2nd Year, IT",
@@ -565,7 +621,7 @@ export const teamMembers: TeamMember[] = [
     },
 
     {
-        id: "tm-028",
+        id: "tm-302",
         name: "Shruthi Goud",
         role: "Content & Outreach Member",
         year: "2nd Year, IT",
@@ -580,7 +636,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Creating content that connects people.",
     },
     {
-        id: "tm-029",
+        id: "tm-303",
         name: "Anjali Ladde",
         role: "Content & Outreach Member",
         year: "1st Year, CSE - DS",
@@ -592,7 +648,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Learning to communicate ideas effectively.",
     },
     {
-        id: "tm-030",
+        id: "tm-304",
         name: "Akshitha A",
         role: "Content & Outreach Member",
         year: "1st Year, IT",
@@ -607,7 +663,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Creative learner.",
     },
     {
-        id: "tm-031",
+        id: "tm-401",
         name: "Athikah Abdul Azeem",
         role: "Events & Operations Co-Lead",
         year: "2nd Year, IT",
@@ -624,7 +680,7 @@ export const teamMembers: TeamMember[] = [
         isCoLead: true,
     },
     {
-        id: "tm-032",
+        id: "tm-305",
         name: "Rishika",
         role: "Content & Outreach Member",
         year: "2nd Year, IT",
@@ -639,7 +695,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Expressing ideas through creative content.",
     },
     {
-        id: "tm-033",
+        id: "tm-114",
         name: "Dhanush Reddy",
         role: "Technical Team Co-Lead",
         year: "2nd Year, IT",
@@ -655,10 +711,9 @@ export const teamMembers: TeamMember[] = [
         isCoLead: true,
     },
 
-    // ================= EVENTS & OPERATIONS =================
-
+    // ================= EVENTS & OPERATIONS (tm-401 to tm-404, tm-405-420 reserved) =================
     {
-        id: "tm-034",
+        id: "tm-402",
         name: "Amaan",
         role: "Events & Operations Member",
         year: "1st Year, CSE - DS",
@@ -672,7 +727,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Supporting events with enthusiasm and teamwork.",
     },
     {
-        id: "tm-035",
+        id: "tm-403",
         name: "Jagruthi Sivampeta",
         role: "Events & Operations Member",
         year: "2nd Year, IT",
@@ -687,7 +742,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Managing operations with precision.",
     },
     {
-        id: "tm-036",
+        id: "tm-404",
         name: "Garima Choudhary",
         role: "Events & Operations Member",
         year: "2nd Year, IT",
@@ -702,10 +757,10 @@ export const teamMembers: TeamMember[] = [
         },
         quote: "Ensuring seamless execution of events.",
     },
-    // ================= RESEARCH & INNOVATION =================
 
+    // ================= RESEARCH & INNOVATION (tm-501 to tm-508, tm-509-520 reserved) =================
     {
-        id: "tm-037",
+        id: "tm-501",
         name: "A. Vaishnavi",
         role: "Research & Innovation Member",
         year: "1st Year, CSE - DS",
@@ -716,10 +771,10 @@ export const teamMembers: TeamMember[] = [
         socialLinks: {
             instagram: "https://www.instagram.com/vxnavi.3",
         },
-        quote: "Analytical thinker.",
+        quote: "Analytical mindset for solving complex problems.",
     },
     {
-        id: "tm-099",
+        id: "tm-502",
         name: "Pilla Rishi datthu",
         role: "Research & Innovation Member",
         year: "1st Year, CSE",
@@ -728,10 +783,10 @@ export const teamMembers: TeamMember[] = [
         teamName: "Research & Innovation Team",
         photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769854508/6967b12d-3655-4949-bf67-bce6ca3dda49_eyvipi.jpg",
         socialLinks: {},
-        quote: "Analytical thinker.",
+        quote: "Investigating innovative solutions through research.",
     },
     {
-        id: "tm-038",
+        id: "tm-503",
         name: "Uthukota Mohitha",
         role: "Research & Innovation Member",
         year: "1st Year, CSE - AIML",
@@ -747,7 +802,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Exploring AI-driven research paths.",
     },
     {
-        id: "tm-039",
+        id: "tm-504",
         name: "Syed Anas",
         role: "Research & Innovation Member",
         year: "1st Year, CSE - DS",
@@ -763,7 +818,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Driven by curiosity and innovation.",
     },
     {
-        id: "tm-040",
+        id: "tm-505",
         name: "Sahasra",
         role: "Research & Innovation Co-Lead",
         year: "2nd Year, IT",
@@ -776,7 +831,7 @@ export const teamMembers: TeamMember[] = [
         isCoLead: true,
     },
     {
-        id: "tm-041",
+        id: "tm-506",
         name: "Shaik Minhaj Basha",
         role: "Research & Innovation Member",
         year: "1st Year, CSE",
@@ -792,7 +847,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Learning research through hands-on exploration.",
     },
     {
-        id: "tm-042",
+        id: "tm-507",
         name: "Bakka Sathvika",
         role: "Research & Innovation Member",
         year: "1st Year, CSE - DS",
@@ -807,10 +862,9 @@ export const teamMembers: TeamMember[] = [
         quote: "Researching with curiosity and persistence.",
     },
 
-    // ================= DESIGN TEAM =================
-
+    // ================= DESIGN TEAM (tm-601 to tm-607, tm-608-620 reserved) =================
     {
-        id: "tm-048",
+        id: "tm-601",
         name: "Luv Singh",
         role: "Design Team Co-Lead",
         year: "2nd Year, IT",
@@ -824,7 +878,7 @@ export const teamMembers: TeamMember[] = [
     },
 
     {
-        id: "tm-043",
+        id: "tm-602",
         name: "Nithin Addetla",
         role: "Design Team Member",
         year: "2nd Year, IT",
@@ -838,7 +892,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Designing visuals that communicate clearly.",
     },
     {
-        id: "tm-044",
+        id: "tm-603",
         name: "Sai Tharun Vangapally",
         role: "Design Team Member",
         year: "2nd Year, IT",
@@ -854,7 +908,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Blending creativity with functionality.",
     },
     {
-        id: "tm-045",
+        id: "tm-604",
         name: "Srinithya Madaram",
         role: "Design Team Member",
         year: "1st Year, CSE",
@@ -868,7 +922,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Exploring creativity through design.",
     },
     {
-        id: "tm-054",
+        id: "tm-605",
         name: "Lucky",
         role: "Design Team Member",
         year: "1st Year, CSE - AIML",
@@ -883,7 +937,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Designing with passion.",
     },
     {
-        id: "tm-055",
+        id: "tm-606",
         name: "Zunairah",
         role: "Design Team Member",
         year: "1st Year, IT",
@@ -898,7 +952,7 @@ export const teamMembers: TeamMember[] = [
         quote: "Creative thinker.",
     },
     {
-        id: "tm-056",
+        id: "tm-607",
         name: "Affan Reza Sheikh",
         role: "Design Team Member",
         year: "1st Year, CSE - AIML",
@@ -913,10 +967,9 @@ export const teamMembers: TeamMember[] = [
         quote: "Designing with impact.",
     },
 
-
-    // ================= PARTNERSHIPS =================
+    // ================= PARTNERSHIPS (tm-701, tm-702-720 reserved) =================
     {
-        id: "tm-046",
+        id: "tm-701",
         name: "Shruthi Jaiswal",
         role: "Collaborations & Partnerships Co-Lead",
         year: "2nd Year, IT",
@@ -930,9 +983,10 @@ export const teamMembers: TeamMember[] = [
         quote: "Creating partnerships that add value.",
         isCoLead: true,
     },
-    // ================= MISSION & SUPPORT TEAM =================
+
+    // ================= MISSION & SUPPORT TEAM (tm-801 to tm-802, tm-803-820 reserved) =================
     {
-        id: "tm-050",
+        id: "tm-801",
         name: "Md Zaid Ahmed",
         role: "Mission & Support Co-Lead",
         year: "2nd Year, IT",
@@ -949,7 +1003,7 @@ export const teamMembers: TeamMember[] = [
         isCoLead: true,
     },
     {
-        id: "tm-051",
+        id: "tm-802",
         name: "Praneeth Mekala",
         role: "Mission & Support Advisor",
         year: "3rd Year, IT",
