@@ -2,10 +2,13 @@
     "name": "devup-society",
     "type": "module",
     "version": "1.0.0",
+    "engines": {
+        "node": "20.x"
+    },
     "scripts": {
         "dev": "astro dev",
         "start": "astro dev",
-        "build": "astro check && astro build",
+        "build": "astro check && astro build && node scripts/patch-vercel-runtime.mjs",
         "preview": "astro preview",
         "astro": "astro"
     },
