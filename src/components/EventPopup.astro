@@ -1,0 +1,169 @@
+---
+export interface Props {
+  event: {
+    id: string;
+    title: string;
+    date: string;
+    shortDescription: string;
+    registrationLink?: string;
+    slug: string;
+  } | null;
+}
+
+const { event } = Astro.props;
+---
+
+{event && (
+  <div 
+    id="event-popup-overlay" 
+    class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
+    data-event-id={event.id}
+  >
+    <div 
+      id="event-popup-content"
+      class="relative w-full max-w-lg glass-panel border border-zinc-800 clip-corner transform scale-95 transition-transform duration-300"
+    >
+      <!-- Close Button -->
+      <button 
+        id="close-popup"
+        class="absolute top-4 right-4 w-8 h-8 border border-zinc-800 hover:border-zinc-600 bg-black/60 hover:bg-zinc-900 backdrop-blur-sm flex items-center justify-center transition-all group z-10"
+        aria-label="Close popup"
+      >
+        <svg class="w-4 h-4 text-zinc-500 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Content -->
+      <div class="p-6 sm:p-8">
+        <!-- Header Badge -->
+        <div class="mb-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 border border-zinc-800 bg-black/40 backdrop-blur-sm clip-corner">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-signal opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-signal"></span>
+            </span>
+            <span class="font-mono text-[9px] text-zinc-400 uppercase tracking-widest">
+              Upcoming Event
+            </span>
+          </div>
+        </div>
+
+        <!-- Event Title -->
+        <h3 class="font-display text-2xl sm:text-3xl text-white font-medium leading-tight mb-3">
+          {event.title}
+        </h3>
+
+        <!-- Event Date -->
+        <div class="flex items-center gap-2 mb-4">
+          <svg class="w-4 h-4 text-signal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span class="font-mono text-xs text-zinc-400 uppercase tracking-wider">
+            {new Date(event.date).toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </span>
+        </div>
+
+        <!-- Description -->
+        <p class="font-mono text-sm text-zinc-400 leading-relaxed mb-6 border-l-2 border-zinc-800 pl-4">
+          {event.shortDescription}
+        </p>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a 
+            href={event.registrationLink || `/events/${event.slug}/register`}
+            class="flex-1 group relative h-12 bg-signal text-black clip-corner flex items-center justify-center overflow-hidden btn-glitch"
+          >
+            <span class="relative z-10 font-mono text-xs font-bold uppercase tracking-[0.15em] flex items-center gap-2">
+              Register Now
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </span>
+          </a>
+          
+          <button 
+            id="dismiss-popup"
+            class="flex-1 h-12 border border-zinc-800 hover:border-zinc-600 clip-corner flex items-center justify-center transition-colors group"
+          >
+            <span class="font-mono text-xs font-bold uppercase tracking-[0.15em] text-zinc-400 group-hover:text-white transition-colors">
+              Maybe Later
+            </span>
+          </button>
+        </div>
+
+        <!-- Bottom Info -->
+        <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
+          <span class="font-mono text-[9px] text-zinc-600 uppercase tracking-widest">
+            DevUp Society
+          </span>
+          <svg class="w-4 h-4 text-zinc-700" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+<script is:inline>
+  // Event popup functionality
+  (function() {
+    function initEventPopup() {
+      const overlay = document.getElementById('event-popup-overlay');
+      const content = document.getElementById('event-popup-content');
+      const closeBtn = document.getElementById('close-popup');
+      const dismissBtn = document.getElementById('dismiss-popup');
+      
+      if (!overlay || !content) return;
+
+      // Show popup after a short delay
+      setTimeout(() => {
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+        content.classList.remove('scale-95');
+        content.classList.add('scale-100');
+      }, 1500);
+
+      // Close handlers
+      const closePopup = () => {
+        content.classList.remove('scale-100');
+        content.classList.add('scale-95');
+        overlay.classList.add('opacity-0');
+        
+        setTimeout(() => {
+          overlay.classList.add('pointer-events-none');
+        }, 300);
+      };
+
+      // Event listeners
+      if (closeBtn) closeBtn.addEventListener('click', closePopup);
+      if (dismissBtn) dismissBtn.addEventListener('click', closePopup);
+      
+      // Close on overlay click (but not content click)
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          closePopup();
+        }
+      });
+
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !overlay.classList.contains('pointer-events-none')) {
+          closePopup();
+        }
+      });
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initEventPopup);
+    } else {
+      initEventPopup();
+    }
+  })();
+</script>
