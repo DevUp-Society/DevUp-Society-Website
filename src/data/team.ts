@@ -340,6 +340,7 @@ export const teamMembers: TeamMember[] = [
         photo: "https://res.cloudinary.com/dmrp1d1tv/image/upload/v1769349508/Nithish_bhuu9x.jpg",
         socialLinks: {
             linkedin: "https://share.google/kqJjhMrqHBHynTIu4",
+            github: "https://github.com/Nithish016",
             instagram: "https://www.instagram.com/gubbanithish",
         },
         quote: "Learning through projects.",
