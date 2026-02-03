@@ -174,18 +174,20 @@ import { Icon } from 'astro-icon/components';
     </section>
   )}
 
-  <!-- NO EVENTS MESSAGE -->
-  {upcomingEvents.length === 0 && pastEvents.length === 0 && (
-    <section class="py-32 bg-void">
-      <div class="max-w-4xl mx-auto px-6 text-center">
-        <div class="glass-panel p-12 clip-corner">
-          <Icon name="lucide:calendar-x" class="text-6xl text-zinc-700 mb-6" />
-          <h2 class="font-display text-3xl text-white mb-4">No Events Available</h2>
-          <p class="font-mono text-zinc-500 text-sm">
-            Check back soon for upcoming workshops, hackathons, and tech talks.
-          </p>
-        </div>
-      </div>
     </section>
   )}
+
+  <section class="py-20 bg-void border-t border-zinc-900 text-center">
+    <div class="max-w-2xl mx-auto px-6">
+      <h3 class="font-display text-2xl text-white mb-4">Have an Event Idea?</h3>
+      <p class="font-mono text-zinc-500 text-sm mb-8">
+        We're always looking for new workshops, hackathons, and collaborations. 
+        Reach out to us if you'd like to partner or propose an event.
+      </p>
+      <a href="mailto:devupsociety@vjit.ac.in" class="text-signal hover:text-white transition-colors font-mono text-xs uppercase tracking-widest border border-signal px-6 py-3 clip-corner hover:bg-signal/10 flex items-center gap-2 w-fit mx-auto">
+        <Icon name="lucide:mail" class="text-lg" />
+        devupsociety@vjit.ac.in
+      </a>
+    </div>
+  </section>
 </MainLayout>
