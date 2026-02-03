@@ -26,10 +26,10 @@ const { event } = Astro.props;
       <!-- Close Button -->
       <button 
         id="close-popup"
-        class="absolute top-4 right-4 w-8 h-8 border border-zinc-800 hover:border-zinc-600 bg-black/60 hover:bg-zinc-900 backdrop-blur-sm flex items-center justify-center transition-all group z-10"
+        class="absolute top-4 right-4 w-10 h-10 sm:w-8 sm:h-8 border border-zinc-800 hover:border-zinc-600 bg-black/60 hover:bg-zinc-900 backdrop-blur-sm flex items-center justify-center transition-all group z-10"
         aria-label="Close popup"
       >
-        <svg class="w-4 h-4 text-zinc-500 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 sm:w-4 sm:h-4 text-zinc-500 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
@@ -74,12 +74,12 @@ const { event } = Astro.props;
         </p>
 
         <!-- Action Buttons -->
-        <div class="flex flex-col sm:flex-row gap-3">
+        <div class="flex flex-col sm:flex-row gap-4">
           <a 
             href={event.registrationLink || `/events/${event.slug}/register`}
-            class="flex-1 group relative h-12 bg-signal text-black clip-corner flex items-center justify-center overflow-hidden btn-glitch"
+            class="flex-1 group relative h-40 sm:h-12 bg-signal text-black clip-corner flex items-center justify-center overflow-hidden btn-glitch"
           >
-            <span class="relative z-10 font-mono text-xs font-bold uppercase tracking-[0.15em] flex items-center gap-2">
+            <span class="relative z-10 font-mono text-lg sm:text-xs font-bold uppercase tracking-[0.25em] flex items-center gap-3">
               Register Now
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -89,9 +89,9 @@ const { event } = Astro.props;
           
           <button 
             id="dismiss-popup"
-            class="flex-1 h-12 border border-zinc-800 hover:border-zinc-600 clip-corner flex items-center justify-center transition-colors group"
+            class="flex-1 h-40 sm:h-12 border-2 border-zinc-800 hover:border-zinc-600 clip-corner flex items-center justify-center transition-colors group"
           >
-            <span class="font-mono text-xs font-bold uppercase tracking-[0.15em] text-zinc-400 group-hover:text-white transition-colors">
+            <span class="font-mono text-lg sm:text-xs font-bold uppercase tracking-[0.25em] text-zinc-400 group-hover:text-white transition-colors">
               Maybe Later
             </span>
           </button>
