@@ -36,12 +36,12 @@ export interface EventStats {
 }
 
 export interface Event {
-    id: string;
-    title: string;
-    slug: string;
-    date: string; // ISO Date YYYY-MM-DD
-    location: string;
-    mapEmbedLink?: string; // For Venue Map
+        faqs: [
+            { question: "Team Size?", answer: "2-4 Members. You can't participate alone." },
+            { question: "Registration Fee?", answer: "₹500 per person. Includes food and swag." },
+            { question: "When does registration open?", answer: "Registration opens on February 7, 2026 and closes on February 25, 2026." },
+            { question: "How long is the hackathon?", answer: "36 hours - Starting February 27 at 12:30 PM and ending February 28 at 10:00 AM." }
+        ]
     mode: "Online" | "Offline" | "Hybrid";
     shortDescription: string;
     fullDescription: string;
@@ -107,7 +107,7 @@ export const events: Event[] = [
         speakers: [],
         tags: ["Hackathon", "Devathon", "Innovation", "36HourChallenge", "Competition"],
         status: "upcoming",
-        fee: 150,
+        fee: 500,
         registrationLink: "/events/devthon-2026/register",
         isHackathon: true,
         stats: {

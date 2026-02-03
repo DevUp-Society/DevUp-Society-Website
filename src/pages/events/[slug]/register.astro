@@ -66,19 +66,53 @@ const { event } = Astro.props;
             <div class="w-20 h-20 bg-signal/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-signal/20">
                 <Icon name="lucide:check" class="text-4xl text-signal" />
             </div>
-            <h2 class="font-display text-3xl text-white mb-4">REGISTRATION SUCCESSFUL!</h2>
+            <h2 class="font-display text-3xl text-white mb-4">REGISTRATION RECEIVED</h2>
             <p class="font-mono text-zinc-400 text-sm mb-8">
-                Your spot has been secured. A confirmation email has been sent to your inbox.
+                We are verifying your payment. You will receive confirmation at <span id="success-email" class="text-white"></span>.
+                For queries, reach us at <span class="text-signal">devupsociety@gmail.com</span>.
             </p>
+            <div class="glass-panel p-6 clip-corner text-left max-w-xl mx-auto mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono text-zinc-400">
+                    <div>
+                        <div class="text-zinc-500 uppercase tracking-widest">Team Number</div>
+                        <div id="success-team-number" class="text-white text-sm"></div>
+                    </div>
+                    <div>
+                        <div class="text-zinc-500 uppercase tracking-widest">Team Name</div>
+                        <div id="success-team-name" class="text-white text-sm"></div>
+                    </div>
+                    <div>
+                        <div class="text-zinc-500 uppercase tracking-widest">Lead</div>
+                        <div id="success-lead-name" class="text-white text-sm"></div>
+                    </div>
+                    <div>
+                        <div class="text-zinc-500 uppercase tracking-widest">Team Size</div>
+                        <div id="success-team-size" class="text-white text-sm"></div>
+                    </div>
+                    <div>
+                        <div class="text-zinc-500 uppercase tracking-widest">Amount</div>
+                        <div id="success-amount" class="text-white text-sm"></div>
+                    </div>
+                    <div>
+                        <div class="text-zinc-500 uppercase tracking-widest">Transaction ID</div>
+                        <div id="success-transaction" class="text-white text-sm"></div>
+                    </div>
+                </div>
+                <div class="mt-4 text-[10px] text-zinc-500 font-mono uppercase tracking-widest">
+                    Status: Payment verification pending
+                </div>
+            </div>
             <a href="/events" class="inline-flex items-center gap-2 px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-mono text-xs uppercase tracking-widest transition-colors">
                 Return to Events
             </a>
         </div>
 
         <!-- The Form -->
-        <form id="registration-form" class="space-y-8">
+        <form id="registration-form" class="space-y-8" data-event-fee={event.fee ?? 0}>
             <input type="hidden" name="event_slug" value={event.slug} />
             <input type="hidden" name="event_name" value={event.title} />
+            <input type="hidden" name="team_number" id="team-number" />
+            <input type="hidden" name="payment_amount" id="payment-amount" />
 
              {/* Team Details Section */}
              <div class="space-y-6">
@@ -146,19 +180,35 @@ const { event } = Astro.props;
                     </div>
                     
                     <div class="bg-zinc-900/50 p-6 border border-zinc-800 flex flex-col items-center text-center">
-                        <p class="font-mono text-xs text-zinc-400 mb-4">Scan QR to Pay</p>
-                        <div class="w-48 h-48 bg-white p-2 mb-4">
-                            {/* Placeholder QR - Replace with actual dynamic QR or static image */}
-                             <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=devup@upi&pn=DevUpSociety&am=${event.fee * 2}&tn=${event.slug}`} alt="Payment QR" class="w-full h-full object-contain" id="payment-qr" />
+                        <p class="font-mono text-xs text-zinc-400 mb-2">Pay to DevUp Society</p>
+                        <p class="font-mono text-[10px] text-zinc-500 mb-6">
+                            UPI ID: <span id="upi-id" class="text-white"></span> • Note: <span id="upi-note" class="text-white"></span>
+                        </p>
+
+                        <div id="upi-mobile" class="hidden w-full">
+                            <button type="button" id="upi-open" class="w-full py-3 bg-signal text-black font-mono font-bold uppercase tracking-widest hover:bg-white transition-colors btn-glitch">
+                                Open UPI App to Pay
+                            </button>
+                            <p class="font-mono text-[10px] text-zinc-500 mt-3">
+                                After paying, come back and enter your Transaction ID (UTR).
+                            </p>
                         </div>
+
+                        <div id="upi-desktop" class="hidden">
+                            <p class="font-mono text-xs text-zinc-400 mb-4">Scan QR to Pay</p>
+                            <div class="w-48 h-48 bg-white p-2 mb-4">
+                                <img src="" alt="Payment QR" class="w-full h-full object-contain" id="payment-qr" />
+                            </div>
+                        </div>
+
                         <p class="font-mono text-xl text-white mb-2" id="total-amount">Total: ₹{event.fee * 2}</p>
                         <p class="font-mono text-[10px] text-zinc-500 max-w-xs mx-auto">
                             After payment, please enter the Transaction ID (UTR) below for verification.
                         </p>
-                        
+
                         <div class="w-full mt-6">
-                             <label class="font-mono text-xs text-zinc-500 uppercase block text-left mb-2">Transaction ID (UTR)</label>
-                             <input type="text" name="transaction_id" required placeholder="e.g. 403212345678" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-center font-mono tracking-widest" />
+                            <label class="font-mono text-xs text-zinc-500 uppercase block text-left mb-2">Transaction ID (UTR)</label>
+                            <input type="text" name="transaction_id" required placeholder="e.g. 403212345678" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-center font-mono tracking-widest" />
                         </div>
                     </div>
                 </div>
@@ -180,19 +230,22 @@ const { event } = Astro.props;
 
     // SUPABASE TABLE SCHEMA REFERENCE
     /*
-    create table registrations (
-      id uuid default uuid_generate_v4() primary key,
-      created_at timestamp with time zone default timezone('utc'::text, now()) not null,
-      event_slug text not null,
-      team_name text not null,
-      lead_name text not null,
-      lead_email text not null,
-      lead_phone text not null,
-      lead_college text not null,
-      transaction_id text,
-      status text default 'pending', -- pending, approved, rejected
-      team_size integer not null
-    );
+        create table registrations (
+            id uuid default uuid_generate_v4() primary key,
+            created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+            event_slug text not null,
+            team_name text not null,
+            lead_name text not null,
+            lead_email text not null,
+            lead_phone text not null,
+            lead_college text not null,
+            team_number text,
+            payment_amount integer,
+            transaction_id text,
+            payment_status text default 'pending', -- pending, verified, rejected
+            status text default 'pending', -- pending, approved, rejected (legacy)
+            team_size integer not null
+        );
 
     create table team_members (
       id uuid default uuid_generate_v4() primary key,
@@ -203,18 +256,96 @@ const { event } = Astro.props;
     );
     */
 
-    // Define vars passed from Astro frontmatter
-    const eventFeeRaw = (document.querySelector('meta[name="event-fee"]') as HTMLMetaElement)?.content || "0";
+    // Payment Constants
+    const UPI_ID = 'aliffaizan1212@oksbi';
+    const UPI_PAYEE = 'DevUp Society';
+
+    // Define vars passed from Astro markup
+    const form = document.getElementById('registration-form') as HTMLFormElement | null;
+    const eventFeeRaw = form?.dataset.eventFee || '0';
     const eventFee = parseInt(eventFeeRaw);
 
     // DOM Elements - Explicit Casts
-    const form = document.getElementById('registration-form') as HTMLFormElement | null;
     const teamSizeInput = document.getElementById('team-size-display') as HTMLInputElement | null;
     const increaseBtn = document.getElementById('increase-size');
     const decreaseBtn = document.getElementById('decrease-size');
     const membersContainer = document.getElementById('members-container');
     const qrImage = document.getElementById('payment-qr') as HTMLImageElement | null;
     const totalAmountDisplay = document.getElementById('total-amount');
+    const upiOpenButton = document.getElementById('upi-open') as HTMLButtonElement | null;
+    const upiMobile = document.getElementById('upi-mobile');
+    const upiDesktop = document.getElementById('upi-desktop');
+    const upiIdDisplay = document.getElementById('upi-id');
+    const upiNoteDisplay = document.getElementById('upi-note');
+    const teamNumberInput = document.getElementById('team-number') as HTMLInputElement | null;
+    const paymentAmountInput = document.getElementById('payment-amount') as HTMLInputElement | null;
+
+    function formatTeamNumber(sequence: number) {
+        const padded = String(sequence).padStart(3, '0');
+        return `DEV2026-${padded}`;
+    }
+
+    async function getNextTeamNumber(eventSlug: string) {
+        try {
+            const { data, error } = await supabase
+                .from('registrations')
+                .select('team_number')
+                .eq('event_slug', eventSlug);
+
+            if (error) throw error;
+
+            const maxSeq = (data || []).reduce((max: number, row: { team_number?: string }) => {
+                const match = row.team_number?.match(/DEV2026-(\d{3,})/);
+                const num = match ? parseInt(match[1], 10) : 0;
+                return Math.max(max, num);
+            }, 0);
+
+            return formatTeamNumber(maxSeq + 1);
+        } catch (err) {
+            console.error('Team number fetch failed:', err);
+            return formatTeamNumber(1);
+        }
+    }
+
+    function buildUpiLink(amount: number, teamNumber: string) {
+        const params = new URLSearchParams({
+            pa: UPI_ID,
+            pn: UPI_PAYEE,
+            am: amount.toString(),
+            cu: 'INR',
+            tn: teamNumber
+        });
+        return `upi://pay?${params.toString()}`;
+    }
+
+    function isMobileDevice() {
+        return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    function updatePaymentUI(total: number, teamNumber: string) {
+        const upiLink = buildUpiLink(total, teamNumber);
+
+        if (upiIdDisplay) upiIdDisplay.textContent = UPI_ID;
+        if (upiNoteDisplay) upiNoteDisplay.textContent = teamNumber;
+        if (paymentAmountInput) paymentAmountInput.value = total.toString();
+
+        if (qrImage) {
+            const encoded = encodeURIComponent(upiLink);
+            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encoded}`;
+        }
+
+        if (upiOpenButton) {
+            upiOpenButton.onclick = () => {
+                window.location.href = upiLink;
+            };
+        }
+
+        if (upiMobile && upiDesktop) {
+            const mobile = isMobileDevice();
+            upiMobile.classList.toggle('hidden', !mobile);
+            upiDesktop.classList.toggle('hidden', mobile);
+        }
+    }
 
     // Function to render member fields
     function updateMemberFields() {
@@ -249,39 +380,47 @@ const { event } = Astro.props;
         }
 
         // Update Payment Info
-        if (eventFee > 0 && totalAmountDisplay) {
+        if (eventFee > 0 && totalAmountDisplay && teamNumberInput) {
             const total = eventFee * size;
             totalAmountDisplay.textContent = `Total: ₹${total}`;
-            // Update QR URL
-            if (qrImage) {
-                    const slugInput = document.querySelector('input[name="event_slug"]') as HTMLInputElement;
-                    const slug = slugInput?.value || "event";
-                    qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=devup@upi&pn=DevUpSociety&am=${total}&tn=${slug}_reg`;
-            }
+            updatePaymentUI(total, teamNumberInput.value || 'DEV2026-000');
         }
     }
 
-        // Button Listeners
-    if (increaseBtn && decreaseBtn && teamSizeInput) {
-        increaseBtn.addEventListener('click', () => {
-            let current = parseInt(teamSizeInput.value) || 2;
-            if (current < 4) { // Max 4 members now
-                teamSizeInput.value = (current + 1).toString();
-                updateMemberFields();
-            }
-        });
+    function initTeamControls() {
+        if (increaseBtn && decreaseBtn && teamSizeInput) {
+            increaseBtn.addEventListener('click', () => {
+                let current = parseInt(teamSizeInput.value) || 2;
+                if (current < 4) {
+                    teamSizeInput.value = (current + 1).toString();
+                    updateMemberFields();
+                }
+            });
 
-        decreaseBtn.addEventListener('click', () => {
-            let current = parseInt(teamSizeInput.value) || 2;
-            if (current > 2) { 
-                teamSizeInput.value = (current - 1).toString();
-                updateMemberFields();
-            }
-        });
-        
-        // Init
-        updateMemberFields(); 
+            decreaseBtn.addEventListener('click', () => {
+                let current = parseInt(teamSizeInput.value) || 2;
+                if (current > 2) {
+                    teamSizeInput.value = (current - 1).toString();
+                    updateMemberFields();
+                }
+            });
+        }
     }
+
+    async function initTeamNumber() {
+        if (!teamNumberInput) return;
+        const slugInput = document.querySelector('input[name="event_slug"]') as HTMLInputElement;
+        const slug = slugInput?.value || 'event';
+        const teamNumber = await getNextTeamNumber(slug);
+        teamNumberInput.value = teamNumber;
+        updateMemberFields();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        initTeamControls();
+        initTeamNumber();
+        updateMemberFields();
+    });
 
 
     // Form Submission Logic
@@ -306,6 +445,15 @@ const { event } = Astro.props;
                 const leadCollege = formData.get('lead_college'); 
                 const transactionId = formData.get('transaction_id');
                 const teamSize = parseInt(teamSizeInput.value);
+                const teamNumber = (formData.get('team_number') || '').toString();
+                const paymentAmount = parseInt((formData.get('payment_amount') || '0').toString());
+
+                if (eventFee > 0 && !transactionId) {
+                    alert('Please enter your Transaction ID (UTR) to continue.');
+                    overlay.classList.add('hidden');
+                    overlay.classList.remove('flex');
+                    return;
+                }
 
                 // Generate ID client-side to allow Write-Only security policy
                 const registrationId = crypto.randomUUID();
@@ -322,7 +470,10 @@ const { event } = Astro.props;
                             lead_email: leadEmail,
                             lead_phone: leadPhone,
                             lead_college: leadCollege,
+                            team_number: teamNumber,
+                            payment_amount: paymentAmount,
                             transaction_id: transactionId,
+                            payment_status: 'pending',
                             team_size: teamSize,
                             status: 'pending' 
                         }
@@ -362,6 +513,21 @@ const { event } = Astro.props;
                     overlay.classList.remove('flex');
                     form.classList.add('hidden');
                     successScreen.classList.remove('hidden');
+                    const teamNameEl = document.getElementById('success-team-name');
+                    const leadNameEl = document.getElementById('success-lead-name');
+                    const teamSizeEl = document.getElementById('success-team-size');
+                    const teamNumberEl = document.getElementById('success-team-number');
+                    const amountEl = document.getElementById('success-amount');
+                    const transactionEl = document.getElementById('success-transaction');
+                    const emailEl = document.getElementById('success-email');
+
+                    if (teamNameEl) teamNameEl.textContent = String(teamName || '');
+                    if (leadNameEl) leadNameEl.textContent = String(leadName || '');
+                    if (teamSizeEl) teamSizeEl.textContent = String(teamSize || '');
+                    if (teamNumberEl) teamNumberEl.textContent = teamNumber;
+                    if (amountEl) amountEl.textContent = `₹${paymentAmount}`;
+                    if (transactionEl) transactionEl.textContent = String(transactionId || '');
+                    if (emailEl) emailEl.textContent = String(leadEmail || '');
                 }, 1000);
 
             } catch (error) {
