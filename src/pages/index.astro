@@ -1,12 +1,20 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import { Icon } from 'astro-icon/components';
+import EventPopup from '../components/EventPopup.astro';
+import { upcomingEvents } from '../data/events';
+
+// Get the first upcoming event (if any)
+const nextEvent = upcomingEvents.length > 0 ? upcomingEvents[0] : null;
 ---
 
 <MainLayout 
   title="DevUp Society | Code. Build. Deploy." 
   description="The premier tech community for innovators, developers, and builders. Join DevUp Society and level up your skills."
 >
+  <!-- EVENT POPUP -->
+  <EventPopup event={nextEvent} />
+
   <!-- HERO -->
   <section class="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden">
     <!-- Background Image -->
