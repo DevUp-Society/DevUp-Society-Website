@@ -186,38 +186,53 @@ const isUpcoming = event.status === 'upcoming';
         </section>
       )}
     
-      <!-- MAP & INFO GRID -->
+      <!-- PARTNERS & INFO GRID -->
       <section class="py-32 bg-void border-t border-zinc-900">
-        <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div class="max-w-6xl mx-auto px-6">
             
-            {/* MAP */}
-            {event.mapEmbedLink && (
-                <div class="space-y-6">
-                    <h3 class="font-display text-2xl text-white flex items-center gap-3">
-                        <Icon name="lucide:map-pin" class="text-signal" />
-                        THE VENUE
-                    </h3>
-                    <div class="w-full h-80 glass-panel p-2 clip-corner">
-                        <iframe 
-                            src={event.mapEmbedLink} 
-                            width="100%" 
-                            height="100%" 
-                            style="border:0; filter: grayscale(1) invert(1) contrast(1.2) brightness(0.8);" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade"
-                            class="opacity-70 hover:opacity-100 transition-opacity"
-                        ></iframe>
-                    </div>
-                    <p class="font-mono text-zinc-500 text-sm">
-                        {event.location}
-                    </p>
+            {/* PARTNERS / ORGANIZERS */}
+            <div class="space-y-8">
+              <h3 class="font-display text-2xl text-white flex items-center gap-3 justify-center">
+                <Icon name="lucide:handshake" class="text-signal" />
+                Partners & Organizers
+              </h3>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Organized By -->
+                <div class="text-center space-y-4">
+                  <h4 class="font-mono text-xs text-zinc-400 uppercase tracking-widest">
+                    Organized by
+                  </h4>
+                  <div class="glass-panel p-8 clip-corner bg-white/5 hover:bg-white/10 transition-colors mx-auto max-w-xs">
+                    <img 
+                      src="https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770106897/IEC-Logo_cxbv77.png" 
+                      alt="IEC Logo" 
+                      class="h-20 w-auto mx-auto filter brightness-0 invert"
+                    />
+                  </div>
+                  <p class="font-mono text-xs text-signal uppercase tracking-wider">IEC</p>
                 </div>
-            )}
+
+                <!-- Startup Ecosystems Partner -->
+                <div class="text-center space-y-4">
+                  <h4 class="font-mono text-xs text-zinc-400 uppercase tracking-widest">
+                    Startup Ecosystems Partner
+                  </h4>
+                  <div class="glass-panel p-8 clip-corner bg-white/5 hover:bg-white/10 transition-colors mx-auto max-w-xs">
+                    <img 
+                      src="https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770106897/Startups_India_Logo_ba8vml.png" 
+                      alt="Startup India Logo" 
+                      class="h-20 w-auto mx-auto filter brightness-0 invert"
+                    />
+                  </div>
+                  <p class="font-mono text-xs text-signal uppercase tracking-wider">Startup India</p>
+                </div>
+              </div>
+            </div>
 
             {/* FAQs */}
             {event.faqs && (
-                <div class="space-y-6">
+                <div class="space-y-6 max-w-4xl mx-auto w-full">
                      <h3 class="font-display text-2xl text-white flex items-center gap-3">
                         <Icon name="lucide:help-circle" class="text-signal" />
                         FAQs

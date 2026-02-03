@@ -101,11 +101,11 @@ export const events: Event[] = [
         location: "VJIT Campus",
         mapEmbedLink: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d18711.1396264906!2d78.33616666991054!3d17.39169720077843!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb95a2780aa0eb%3A0xe5495572621379da!2sVidya%20Jyothi%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1706698654321!5m2!1sen!2sin",
         mode: "Offline",
-        shortDescription: "An intense 24-hour hackathon challenging you to build future-ready solutions.",
-        fullDescription: "Get ready for the ultimate coding challenge! DevUp Society presents 'Devthon', a 24-hour hackathon scheduled for the last week of February 2026. This event calls upon developers, designers, and problem solvers to collaborate and build innovative solutions overnight. Whether you are into AI, Blockchain, or App Dev, this is your platform to showcase your skills. Stay tuned for track announcements and registration details.",
+        shortDescription: "An intense 36-hour hackathon challenging you to build future-ready solutions. Registration opens February 7th!",
+        fullDescription: "Get ready for the ultimate coding challenge! DevUp Society presents 'Devthon', a 36-hour hackathon happening on February 27-28, 2026. This event calls upon developers, designers, and problem solvers to collaborate and build innovative solutions. Whether you are into AI, Blockchain, or App Dev, this is your platform to showcase your skills. Registration opens February 7th and closes February 25th. Don't miss out on this incredible opportunity with a massive prize pool of ₹1,50,000!",
         images: ["/events/devathon-teaser.jpg"],
         speakers: [],
-        tags: ["Hackathon", "Devathon", "Innovation", "24HourChallenge", "Competition"],
+        tags: ["Hackathon", "Devathon", "Innovation", "36HourChallenge", "Competition"],
         status: "upcoming",
         fee: 150,
         registrationLink: "/events/devthon-2026/register",
@@ -113,19 +113,29 @@ export const events: Event[] = [
         stats: {
             participants: "400+",
             teams: "100+",
-            prizePool: "₹35K+"
+            prizePool: "₹1,50,000"
         },
         timeline: [
-            { id: 1, title: "Registration Open", date: "Nov 20", description: "Team Registration Begins" },
-            { id: 2, title: "Problem Statements", date: "Feb 14", description: "Tracks Announced" },
-            { id: 3, title: "Devthon Kickoff", date: "Feb 27, 10:00 AM", description: "Opening Ceremony" },
-            { id: 4, title: "Hacking Ends", date: "Feb 28, 10:00 AM", description: "Submission Deadline" },
-            { id: 5, title: "Results", date: "Feb 28, 02:00 PM", description: "Closing Ceremony & Prizes" }
+            { id: 1, title: "Registration Opens", date: "Feb 7, 2026", description: "Team Registration Begins - Don't Miss Out!" },
+            { id: 2, title: "Registration Closes", date: "Feb 25, 2026", description: "Last Day to Register Your Team" },
+            { id: 3, title: "Day 1 - Check-in", date: "Feb 27, 9:00 AM", description: "Participants check-in (E-Block)" },
+            { id: 4, title: "Day 1 - Inauguration", date: "Feb 27, 10:00 AM", description: "Inaugural ceremony (E-Block auditorium)" },
+            { id: 5, title: "Day 1 - Venue Shift", date: "Feb 27, 11:30 AM", description: "Proceed to venues" },
+            { id: 6, title: "Day 1 - Theme Reveal", date: "Feb 27, 11:40 AM", description: "Theme reveal and idea selection" },
+            { id: 7, title: "Day 1 - Hacking Begins", date: "Feb 27, 12:30 PM", description: "Hackathon Phase I & II, Lunch, Snacks & Tea" },
+            { id: 8, title: "Day 1 - Mentors Check-in", date: "Feb 27, 7:00 PM", description: "Mentors arrive for guidance" },
+            { id: 9, title: "Day 1 - Night Session", date: "Feb 27, 9:00 PM", description: "Dinner break & Hackathon Phase III (Night coding)" },
+            { id: 10, title: "Day 2 - Fun Activities", date: "Feb 28, 12:00 AM", description: "Fun activities (Gaming, DJ Night) & Ice Breaking Session" },
+            { id: 11, title: "Day 2 - Late Night Dev", date: "Feb 28, 3:00 AM", description: "Hackathon Phase IV (Late Night Development) & Breakfast" },
+            { id: 12, title: "Day 2 - Final Dev", date: "Feb 28, 8:00 AM", description: "Final Development & Submission Preparation" },
+            { id: 13, title: "Day 2 - Submissions", date: "Feb 28, 10:00 AM", description: "Code Freeze & Project Submission, Evaluation & Presentations" },
+            { id: 14, title: "Day 2 - Break", date: "Feb 28, 1:00 PM", description: "Judges Deliberation & Participant Break" },
+            { id: 15, title: "Day 2 - Valedictory", date: "Feb 28, 2:00 PM", description: "Valedictory & Prize Distribution, Feedback" }
         ],
         prizes: [
-            { id: 1, type: "Gold", amount: "₹15,000", perks: ["Trophy", "Merch Kit", "Internship Refferal"] },
-            { id: 2, type: "Silver", amount: "₹10,000", perks: ["Trophy", "Merch Kit"] },
-            { id: 3, type: "Bronze", amount: "₹5,000", perks: ["Trophy", "Swag"] }
+            { id: 1, type: "Gold", amount: "₹75,000", perks: ["Trophy", "Merch Kit", "Internship Referral", "Certificate"] },
+            { id: 2, type: "Silver", amount: "₹50,000", perks: ["Trophy", "Merch Kit", "Certificate"] },
+            { id: 3, type: "Bronze", amount: "₹25,000", perks: ["Trophy", "Swag Kit", "Certificate"] }
         ],
         themes: [
             { title: "Smart City", description: "Solutions for urban challenges." },
@@ -135,9 +145,9 @@ export const events: Event[] = [
         ],
         faqs: [
             { question: "Team Size?", answer: "2-4 Members. You can't participate alone." },
-            { question: "Registration Fee?", answer: "₹150 per person. Includes food and swag." },
-            { question: "Who can participate?", answer: "Exclusively for 1st Year VJIT Students." },
-            { question: "Do I need to code?", answer: "No code solutions are welcome, but prototypes win." }
+            { question: "Registration Fee?", answer: "₹500 per person. Includes food and swag." },
+            { question: "When does registration open?", answer: "Registration opens on February 7, 2026 and closes on February 25, 2026." },
+            { question: "How long is the hackathon?", answer: "36 hours - Starting February 27 at 12:30 PM and ending February 28 at 10:00 AM." }
         ]
     }
 ];
