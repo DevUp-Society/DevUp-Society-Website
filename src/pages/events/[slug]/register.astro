@@ -507,6 +507,33 @@ const { event } = Astro.props;
                     if (memError) throw memError;
                 }
 
+                // 3. Send pending payment email
+                try {
+                    const emailFormData = new FormData();
+                    emailFormData.append('teamNumber', teamNumber);
+                    emailFormData.append('teamName', teamName);
+                    emailFormData.append('leadName', leadName);
+                    emailFormData.append('leadEmail', leadEmail);
+                    emailFormData.append('teamSize', teamSize.toString());
+                    emailFormData.append('amount', paymentAmount.toString());
+                    emailFormData.append('transactionId', transactionId);
+                    
+                    const emailResponse = await fetch('/api/email/pending', {
+                        method: 'POST',
+                        body: emailFormData,
+                    });
+                    
+                    if (!emailResponse.ok) {
+                        const errorData = await emailResponse.json();
+                        console.error('Email sending failed:', errorData);
+                    } else {
+                        console.log('Pending email sent successfully');
+                    }
+                } catch (emailError) {
+                    console.error('Email error:', emailError);
+                    // Continue even if email fails
+                }
+
                 // Success!
                 setTimeout(() => {
                     overlay.classList.add('hidden');
