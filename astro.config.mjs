@@ -10,10 +10,12 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     icon(),
+    // sitemap integration temporarily disabled - install locally if needed
+    // sitemap({ filter: (page) => !page.includes("/api/") }),
   ],
   output: "hybrid",
   adapter: vercel({
     functionPerRoute: false,
   }),
-  site: "https://devup-society.com",
+  site: "https://www.devupvjit.in",
 });

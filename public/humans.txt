@@ -1,0 +1,29 @@
+/* TEAM */
+Site: DevUp Society
+Location: Hyderabad, Telangana, India
+Organization: Vidya Jyothi Institute of Technology (VJIT)
+Founded: 2024
+
+/* LEADERSHIP */
+Community managed by DevUp Society Core Team
+Email: devupsociety@vjit.ac.in
+LinkedIn: linkedin.com/company/devup-community
+
+/* MISSION */
+Building India's next generation of developers through
+hands-on projects, hackathons, and industry collaboration.
+
+/* TECHNOLOGY */
+Framework: Astro
+Styling: Tailwind CSS
+Deployment: Vercel
+Backend: Supabase
+Email: Resend
+Animations: GSAP
+
+/* CONTACT */
+Website: https://www.devupvjit.in
+Email: devupsociety@vjit.ac.in
+WhatsApp: Available on website
+Instagram: @devupcommunity
+GitHub: github.com/DevUp-Society

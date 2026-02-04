@@ -1,0 +1,7 @@
+# DevUp Society Security Information
+# https://www.devupvjit.in
+
+Contact: mailto:devupsociety@vjit.ac.in
+Preferred-Languages: en, hi, te
+Canonical: https://www.devupvjit.in/.well-known/security.txt
+Expires: 2026-12-31T23:59:59.000Z

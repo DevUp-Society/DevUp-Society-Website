@@ -1,0 +1,46 @@
+# DevUp Society - robots.txt
+# https://www.devupvjit.in
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Google Search
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Google AI (Gemini)
+User-agent: Google-Extended
+Allow: /
+
+# OpenAI (ChatGPT)
+User-agent: GPTBot
+Allow: /
+
+# Anthropic (Claude)
+User-agent: Claude-Web
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+
+# Common Crawl (for AI training)
+User-agent: CCBot
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Sitemaps
+Sitemap: https://www.devupvjit.in/sitemap-index.xml
+Sitemap: https://www.devupvjit.in/sitemap-0.xml
+
+# LLM-specific information file
+# See: https://www.devupvjit.in/llms.txt

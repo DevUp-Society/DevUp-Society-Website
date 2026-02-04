@@ -9,8 +9,8 @@ const nextEvent = upcomingEvents.length > 0 ? upcomingEvents[0] : null;
 ---
 
 <MainLayout 
-  title="DevUp Society | Code. Build. Deploy." 
-  description="The premier tech community for innovators, developers, and builders. Join DevUp Society and level up your skills."
+  title="DevUp Society - Premier Student Developer & Hackathon Community" 
+  description="Join DevUp Society, the leading student developer community. We build open-source projects, host hackathons, and launch tech careers. Join the revolution today."
 >
   <!-- EVENT POPUP -->
   <EventPopup event={nextEvent} />
@@ -70,12 +70,18 @@ const nextEvent = upcomingEvents.length > 0 ? upcomingEvents[0] : null;
       <div class="max-w-xl mx-auto space-y-8 opacity-0 animate-[fadeIn_1s_ease-out_1s_forwards]">
         <div class="flex items-center gap-4 justify-center">
           <div class="h-px w-12 bg-zinc-700"></div>
-          <p class="font-mono text-xs md:text-sm text-zinc-400 text-center uppercase tracking-widest leading-relaxed">
-            We don't just learn code. We ship products.<br>
+          <h2 class="font-mono text-xs md:text-sm text-zinc-400 text-center uppercase tracking-widest leading-relaxed">
+            Building the Next Generation of Developers<br>
             <span class="text-white">Innovation is our protocol.</span>
-          </p>
+          </h2>
           <div class="h-px w-12 bg-zinc-700"></div>
         </div>
+
+        <!-- AEO Definition Block (Hidden visually but available for search agents if needed, or styled minimally) -->
+        <article class="sr-only">
+          <h3>What is DevUp Society?</h3>
+          <p>DevUp Society is a premier student developer community based in Hyderabad, India, focusing on open-source contribution, product development, and hackathons. Unlike traditional coding clubs, DevUp Society operates as a product-first organization where members build real-world software.</p>
+        </article>
 
         <div class="flex flex-col md:flex-row items-center justify-center gap-6">
           <a href="/join" class="group relative w-64 h-14 bg-signal text-black clip-corner flex items-center justify-center overflow-hidden btn-glitch">

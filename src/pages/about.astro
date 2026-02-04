@@ -1,0 +1,440 @@
+---
+/**
+ * /about - About DevUp Society (SEO-Optimized Pillar Page)
+ * 
+ * PRIMARY KEYWORDS: DevUp Society, developer community, student coding club
+ * SECONDARY KEYWORDS: hackathon community, tech community India, coding community
+ * LONG-TAIL KEYWORDS: best developer community in India, student developer community Hyderabad
+ * AEO KEYWORDS: What is DevUp Society, How to join DevUp, DevUp Society reviews
+ */
+import MainLayout from '../layouts/MainLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+// About page specific schema
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "About DevUp Society",
+  "description": "Learn about DevUp Society - India's premier student developer community. Our mission, values, history, and what makes us different.",
+  "url": "https://www.devupvjit.in/about",
+  "mainEntity": {
+    "@type": "Organization",
+    "@id": "https://www.devupvjit.in/#organization"
+  }
+};
+---
+
+<MainLayout 
+  title="About DevUp Society - India's Premier Student Developer Community" 
+  description="Learn about DevUp Society, the leading student developer community in India. Discover our mission, values, team, and how we're building the next generation of developers through hackathons, open source, and real projects."
+  keywords="about DevUp Society, developer community India, student coding club Hyderabad, hackathon community, tech community VJIT, what is DevUp Society, DevUp history, DevUp mission"
+  schema={aboutSchema}
+>
+  <!-- HERO SECTION -->
+  <section class="relative min-h-[70vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-zinc-900">
+    <div class="grid-floor opacity-30"></div>
+    
+    <div class="relative z-20 text-center px-4 max-w-5xl mx-auto">
+      <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// About Us</span>
+      <h1 class="font-display text-5xl md:text-8xl text-white font-medium leading-[0.85] tracking-tight mb-8">
+        BUILDING THE FUTURE<br/>
+        <span class="text-zinc-600">OF DEVELOPERS</span>
+      </h1>
+      <p class="font-mono text-zinc-400 text-sm md:text-base max-w-3xl mx-auto leading-relaxed">
+        DevUp Society is India's premier student developer community based in Hyderabad. 
+        We don't just learn code—we ship products, contribute to open source, 
+        and build real-world skills that launch careers.
+      </p>
+    </div>
+  </section>
+
+  <!-- WHAT IS DEVUP SOCIETY - AEO Optimized Section -->
+  <section id="what-is-devup" class="py-32 bg-void border-b border-zinc-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// The Answer</span>
+          <h2 class="font-display text-4xl md:text-6xl text-white font-medium leading-[0.9] mb-8">
+            WHAT IS<br/>
+            <span class="text-signal">DEVUP SOCIETY?</span>
+          </h2>
+          
+          <!-- AEO-Optimized Definition (40-60 words, quotable) -->
+          <article class="glass-panel p-8 clip-corner-tl mb-8" itemscope itemtype="https://schema.org/Article">
+            <meta itemprop="name" content="What is DevUp Society?" />
+            <p itemprop="articleBody" class="font-display text-xl md:text-2xl text-white leading-relaxed">
+              <strong>DevUp Society</strong> is India's premier student developer community based at VJIT, Hyderabad. 
+              Unlike traditional coding clubs, DevUp operates as a <em>product-first organization</em> where members 
+              build real-world software, contribute to open source, participate in hackathons, and develop 
+              industry-ready skills. Founded in 2024, DevUp has grown to 100+ active members.
+            </p>
+          </article>
+
+          <div class="space-y-4">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-signal/10 border border-signal flex items-center justify-center flex-shrink-0">
+                <Icon name="lucide:code" class="text-signal" />
+              </div>
+              <div>
+                <h3 class="font-display text-lg text-white mb-1">Product-First Approach</h3>
+                <p class="font-mono text-xs text-zinc-400">We ship real software, not just tutorials</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-signal/10 border border-signal flex items-center justify-center flex-shrink-0">
+                <Icon name="lucide:users" class="text-signal" />
+              </div>
+              <div>
+                <h3 class="font-display text-lg text-white mb-1">Community Driven</h3>
+                <p class="font-mono text-xs text-zinc-400">100+ active members collaborating daily</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-signal/10 border border-signal flex items-center justify-center flex-shrink-0">
+                <Icon name="lucide:rocket" class="text-signal" />
+              </div>
+              <div>
+                <h3 class="font-display text-lg text-white mb-1">Career Launchpad</h3>
+                <p class="font-mono text-xs text-zinc-400">Portfolio projects that land internships</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="glass-panel p-8 clip-corner">
+            <div class="space-y-6">
+              <div class="flex justify-between items-center border-b border-zinc-800 pb-4">
+                <span class="font-mono text-xs text-zinc-500 uppercase tracking-widest">Quick Facts</span>
+                <span class="font-mono text-xs text-signal">2024 - Present</span>
+              </div>
+              
+              <div class="grid grid-cols-2 gap-6">
+                <div class="text-center p-4 bg-zinc-900/50 border border-zinc-800">
+                  <div class="font-display text-4xl text-signal mb-2">100+</div>
+                  <div class="font-mono text-xs text-zinc-500 uppercase">Active Members</div>
+                </div>
+                <div class="text-center p-4 bg-zinc-900/50 border border-zinc-800">
+                  <div class="font-display text-4xl text-signal mb-2">50+</div>
+                  <div class="font-mono text-xs text-zinc-500 uppercase">Projects Shipped</div>
+                </div>
+                <div class="text-center p-4 bg-zinc-900/50 border border-zinc-800">
+                  <div class="font-display text-4xl text-signal mb-2">20+</div>
+                  <div class="font-mono text-xs text-zinc-500 uppercase">Events Hosted</div>
+                </div>
+                <div class="text-center p-4 bg-zinc-900/50 border border-zinc-800">
+                  <div class="font-display text-4xl text-signal mb-2">4</div>
+                  <div class="font-mono text-xs text-zinc-500 uppercase">Core Domains</div>
+                </div>
+              </div>
+
+              <div class="pt-4 border-t border-zinc-800">
+                <div class="font-mono text-xs text-zinc-500 mb-2 uppercase tracking-widest">Location</div>
+                <p class="font-mono text-sm text-white">
+                  Vidya Jyothi Institute of Technology (VJIT)<br/>
+                  Hyderabad, Telangana, India
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR MISSION -->
+  <section id="mission" class="py-32 bg-[#050505] border-b border-zinc-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-20">
+        <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Our Purpose</span>
+        <h2 class="font-display text-4xl md:text-6xl text-white font-medium leading-[0.9] mb-8">
+          MISSION & VISION
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div class="glass-panel p-10 clip-corner-tl">
+          <div class="w-16 h-16 bg-signal/10 border border-signal flex items-center justify-center mb-6">
+            <Icon name="lucide:target" class="text-signal text-3xl" />
+          </div>
+          <h3 class="font-display text-3xl text-white mb-4">Our Mission</h3>
+          <p class="font-mono text-sm text-zinc-400 leading-relaxed">
+            To transform students into industry-ready developers through hands-on project experience, 
+            open-source contribution, and real-world problem solving. We believe learning happens by 
+            building, not just watching tutorials.
+          </p>
+        </div>
+
+        <div class="glass-panel p-10 clip-corner-tl">
+          <div class="w-16 h-16 bg-signal/10 border border-signal flex items-center justify-center mb-6">
+            <Icon name="lucide:eye" class="text-signal text-3xl" />
+          </div>
+          <h3 class="font-display text-3xl text-white mb-4">Our Vision</h3>
+          <p class="font-mono text-sm text-zinc-400 leading-relaxed">
+            To become India's most impactful student developer community—a launchpad where every 
+            member graduates with a portfolio of shipped products, industry connections, and the 
+            confidence to build anything.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY DEVUP IS DIFFERENT - Comparison Content -->
+  <section id="why-different" class="py-32 bg-void border-b border-zinc-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-20">
+        <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// The Difference</span>
+        <h2 class="font-display text-4xl md:text-6xl text-white font-medium leading-[0.9] mb-8">
+          WHY DEVUP SOCIETY<br/>
+          <span class="text-zinc-600">IS DIFFERENT</span>
+        </h2>
+        <p class="font-mono text-zinc-400 text-sm max-w-2xl mx-auto">
+          We're not your typical college coding club. Here's what sets DevUp apart from other 
+          tech communities and student organizations.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="border-b border-zinc-800">
+              <th class="text-left font-mono text-xs text-zinc-500 uppercase tracking-widest py-4 px-6">Aspect</th>
+              <th class="text-left font-mono text-xs text-signal uppercase tracking-widest py-4 px-6">DevUp Society</th>
+              <th class="text-left font-mono text-xs text-zinc-600 uppercase tracking-widest py-4 px-6">Traditional Clubs</th>
+            </tr>
+          </thead>
+          <tbody class="font-mono text-sm">
+            <tr class="border-b border-zinc-900">
+              <td class="py-4 px-6 text-zinc-400">Focus</td>
+              <td class="py-4 px-6 text-white">Shipping real products</td>
+              <td class="py-4 px-6 text-zinc-600">Theory & competitions</td>
+            </tr>
+            <tr class="border-b border-zinc-900">
+              <td class="py-4 px-6 text-zinc-400">Learning Style</td>
+              <td class="py-4 px-6 text-white">Hands-on project work</td>
+              <td class="py-4 px-6 text-zinc-600">Lectures & tutorials</td>
+            </tr>
+            <tr class="border-b border-zinc-900">
+              <td class="py-4 px-6 text-zinc-400">Output</td>
+              <td class="py-4 px-6 text-white">Deployed applications</td>
+              <td class="py-4 px-6 text-zinc-600">Certificates</td>
+            </tr>
+            <tr class="border-b border-zinc-900">
+              <td class="py-4 px-6 text-zinc-400">Career Impact</td>
+              <td class="py-4 px-6 text-white">Portfolio-ready projects</td>
+              <td class="py-4 px-6 text-zinc-600">Resume bullet points</td>
+            </tr>
+            <tr class="border-b border-zinc-900">
+              <td class="py-4 px-6 text-zinc-400">Community</td>
+              <td class="py-4 px-6 text-white">Active daily collaboration</td>
+              <td class="py-4 px-6 text-zinc-600">Occasional meetups</td>
+            </tr>
+            <tr class="border-b border-zinc-900">
+              <td class="py-4 px-6 text-zinc-400">Industry Connection</td>
+              <td class="py-4 px-6 text-white">Startup partnerships</td>
+              <td class="py-4 px-6 text-zinc-600">Limited exposure</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE TEACH -->
+  <section id="skills" class="py-32 bg-[#050505] border-b border-zinc-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-20">
+        <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Core Domains</span>
+        <h2 class="font-display text-4xl md:text-6xl text-white font-medium leading-[0.9] mb-8">
+          WHAT YOU'LL LEARN
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="glass-panel p-6 clip-corner-tl hover:border-signal/30 transition-all group">
+          <div class="w-12 h-12 bg-signal/10 border border-signal flex items-center justify-center mb-4 group-hover:bg-signal group-hover:text-black transition-all">
+            <Icon name="lucide:code" class="text-signal group-hover:text-black text-xl" />
+          </div>
+          <h3 class="font-display text-xl text-white mb-2">Full-Stack Development</h3>
+          <p class="font-mono text-xs text-zinc-500 mb-4">MERN, Django, Next.js, PostgreSQL, REST APIs</p>
+          <ul class="font-mono text-xs text-zinc-400 space-y-1">
+            <li>• React & Next.js</li>
+            <li>• Node.js & Express</li>
+            <li>• Database Design</li>
+            <li>• API Development</li>
+          </ul>
+        </div>
+
+        <div class="glass-panel p-6 clip-corner-tl hover:border-signal/30 transition-all group">
+          <div class="w-12 h-12 bg-signal/10 border border-signal flex items-center justify-center mb-4 group-hover:bg-signal group-hover:text-black transition-all">
+            <Icon name="lucide:cloud" class="text-signal group-hover:text-black text-xl" />
+          </div>
+          <h3 class="font-display text-xl text-white mb-2">DevOps & Cloud</h3>
+          <p class="font-mono text-xs text-zinc-500 mb-4">Docker, Kubernetes, AWS, CI/CD, IaC</p>
+          <ul class="font-mono text-xs text-zinc-400 space-y-1">
+            <li>• Container Orchestration</li>
+            <li>• Cloud Infrastructure</li>
+            <li>• Pipeline Automation</li>
+            <li>• Monitoring & Scaling</li>
+          </ul>
+        </div>
+
+        <div class="glass-panel p-6 clip-corner-tl hover:border-signal/30 transition-all group">
+          <div class="w-12 h-12 bg-signal/10 border border-signal flex items-center justify-center mb-4 group-hover:bg-signal group-hover:text-black transition-all">
+            <Icon name="lucide:brain" class="text-signal group-hover:text-black text-xl" />
+          </div>
+          <h3 class="font-display text-xl text-white mb-2">AI/ML Engineering</h3>
+          <p class="font-mono text-xs text-zinc-500 mb-4">PyTorch, TensorFlow, LLMs, MLOps</p>
+          <ul class="font-mono text-xs text-zinc-400 space-y-1">
+            <li>• Neural Networks</li>
+            <li>• LLM Fine-tuning</li>
+            <li>• Model Deployment</li>
+            <li>• Data Engineering</li>
+          </ul>
+        </div>
+
+        <div class="glass-panel p-6 clip-corner-tl hover:border-signal/30 transition-all group">
+          <div class="w-12 h-12 bg-signal/10 border border-signal flex items-center justify-center mb-4 group-hover:bg-signal group-hover:text-black transition-all">
+            <Icon name="lucide:smartphone" class="text-signal group-hover:text-black text-xl" />
+          </div>
+          <h3 class="font-display text-xl text-white mb-2">Mobile Development</h3>
+          <p class="font-mono text-xs text-zinc-500 mb-4">React Native, Flutter, iOS, Android</p>
+          <ul class="font-mono text-xs text-zinc-400 space-y-1">
+            <li>• Cross-Platform Apps</li>
+            <li>• Native Performance</li>
+            <li>• App Store Deploy</li>
+            <li>• Mobile UI/UX</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORY / TIMELINE -->
+  <section id="history" class="py-32 bg-void border-b border-zinc-900">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center mb-20">
+        <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Our Story</span>
+        <h2 class="font-display text-4xl md:text-6xl text-white font-medium leading-[0.9] mb-8">
+          THE JOURNEY
+        </h2>
+      </div>
+
+      <div class="space-y-8">
+        <div class="flex gap-6">
+          <div class="flex flex-col items-center">
+            <div class="w-4 h-4 bg-signal rounded-full"></div>
+            <div class="w-px h-full bg-zinc-800"></div>
+          </div>
+          <div class="pb-8">
+            <div class="font-mono text-xs text-signal uppercase tracking-widest mb-2">2024 - Foundation</div>
+            <h3 class="font-display text-2xl text-white mb-2">DevUp Society Founded</h3>
+            <p class="font-mono text-sm text-zinc-400">
+              Started at VJIT with a vision to create a product-first developer community. 
+              Initial team of 10 passionate builders began organizing workshops and hackathons.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div class="flex flex-col items-center">
+            <div class="w-4 h-4 bg-signal rounded-full"></div>
+            <div class="w-px h-full bg-zinc-800"></div>
+          </div>
+          <div class="pb-8">
+            <div class="font-mono text-xs text-signal uppercase tracking-widest mb-2">2024 - Growth</div>
+            <h3 class="font-display text-2xl text-white mb-2">First Major Hackathon</h3>
+            <p class="font-mono text-sm text-zinc-400">
+              Hosted our first inter-college hackathon with 200+ participants. 
+              Established partnerships with IEC and Startup India.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div class="flex flex-col items-center">
+            <div class="w-4 h-4 bg-signal rounded-full"></div>
+            <div class="w-px h-full bg-zinc-800"></div>
+          </div>
+          <div class="pb-8">
+            <div class="font-mono text-xs text-signal uppercase tracking-widest mb-2">2025 - Expansion</div>
+            <h3 class="font-display text-2xl text-white mb-2">100+ Active Members</h3>
+            <p class="font-mono text-sm text-zinc-400">
+              Community grew to over 100 active members. Launched multiple domain-specific 
+              teams: Full-Stack, DevOps, AI/ML, and Mobile development.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-6">
+          <div class="flex flex-col items-center">
+            <div class="w-4 h-4 bg-signal rounded-full border-2 border-signal bg-black"></div>
+          </div>
+          <div>
+            <div class="font-mono text-xs text-signal uppercase tracking-widest mb-2">2026 - Present</div>
+            <h3 class="font-display text-2xl text-white mb-2">Building the Future</h3>
+            <p class="font-mono text-sm text-zinc-400">
+              Continuing to ship products, host events, and launch careers. 
+              Working towards becoming India's most impactful student developer community.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="py-32 bg-[#050505]">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <div class="glass-panel p-12 clip-corner">
+        <Icon name="lucide:rocket" class="text-signal text-5xl mb-6 inline-block" />
+        <h2 class="font-display text-4xl md:text-5xl text-white mb-6 leading-tight">
+          Ready to Join<br/>DevUp Society?
+        </h2>
+        <p class="font-mono text-zinc-400 text-sm mb-8 max-w-lg mx-auto">
+          Stop watching tutorials. Start building real projects. 
+          Join the community that's shaping the next generation of developers.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/join" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner btn-glitch">
+            <span class="relative z-10">Join DevUp Society</span>
+            <Icon name="lucide:arrow-right" class="relative z-10" />
+          </a>
+          <a href="/events" class="inline-flex items-center justify-center gap-3 px-8 py-4 border border-zinc-700 text-white font-mono text-xs font-bold tracking-widest uppercase hover:border-signal hover:text-signal transition-colors">
+            <Icon name="lucide:calendar" />
+            <span>View Events</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRUCTURED DATA FOR AEO -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "About DevUp Society - India's Premier Student Developer Community",
+      "description": "Learn about DevUp Society, the leading student developer community in India. Discover our mission, values, team, and how we're building the next generation of developers.",
+      "author": {
+        "@type": "Organization",
+        "name": "DevUp Society"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "DevUp Society",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.devupvjit.in/assets/devup-logo-neon.png"
+        }
+      },
+      "datePublished": "2024-01-01",
+      "dateModified": "2026-02-04",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.devupvjit.in/about"
+      }
+    }
+  </script>
+</MainLayout>

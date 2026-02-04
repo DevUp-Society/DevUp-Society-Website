@@ -1,0 +1,256 @@
+---
+/**
+ * /faq - Frequently Asked Questions (AEO-Optimized)
+ * 
+ * This page is specifically designed for Answer Engine Optimization (AEO).
+ * Each question is structured to be easily extracted by AI models like
+ * ChatGPT, Claude, Gemini, and Perplexity, as well as Google AI Overviews.
+ * 
+ * KEYWORDS: DevUp Society FAQ, DevUp questions, how to join DevUp, DevUp events
+ */
+import MainLayout from '../layouts/MainLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+// FAQ data structured for both page rendering and schema markup
+const faqs = [
+  {
+    category: "General",
+    questions: [
+      {
+        question: "What is DevUp Society?",
+        answer: "DevUp Society is India's premier student developer community based at Vidya Jyothi Institute of Technology (VJIT) in Hyderabad, Telangana. Founded in 2024, DevUp operates as a product-first organization where members build real-world software, contribute to open source projects, participate in hackathons, and develop industry-ready skills. Unlike traditional coding clubs that focus on theory, DevUp emphasizes hands-on learning through shipped products."
+      },
+      {
+        question: "Where is DevUp Society located?",
+        answer: "DevUp Society is headquartered at Vidya Jyothi Institute of Technology (VJIT) in Hyderabad, Telangana, India. The exact location is near Aziz Nagar Gate, Hyderabad 500075. While based at VJIT, DevUp welcomes students from all colleges and conducts both in-person and online activities for broader accessibility."
+      },
+      {
+        question: "When was DevUp Society founded?",
+        answer: "DevUp Society was founded in 2024 at VJIT, Hyderabad. Since its founding, the community has grown to over 100 active members, hosted 20+ events, and shipped 50+ real-world projects. DevUp was created to address the gap between academic learning and industry requirements."
+      },
+      {
+        question: "Who can join DevUp Society?",
+        answer: "DevUp Society is open to all students who are passionate about coding, building projects, and learning new technologies. While primarily based at VJIT, students from any college or university can participate in events and community activities. There are no prerequisites—beginners and experienced developers alike are welcome."
+      },
+      {
+        question: "What makes DevUp Society different from other coding clubs?",
+        answer: "DevUp Society differs from traditional coding clubs in three key ways: (1) Product-First Approach - members build and deploy real software instead of just learning theory; (2) Industry Alignment - curriculum is designed around actual job requirements and startup needs; (3) Active Community - daily collaboration, mentorship, and peer learning rather than occasional meetups. The focus is on shipping code, not collecting certificates."
+      }
+    ]
+  },
+  {
+    category: "Membership",
+    questions: [
+      {
+        question: "How do I join DevUp Society?",
+        answer: "To join DevUp Society, visit the official website at devupvjit.in/join during active recruitment periods. You can also join the WhatsApp community at any time to stay updated on recruitment cycles, events, and workshops. When recruitment opens, you'll typically complete an application form and may participate in a brief interaction with the team."
+      },
+      {
+        question: "Is DevUp Society free to join?",
+        answer: "Yes, DevUp Society is completely free to join. There are no membership fees, subscription costs, or hidden charges. Members gain access to workshops, hackathons, mentorship, project collaboration opportunities, and industry networking—all at no cost. The community is supported by institutional partnerships and sponsorships."
+      },
+      {
+        question: "When does DevUp Society recruitment open?",
+        answer: "DevUp Society typically conducts recruitment at the beginning of each semester (August and January). However, recruitment cycles may vary. The best way to stay informed is to join the WhatsApp community or follow DevUp on LinkedIn and Instagram where all recruitment announcements are posted."
+      },
+      {
+        question: "Can students from other colleges join DevUp Society?",
+        answer: "Yes, DevUp Society welcomes students from all colleges and universities. While the core team is based at VJIT, the community actively includes members from other institutions. All events, workshops, and online activities are open to participants regardless of their college affiliation."
+      }
+    ]
+  },
+  {
+    category: "Events & Activities",
+    questions: [
+      {
+        question: "What events does DevUp Society organize?",
+        answer: "DevUp Society organizes a variety of tech events including: hackathons (24-48 hour coding competitions), coding bootcamps (intensive skill-building sessions), technical workshops (focused sessions on specific technologies), tech talks (industry speakers and knowledge sharing), and networking meetups. Events cover Full-Stack Development, DevOps, AI/ML, Mobile Development, and Open Source contribution."
+      },
+      {
+        question: "How can I participate in DevUp hackathons?",
+        answer: "To participate in DevUp hackathons, visit devupvjit.in/events to see upcoming hackathons and register. You can participate individually or form a team. Registration is typically free and open to all students. Hackathons are announced on the website, WhatsApp community, and social media channels at least 2-3 weeks before the event."
+      },
+      {
+        question: "Are DevUp Society events free?",
+        answer: "Yes, most DevUp Society events are free for participants. This includes hackathons, workshops, tech talks, and community meetups. Some specialized bootcamps or events with external partnerships may have nominal fees, but these are always clearly communicated in advance."
+      },
+      {
+        question: "Can non-members attend DevUp Society events?",
+        answer: "Yes, DevUp Society events are generally open to all students, not just members. While members may get priority registration or additional benefits, most workshops and hackathons welcome participants from the broader community. Check the specific event page for participation requirements."
+      }
+    ]
+  },
+  {
+    category: "Learning & Skills",
+    questions: [
+      {
+        question: "What skills can I learn at DevUp Society?",
+        answer: "At DevUp Society, you can learn: Full-Stack Web Development (React, Next.js, Node.js, Django, databases), DevOps & Cloud (Docker, Kubernetes, AWS, CI/CD pipelines), AI/ML Engineering (Python, PyTorch, TensorFlow, LLMs), Mobile Development (React Native, Flutter), and foundational skills like Git, open source contribution, and technical communication. All learning is hands-on through real projects."
+      },
+      {
+        question: "Does DevUp Society offer certifications?",
+        answer: "DevUp Society focuses on building portfolios rather than traditional certifications. Instead of certificates, members graduate with: deployed projects they can showcase, GitHub contributions demonstrating real code, documented work experience, and skills validated through working applications. Many employers value this practical evidence over paper certifications."
+      },
+      {
+        question: "Do I need prior coding experience to join DevUp Society?",
+        answer: "No, prior coding experience is not required to join DevUp Society. The community welcomes complete beginners alongside experienced developers. Beginners are paired with mentors, given structured learning paths, and start with foundational projects. The only requirement is genuine interest in learning and willingness to put in effort."
+      },
+      {
+        question: "How does DevUp Society help with internships and jobs?",
+        answer: "DevUp Society helps members with career development through: building portfolio-ready projects that demonstrate real skills, industry networking through tech talks and partnerships, resume reviews and interview preparation, referrals through alumni and industry connections, and skills that directly match job requirements. Many DevUp members have secured internships at startups and tech companies."
+      }
+    ]
+  },
+  {
+    category: "Community",
+    questions: [
+      {
+        question: "How active is the DevUp Society community?",
+        answer: "DevUp Society has a highly active community with daily engagement. The WhatsApp community has 100+ members with regular discussions, knowledge sharing, and collaboration. Weekly activities include: team project sessions, peer code reviews, tech news discussions, and informal mentorship. Unlike clubs that meet monthly, DevUp functions as an always-on community."
+      },
+      {
+        question: "How can I contribute to DevUp Society?",
+        answer: "You can contribute to DevUp Society in multiple ways: participate in community projects and hackathons, mentor junior members, propose and organize workshops, contribute to open source projects, share knowledge through tech talks, help with event organization, or create content for social media. The community values all forms of contribution."
+      },
+      {
+        question: "Does DevUp Society have social media?",
+        answer: "Yes, DevUp Society is active on multiple platforms: LinkedIn (linkedin.com/company/devup-community), Instagram (@devupcommunity), GitHub (github.com/DevUp-Society), and Twitter/X (@devup_society). The WhatsApp community is the most active channel for real-time discussions. Follow these channels for event announcements, tech content, and community updates."
+      },
+      {
+        question: "How can I contact DevUp Society?",
+        answer: "You can contact DevUp Society through: Email at devupsociety@vjit.ac.in, the WhatsApp community (link on the website), or direct messages on LinkedIn and Instagram. For partnership inquiries or speaking opportunities, email is the preferred channel. General questions are best asked in the WhatsApp community where team members respond quickly."
+      }
+    ]
+  }
+];
+
+// Generate FAQ Schema
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.flatMap(category => 
+    category.questions.map(q => ({
+      "@type": "Question",
+      "name": q.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": q.answer
+      }
+    }))
+  )
+};
+---
+
+<MainLayout 
+  title="FAQ - Frequently Asked Questions | DevUp Society" 
+  description="Find answers to common questions about DevUp Society. Learn how to join, what events we organize, what skills you can learn, and how the community works."
+  keywords="DevUp Society FAQ, how to join DevUp, DevUp Society questions, DevUp events, DevUp membership, DevUp hackathons, coding community FAQ"
+  schema={faqSchema}
+>
+  <!-- HERO SECTION -->
+  <section class="relative h-[50vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-zinc-900">
+    <div class="grid-floor opacity-30"></div>
+    
+    <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
+      <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Help Center</span>
+      <h1 class="font-display text-5xl md:text-8xl text-white font-medium leading-[0.85] tracking-tight mb-6">
+        FREQUENTLY<br/>
+        <span class="text-zinc-600">ASKED QUESTIONS</span>
+      </h1>
+      <p class="font-mono text-zinc-400 text-sm max-w-2xl mx-auto">
+        Everything you need to know about DevUp Society. Can't find an answer? 
+        <a href="mailto:devupsociety@vjit.ac.in" class="text-signal hover:text-white transition-colors">Reach out to us</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ SECTIONS -->
+  <section class="py-20 bg-void">
+    <div class="max-w-4xl mx-auto px-6">
+      
+      {faqs.map((category, catIndex) => (
+        <div class="mb-16" id={category.category.toLowerCase().replace(/\s+/g, '-')}>
+          <div class="flex items-center gap-4 mb-8">
+            <span class="text-signal font-mono text-xs tracking-widest uppercase">/// {category.category}</span>
+            <div class="flex-1 h-px bg-zinc-800"></div>
+          </div>
+
+          <div class="space-y-4">
+            {category.questions.map((faq, index) => (
+              <details class="group glass-panel clip-corner-tl" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
+                  <h2 itemprop="name" class="font-display text-lg md:text-xl text-white pr-8 group-hover:text-signal transition-colors">
+                    {faq.question}
+                  </h2>
+                  <div class="w-8 h-8 border border-zinc-700 flex items-center justify-center flex-shrink-0 group-hover:border-signal transition-colors">
+                    <Icon name="lucide:plus" class="text-zinc-500 group-open:hidden group-hover:text-signal transition-colors" />
+                    <Icon name="lucide:minus" class="text-signal hidden group-open:block" />
+                  </div>
+                </summary>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer" class="px-6 pb-6">
+                  <div class="pt-4 border-t border-zinc-800">
+                    <p itemprop="text" class="font-mono text-sm text-zinc-400 leading-relaxed">
+                      {faq.answer}
+                    </p>
+                  </div>
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      ))}
+
+    </div>
+  </section>
+
+  <!-- QUICK NAVIGATION -->
+  <section class="py-16 bg-[#050505] border-t border-zinc-900">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <h2 class="font-display text-2xl text-white mb-4">Jump to a Topic</h2>
+      </div>
+      <div class="flex flex-wrap justify-center gap-4">
+        {faqs.map(category => (
+          <a 
+            href={`#${category.category.toLowerCase().replace(/\s+/g, '-')}`}
+            class="px-6 py-3 border border-zinc-800 font-mono text-xs uppercase tracking-widest text-zinc-400 hover:text-signal hover:border-signal transition-all"
+          >
+            {category.category}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- STILL HAVE QUESTIONS CTA -->
+  <section class="py-20 bg-void border-t border-zinc-900">
+    <div class="max-w-2xl mx-auto px-6 text-center">
+      <div class="glass-panel p-10 clip-corner">
+        <Icon name="lucide:message-circle" class="text-signal text-4xl mb-4 inline-block" />
+        <h2 class="font-display text-3xl text-white mb-4">Still Have Questions?</h2>
+        <p class="font-mono text-sm text-zinc-400 mb-8">
+          Can't find what you're looking for? Join our WhatsApp community or send us an email. 
+          We typically respond within 24 hours.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a 
+            href="https://chat.whatsapp.com/CvU68WlMmoo5PvIBpOU5Dy"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-3 px-6 py-3 bg-signal text-black font-mono text-xs font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner"
+          >
+            <Icon name="lucide:message-circle" />
+            <span>Join WhatsApp</span>
+          </a>
+          <a 
+            href="mailto:devupsociety@vjit.ac.in"
+            class="inline-flex items-center justify-center gap-3 px-6 py-3 border border-zinc-700 text-white font-mono text-xs font-bold tracking-widest uppercase hover:border-signal hover:text-signal transition-colors"
+          >
+            <Icon name="lucide:mail" />
+            <span>Email Us</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>

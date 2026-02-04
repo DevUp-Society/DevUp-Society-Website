@@ -1,11 +1,80 @@
 ---
-// /join - Join DevUp Society (Currently not recruiting)
+/**
+ * /join - Join DevUp Society Page with JoinAction Schema
+ * 
+ * SEO Optimizations:
+ * - JoinAction schema for community joining
+ * - ContactPage schema for newsletter signup
+ * - AEO content for "how to join DevUp" queries
+ * 
+ * TARGET KEYWORDS:
+ * - join DevUp Society
+ * - how to join DevUp
+ * - DevUp Society membership
+ * - student developer community join
+ * - VJIT coding club registration
+ */
 import MainLayout from '../layouts/MainLayout.astro';
+
+// JoinAction schema for community
+const joinActionSchema = {
+  "@context": "https://schema.org",
+  "@type": "JoinAction",
+  "name": "Join DevUp Society Community",
+  "description": "Join the WhatsApp community of DevUp Society to connect with student developers, get updates on events, and participate in discussions.",
+  "target": {
+    "@type": "EntryPoint",
+    "urlTemplate": "https://chat.whatsapp.com/CvU68WlMmoo5PvIBpOU5Dy",
+    "actionPlatform": [
+      "https://schema.org/DesktopWebPlatform",
+      "https://schema.org/MobileWebPlatform",
+      "https://schema.org/AndroidPlatform",
+      "https://schema.org/IOSPlatform"
+    ]
+  },
+  "agent": {
+    "@type": "Organization",
+    "name": "DevUp Society",
+    "url": "https://www.devupvjit.in"
+  },
+  "result": {
+    "@type": "OrganizationMembership",
+    "programName": "DevUp Society Community Membership",
+    "membershipLevel": "Community Member"
+  }
+};
+
+// ContactPage schema
+const contactPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Join DevUp Society",
+  "description": "Join DevUp Society's WhatsApp community and newsletter to stay updated on hackathons, workshops, and recruitment.",
+  "url": "https://www.devupvjit.in/join",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "DevUp Society",
+    "email": "devupsociety@vjit.ac.in",
+    "url": "https://www.devupvjit.in"
+  }
+};
+
+// Breadcrumb
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.devupvjit.in" },
+    { "@type": "ListItem", "position": 2, "name": "Join", "item": "https://www.devupvjit.in/join" }
+  ]
+};
 ---
 
 <MainLayout 
-  title="Join DevUp Society | Not Recruiting Currently"
-  description="Stay connected with DevUp Society. Join our WhatsApp community and subscribe to our newsletter for updates."
+  title="Join DevUp Society - Free Student Developer Community Membership"
+  description="Join India's premier student developer community. Connect with 100+ developers, get hackathon updates, and access free workshops. Join our WhatsApp community now - no fees required."
+  keywords="join DevUp Society, how to join DevUp, DevUp Society membership, student developer community join, VJIT coding club registration, DevUp WhatsApp community"
+  schema={[joinActionSchema, contactPageSchema, breadcrumbSchema]}
 >
   <!-- HERO SECTION -->
   <section class="relative min-h-screen w-full flex flex-col justify-center items-center overflow-hidden">
