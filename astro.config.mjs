@@ -12,6 +12,8 @@ export default defineConfig({
     icon(),
   ],
   output: "hybrid",
-  adapter: vercel(),
+  adapter: vercel({
+    functionPerRoute: false,
+  }),
   site: "https://devup-society.com",
 });

@@ -16,6 +16,8 @@
         "@supabase/supabase-js": "^2.93.3",
         "astro": "^4.16.18",
         "astro-icon": "^1.1.5",
+        "pdf-lib": "^1.17.1",
+        "qrcode": "^1.5.4",
         "resend": "^6.9.1",
         "tailwindcss": "^3.4.17",
         "tslib": "^2.8.1"

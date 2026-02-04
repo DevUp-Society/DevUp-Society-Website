@@ -7,12 +7,19 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const formData = await request.formData();
     
+    // Parse team members if provided (comma-separated string)
+    const teamMembersStr = formData.get('teamMembers') as string;
+    const teamMembers = teamMembersStr 
+      ? teamMembersStr.split(',').map(m => m.trim()).filter(m => m.length > 0)
+      : undefined;
+    
     const emailData = {
       teamNumber: formData.get('teamNumber') as string,
       teamName: formData.get('teamName') as string,
       leadName: formData.get('leadName') as string,
       leadEmail: formData.get('leadEmail') as string,
       teamSize: parseInt(formData.get('teamSize') as string),
+      teamMembers,
       amount: parseInt(formData.get('amount') as string),
       transactionId: formData.get('transactionId') as string,
       whatsappLink: formData.get('whatsappLink') as string | undefined,

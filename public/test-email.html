@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Verified Email</title>
+    <style>
+        body { font-family: monospace; max-width: 600px; margin: 50px auto; padding: 20px; }
+        input, button { display: block; width: 100%; margin: 10px 0; padding: 10px; font-family: monospace; }
+        button { background: #ccff00; border: none; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h2>Test Verified Payment Email (with PDF Ticket)</h2>
+    <form id="testForm">
+        <input type="text" name="teamNumber" placeholder="Team Number (e.g., DEV2026-001)" value="DEV2026-001" required>
+        <input type="text" name="teamName" placeholder="Team Name" value="Test Team" required>
+        <input type="text" name="leadName" placeholder="Lead Name" value="Test Lead" required>
+        <input type="email" name="leadEmail" placeholder="Lead Email" required>
+        <input type="number" name="teamSize" placeholder="Team Size (2-4)" min="2" max="4" value="3" required>
+        <input type="text" name="teamMembers" placeholder="Team Members (comma-separated)" value="Alice Johnson, Bob Smith, Charlie Davis">
+        <input type="number" name="amount" placeholder="Amount (₹)" value="1500" required>
+        <input type="text" name="transactionId" placeholder="Transaction ID" value="TXN123TEST" required>
+        <input type="text" name="whatsappLink" placeholder="WhatsApp Link (optional)">
+        <button type="submit">Send Verified Email</button>
+    </form>
+    <div id="result" style="margin-top: 20px;"></div>
+
+    <script>
+        document.getElementById('testForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const result = document.getElementById('result');
+            result.textContent = 'Sending...';
+            
+            const formData = new FormData(e.target);
+            
+            try {
+                const response = await fetch('/api/email/verified', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    result.style.color = 'green';
+                    result.textContent = '✅ Verified email sent successfully!';
+                } else {
+                    result.style.color = 'red';
+                    result.textContent = '❌ Error: ' + (data.error || 'Unknown error');
+                }
+            } catch (error) {
+                result.style.color = 'red';
+                result.textContent = '❌ Error: ' + error.message;
+            }
+        });
+    </script>
+</body>
+</html>
