@@ -1,5 +1,10 @@
 {
     "buildCommand": "npm run build",
     "framework": "astro",
-    "installCommand": "npm install"
+    "installCommand": "npm install",
+    "functions": {
+        "_render": {
+            "runtime": "nodejs20.x"
+        }
+    }
 }

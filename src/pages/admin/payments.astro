@@ -1,0 +1,426 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+
+export const prerender = false;
+---
+
+<MainLayout title="Payment Verification - Admin Dashboard">
+  <!-- Auth check will happen client-side on mount -->
+  <div class="min-h-screen px-4 py-12">
+    <div class="max-w-7xl mx-auto">
+      <!-- Header -->
+      <div class="mb-8">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <div class="inline-flex items-center gap-2 px-4 py-2 border border-zinc-800 bg-black/40 backdrop-blur-sm clip-corner mb-4">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-signal opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-signal"></span>
+              </span>
+              <span class="font-mono text-[9px] text-zinc-400 uppercase tracking-widest">
+                Admin Dashboard
+              </span>
+            </div>
+            <h1 class="font-display text-4xl text-white mb-2">Payment Verification</h1>
+            <p class="font-mono text-sm text-zinc-400">Logged in as: <span class="text-signal" id="admin-email">Loading...</span></p>
+          </div>
+          <button
+            id="logout-btn"
+            class="h-10 px-6 border-2 border-zinc-800 hover:border-zinc-600 clip-corner flex items-center justify-center transition-colors group"
+          >
+            <span class="font-mono text-xs font-bold uppercase tracking-[0.25em] text-zinc-400 group-hover:text-white transition-colors">
+              Sign Out
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="mb-4">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search by team name, lead name, or email..."
+          class="w-full max-w-md px-4 py-3 bg-black/40 border border-zinc-800 text-white font-mono text-sm focus:border-signal focus:outline-none transition-colors"
+        />
+      </div>
+
+      <!-- Filters -->
+      <div class="mb-6 flex gap-4">
+        <button data-filter="all" class="filter-btn active h-10 px-6 bg-signal/20 border-2 border-signal clip-corner font-mono text-xs font-bold uppercase tracking-wider">
+          All (<span id="count-all">0</span>)
+        </button>
+        <button data-filter="pending" class="filter-btn h-10 px-6 border-2 border-zinc-800 hover:border-yellow-600 clip-corner font-mono text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-yellow-400 transition-colors">
+          Pending (<span id="count-pending">0</span>)
+        </button>
+        <button data-filter="verified" class="filter-btn h-10 px-6 border-2 border-zinc-800 hover:border-green-600 clip-corner font-mono text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-green-400 transition-colors">
+          Verified (<span id="count-verified">0</span>)
+        </button>
+        <button data-filter="rejected" class="filter-btn h-10 px-6 border-2 border-zinc-800 hover:border-red-600 clip-corner font-mono text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-red-400 transition-colors">
+          Rejected (<span id="count-rejected">0</span>)
+        </button>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loading" class="glass-panel border border-zinc-800 clip-corner p-12 text-center">
+        <div class="inline-flex items-center gap-3">
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-signal opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-signal"></span>
+          </span>
+          <span class="font-mono text-sm text-zinc-400">Loading registrations...</span>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div id="error" class="hidden glass-panel border border-red-900/50 bg-red-950/30 clip-corner p-8 text-center">
+        <p class="font-mono text-sm text-red-400"></p>
+      </div>
+
+      <!-- Registrations Table -->
+      <div id="registrations-container" class="hidden">
+        <div class="glass-panel border border-zinc-800 clip-corner overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b border-zinc-800 bg-black/40">
+                  <th class="px-4 py-3 text-left font-mono text-[10px] text-zinc-400 uppercase tracking-wider">Team #</th>
+                  <th class="px-4 py-3 text-left font-mono text-[10px] text-zinc-400 uppercase tracking-wider">Team Name</th>
+                  <th class="px-4 py-3 text-left font-mono text-[10px] text-zinc-400 uppercase tracking-wider">Lead Name</th>
+                  <th class="px-4 py-3 text-left font-mono text-[10px] text-zinc-400 uppercase tracking-wider">Email</th>
+                  <th class="px-4 py-3 text-left font-mono text-[10px] text-zinc-400 uppercase tracking-wider">Size</th>
+                  <th class="px-4 py-3 text-left font-mono text-[10px] text-zinc-400 uppercase tracking-wider">Members</th>
+                  <th class="px-4 py-3 text-left font-mono text-[10px] text-zinc-400 uppercase tracking-wider">Amount</th>
+                  <th class="px-4 py-3 text-left font-mono text-[10px] text-zinc-400 uppercase tracking-wider">Transaction ID</th>
+                  <th class="px-4 py-3 text-left font-mono text-[10px] text-zinc-400 uppercase tracking-wider">Status</th>
+                  <th class="px-4 py-3 text-left font-mono text-[10px] text-zinc-400 uppercase tracking-wider">Registered</th>
+                  <th class="px-4 py-3 text-center font-mono text-[10px] text-zinc-400 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="registrations-tbody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</MainLayout>
+
+<style>
+  .filter-btn.active {
+    background: rgba(204, 255, 0, 0.2);
+    border-color: #ccff00;
+    color: #ccff00;
+  }
+</style>
+
+<script>
+  import { supabase } from '../../lib/supabase';
+
+  let registrations: any[] = [];
+  let teamMembersMap: Record<string, any[]> = {};
+  let currentFilter = 'all';
+  let searchQuery = '';
+
+  const loading = document.getElementById('loading');
+  const error = document.getElementById('error');
+  const errorText = error?.querySelector('p');
+  const container = document.getElementById('registrations-container');
+  const tbody = document.getElementById('registrations-tbody');
+  const logoutBtn = document.getElementById('logout-btn');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const adminEmailEl = document.getElementById('admin-email');
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+
+  // Admin whitelist
+  const ADMIN_EMAILS = ['devupsociety@gmail.com'];
+
+  // Check auth on page load
+  async function checkAuth() {
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session?.user?.email) {
+      console.log('No session found, redirecting to login');
+      window.location.href = '/admin/login';
+      return false;
+    }
+
+    const userEmail = session.user.email.toLowerCase();
+    if (!ADMIN_EMAILS.includes(userEmail)) {
+      console.log('Not an admin email:', userEmail);
+      await supabase.auth.signOut();
+      window.location.href = '/admin/login';
+      return false;
+    }
+
+    // Update UI with email
+    if (adminEmailEl) {
+      adminEmailEl.textContent = session.user.email;
+    }
+
+    return true;
+  }
+
+  async function getAccessToken() {
+    const { data: { session } } = await supabase.auth.getSession();
+    return session?.access_token || null;
+  }
+
+  async function loadTeamMembers(regId: string) {
+    if (teamMembersMap[regId]) {
+      return teamMembersMap[regId];
+    }
+
+    try {
+      const token = await getAccessToken();
+      if (!token) return [];
+
+      const response = await fetch(`/api/admin/team-members?regId=${regId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error);
+      }
+
+      teamMembersMap[regId] = result.data || [];
+      return result.data || [];
+    } catch (err) {
+      console.error('Failed to load team members:', err);
+      return [];
+    }
+  }
+
+  async function toggleMembers(regId: string) {
+    const membersDiv = document.getElementById(`members-${regId}`);
+    if (!membersDiv) return;
+
+    if (!membersDiv.classList.contains('hidden')) {
+      membersDiv.classList.add('hidden');
+      return;
+    }
+
+    const members = await loadTeamMembers(regId);
+    
+    if (members.length === 0) {
+      membersDiv.innerHTML = '<div class="font-mono text-zinc-500 text-xs">No team members found</div>';
+    } else {
+      membersDiv.innerHTML = members.map((m: any, i: number) => `
+        <div class="mb-2 pb-2 ${i < members.length - 1 ? 'border-b border-zinc-800' : ''}">
+          <div class="font-mono text-white font-bold">${i + 1}. ${m.name}</div>
+          <div class="font-mono text-zinc-400 text-[10px] mt-1">📧 ${m.email}</div>
+          <div class="font-mono text-zinc-400 text-[10px]">📱 ${m.phone}</div>
+        </div>
+      `).join('');
+    }
+
+    membersDiv.classList.remove('hidden');
+  }
+
+  // Logout handler
+  logoutBtn?.addEventListener('click', async () => {
+    await supabase.auth.signOut();
+    window.location.href = '/admin/login';
+  });
+
+  // Filter handlers
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentFilter = btn.getAttribute('data-filter') || 'all';
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTable();
+    });
+  });
+
+  // Search handler
+  searchInput?.addEventListener('input', (e) => {
+    searchQuery = (e.target as HTMLInputElement).value.toLowerCase();
+    renderTable();
+  });
+
+  function showError(message: string) {
+    loading?.classList.add('hidden');
+    container?.classList.add('hidden');
+    error?.classList.remove('hidden');
+    if (errorText) errorText.textContent = message;
+  }
+
+  function getStatusBadge(status: string) {
+    const badges: Record<string, string> = {
+      pending: '<span class="inline-flex items-center gap-1 px-2 py-1 bg-yellow-950/30 border border-yellow-900/50 text-yellow-400 font-mono text-[10px] uppercase tracking-wider">⏳ Pending</span>',
+      verified: '<span class="inline-flex items-center gap-1 px-2 py-1 bg-green-950/30 border border-green-900/50 text-green-400 font-mono text-[10px] uppercase tracking-wider">✓ Verified</span>',
+      rejected: '<span class="inline-flex items-center gap-1 px-2 py-1 bg-red-950/30 border border-red-900/50 text-red-400 font-mono text-[10px] uppercase tracking-wider">✗ Rejected</span>',
+    };
+    return badges[status] || badges.pending;
+  }
+
+  function formatDate(dateStr: string) {
+    return new Date(dateStr).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  }
+
+  async function updatePaymentStatus(id: string, status: 'verified' | 'rejected') {
+    try {
+      const token = await getAccessToken();
+      if (!token) {
+        throw new Error('Session expired. Please sign in again.');
+      }
+
+      const response = await fetch('/api/admin/update-status', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id, status }),
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to update status');
+      }
+
+      // Refresh data
+      await loadRegistrations();
+    } catch (err: any) {
+      alert('Error: ' + err.message);
+    }
+  }
+
+  function renderTable() {
+    if (!tbody) return;
+
+    let filtered = currentFilter === 'all' 
+      ? registrations 
+      : registrations.filter(r => r.payment_status === currentFilter);
+
+    // Apply search filter
+    if (searchQuery) {
+      filtered = filtered.filter(r => 
+        r.team_name?.toLowerCase().includes(searchQuery) ||
+        r.lead_name?.toLowerCase().includes(searchQuery) ||
+        r.lead_email?.toLowerCase().includes(searchQuery)
+      );
+    }
+
+    // Update counts
+    const counts = {
+      all: registrations.length,
+      pending: registrations.filter(r => r.payment_status === 'pending').length,
+      verified: registrations.filter(r => r.payment_status === 'verified').length,
+      rejected: registrations.filter(r => r.payment_status === 'rejected').length,
+    };
+
+    Object.entries(counts).forEach(([key, val]) => {
+      const el = document.getElementById(`count-${key}`);
+      if (el) el.textContent = String(val);
+    });
+
+    tbody.innerHTML = filtered.map(reg => `
+      <tr class="border-b border-zinc-800 hover:bg-white/[0.02] transition-colors" data-status="${reg.payment_status}">
+        <td class="px-4 py-4 font-mono text-xs text-signal">${reg.team_number || 'N/A'}</td>
+        <td class="px-4 py-4 font-mono text-xs text-white">${reg.team_name}</td>
+        <td class="px-4 py-4 font-mono text-xs text-white">${reg.lead_name}</td>
+        <td class="px-4 py-4 font-mono text-xs text-zinc-400">${reg.lead_email}</td>
+        <td class="px-4 py-4 font-mono text-xs text-zinc-400">${reg.team_size}</td>
+        <td class="px-4 py-4">
+          <button 
+            onclick="window.toggleMembers('${reg.id}')"
+            class="font-mono text-xs text-signal hover:text-signal/80 underline"
+          >
+            View Members
+          </button>
+          <div id="members-${reg.id}" class="hidden mt-2 p-2 bg-black/60 border border-zinc-800 rounded text-xs">
+            <div class="font-mono text-zinc-500">Loading...</div>
+          </div>
+        </td>
+        <td class="px-4 py-4 font-mono text-xs text-white">₹${reg.payment_amount || 0}</td>
+        <td class="px-4 py-4 font-mono text-xs text-zinc-400">${reg.transaction_id || 'N/A'}</td>
+        <td class="px-4 py-4">${getStatusBadge(reg.payment_status)}</td>
+        <td class="px-4 py-4 font-mono text-xs text-zinc-400">${formatDate(reg.created_at)}</td>
+        <td class="px-4 py-4">
+          <div class="flex items-center justify-center gap-2">
+            ${reg.payment_status === 'pending' ? `
+              <button
+                onclick="window.updatePaymentStatus('${reg.id}', 'verified')"
+                class="h-8 px-3 bg-green-950/30 border border-green-900/50 hover:bg-green-900/20 text-green-400 hover:text-green-300 font-mono text-[10px] uppercase tracking-wider transition-colors"
+                title="Verify Payment"
+              >
+                ✓ Verify
+              </button>
+              <button
+                onclick="window.updatePaymentStatus('${reg.id}', 'rejected')"
+                class="h-8 px-3 bg-red-950/30 border border-red-900/50 hover:bg-red-900/20 text-red-400 hover:text-red-300 font-mono text-[10px] uppercase tracking-wider transition-colors"
+                title="Reject Payment"
+              >
+                ✗ Reject
+              </button>
+            ` : `
+              <span class="font-mono text-xs text-zinc-600">No actions</span>
+            `}
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  async function loadRegistrations() {
+    try {
+      loading?.classList.remove('hidden');
+      container?.classList.add('hidden');
+      error?.classList.add('hidden');
+
+      const token = await getAccessToken();
+      if (!token) {
+        throw new Error('Session expired. Please sign in again.');
+      }
+      const response = await fetch('/api/admin/registrations', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to fetch registrations');
+      }
+
+      registrations = result.data || [];
+
+      loading?.classList.add('hidden');
+      container?.classList.remove('hidden');
+
+      renderTable();
+    } catch (err: any) {
+      console.error('Load error:', err);
+      showError(err.message || 'Failed to load registrations');
+    }
+  }
+
+  // Expose functions to global scope for onclick handlers
+  (window as any).updatePaymentStatus = updatePaymentStatus;
+  (window as any).toggleMembers = toggleMembers;
+
+  // Initialize: Check auth then load data
+  async function init() {
+    const isAuthorized = await checkAuth();
+    if (isAuthorized) {
+      await loadRegistrations();
+    }
+  }
+
+  init();
+</script>

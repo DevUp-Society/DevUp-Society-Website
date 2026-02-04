@@ -1,0 +1,156 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+
+export const prerender = false;
+---
+
+<MainLayout title="Admin Login - DevUp Society">
+  <div class="min-h-screen flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-2 px-4 py-2 border border-zinc-800 bg-black/40 backdrop-blur-sm clip-corner mb-4">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-signal opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-signal"></span>
+          </span>
+          <span class="font-mono text-[9px] text-zinc-400 uppercase tracking-widest">
+            Admin Access
+          </span>
+        </div>
+        <h1 class="font-display text-3xl text-white mb-2">Payment Verification</h1>
+        <p class="font-mono text-sm text-zinc-400">Sign in to access the admin dashboard</p>
+      </div>
+
+      <!-- Login Form -->
+      <div class="glass-panel border border-zinc-800 clip-corner p-8">
+        <form id="login-form" class="space-y-6">
+          <div>
+            <label class="block font-mono text-xs text-zinc-400 uppercase tracking-wider mb-2">
+              Admin Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              required
+              placeholder="admin@devupsociety.com"
+              class="w-full px-4 py-3 bg-black/40 border border-zinc-800 text-white font-mono text-sm focus:border-signal focus:outline-none transition-colors"
+            />
+          </div>
+
+          <div>
+            <label class="block font-mono text-xs text-zinc-400 uppercase tracking-wider mb-2">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              required
+              placeholder="Enter your password"
+              class="w-full px-4 py-3 bg-black/40 border border-zinc-800 text-white font-mono text-sm focus:border-signal focus:outline-none transition-colors"
+            />
+          </div>
+
+          <div id="error-message" class="hidden">
+            <div class="p-4 bg-red-950/30 border border-red-900/50 clip-corner">
+              <p class="font-mono text-xs text-red-400"></p>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            id="login-btn"
+            class="w-full h-12 bg-signal text-black clip-corner flex items-center justify-center font-mono text-xs font-bold uppercase tracking-[0.25em] hover:bg-signal/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span id="login-text">Sign In</span>
+            <span id="login-loading" class="hidden">Authenticating...</span>
+          </button>
+        </form>
+
+        <div class="mt-6 pt-6 border-t border-white/5">
+          <p class="font-mono text-[10px] text-zinc-600 text-center">
+            For authorized personnel only. Unauthorized access is prohibited.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</MainLayout>
+
+<script>
+  import { supabase } from '../../lib/supabase';
+
+  const form = document.getElementById('login-form') as HTMLFormElement;
+  const emailInput = document.getElementById('email') as HTMLInputElement;
+  const passwordInput = document.getElementById('password') as HTMLInputElement;
+  const loginBtn = document.getElementById('login-btn') as HTMLButtonElement;
+  const loginText = document.getElementById('login-text');
+  const loginLoading = document.getElementById('login-loading');
+  const errorMessage = document.getElementById('error-message');
+  const errorText = errorMessage?.querySelector('p');
+
+  function showError(message: string) {
+    if (errorText) errorText.textContent = message;
+    errorMessage?.classList.remove('hidden');
+  }
+
+  function hideError() {
+    errorMessage?.classList.add('hidden');
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    hideError();
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    if (!email || !password) {
+      showError('Please enter both email and password');
+      return;
+    }
+
+    // Show loading
+    loginBtn.disabled = true;
+    loginText?.classList.add('hidden');
+    loginLoading?.classList.remove('hidden');
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      if (!data.session) {
+        throw new Error('No session created');
+      }
+
+      console.log('Login successful, session:', data.session);
+      console.log('User email:', data.session.user.email);
+
+      // Check admin directly - whitelist
+      const adminEmails = ['devupsociety@gmail.com'];
+      const userEmail = data.session.user.email?.toLowerCase();
+      
+      if (!userEmail || !adminEmails.includes(userEmail)) {
+        await supabase.auth.signOut();
+        throw new Error(`Access denied. Email "${userEmail}" is not authorized.`);
+      }
+
+      console.log('Admin check passed!');
+
+      // Redirect to admin dashboard
+      window.location.href = '/admin/payments';
+    } catch (err: any) {
+      console.error('Login error:', err);
+      showError(err.message || 'Failed to sign in. Please check your credentials.');
+      
+      // Reset button
+      loginBtn.disabled = false;
+      loginText?.classList.remove('hidden');
+      loginLoading?.classList.add('hidden');
+    }
+  });
+</script>
