@@ -17,6 +17,7 @@ export default defineConfig({
   adapter: vercel({
     functionPerRoute: false,
     edgeMiddleware: false,
+    runtime: 'nodejs20.x',
   }),
   site: "https://www.devupvjit.in",
 });
