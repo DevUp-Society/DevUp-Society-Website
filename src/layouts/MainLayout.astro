@@ -122,6 +122,10 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
         <a href="/events" class="font-mono text-sm uppercase tracking-widest text-zinc-400 hover:text-signal transition-colors border-l-2 border-transparent hover:border-signal pl-4">Events</a>
         <a href="/team" class="font-mono text-sm uppercase tracking-widest text-zinc-400 hover:text-signal transition-colors border-l-2 border-transparent hover:border-signal pl-4">Team</a>
         <a href="/join" class="font-mono text-sm uppercase tracking-widest text-zinc-400 hover:text-signal transition-colors border-l-2 border-transparent hover:border-signal pl-4">Join Now</a>
+        <button id="mobile-terminal-btn" class="text-left font-mono text-sm uppercase tracking-widest text-zinc-400 hover:text-signal transition-colors border-l-2 border-transparent hover:border-signal pl-4 flex items-center gap-2">
+          <Icon name="mdi:console" class="w-4 h-4" />
+          System Console
+        </button>
       </div>
 
       <!-- Mobile CTA -->
@@ -229,9 +233,13 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
         </div>
         <div class="flex flex-col gap-1" id="history"></div>
         
-        <div class="flex items-center gap-2 text-signal mt-2">
-           <span>root@devup:~#</span>
-           <input type="text" id="terminal-input" class="bg-transparent border-none outline-none flex-1 text-white caret-signal uppercase" autocomplete="off" spellcheck="false">
+        <div class="flex items-center gap-2 text-signal mt-2 border-t border-dashed border-zinc-800 pt-2">
+           <span class="hidden md:inline">root@devup:~#</span>
+           <span class="md:hidden">></span>
+           <input type="text" id="terminal-input" class="bg-transparent border-none outline-none flex-1 text-white caret-signal uppercase font-mono" autocomplete="off" spellcheck="false" placeholder="ENTER COMMAND...">
+           <button id="terminal-submit" class="px-2 text-signal hover:text-white transition-colors" aria-label="Execute Command">
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 10 4 15 9 20"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></svg>
+           </button>
         </div>
       </div>
     </div>
@@ -244,11 +252,15 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
     const terminalInput = document.getElementById('terminal-input');
     const terminalOutput = document.getElementById('history');
     const termBtn = document.getElementById('terminal-btn');
+    const mobileTermBtn = document.getElementById('mobile-terminal-btn');
     const termCloseDot = document.getElementById('term-close-dot');
 
     let isTermOpen = false;
 
     function openTerminal() {
+        if(document.getElementById('mobile-menu')) {
+            closeMobileMenu(); // Close mobile menu if open
+        }
         terminalOverlay.classList.remove('hidden');
         // Small delay for transition
         setTimeout(() => {
@@ -276,6 +288,9 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
     if(termBtn) {
         termBtn.addEventListener('click', openTerminal);
     }
+    if(mobileTermBtn) {
+        mobileTermBtn.addEventListener('click', openTerminal);
+    }
     if(termCloseDot) {
         termCloseDot.addEventListener('click', closeTerminal);
     }
@@ -298,13 +313,32 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
     });
 
     // Command Logic
-    terminalInput.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter') {
-            const command = terminalInput.value.trim().toLowerCase();
-            processCommand(command);
+    const termSubmitBtn = document.getElementById('terminal-submit');
+
+    function executeCommand() {
+        const command = terminalInput.value.trim(); // Don't allow empty commands to clutter, let processCommand handle casing
+        if(command) {
+            processCommand(command.toLowerCase());
             terminalInput.value = '';
+            // On desktop keep focus, on mobile maybe not to allow reading output?
+            // Let's keep focus for now to allow rapid commands.
+             setTimeout(() => {
+                const container = document.getElementById('terminal-output');
+                container.scrollTop = container.scrollHeight;
+            }, 10);
+        }
+    }
+
+    terminalInput.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.keyCode === 13) {
+            e.preventDefault();
+            executeCommand();
         }
     });
+
+    if(termSubmitBtn) {
+        termSubmitBtn.addEventListener('click', executeCommand);
+    }
 
     function addToHistory(cmd, output, isHtml = false) {
         const cmdLine = document.createElement('div');
@@ -326,19 +360,51 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
     }
 
     function processCommand(cmd) {
-        switch(cmd) {
+        // Normalize command
+        const cleanCmd = cmd.toLowerCase().trim();
+
+        if (cleanCmd.includes('devup') || cleanCmd === 'who are you' || cleanCmd === 'about') {
+             addToHistory(cmd, `
+<div class="font-mono border border-zinc-800 p-4 bg-zinc-900/50 rounded mb-2">
+  <div class="text-signal font-bold text-base mb-2">/// DEVUP SOCIETY INTELLIGENCE</div>
+  <p class="text-zinc-300 mb-2">We are the premier tech community for students, builders, and innovators.</p>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+    <div>
+      <span class="text-zinc-500 block">MISSION</span>
+      <span class="text-white">To maintain a global standard of excellence in skills, innovation, and impact.</span>
+    </div>
+    <div>
+      <span class="text-zinc-500 block">STANDARD</span>
+      <span class="text-white">Apple-level polish. Stripe-level clarity.</span>
+    </div>
+  </div>
+  <div class="mt-4 pt-4 border-t border-zinc-800">
+    <span class="text-signal">> STATUS:</span> <span class="text-white">OPERATIONAL</span><br>
+    <span class="text-signal">> NEXT EVENT:</span> <a href="/events" class="underline hover:text-white decoration-zinc-600">CHECK CALENDAR</a>
+  </div>
+</div>`, true);
+             return;
+        }
+
+        switch(cleanCmd) {
             case 'help':
                 addToHistory(cmd, `AVAILABLE COMMANDS:
   help        - Show this menu
+  devup       - System Info / Mission
   clear       - Clear terminal
   home        - Go to Homepage
-  about       - About DevUp
   events      - Navigate to Events
   team        - Meet the Team
   join        - Join Community
-  date        - Show System Time
   socials     - List Social Links
-  hack        - ???`, false);
+  hack        - [EXPERIMENTAL]
+  exit        - Close Console`, false);
+                break;
+            case 'exit':
+                closeTerminal();
+                break;
+            case 'sudo':
+                addToHistory(cmd, 'PERMISSION DENIED. YOU ARE NOT ADMIN.', false);
                 break;
             case 'clear':
                 terminalOutput.innerHTML = '';
@@ -346,10 +412,6 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
             case 'home':
                 addToHistory(cmd, 'Navigating to HOME...');
                 setTimeout(() => window.location.href = '/', 500);
-                break;
-            case 'about':
-                addToHistory(cmd, 'Navigating to ABOUT...');
-                setTimeout(() => window.location.href = '/#about', 500);
                 break;
             case 'events':
                 addToHistory(cmd, 'Navigating to EVENTS...');
@@ -368,17 +430,56 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
                 break;
             case 'socials':
                 addToHistory(cmd, `
-<a href="https://github.com/DevUp-Society" target="_blank" class="text-blue-400 hover:underline">GITHUB</a>
-<br><a href="https://www.linkedin.com/company/devup-community" target="_blank" class="text-blue-400 hover:underline">LINKEDIN</a>
-<br><a href="https://www.instagram.com/devupcommunity/" target="_blank" class="text-blue-400 hover:underline">INSTAGRAM</a>`, true);
+<a href="https://github.com/DevUp-Society" target="_blank" class="text-blue-400 hover:text-signal hover:underline">GITHUB</a>
+<br><a href="https://www.linkedin.com/company/devup-community" target="_blank" class="text-blue-400 hover:text-signal hover:underline">LINKEDIN</a>
+<br><a href="https://www.instagram.com/devupcommunity/" target="_blank" class="text-blue-400 hover:text-signal hover:underline">INSTAGRAM</a>`, true);
                 break;
             case 'hack':
-                addToHistory(cmd, 'INJECTING PAYLOAD... ACCESSING MAINFRAME...', false);
-                document.body.classList.add('invert'); 
-                setTimeout(() => document.body.classList.remove('invert'), 200);
-                setTimeout(() => document.body.classList.add('invert'), 400);
-                setTimeout(() => document.body.classList.remove('invert'), 600);
-                setTimeout(() => addToHistory('', 'ACCESS DENIED: SECURITY PROTOCOL ACTIVE. NICE TRY.', false), 800);
+                const hackSteps = [
+                    "INITIATING BREACH PROTOCOL...",
+                    "BYPASSING FIREWALL (PORT 443)...",
+                    "INJECTING SQL PAYLOAD...",
+                    "ACCESSING MAINFRAME... [SUCCESS]",
+                    "DOWNLOADING 'SECRET_PLANS.PDF'...",
+                    "DECRYPTING PASSWORDS...",
+                    "...WAIT...",
+                    "⚠️ SECURITY ALERT TRIGGERED ⚠️",
+                    "TRACING IP ADDRESS...",
+                    "CONNECTION TERMINATED."
+                ];
+                
+                let step = 0;
+                addToHistory(cmd, hackSteps[0], false);
+                
+                const hackInterval = setInterval(() => {
+                    step++;
+                    if(step < hackSteps.length) {
+                         const line = document.createElement('div');
+                         line.className = "mb-1 text-zinc-300 pl-4 border-l-2 border-zinc-800 ml-1 font-mono text-xs";
+                         line.innerText = hackSteps[step];
+                         
+                         if(hackSteps[step].includes("ALERT") || hackSteps[step].includes("TERMINATED")) {
+                             line.classList.add("text-red-500", "font-bold");
+                         }
+                         if(hackSteps[step].includes("SUCCESS")) {
+                             line.classList.add("text-signal");
+                         }
+                         
+                         terminalOutput.appendChild(line);
+                         
+                         // Auto scroll
+                         const container = document.getElementById('terminal-output');
+                         container.scrollTop = container.scrollHeight;
+                         
+                         // Random glitch effect
+                         if(Math.random() > 0.5) {
+                             document.body.classList.add('invert'); 
+                             setTimeout(() => document.body.classList.remove('invert'), 100);
+                         }
+                    } else {
+                        clearInterval(hackInterval);
+                    }
+                }, 800);
                 break;
             case '':
                 addToHistory('', '', false);

@@ -10,7 +10,7 @@
   /* --signal: #FF3300;  <-- Blazing Red */
 
   /*--signal: #CCFF00;  Currently Active Theme */
-  --signal: #CCFF00;
+  --signal: #ccff00;
   --void: #030303;
 }
 
@@ -19,6 +19,25 @@ body {
   background-color: var(--void);
   cursor: none;
   /* Hide default cursor, using custom cursor */
+}
+
+/* --- CUSTOM SCROLLBAR --- */
+::-webkit-scrollbar {
+  width: 6px; /* Thin and sleek */
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272a; /* Zinc-800 subtle default */
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--signal); /* Signal color on hover */
 }
 
 /* --- VISUAL FX --- */
@@ -35,7 +54,13 @@ body {
 .scanlines {
   position: fixed;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.4));
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.4) 50%,
+    rgba(0, 0, 0, 0.4)
+  );
   background-size: 100% 3px;
   z-index: 9980;
   pointer-events: none;
@@ -70,7 +95,8 @@ body {
   transform: translate(-50%, -50%);
   z-index: 10000;
   pointer-events: none;
-  transition: width 0.3s cubic-bezier(0.19, 1, 0.22, 1),
+  transition:
+    width 0.3s cubic-bezier(0.19, 1, 0.22, 1),
     height 0.3s cubic-bezier(0.19, 1, 0.22, 1),
     background-color 0.3s;
 }
@@ -130,7 +156,12 @@ nav a,
     linear-gradient(90deg, rgba(204, 255, 0, 0.15) 1px, transparent 1px);
   background-size: 60px 60px;
   transform: perspective(1000px) rotateX(80deg);
-  mask-image: linear-gradient(to bottom, transparent 0%, black 30%, transparent 95%);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 30%,
+    transparent 95%
+  );
   z-index: 1;
   animation: grid-move 10s linear infinite;
 }
@@ -147,19 +178,17 @@ nav a,
 
 /* --- CUSTOM COMPONENTS --- */
 .clip-corner {
-  clip-path: polygon(0 0,
-      100% 0,
-      100% calc(100% - 12px),
-      calc(100% - 12px) 100%,
-      0 100%);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0 100%
+  );
 }
 
 .clip-corner-tl {
-  clip-path: polygon(12px 0,
-      100% 0,
-      100% 100%,
-      0 100%,
-      0 12px);
+  clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
 }
 
 .btn-glitch {
@@ -169,13 +198,18 @@ nav a,
 }
 
 .btn-glitch::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(204, 255, 0, 0.8), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(204, 255, 0, 0.8),
+    transparent
+  );
   transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
   transform: skewX(-20deg);
   z-index: 1;
@@ -236,7 +270,11 @@ nav a,
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.04), transparent 40%);
+  background: radial-gradient(
+    800px circle at var(--mouse-x) var(--mouse-y),
+    rgba(255, 255, 255, 0.04),
+    transparent 40%
+  );
   z-index: 2;
   pointer-events: none;
 }
