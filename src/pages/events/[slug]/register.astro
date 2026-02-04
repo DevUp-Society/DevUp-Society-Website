@@ -416,11 +416,18 @@ const { event } = Astro.props;
         updateMemberFields();
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+    // Initialize immediately or wait for DOM
+    function init() {
         initTeamControls();
         initTeamNumber();
         updateMemberFields();
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
 
 
     // Form Submission Logic
