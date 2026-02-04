@@ -1,13 +1,79 @@
 ---
-// /events - Events listing page
+/**
+ * /events - Events Listing Page with ItemList Schema
+ * 
+ * SEO Optimizations:
+ * - ItemList schema for event listings (appears in Google Events)
+ * - Individual Event schema references
+ * - Breadcrumb navigation
+ * - AEO-optimized content for "DevUp events" queries
+ * 
+ * TARGET KEYWORDS:
+ * - DevUp Society events
+ * - hackathon Hyderabad 2026
+ * - coding events for students
+ * - tech workshops VJIT
+ * - student hackathons India
+ */
 import MainLayout from '../layouts/MainLayout.astro';
 import { upcomingEvents, pastEvents } from '../data/events';
 import { Icon } from 'astro-icon/components';
+
+// Generate ItemList schema for upcoming events
+const eventsListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "DevUp Society Events - Hackathons, Workshops & Tech Talks",
+  "description": "Upcoming hackathons, coding workshops, and tech events organized by DevUp Society at VJIT, Hyderabad",
+  "numberOfItems": upcomingEvents.length,
+  "itemListElement": upcomingEvents.map((event, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "item": {
+      "@type": event.isHackathon ? "Hackathon" : "Event",
+      "name": event.title,
+      "description": event.shortDescription,
+      "startDate": event.date,
+      "location": {
+        "@type": "Place",
+        "name": event.location,
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Hyderabad",
+          "addressRegion": "Telangana",
+          "addressCountry": "IN"
+        }
+      },
+      "url": `https://www.devupvjit.in/events/${event.slug}`,
+      "organizer": {
+        "@type": "Organization",
+        "name": "DevUp Society",
+        "url": "https://www.devupvjit.in"
+      },
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": event.mode === 'Online' 
+        ? "https://schema.org/OnlineEventAttendanceMode"
+        : "https://schema.org/OfflineEventAttendanceMode"
+    }
+  }))
+};
+
+// Breadcrumb schema
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.devupvjit.in" },
+    { "@type": "ListItem", "position": 2, "name": "Events", "item": "https://www.devupvjit.in/events" }
+  ]
+};
 ---
 
 <MainLayout 
-  title="Events | DevUp Society"
-  description="Join us for workshops, hackathons, tech talks, and more"
+  title="Hackathons, Workshops & Coding Events 2026 | DevUp Society"
+  description="Join DevUp Society's hackathons, coding bootcamps, and tech workshops at VJIT Hyderabad. Open to all students. Free registration for most events. View upcoming events now."
+  keywords="DevUp Society events, hackathon Hyderabad 2026, coding events for students, tech workshops VJIT, student hackathons India, Devthon 2026, coding competition"
+  schema={[eventsListSchema, breadcrumbSchema]}
 >
   <!-- HERO SECTION -->
   <section class="relative h-[60vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-zinc-900">
@@ -20,8 +86,14 @@ import { Icon } from 'astro-icon/components';
         <span class="text-zinc-700">EVENTS</span>
       </h1>
       <p class="font-mono text-zinc-400 text-sm max-w-2xl mx-auto">
-        Join us for workshops, hackathons, tech talks, and more. Learn, build, and connect.
+        Join us for workshops, hackathons, tech talks, and more. Learn, build, and connect with India's most active student developer community.
       </p>
+      
+      <!-- AEO Block for AI Answer Engines -->
+      <article class="sr-only" aria-hidden="true">
+        <h2>What events does DevUp Society organize?</h2>
+        <p>DevUp Society organizes hackathons, coding bootcamps, technical workshops, tech talks, and networking meetups. Events cover Full-Stack Development, DevOps, AI/ML, Mobile Development, and Open Source contribution. Most events are free and open to all students. Check devupvjit.in/events for upcoming events at VJIT, Hyderabad.</p>
+      </article>
     </div>
   </section>
 

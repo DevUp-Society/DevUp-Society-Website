@@ -1,11 +1,69 @@
 ---
+/**
+ * /projects - Student Developer Projects Portfolio
+ * 
+ * SEO Optimizations:
+ * - CollectionPage schema for project portfolio
+ * - CreativeWork/SoftwareApplication schema for individual projects
+ * - AEO content for "student developer projects" queries
+ * 
+ * TARGET KEYWORDS:
+ * - DevUp Society projects
+ * - student developer portfolio
+ * - open source student projects
+ * - hackathon projects India
+ */
 import MainLayout from '../layouts/MainLayout.astro';
 import { Icon } from 'astro-icon/components';
+
+// CollectionPage schema for projects portfolio
+const projectsSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "DevUp Society Student Developer Projects",
+  "description": "Portfolio of production-ready projects built by DevUp Society members. Hackathon winners, deployed applications, and open source contributions.",
+  "url": "https://www.devupvjit.in/projects",
+  "mainEntity": {
+    "@type": "ItemList",
+    "name": "Featured Student Projects",
+    "description": "Real-world software applications built by student developers at DevUp Society",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "SoftwareApplication",
+          "name": "DevUp Society Website",
+          "description": "Official website for DevUp Society built with Astro, Tailwind CSS, and modern web technologies",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Web Browser"
+        }
+      }
+    ]
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DevUp Society",
+    "url": "https://www.devupvjit.in"
+  }
+};
+
+// Breadcrumb schema
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.devupvjit.in" },
+    { "@type": "ListItem", "position": 2, "name": "Projects", "item": "https://www.devupvjit.in/projects" }
+  ]
+};
 ---
 
 <MainLayout 
-  title="Projects | DevUp Society" 
-  description="Explore production-ready projects built by DevUp Society members"
+  title="Student Developer Projects & Open Source Portfolio | DevUp Society" 
+  description="Explore production-ready projects built by DevUp Society members. From hackathon winners to deployed apps - real student developer work showcasing React, Node.js, Python, and more."
+  keywords="DevUp Society projects, student developer portfolio, open source student projects, hackathon projects India, student coding projects, VJIT student projects"
+  schema={[projectsSchema, breadcrumbSchema]}
 >
   <!-- HERO SECTION -->
   <section class="relative h-[60vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-zinc-900">

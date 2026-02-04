@@ -1,6 +1,19 @@
 ---
-// /team - Main team overview page showing core team
-// Faizan centered at top, other leads in 3-column grid below
+/**
+ * /team - Team Page with Person Schema
+ * 
+ * SEO Optimizations:
+ * - Person schema for each team member (Google Knowledge Panel potential)
+ * - ItemList schema for team listing
+ * - BreadcrumbList for navigation
+ * - Optimized meta for "DevUp Society team" queries
+ * 
+ * TARGET KEYWORDS:
+ * - DevUp Society team
+ * - DevUp Society leadership
+ * - student developer community leaders
+ * - VJIT coding club team
+ */
 import MainLayout from '../layouts/MainLayout.astro';
 import { coreTeam } from '../data/team';
 
@@ -33,11 +46,73 @@ const otherLeads = coreTeam.filter(m =>
   m.id !== 'tm-013' && // Narsing
   m.id !== 'tm-014'    // Sanchit
 );
+
+// Generate Person schemas for all team members
+const generatePersonSchemas = () => {
+  return coreTeam.map(member => ({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": member.name,
+    "jobTitle": member.role,
+    "image": member.photo || undefined,
+    "worksFor": {
+      "@type": "Organization",
+      "name": "DevUp Society",
+      "url": "https://www.devupvjit.in"
+    },
+    "memberOf": {
+      "@type": "Organization",
+      "name": "DevUp Society"
+    },
+    "sameAs": [
+      member.socialLinks?.linkedin,
+      member.socialLinks?.github,
+      member.socialLinks?.instagram,
+      member.socialLinks?.twitter,
+      member.socialLinks?.portfolio
+    ].filter(Boolean),
+    "description": member.quote || `${member.role} at DevUp Society`
+  }));
+};
+
+// Generate ItemList schema for the team page
+const teamListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "DevUp Society Team Members",
+  "description": "Leadership team and core members of DevUp Society - India's premier student developer community",
+  "numberOfItems": coreTeam.length,
+  "itemListElement": coreTeam.map((member, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "item": {
+      "@type": "Person",
+      "name": member.name,
+      "jobTitle": member.role,
+      "image": member.photo
+    }
+  }))
+};
+
+// Breadcrumb schema
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.devupvjit.in" },
+    { "@type": "ListItem", "position": 2, "name": "Team", "item": "https://www.devupvjit.in/team" }
+  ]
+};
+
+// Combine schemas
+const combinedSchemas = [teamListSchema, breadcrumbSchema];
 ---
 
 <MainLayout 
-  title="Team | DevUp Society" 
-  description="Meet the leadership behind DevUp Society"
+  title="Meet the Core Team & Leads | DevUp Society Leadership" 
+  description="Meet the student leaders, full-stack developers, and creative minds driving DevUp Society. Our team of passionate developers, designers, and community builders at VJIT, Hyderabad."
+  keywords="DevUp Society team, DevUp leadership, student developer leaders, VJIT coding club team, DevUp Society members, community leads"
+  schema={combinedSchemas}
 >
   <!-- HERO SECTION -->
   <section class="relative h-[60vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-zinc-900">

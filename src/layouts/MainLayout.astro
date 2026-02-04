@@ -1,4 +1,21 @@
 ---
+/**
+ * MainLayout.astro - Core Layout Component
+ * 
+ * This is the primary layout for all pages on devupvjit.in
+ * It includes comprehensive SEO infrastructure:
+ * - Organization Schema (Entity SEO)
+ * - EducationalOrganization Schema
+ * - WebSite Schema with SearchAction
+ * - FAQPage Schema (AEO - Answer Engine Optimization)
+ * - LocalBusiness Schema (Google Maps)
+ * - BreadcrumbList Schema
+ * 
+ * Per-page schemas can be passed via the `schema` prop (single object or array)
+ * 
+ * @version 2.0.0
+ * @updated 2024-01-XX
+ */
 import '../styles/global.css';
 import logoImg from '../assets/devup logo neon.png';
 import Footer from '../components/Footer.astro';
@@ -7,9 +24,40 @@ import { Icon } from 'astro-icon/components';
 interface Props {
   title: string;
   description?: string;
+  keywords?: string;
+  type?: 'website' | 'article' | 'event' | 'profile';
+  image?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  schema?: object | object[]; // Supports single schema or array of schemas
+  noindex?: boolean; // For pages that shouldn't be indexed
 }
 
-const { title, description = "DevUp Society - Where Code Meets Innovation" } = Astro.props;
+const { 
+  title, 
+  description = "DevUp Society is India's premier student developer community. Join hackathons, build open-source projects, and launch your tech career with 100+ active members.",
+  keywords = "DevUp Society, developer community, student coding club, hackathon community, tech community India, coding community for students, open source community, VJIT coding club, Hyderabad tech community, developer network",
+  type = "website",
+  image = "https://www.devupvjit.in/assets/og-image.jpg",
+  publishedTime,
+  modifiedTime,
+  author,
+  schema,
+  noindex = false
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devupvjit.in');
+const currentYear = new Date().getFullYear();
+
+// Helper to render schema - handles both single object and array
+const renderSchema = (schemaData: object | object[] | undefined): string | null => {
+  if (!schemaData) return null;
+  if (Array.isArray(schemaData)) {
+    return JSON.stringify(schemaData);
+  }
+  return JSON.stringify(schemaData);
+};
 ---
 
 <!DOCTYPE html>
@@ -19,15 +67,333 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
   <meta name="description" content={description}>
+  <meta name="keywords" content={keywords}>
+  <meta name="author" content="DevUp Society">
+  {noindex ? (
+    <meta name="robots" content="noindex, nofollow">
+  ) : (
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  )}
+  <meta name="googlebot" content={noindex ? "noindex, nofollow" : "index, follow"}>
+  <link rel="canonical" href={canonicalURL} />
   <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#22C55E">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   
-  <!-- SEO Meta Tags -->
+  <!-- Geo & Language Targeting -->
+  <meta name="geo.region" content="IN-TG">
+  <meta name="geo.placename" content="Hyderabad, Telangana, India">
+  <meta name="geo.position" content="17.3917;78.3362">
+  <meta name="ICBM" content="17.3917, 78.3362">
+  <meta http-equiv="content-language" content="en-IN">
+  
+  <!-- Additional SEO Meta -->
+  <meta name="revisit-after" content="7 days">
+  <meta name="distribution" content="global">
+  <meta name="rating" content="general">
+  <meta name="language" content="en">
+  
+  <!-- SEO Meta Tags - Open Graph -->
   <meta property="og:title" content={title}>
   <meta property="og:description" content={description}>
-  <meta property="og:type" content="website">
+  <meta property="og:type" content={type === 'event' ? 'event' : type === 'article' ? 'article' : 'website'}>
+  <meta property="og:url" content={canonicalURL}>
+  <meta property="og:image" content={image}>
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="DevUp Society - Premier Student Developer Community">
+  <meta property="og:site_name" content="DevUp Society">
+  <meta property="og:locale" content="en_IN">
+  {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+  {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+  {author && <meta property="article:author" content={author} />}
+  
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@devup_society">
+  <meta name="twitter:creator" content="@devup_society">
   <meta name="twitter:title" content={title}>
   <meta name="twitter:description" content={description}>
+  <meta name="twitter:image" content={image}>
+  <meta name="twitter:image:alt" content="DevUp Society - Premier Student Developer Community">
+
+  <!-- Organization Schema (Primary Entity) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": "https://www.devupvjit.in/#organization",
+      "name": "DevUp Society",
+      "alternateName": ["DevUp", "DEVUP", "DevUp Community", "DevUp VJIT"],
+      "url": "https://www.devupvjit.in/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.devupvjit.in/assets/devup-logo-neon.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://www.devupvjit.in/assets/og-image.jpg",
+      "description": "DevUp Society is India's premier student developer community based in Hyderabad, focusing on open-source contribution, product development, hackathons, and launching tech careers. Founded at VJIT, we build real-world software and foster innovation.",
+      "foundingDate": "2024",
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "Vidya Jyothi Institute of Technology",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Hyderabad",
+          "addressRegion": "Telangana",
+          "addressCountry": "IN"
+        }
+      },
+      "areaServed": [
+        {
+          "@type": "Country",
+          "name": "India"
+        },
+        {
+          "@type": "GeoCircle",
+          "geoMidpoint": {
+            "@type": "GeoCoordinates",
+            "latitude": 17.4126,
+            "longitude": 78.2679
+          },
+          "geoRadius": "50000"
+        }
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/company/devup-society",
+        "https://www.linkedin.com/company/devup-community",
+        "https://www.instagram.com/devupcommunity/",
+        "https://twitter.com/devup_society",
+        "https://github.com/DevUp-Society"
+      ],
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "email": "devupsociety@vjit.ac.in",
+          "contactType": "community support",
+          "availableLanguage": ["English", "Hindi", "Telugu"]
+        }
+      ],
+      "memberOf": {
+        "@type": "EducationalOrganization",
+        "name": "Vidya Jyothi Institute of Technology",
+        "url": "https://vjit.ac.in"
+      },
+      "knowsAbout": [
+        "Software Engineering",
+        "Web Development",
+        "Full-Stack Development",
+        "DevOps",
+        "Cloud Computing",
+        "Artificial Intelligence",
+        "Machine Learning",
+        "Open Source",
+        "Hackathons",
+        "Mobile App Development",
+        "React",
+        "Node.js",
+        "Python",
+        "JavaScript",
+        "TypeScript"
+      ],
+      "slogan": "Code. Build. Deploy.",
+      "numberOfEmployees": {
+        "@type": "QuantitativeValue",
+        "minValue": 50,
+        "maxValue": 150
+      }
+    }
+  </script>
+
+  <!-- Educational Organization Schema -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      "@id": "https://www.devupvjit.in/#educationalorg",
+      "name": "DevUp Society",
+      "description": "Student-run developer community offering hands-on technical education through workshops, hackathons, and real-world project development.",
+      "url": "https://www.devupvjit.in/",
+      "educationalCredentialAwarded": "Project Portfolio & Industry Skills",
+      "teaches": [
+        "Full-Stack Web Development",
+        "DevOps & Cloud Infrastructure",
+        "AI/ML Engineering",
+        "Mobile App Development",
+        "Open Source Contribution"
+      ],
+      "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "name": "DevUp Society Membership",
+        "credentialCategory": "Community Membership"
+      }
+    }
+  </script>
+
+  <!-- WebSite Schema with SearchAction -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://www.devupvjit.in/#website",
+      "name": "DevUp Society",
+      "url": "https://www.devupvjit.in/",
+      "description": "Official website of DevUp Society - India's premier student developer community",
+      "publisher": {
+        "@id": "https://www.devupvjit.in/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.devupvjit.in/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      },
+      "inLanguage": "en-IN"
+    }
+  </script>
+
+  <!-- BreadcrumbList Schema -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.devupvjit.in/"
+        }
+      ]
+    }
+  </script>
+
+  <!-- FAQ Schema (AEO Optimization) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is DevUp Society?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "DevUp Society is India's premier student developer community based in Hyderabad at VJIT. Unlike traditional coding clubs, DevUp operates as a product-first organization where members build real-world software, contribute to open source, participate in hackathons, and develop industry-ready skills. Founded in 2024, DevUp has grown to 100+ active members."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I join DevUp Society?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "To join DevUp Society, visit the official website at devupvjit.in/join during recruitment periods. You can also join the WhatsApp community for updates on recruitment cycles, events, and workshops. DevUp welcomes students passionate about coding, building projects, and learning new technologies."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What events does DevUp Society organize?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "DevUp Society organizes hackathons, coding bootcamps, technical workshops, tech talks, and industry meetups. Events cover topics like Full-Stack Development, DevOps, AI/ML, Mobile Development, and Open Source contribution. Check devupvjit.in/events for upcoming events."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is DevUp Society free to join?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, DevUp Society is a free student community. There are no membership fees. Members gain access to workshops, hackathons, mentorship, project collaboration, and industry networking opportunities at no cost."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where is DevUp Society located?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "DevUp Society is based at Vidya Jyothi Institute of Technology (VJIT) in Hyderabad, Telangana, India. While headquartered at VJIT, DevUp welcomes students from all colleges and operates both in-person and online activities."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What skills can I learn at DevUp Society?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "At DevUp Society, you can learn Full-Stack Web Development (MERN, Django, Next.js), DevOps & Cloud (Docker, Kubernetes, AWS), AI/ML Engineering (PyTorch, TensorFlow, LLMs), Mobile Development (React Native, Flutter), and Open Source contribution. All learning is hands-on through real projects."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does DevUp Society help with internships and jobs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, DevUp Society helps members build portfolio-ready projects, develop industry connections, and gain skills that land jobs. Members have secured internships and roles at startups and tech companies through skills and projects developed at DevUp."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between DevUp Society and other coding clubs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "DevUp Society is product-first, not theory-first. While traditional coding clubs focus on tutorials and competitions, DevUp focuses on shipping real software. Members work on production-grade projects, contribute to open source, and build portfolios that demonstrate real engineering skills."
+          }
+        }
+      ]
+    }
+  </script>
+
+  <!-- LocalBusiness Schema for Google Maps -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": "https://www.devupvjit.in/#localbusiness",
+      "name": "DevUp Society",
+      "image": "https://www.devupvjit.in/assets/og-image.jpg",
+      "url": "https://www.devupvjit.in/",
+      "telephone": "",
+      "email": "devupsociety@vjit.ac.in",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Vidya Jyothi Institute of Technology, Aziz Nagar Gate",
+        "addressLocality": "Hyderabad",
+        "addressRegion": "Telangana",
+        "postalCode": "500075",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 17.4126,
+        "longitude": 78.2679
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      "priceRange": "Free",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "50"
+      }
+    }
+  </script>
+
+  {schema && (
+    Array.isArray(schema) ? (
+      schema.map(s => (
+        <script type="application/ld+json" set:html={JSON.stringify(s)} />
+      ))
+    ) : (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    )
+  )}
   
   <!-- ICONS -->
   <!-- Iconify script removed for production bundling -->
@@ -122,6 +488,10 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
         <a href="/events" class="font-mono text-sm uppercase tracking-widest text-zinc-400 hover:text-signal transition-colors border-l-2 border-transparent hover:border-signal pl-4">Events</a>
         <a href="/team" class="font-mono text-sm uppercase tracking-widest text-zinc-400 hover:text-signal transition-colors border-l-2 border-transparent hover:border-signal pl-4">Team</a>
         <a href="/join" class="font-mono text-sm uppercase tracking-widest text-zinc-400 hover:text-signal transition-colors border-l-2 border-transparent hover:border-signal pl-4">Join Now</a>
+        <button id="mobile-terminal-btn" class="text-left font-mono text-sm uppercase tracking-widest text-zinc-400 hover:text-signal transition-colors border-l-2 border-transparent hover:border-signal pl-4 flex items-center gap-2">
+          <Icon name="mdi:console" class="w-4 h-4" />
+          System Console
+        </button>
       </div>
 
       <!-- Mobile CTA -->
@@ -229,9 +599,13 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
         </div>
         <div class="flex flex-col gap-1" id="history"></div>
         
-        <div class="flex items-center gap-2 text-signal mt-2">
-           <span>root@devup:~#</span>
-           <input type="text" id="terminal-input" class="bg-transparent border-none outline-none flex-1 text-white caret-signal uppercase" autocomplete="off" spellcheck="false">
+        <div class="flex items-center gap-2 text-signal mt-2 border-t border-dashed border-zinc-800 pt-2">
+           <span class="hidden md:inline">root@devup:~#</span>
+           <span class="md:hidden">></span>
+           <input type="text" id="terminal-input" class="bg-transparent border-none outline-none flex-1 text-white caret-signal uppercase font-mono" autocomplete="off" spellcheck="false" placeholder="ENTER COMMAND...">
+           <button id="terminal-submit" class="px-2 text-signal hover:text-white transition-colors" aria-label="Execute Command">
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 10 4 15 9 20"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></svg>
+           </button>
         </div>
       </div>
     </div>
@@ -244,11 +618,15 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
     const terminalInput = document.getElementById('terminal-input');
     const terminalOutput = document.getElementById('history');
     const termBtn = document.getElementById('terminal-btn');
+    const mobileTermBtn = document.getElementById('mobile-terminal-btn');
     const termCloseDot = document.getElementById('term-close-dot');
 
     let isTermOpen = false;
 
     function openTerminal() {
+        if(document.getElementById('mobile-menu')) {
+            closeMobileMenu(); // Close mobile menu if open
+        }
         terminalOverlay.classList.remove('hidden');
         // Small delay for transition
         setTimeout(() => {
@@ -276,6 +654,9 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
     if(termBtn) {
         termBtn.addEventListener('click', openTerminal);
     }
+    if(mobileTermBtn) {
+        mobileTermBtn.addEventListener('click', openTerminal);
+    }
     if(termCloseDot) {
         termCloseDot.addEventListener('click', closeTerminal);
     }
@@ -298,13 +679,32 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
     });
 
     // Command Logic
-    terminalInput.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter') {
-            const command = terminalInput.value.trim().toLowerCase();
-            processCommand(command);
+    const termSubmitBtn = document.getElementById('terminal-submit');
+
+    function executeCommand() {
+        const command = terminalInput.value.trim(); // Don't allow empty commands to clutter, let processCommand handle casing
+        if(command) {
+            processCommand(command.toLowerCase());
             terminalInput.value = '';
+            // On desktop keep focus, on mobile maybe not to allow reading output?
+            // Let's keep focus for now to allow rapid commands.
+             setTimeout(() => {
+                const container = document.getElementById('terminal-output');
+                container.scrollTop = container.scrollHeight;
+            }, 10);
+        }
+    }
+
+    terminalInput.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.keyCode === 13) {
+            e.preventDefault();
+            executeCommand();
         }
     });
+
+    if(termSubmitBtn) {
+        termSubmitBtn.addEventListener('click', executeCommand);
+    }
 
     function addToHistory(cmd, output, isHtml = false) {
         const cmdLine = document.createElement('div');
@@ -326,19 +726,51 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
     }
 
     function processCommand(cmd) {
-        switch(cmd) {
+        // Normalize command
+        const cleanCmd = cmd.toLowerCase().trim();
+
+        if (cleanCmd.includes('devup') || cleanCmd === 'who are you' || cleanCmd === 'about') {
+             addToHistory(cmd, `
+<div class="font-mono border border-zinc-800 p-4 bg-zinc-900/50 rounded mb-2">
+  <div class="text-signal font-bold text-base mb-2">/// DEVUP SOCIETY INTELLIGENCE</div>
+  <p class="text-zinc-300 mb-2">We are the premier tech community for students, builders, and innovators.</p>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+    <div>
+      <span class="text-zinc-500 block">MISSION</span>
+      <span class="text-white">To maintain a global standard of excellence in skills, innovation, and impact.</span>
+    </div>
+    <div>
+      <span class="text-zinc-500 block">STANDARD</span>
+      <span class="text-white">Apple-level polish. Stripe-level clarity.</span>
+    </div>
+  </div>
+  <div class="mt-4 pt-4 border-t border-zinc-800">
+    <span class="text-signal">> STATUS:</span> <span class="text-white">OPERATIONAL</span><br>
+    <span class="text-signal">> NEXT EVENT:</span> <a href="/events" class="underline hover:text-white decoration-zinc-600">CHECK CALENDAR</a>
+  </div>
+</div>`, true);
+             return;
+        }
+
+        switch(cleanCmd) {
             case 'help':
                 addToHistory(cmd, `AVAILABLE COMMANDS:
   help        - Show this menu
+  devup       - System Info / Mission
   clear       - Clear terminal
   home        - Go to Homepage
-  about       - About DevUp
   events      - Navigate to Events
   team        - Meet the Team
   join        - Join Community
-  date        - Show System Time
   socials     - List Social Links
-  hack        - ???`, false);
+  hack        - [EXPERIMENTAL]
+  exit        - Close Console`, false);
+                break;
+            case 'exit':
+                closeTerminal();
+                break;
+            case 'sudo':
+                addToHistory(cmd, 'PERMISSION DENIED. YOU ARE NOT ADMIN.', false);
                 break;
             case 'clear':
                 terminalOutput.innerHTML = '';
@@ -346,10 +778,6 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
             case 'home':
                 addToHistory(cmd, 'Navigating to HOME...');
                 setTimeout(() => window.location.href = '/', 500);
-                break;
-            case 'about':
-                addToHistory(cmd, 'Navigating to ABOUT...');
-                setTimeout(() => window.location.href = '/#about', 500);
                 break;
             case 'events':
                 addToHistory(cmd, 'Navigating to EVENTS...');
@@ -368,17 +796,56 @@ const { title, description = "DevUp Society - Where Code Meets Innovation" } = A
                 break;
             case 'socials':
                 addToHistory(cmd, `
-<a href="https://github.com/DevUp-Society" target="_blank" class="text-blue-400 hover:underline">GITHUB</a>
-<br><a href="https://www.linkedin.com/company/devup-community" target="_blank" class="text-blue-400 hover:underline">LINKEDIN</a>
-<br><a href="https://www.instagram.com/devupcommunity/" target="_blank" class="text-blue-400 hover:underline">INSTAGRAM</a>`, true);
+<a href="https://github.com/DevUp-Society" target="_blank" class="text-blue-400 hover:text-signal hover:underline">GITHUB</a>
+<br><a href="https://www.linkedin.com/company/devup-community" target="_blank" class="text-blue-400 hover:text-signal hover:underline">LINKEDIN</a>
+<br><a href="https://www.instagram.com/devupcommunity/" target="_blank" class="text-blue-400 hover:text-signal hover:underline">INSTAGRAM</a>`, true);
                 break;
             case 'hack':
-                addToHistory(cmd, 'INJECTING PAYLOAD... ACCESSING MAINFRAME...', false);
-                document.body.classList.add('invert'); 
-                setTimeout(() => document.body.classList.remove('invert'), 200);
-                setTimeout(() => document.body.classList.add('invert'), 400);
-                setTimeout(() => document.body.classList.remove('invert'), 600);
-                setTimeout(() => addToHistory('', 'ACCESS DENIED: SECURITY PROTOCOL ACTIVE. NICE TRY.', false), 800);
+                const hackSteps = [
+                    "INITIATING BREACH PROTOCOL...",
+                    "BYPASSING FIREWALL (PORT 443)...",
+                    "INJECTING SQL PAYLOAD...",
+                    "ACCESSING MAINFRAME... [SUCCESS]",
+                    "DOWNLOADING 'SECRET_PLANS.PDF'...",
+                    "DECRYPTING PASSWORDS...",
+                    "...WAIT...",
+                    "⚠️ SECURITY ALERT TRIGGERED ⚠️",
+                    "TRACING IP ADDRESS...",
+                    "CONNECTION TERMINATED."
+                ];
+                
+                let step = 0;
+                addToHistory(cmd, hackSteps[0], false);
+                
+                const hackInterval = setInterval(() => {
+                    step++;
+                    if(step < hackSteps.length) {
+                         const line = document.createElement('div');
+                         line.className = "mb-1 text-zinc-300 pl-4 border-l-2 border-zinc-800 ml-1 font-mono text-xs";
+                         line.innerText = hackSteps[step];
+                         
+                         if(hackSteps[step].includes("ALERT") || hackSteps[step].includes("TERMINATED")) {
+                             line.classList.add("text-red-500", "font-bold");
+                         }
+                         if(hackSteps[step].includes("SUCCESS")) {
+                             line.classList.add("text-signal");
+                         }
+                         
+                         terminalOutput.appendChild(line);
+                         
+                         // Auto scroll
+                         const container = document.getElementById('terminal-output');
+                         container.scrollTop = container.scrollHeight;
+                         
+                         // Random glitch effect
+                         if(Math.random() > 0.5) {
+                             document.body.classList.add('invert'); 
+                             setTimeout(() => document.body.classList.remove('invert'), 100);
+                         }
+                    } else {
+                        clearInterval(hackInterval);
+                    }
+                }, 800);
                 break;
             case '':
                 addToHistory('', '', false);

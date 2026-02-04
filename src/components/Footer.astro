@@ -1,15 +1,38 @@
 ---
+/**
+ * Footer Component - Enhanced for SEO
+ * 
+ * Includes internal linking strategy for improved crawlability
+ * and semantic HTML structure for search engines.
+ */
 import logoImg from '../assets/devup logo neon.png';
 import { Icon } from 'astro-icon/components';
 
 const currentYear = new Date().getFullYear();
 
+// Main navigation links
 const navLinks = [
   { name: 'Home', href: '/' },
-  { name: 'About DevUp', href: '/#about' },
+  { name: 'About DevUp', href: '/about' },
   { name: 'Events & Hackathons', href: '/events' },
   { name: 'Team', href: '/team' },
   { name: 'Join DevUp', href: '/join' },
+];
+
+// SEO-focused secondary links
+const resourceLinks = [
+  { name: 'Learning Resources', href: '/resources' },
+  { name: 'FAQ', href: '/faq' },
+  { name: 'Projects', href: '/projects' },
+  { name: 'Community', href: '/community' },
+];
+
+// Quick answer links for SEO
+const quickLinks = [
+  { name: 'How to Join DevUp', href: '/faq#membership' },
+  { name: 'Upcoming Hackathons', href: '/events' },
+  { name: 'What is DevUp Society?', href: '/about' },
+  { name: 'Developer Roadmaps', href: '/resources' },
 ];
 
 const socialLinks = [
@@ -148,18 +171,60 @@ const socialLinks = [
     </div>
 
     <!-- 6. Legal / Closing Strip -->
-    <div class="border-t border-zinc-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 bg-signal rounded-full animate-pulse"></span>
-        <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
-          © {currentYear} DevUp Society VJIT
-        </p>
+    <div class="border-t border-zinc-900 pt-8">
+      <!-- SEO Internal Links Section -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 pb-8 border-b border-zinc-900">
+        <div>
+          <h4 class="font-mono text-xs text-signal uppercase tracking-widest mb-4">Navigate</h4>
+          <nav class="space-y-2">
+            {navLinks.map(link => (
+              <a href={link.href} class="block text-zinc-500 hover:text-white text-sm transition-colors">
+                {link.name}
+              </a>
+            ))}
+          </nav>
+        </div>
+        <div>
+          <h4 class="font-mono text-xs text-signal uppercase tracking-widest mb-4">Resources</h4>
+          <nav class="space-y-2">
+            {resourceLinks.map(link => (
+              <a href={link.href} class="block text-zinc-500 hover:text-white text-sm transition-colors">
+                {link.name}
+              </a>
+            ))}
+          </nav>
+        </div>
+        <div>
+          <h4 class="font-mono text-xs text-signal uppercase tracking-widest mb-4">Quick Answers</h4>
+          <nav class="space-y-2">
+            {quickLinks.map(link => (
+              <a href={link.href} class="block text-zinc-500 hover:text-white text-sm transition-colors">
+                {link.name}
+              </a>
+            ))}
+          </nav>
+        </div>
+        <div>
+          <h4 class="font-mono text-xs text-signal uppercase tracking-widest mb-4">Legal</h4>
+          <nav class="space-y-2">
+            <a href="/llms.txt" class="block text-zinc-500 hover:text-white text-sm transition-colors">LLM Information</a>
+            <a href="/sitemap-index.xml" class="block text-zinc-500 hover:text-white text-sm transition-colors">Sitemap</a>
+          </nav>
+        </div>
       </div>
       
-      <p class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest flex items-center gap-2">
-        Designed & Built by <span class="text-zinc-400">DevUp Team</span>
-      </p>
-
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 bg-signal rounded-full animate-pulse"></span>
+          <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
+            © {currentYear} DevUp Society VJIT | India's Premier Student Developer Community
+          </p>
+        </div>
+        
+        <p class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest flex items-center gap-2">
+          Designed & Built by <span class="text-zinc-400">DevUp Team</span>
+        </p>
+      </div>
     </div>
   </div>
 </footer>

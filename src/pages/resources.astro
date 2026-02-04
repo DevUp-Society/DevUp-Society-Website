@@ -1,0 +1,422 @@
+---
+/**
+ * /resources - Student Developer Learning Resources Hub
+ * 
+ * This is a comprehensive SEO pillar page designed to:
+ * 1. Rank for "student developer resources" and related keywords
+ * 2. Provide quotable content for AI answer engines
+ * 3. Establish DevUp Society as an authoritative educational resource
+ * 4. Create internal linking opportunities to other pages
+ * 
+ * TARGET KEYWORDS:
+ * - student developer resources
+ * - free coding resources for students
+ * - web development learning path
+ * - how to learn programming for students
+ * - developer roadmap 2025
+ * - best resources to learn coding
+ */
+import MainLayout from '../layouts/MainLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+// Resource categories with curated content
+const resources = [
+  {
+    id: "web-development",
+    title: "Web Development",
+    icon: "lucide:globe",
+    description: "Full-stack web development resources from HTML basics to React, Node.js, and deployment.",
+    skills: ["HTML", "CSS", "JavaScript", "React", "Next.js", "Node.js", "Databases", "APIs"],
+    resources: [
+      { name: "MDN Web Docs", url: "https://developer.mozilla.org", type: "Documentation", free: true },
+      { name: "freeCodeCamp", url: "https://www.freecodecamp.org", type: "Course", free: true },
+      { name: "The Odin Project", url: "https://www.theodinproject.com", type: "Curriculum", free: true },
+      { name: "JavaScript.info", url: "https://javascript.info", type: "Tutorial", free: true },
+      { name: "React Documentation", url: "https://react.dev", type: "Documentation", free: true },
+      { name: "Full Stack Open", url: "https://fullstackopen.com", type: "Course", free: true }
+    ],
+    roadmap: [
+      "1. Learn HTML & CSS fundamentals (2-3 weeks)",
+      "2. Master JavaScript basics and DOM manipulation (4-6 weeks)",
+      "3. Build projects: Portfolio site, Todo app, API consumer (4 weeks)",
+      "4. Learn a frontend framework: React or Vue (4-6 weeks)",
+      "5. Backend basics: Node.js, Express, databases (6-8 weeks)",
+      "6. Build full-stack projects and deploy (ongoing)"
+    ]
+  },
+  {
+    id: "devops-cloud",
+    title: "DevOps & Cloud",
+    icon: "lucide:cloud",
+    description: "Cloud computing, containerization, CI/CD, and infrastructure automation resources.",
+    skills: ["Linux", "Docker", "Kubernetes", "AWS", "GitHub Actions", "Terraform", "Monitoring"],
+    resources: [
+      { name: "Linux Journey", url: "https://linuxjourney.com", type: "Tutorial", free: true },
+      { name: "Docker Curriculum", url: "https://docker-curriculum.com", type: "Tutorial", free: true },
+      { name: "Kubernetes Basics", url: "https://kubernetes.io/docs/tutorials/", type: "Documentation", free: true },
+      { name: "AWS Free Tier", url: "https://aws.amazon.com/free/", type: "Platform", free: true },
+      { name: "DevOps Roadmap", url: "https://roadmap.sh/devops", type: "Roadmap", free: true },
+      { name: "GitHub Learning Lab", url: "https://skills.github.com", type: "Interactive", free: true }
+    ],
+    roadmap: [
+      "1. Linux command line proficiency (2-3 weeks)",
+      "2. Version control with Git and GitHub (1-2 weeks)",
+      "3. Containerization with Docker (2-3 weeks)",
+      "4. CI/CD pipelines: GitHub Actions, Jenkins (2-3 weeks)",
+      "5. Cloud fundamentals: AWS/Azure/GCP (4-6 weeks)",
+      "6. Container orchestration: Kubernetes basics (4-6 weeks)"
+    ]
+  },
+  {
+    id: "ai-ml",
+    title: "AI & Machine Learning",
+    icon: "lucide:brain",
+    description: "Artificial intelligence, machine learning, deep learning, and LLM development resources.",
+    skills: ["Python", "NumPy", "Pandas", "Scikit-learn", "PyTorch", "TensorFlow", "LLMs", "Computer Vision"],
+    resources: [
+      { name: "Fast.ai", url: "https://www.fast.ai", type: "Course", free: true },
+      { name: "Kaggle Learn", url: "https://www.kaggle.com/learn", type: "Interactive", free: true },
+      { name: "DeepLearning.AI", url: "https://www.deeplearning.ai", type: "Course", free: false },
+      { name: "Google ML Crash Course", url: "https://developers.google.com/machine-learning/crash-course", type: "Course", free: true },
+      { name: "Hugging Face Course", url: "https://huggingface.co/course", type: "Course", free: true },
+      { name: "PyTorch Tutorials", url: "https://pytorch.org/tutorials/", type: "Documentation", free: true }
+    ],
+    roadmap: [
+      "1. Python fundamentals and libraries (3-4 weeks)",
+      "2. Mathematics: Linear algebra, calculus, statistics (4-6 weeks)",
+      "3. Machine learning basics with Scikit-learn (4-6 weeks)",
+      "4. Deep learning with PyTorch or TensorFlow (6-8 weeks)",
+      "5. Specialize: NLP, Computer Vision, or LLMs (8+ weeks)",
+      "6. Build and deploy ML models (ongoing)"
+    ]
+  },
+  {
+    id: "mobile-development",
+    title: "Mobile Development",
+    icon: "lucide:smartphone",
+    description: "iOS, Android, and cross-platform mobile app development resources.",
+    skills: ["React Native", "Flutter", "Swift", "Kotlin", "Expo", "Firebase"],
+    resources: [
+      { name: "React Native Docs", url: "https://reactnative.dev", type: "Documentation", free: true },
+      { name: "Flutter Codelabs", url: "https://docs.flutter.dev/codelabs", type: "Tutorial", free: true },
+      { name: "CS193p (Stanford iOS)", url: "https://cs193p.sites.stanford.edu", type: "Course", free: true },
+      { name: "Android Developers", url: "https://developer.android.com/courses", type: "Course", free: true },
+      { name: "Expo Documentation", url: "https://docs.expo.dev", type: "Documentation", free: true }
+    ],
+    roadmap: [
+      "1. Choose a path: Native (iOS/Android) or Cross-platform (React Native/Flutter)",
+      "2. If cross-platform: Master JavaScript/Dart first (4-6 weeks)",
+      "3. Learn framework fundamentals and component architecture (4-6 weeks)",
+      "4. Mobile-specific: Navigation, state management, APIs (4 weeks)",
+      "5. Build 2-3 complete apps with increasing complexity (8 weeks)",
+      "6. Learn deployment: App Store / Play Store submission"
+    ]
+  },
+  {
+    id: "open-source",
+    title: "Open Source Contribution",
+    icon: "lucide:git-branch",
+    description: "Learn how to contribute to open source projects and build your developer reputation.",
+    skills: ["Git", "GitHub", "Code Review", "Documentation", "Issue Tracking", "Community"],
+    resources: [
+      { name: "First Contributions", url: "https://firstcontributions.github.io", type: "Tutorial", free: true },
+      { name: "Good First Issues", url: "https://goodfirstissues.com", type: "Directory", free: true },
+      { name: "Up For Grabs", url: "https://up-for-grabs.net", type: "Directory", free: true },
+      { name: "Open Source Guide", url: "https://opensource.guide", type: "Documentation", free: true },
+      { name: "GitHub Skills", url: "https://skills.github.com", type: "Interactive", free: true }
+    ],
+    roadmap: [
+      "1. Master Git workflows: branching, PRs, rebasing (1-2 weeks)",
+      "2. Find beginner-friendly projects with 'good first issue' labels",
+      "3. Start small: documentation fixes, typos, tests",
+      "4. Graduate to bug fixes and small features",
+      "5. Engage with community: join discussions, review PRs",
+      "6. Maintain consistency: contribute regularly to build reputation"
+    ]
+  },
+  {
+    id: "career-preparation",
+    title: "Career & Interview Prep",
+    icon: "lucide:briefcase",
+    description: "Data structures, algorithms, system design, and interview preparation resources.",
+    skills: ["DSA", "System Design", "Behavioral Interviews", "Resume", "Portfolio", "Networking"],
+    resources: [
+      { name: "LeetCode", url: "https://leetcode.com", type: "Practice", free: true },
+      { name: "NeetCode", url: "https://neetcode.io", type: "Roadmap", free: true },
+      { name: "System Design Primer", url: "https://github.com/donnemartin/system-design-primer", type: "Repository", free: true },
+      { name: "Tech Interview Handbook", url: "https://www.techinterviewhandbook.org", type: "Guide", free: true },
+      { name: "Pramp", url: "https://www.pramp.com", type: "Mock Interviews", free: true }
+    ],
+    roadmap: [
+      "1. Build strong fundamentals in one programming language",
+      "2. Data structures: Arrays, Trees, Graphs, Hash Tables (6-8 weeks)",
+      "3. Algorithms: Sorting, Searching, DP, Recursion (8-12 weeks)",
+      "4. Practice 150+ LeetCode problems (Easy → Medium → Hard)",
+      "5. System design basics for senior roles (4-6 weeks)",
+      "6. Behavioral prep: STAR method, past experiences"
+    ]
+  }
+];
+
+// Schema for the resources page
+const resourcesSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Student Developer Learning Resources - DevUp Society",
+  "description": "Comprehensive curated learning resources for student developers. Free courses, tutorials, and roadmaps for web development, DevOps, AI/ML, mobile development, and career preparation.",
+  "url": "https://www.devupvjit.in/resources",
+  "mainEntity": {
+    "@type": "ItemList",
+    "name": "Developer Learning Resources",
+    "numberOfItems": resources.length,
+    "itemListElement": resources.map((resource, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": resource.title,
+      "description": resource.description
+    }))
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DevUp Society",
+    "url": "https://www.devupvjit.in"
+  }
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.devupvjit.in" },
+    { "@type": "ListItem", "position": 2, "name": "Resources", "item": "https://www.devupvjit.in/resources" }
+  ]
+};
+---
+
+<MainLayout 
+  title="Free Student Developer Resources & Learning Roadmaps | DevUp Society"
+  description="Curated free learning resources for student developers. Master web development, DevOps, AI/ML, mobile development with structured roadmaps. Start your coding journey today."
+  keywords="student developer resources, free coding resources, web development learning path, developer roadmap 2025, learn programming free, coding tutorials for students, tech career resources, DevUp Society"
+  schema={[resourcesSchema, breadcrumbSchema]}
+>
+  <!-- HERO SECTION -->
+  <section class="relative min-h-[60vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-zinc-900 pt-32 pb-20">
+    <div class="grid-floor opacity-30"></div>
+    
+    <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
+      <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Learning Hub</span>
+      <h1 class="font-display text-5xl md:text-7xl text-white font-medium leading-[0.85] tracking-tight mb-6">
+        DEVELOPER<br/>
+        <span class="text-zinc-600">RESOURCES</span>
+      </h1>
+      <p class="font-mono text-zinc-400 text-sm max-w-2xl mx-auto mb-8">
+        Curated learning paths and free resources to take you from beginner to job-ready developer. 
+        All resources are hand-picked by the DevUp community.
+      </p>
+      
+      <!-- AEO Definition Block -->
+      <article class="sr-only" aria-hidden="true">
+        <h2>What are the best free resources to learn coding?</h2>
+        <p>The best free resources to learn coding include freeCodeCamp for web development, Kaggle Learn for machine learning, The Odin Project for full-stack development, and LeetCode for interview preparation. For structured learning, follow roadmaps from roadmap.sh which provide step-by-step guides for different tech careers. DevUp Society at VJIT curates these resources and provides hands-on project experience.</p>
+      </article>
+      
+      <!-- Quick Navigation -->
+      <div class="flex flex-wrap justify-center gap-3">
+        {resources.map(resource => (
+          <a 
+            href={`#${resource.id}`}
+            class="px-4 py-2 border border-zinc-800 font-mono text-xs uppercase tracking-widest text-zinc-400 hover:text-signal hover:border-signal transition-all"
+          >
+            {resource.title}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- RESOURCES SECTIONS -->
+  {resources.map((category, index) => (
+    <section 
+      id={category.id}
+      class={`py-20 ${index % 2 === 0 ? 'bg-void' : 'bg-[#050505]'} border-t border-zinc-900`}
+    >
+      <div class="max-w-6xl mx-auto px-6">
+        <!-- Section Header -->
+        <div class="flex items-center gap-4 mb-12">
+          <div class="w-12 h-12 border border-signal bg-signal/10 flex items-center justify-center">
+            <Icon name={category.icon} class="text-signal text-xl" />
+          </div>
+          <div>
+            <h2 class="font-display text-3xl text-white">{category.title}</h2>
+            <p class="font-mono text-sm text-zinc-500">{category.description}</p>
+          </div>
+        </div>
+
+        <!-- Skills Tags -->
+        <div class="flex flex-wrap gap-2 mb-8">
+          {category.skills.map(skill => (
+            <span class="px-3 py-1 bg-zinc-900 border border-zinc-800 font-mono text-xs text-zinc-400">
+              {skill}
+            </span>
+          ))}
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Resources List -->
+          <div class="glass-panel p-6 clip-corner">
+            <h3 class="font-display text-xl text-white mb-6 flex items-center gap-2">
+              <Icon name="lucide:bookmark" class="text-signal" />
+              Recommended Resources
+            </h3>
+            <div class="space-y-3">
+              {category.resources.map(resource => (
+                <a 
+                  href={resource.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex items-center justify-between p-3 bg-zinc-900/50 border border-zinc-800 hover:border-signal/50 transition-colors group"
+                >
+                  <div class="flex items-center gap-3">
+                    <Icon name="lucide:external-link" class="text-zinc-600 group-hover:text-signal transition-colors" />
+                    <div>
+                      <span class="text-white font-mono text-sm group-hover:text-signal transition-colors">{resource.name}</span>
+                      <span class="text-zinc-600 font-mono text-xs ml-2">({resource.type})</span>
+                    </div>
+                  </div>
+                  {resource.free && (
+                    <span class="px-2 py-0.5 bg-signal/20 text-signal font-mono text-[10px] uppercase tracking-wider">Free</span>
+                  )}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <!-- Learning Roadmap -->
+          <div class="glass-panel p-6 clip-corner">
+            <h3 class="font-display text-xl text-white mb-6 flex items-center gap-2">
+              <Icon name="lucide:map" class="text-signal" />
+              Learning Roadmap
+            </h3>
+            <div class="space-y-4">
+              {category.roadmap.map((step, stepIndex) => (
+                <div class="flex gap-4">
+                  <div class="w-8 h-8 border border-zinc-700 bg-zinc-900 flex items-center justify-center flex-shrink-0">
+                    <span class="font-mono text-xs text-signal">{stepIndex + 1}</span>
+                  </div>
+                  <p class="font-mono text-sm text-zinc-400 leading-relaxed">{step.replace(/^\d+\.\s*/, '')}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- DEVUP ADVANTAGE SECTION -->
+  <section class="py-20 bg-void border-t border-zinc-900">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Why DevUp?</span>
+      <h2 class="font-display text-4xl text-white mb-6">Learn Faster With a Community</h2>
+      <p class="font-mono text-zinc-400 text-sm max-w-2xl mx-auto mb-12">
+        Resources are just the start. At DevUp Society, you learn by building real projects 
+        alongside 100+ motivated developers. Get mentorship, accountability, and hands-on experience.
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div class="glass-panel p-6 clip-corner text-center">
+          <Icon name="lucide:users" class="text-signal text-3xl mb-4 inline-block" />
+          <h3 class="font-display text-lg text-white mb-2">Peer Learning</h3>
+          <p class="font-mono text-xs text-zinc-500">Daily discussions and knowledge sharing in our active WhatsApp community.</p>
+        </div>
+        <div class="glass-panel p-6 clip-corner text-center">
+          <Icon name="lucide:rocket" class="text-signal text-3xl mb-4 inline-block" />
+          <h3 class="font-display text-lg text-white mb-2">Real Projects</h3>
+          <p class="font-mono text-xs text-zinc-500">Apply what you learn by building production-grade applications.</p>
+        </div>
+        <div class="glass-panel p-6 clip-corner text-center">
+          <Icon name="lucide:trophy" class="text-signal text-3xl mb-4 inline-block" />
+          <h3 class="font-display text-lg text-white mb-2">Hackathons</h3>
+          <p class="font-mono text-xs text-zinc-500">Test your skills in competitive hackathons with prizes and recognition.</p>
+        </div>
+      </div>
+
+      <a 
+        href="/join"
+        class="inline-flex items-center gap-3 px-8 py-4 bg-signal text-black font-mono text-sm font-bold tracking-widest uppercase hover:bg-white transition-colors clip-corner"
+      >
+        <Icon name="lucide:arrow-right" />
+        <span>Join DevUp Society</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FAQ Section for AEO -->
+  <section class="py-20 bg-[#050505] border-t border-zinc-900">
+    <div class="max-w-3xl mx-auto px-6">
+      <h2 class="font-display text-3xl text-white text-center mb-12">Frequently Asked Questions</h2>
+      
+      <div class="space-y-4">
+        <details class="glass-panel group" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
+            <h3 itemprop="name" class="font-display text-lg text-white pr-8 group-hover:text-signal transition-colors">
+              How do I start learning to code as a complete beginner?
+            </h3>
+            <Icon name="lucide:plus" class="text-zinc-500 group-open:hidden group-hover:text-signal" />
+            <Icon name="lucide:minus" class="text-signal hidden group-open:block" />
+          </summary>
+          <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer" class="px-6 pb-6">
+            <p itemprop="text" class="font-mono text-sm text-zinc-400 leading-relaxed">
+              Start with web development using freeCodeCamp or The Odin Project. These free platforms teach HTML, CSS, and JavaScript through hands-on projects. Spend 1-2 hours daily, focus on understanding concepts rather than memorizing syntax, and build small projects after each section. Join a community like DevUp Society for motivation and help when you're stuck.
+            </p>
+          </div>
+        </details>
+
+        <details class="glass-panel group" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
+            <h3 itemprop="name" class="font-display text-lg text-white pr-8 group-hover:text-signal transition-colors">
+              How long does it take to become job-ready as a developer?
+            </h3>
+            <Icon name="lucide:plus" class="text-zinc-500 group-open:hidden group-hover:text-signal" />
+            <Icon name="lucide:minus" class="text-signal hidden group-open:block" />
+          </summary>
+          <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer" class="px-6 pb-6">
+            <p itemprop="text" class="font-mono text-sm text-zinc-400 leading-relaxed">
+              With consistent effort (15-20 hours per week), most students become job-ready within 6-12 months. This includes 3-4 months learning fundamentals, 2-3 months building projects, and 2-3 months for interview preparation. The key is building a portfolio of 3-5 quality projects that demonstrate your skills. Active participation in hackathons and open source can significantly accelerate this timeline.
+            </p>
+          </div>
+        </details>
+
+        <details class="glass-panel group" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
+            <h3 itemprop="name" class="font-display text-lg text-white pr-8 group-hover:text-signal transition-colors">
+              Should I learn web development, mobile development, or AI/ML first?
+            </h3>
+            <Icon name="lucide:plus" class="text-zinc-500 group-open:hidden group-hover:text-signal" />
+            <Icon name="lucide:minus" class="text-signal hidden group-open:block" />
+          </summary>
+          <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer" class="px-6 pb-6">
+            <p itemprop="text" class="font-mono text-sm text-zinc-400 leading-relaxed">
+              Web development is the recommended starting point for most students. It has the lowest barrier to entry, fastest feedback loop (you can see results immediately in a browser), and the largest job market. Once you understand programming fundamentals through web development, you can easily transition to mobile or AI/ML. If you're specifically interested in AI research, starting with Python and mathematics is an alternative path.
+            </p>
+          </div>
+        </details>
+
+        <details class="glass-panel group" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
+            <h3 itemprop="name" class="font-display text-lg text-white pr-8 group-hover:text-signal transition-colors">
+              Are paid courses better than free resources?
+            </h3>
+            <Icon name="lucide:plus" class="text-zinc-500 group-open:hidden group-hover:text-signal" />
+            <Icon name="lucide:minus" class="text-signal hidden group-open:block" />
+          </summary>
+          <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer" class="px-6 pb-6">
+            <p itemprop="text" class="font-mono text-sm text-zinc-400 leading-relaxed">
+              Free resources are often as good as or better than paid courses. Platforms like freeCodeCamp, The Odin Project, and Full Stack Open offer complete curriculums at no cost. Paid courses might offer better structure or mentorship, but the core knowledge is freely available. Invest time in learning rather than money in courses. If you do pay, choose courses with project-based learning and community support.
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+</MainLayout>
