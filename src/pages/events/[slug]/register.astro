@@ -225,8 +225,29 @@ const { event } = Astro.props;
   </div>
 </MainLayout>
 
-<script>
-    import { supabase } from '../../../lib/supabase-client';
+<script is:inline>
+// Inline configuration - these values are embedded at build time
+window.SUPABASE_CONFIG = {
+    url: 'https://xdxkmxzkbpwbukfkxphw.supabase.co',
+    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkeGtteHprYnB3YnVrZmt4cGh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc0NjgwMTAsImV4cCI6MjA1MzA0NDAxMH0.GaItQ7f_XzizQSVZJpCLPg_TOpLJPrx-D0JJGW5Sjpo'
+};
+</script>
+
+<script type="module">
+    import { createClient } from '@supabase/supabase-js';
+    
+    // Initialize Supabase client
+    const supabase = createClient(
+        window.SUPABASE_CONFIG.url,
+        window.SUPABASE_CONFIG.key,
+        {
+            auth: {
+                persistSession: true,
+                storageKey: 'devup-admin-auth',
+                storage: window.localStorage
+            }
+        }
+    );
 
     // SUPABASE TABLE SCHEMA REFERENCE
     /*
@@ -285,7 +306,7 @@ const { event } = Astro.props;
         return `DEV2026-${padded}`;
     }
 
-    async function getNextTeamNumber(eventSlug: string) {
+    async function getNextTeamNumber(eventSlug) {
         try {
             const { data, error } = await supabase
                 .from('registrations')
@@ -294,7 +315,7 @@ const { event } = Astro.props;
 
             if (error) throw error;
 
-            const maxSeq = (data || []).reduce((max: number, row: { team_number?: string }) => {
+            const maxSeq = (data || []).reduce((max, row) => {
                 const match = row.team_number?.match(/DEV2026-(\d{3,})/);
                 const num = match ? parseInt(match[1], 10) : 0;
                 return Math.max(max, num);
@@ -307,7 +328,7 @@ const { event } = Astro.props;
         }
     }
 
-    function buildUpiLink(amount: number, teamNumber: string) {
+    function buildUpiLink(amount, teamNumber) {
         const params = new URLSearchParams({
             pa: UPI_ID,
             pn: UPI_PAYEE,
@@ -322,7 +343,7 @@ const { event } = Astro.props;
         return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
 
-    function updatePaymentUI(total: number, teamNumber: string) {
+    function updatePaymentUI(total, teamNumber) {
         const upiLink = buildUpiLink(total, teamNumber);
 
         if (upiIdDisplay) upiIdDisplay.textContent = UPI_ID;
@@ -409,7 +430,7 @@ const { event } = Astro.props;
 
     async function initTeamNumber() {
         if (!teamNumberInput) return;
-        const slugInput = document.querySelector('input[name="event_slug"]') as HTMLInputElement;
+        const slugInput = document.querySelector('input[name="event_slug"]');
         const slug = slugInput?.value || 'event';
         const teamNumber = await getNextTeamNumber(slug);
         teamNumberInput.value = teamNumber;
