@@ -282,26 +282,26 @@ window.SUPABASE_CONFIG = {
     const UPI_PAYEE = 'DevUp Society';
 
     // Define vars passed from Astro markup
-    const form = document.getElementById('registration-form') as HTMLFormElement | null;
+    const form = document.getElementById('registration-form');
     const eventFeeRaw = form?.dataset.eventFee || '0';
     const eventFee = parseInt(eventFeeRaw);
 
     // DOM Elements - Explicit Casts
-    const teamSizeInput = document.getElementById('team-size-display') as HTMLInputElement | null;
+    const teamSizeInput = document.getElementById('team-size-display');
     const increaseBtn = document.getElementById('increase-size');
     const decreaseBtn = document.getElementById('decrease-size');
     const membersContainer = document.getElementById('members-container');
-    const qrImage = document.getElementById('payment-qr') as HTMLImageElement | null;
+    const qrImage = document.getElementById('payment-qr');
     const totalAmountDisplay = document.getElementById('total-amount');
-    const upiOpenButton = document.getElementById('upi-open') as HTMLButtonElement | null;
+    const upiOpenButton = document.getElementById('upi-open');
     const upiMobile = document.getElementById('upi-mobile');
     const upiDesktop = document.getElementById('upi-desktop');
     const upiIdDisplay = document.getElementById('upi-id');
     const upiNoteDisplay = document.getElementById('upi-note');
-    const teamNumberInput = document.getElementById('team-number') as HTMLInputElement | null;
-    const paymentAmountInput = document.getElementById('payment-amount') as HTMLInputElement | null;
+    const teamNumberInput = document.getElementById('team-number');
+    const paymentAmountInput = document.getElementById('payment-amount');
 
-    function formatTeamNumber(sequence: number) {
+    function formatTeamNumber(sequence) {
         const padded = String(sequence).padStart(3, '0');
         return `DEV2026-${padded}`;
     }
