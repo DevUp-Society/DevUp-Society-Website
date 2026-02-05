@@ -226,7 +226,8 @@ const { event } = Astro.props;
 </MainLayout>
 
 <script>
-    // @ts-nocheck
+// @ts-nocheck
+document.addEventListener('DOMContentLoaded', () => {
     // ============================================
     // CLIENT-SIDE REGISTRATION LOGIC
     // All database operations happen via API routes
@@ -465,4 +466,5 @@ const { event } = Astro.props;
             }
         });
     }
+}); // End DOMContentLoaded
 </script>
