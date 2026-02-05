@@ -225,57 +225,12 @@ const { event } = Astro.props;
   </div>
 </MainLayout>
 
-<script is:inline>
-// Inline configuration - these values are embedded at build time
-window.SUPABASE_CONFIG = {
-    url: 'https://xdxkmxzkbpwbukfkxphw.supabase.co',
-    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkeGtteHprYnB3YnVrZmt4cGh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc0NjgwMTAsImV4cCI6MjA1MzA0NDAxMH0.GaItQ7f_XzizQSVZJpCLPg_TOpLJPrx-D0JJGW5Sjpo'
-};
-</script>
-
-<script type="module">
-    import { createClient } from '@supabase/supabase-js';
-    
-    // Initialize Supabase client
-    const supabase = createClient(
-        window.SUPABASE_CONFIG.url,
-        window.SUPABASE_CONFIG.key,
-        {
-            auth: {
-                persistSession: true,
-                storageKey: 'devup-admin-auth',
-                storage: window.localStorage
-            }
-        }
-    );
-
-    // SUPABASE TABLE SCHEMA REFERENCE
-    /*
-        create table registrations (
-            id uuid default uuid_generate_v4() primary key,
-            created_at timestamp with time zone default timezone('utc'::text, now()) not null,
-            event_slug text not null,
-            team_name text not null,
-            lead_name text not null,
-            lead_email text not null,
-            lead_phone text not null,
-            lead_college text not null,
-            team_number text,
-            payment_amount integer,
-            transaction_id text,
-            payment_status text default 'pending', -- pending, verified, rejected
-            status text default 'pending', -- pending, approved, rejected (legacy)
-            team_size integer not null
-        );
-
-    create table team_members (
-      id uuid default uuid_generate_v4() primary key,
-      registration_id uuid references registrations(id) on delete cascade,
-      name text not null,
-      email text not null,
-      phone text not null
-    );
-    */
+<script>
+    // @ts-nocheck
+    // ============================================
+    // CLIENT-SIDE REGISTRATION LOGIC
+    // All database operations happen via API routes
+    // ============================================
 
     // Payment Constants
     const UPI_ID = 'aliffaizan1212@oksbi';
@@ -301,30 +256,16 @@ window.SUPABASE_CONFIG = {
     const teamNumberInput = document.getElementById('team-number');
     const paymentAmountInput = document.getElementById('payment-amount');
 
-    function formatTeamNumber(sequence) {
-        const padded = String(sequence).padStart(3, '0');
-        return `DEV2026-${padded}`;
-    }
-
+    // Fetch next team number from API
     async function getNextTeamNumber(eventSlug) {
         try {
-            const { data, error } = await supabase
-                .from('registrations')
-                .select('team_number')
-                .eq('event_slug', eventSlug);
-
-            if (error) throw error;
-
-            const maxSeq = (data || []).reduce((max, row) => {
-                const match = row.team_number?.match(/DEV2026-(\d{3,})/);
-                const num = match ? parseInt(match[1], 10) : 0;
-                return Math.max(max, num);
-            }, 0);
-
-            return formatTeamNumber(maxSeq + 1);
+            const response = await fetch(`/api/events/get-team-number?slug=${encodeURIComponent(eventSlug)}`);
+            if (!response.ok) throw new Error('Failed to fetch team number');
+            const data = await response.json();
+            return data.teamNumber || 'DEV2026-001';
         } catch (err) {
             console.error('Team number fetch failed:', err);
-            return formatTeamNumber(1);
+            return 'DEV2026-001';
         }
     }
 
@@ -457,7 +398,7 @@ window.SUPABASE_CONFIG = {
             e.preventDefault();
             const overlay = document.getElementById('loading-overlay');
             const successScreen = document.getElementById('success-screen');
-            if (!overlay || !successScreen) return; // Type safety check
+            if (!overlay || !successScreen) return;
 
             // Show loading
             overlay.classList.remove('hidden');
@@ -465,17 +406,9 @@ window.SUPABASE_CONFIG = {
             
             try {
                 const formData = new FormData(form);
-                const eventSlug = formData.get('event_slug');
-                const teamName = formData.get('team_name');
-                const leadName = formData.get('lead_name');
-                const leadEmail = formData.get('lead_email');
-                const leadPhone = formData.get('lead_phone');
-                const leadCollege = formData.get('lead_college'); 
                 const transactionId = formData.get('transaction_id');
-                const teamSize = parseInt(teamSizeInput.value);
-                const teamNumber = (formData.get('team_number') || '').toString();
-                const paymentAmount = parseInt((formData.get('payment_amount') || '0').toString());
 
+                // Validate transaction ID if payment required
                 if (eventFee > 0 && !transactionId) {
                     alert('Please enter your Transaction ID (UTR) to continue.');
                     overlay.classList.add('hidden');
@@ -483,84 +416,18 @@ window.SUPABASE_CONFIG = {
                     return;
                 }
 
-                // Generate ID client-side to allow Write-Only security policy
-                const registrationId = crypto.randomUUID();
+                // Submit to API
+                const response = await fetch('/api/events/register', {
+                    method: 'POST',
+                    body: formData
+                });
 
-                // 1. Insert Registration (Lead + Team Info)
-                const { error: regError } = await supabase
-                    .from('registrations')
-                    .insert([
-                        {
-                            id: registrationId, // Manual ID
-                            event_slug: eventSlug,
-                            team_name: teamName,
-                            lead_name: leadName,
-                            lead_email: leadEmail,
-                            lead_phone: leadPhone,
-                            lead_college: leadCollege,
-                            team_number: teamNumber,
-                            payment_amount: paymentAmount,
-                            transaction_id: transactionId,
-                            payment_status: 'pending',
-                            team_size: teamSize,
-                            status: 'pending' 
-                        }
-                    ]); // No .select() needed
-
-                if (regError) throw regError;
-
-                // 2. Insert Team Members
-                // We loop from 2 to teamSize to gather extra members
-                const members = [];
-                for(let i=2; i<=teamSize; i++) {
-                    const mName = formData.get(`member_${i}_name`);
-                    const mEmail = formData.get(`member_${i}_email`);
-                    const mPhone = formData.get(`member_${i}_phone`); 
-                    
-                    if (mName && mEmail && mPhone) {
-                        members.push({
-                            registration_id: registrationId,
-                            name: mName,
-                            email: mEmail,
-                            phone: mPhone
-                        });
-                    }
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Registration failed');
                 }
 
-                if (members.length > 0) {
-                    const { error: memError } = await supabase
-                        .from('team_members')
-                        .insert(members);
-                    
-                    if (memError) throw memError;
-                }
-
-                // 3. Send pending payment email
-                try {
-                    const emailFormData = new FormData();
-                    emailFormData.append('teamNumber', teamNumber);
-                    emailFormData.append('teamName', teamName);
-                    emailFormData.append('leadName', leadName);
-                    emailFormData.append('leadEmail', leadEmail);
-                    emailFormData.append('teamSize', teamSize.toString());
-                    emailFormData.append('amount', paymentAmount.toString());
-                    emailFormData.append('transactionId', transactionId);
-                    
-                    const emailResponse = await fetch('/api/email/pending', {
-                        method: 'POST',
-                        body: emailFormData,
-                    });
-                    
-                    if (!emailResponse.ok) {
-                        const errorData = await emailResponse.json();
-                        console.error('Email sending failed:', errorData);
-                    } else {
-                        console.log('Pending email sent successfully');
-                    }
-                } catch (emailError) {
-                    console.error('Email error:', emailError);
-                    // Continue even if email fails
-                }
+                const result = await response.json();
 
                 // Success!
                 setTimeout(() => {
@@ -568,6 +435,8 @@ window.SUPABASE_CONFIG = {
                     overlay.classList.remove('flex');
                     form.classList.add('hidden');
                     successScreen.classList.remove('hidden');
+                    
+                    // Update success screen with data
                     const teamNameEl = document.getElementById('success-team-name');
                     const leadNameEl = document.getElementById('success-lead-name');
                     const teamSizeEl = document.getElementById('success-team-size');
@@ -576,19 +445,18 @@ window.SUPABASE_CONFIG = {
                     const transactionEl = document.getElementById('success-transaction');
                     const emailEl = document.getElementById('success-email');
 
-                    if (teamNameEl) teamNameEl.textContent = String(teamName || '');
-                    if (leadNameEl) leadNameEl.textContent = String(leadName || '');
-                    if (teamSizeEl) teamSizeEl.textContent = String(teamSize || '');
-                    if (teamNumberEl) teamNumberEl.textContent = teamNumber;
-                    if (amountEl) amountEl.textContent = `₹${paymentAmount}`;
-                    if (transactionEl) transactionEl.textContent = String(transactionId || '');
-                    if (emailEl) emailEl.textContent = String(leadEmail || '');
+                    if (teamNameEl) teamNameEl.textContent = result.teamName || '';
+                    if (leadNameEl) leadNameEl.textContent = result.leadName || '';
+                    if (teamSizeEl) teamSizeEl.textContent = String(result.teamSize || '');
+                    if (teamNumberEl) teamNumberEl.textContent = result.teamNumber || '';
+                    if (amountEl) amountEl.textContent = `₹${result.paymentAmount || 0}`;
+                    if (transactionEl) transactionEl.textContent = result.transactionId || '';
+                    if (emailEl) emailEl.textContent = result.leadEmail || '';
                 }, 1000);
 
             } catch (error) {
                 console.error('Registration Error:', error);
                 
-                // Keep error handling gentle
                 const errorMessage = error instanceof Error ? error.message : "Unknown error";
                 alert('Registration failed: ' + errorMessage);
                 
