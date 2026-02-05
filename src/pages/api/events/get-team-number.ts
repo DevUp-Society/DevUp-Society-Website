@@ -3,8 +3,9 @@
 import type { APIRoute } from 'astro';
 import { supabase } from '../../../lib/supabase';
 
-export const GET: APIRoute = async ({ url }) => {
+export const GET: APIRoute = async ({ request }) => {
   try {
+    const url = new URL(request.url);
     const eventSlug = url.searchParams.get('slug');
     
     if (!eventSlug) {
