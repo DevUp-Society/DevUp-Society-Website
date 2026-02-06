@@ -226,23 +226,140 @@ const { event } = Astro.props;
 </MainLayout>
 
 <script>
-// @ts-nocheck
-document.addEventListener('DOMContentLoaded', () => {
-    // ============================================
-    // CLIENT-SIDE REGISTRATION LOGIC
-    // All database operations happen via API routes
-    // ============================================
+// ============================================
+// PRODUCTION-READY REGISTRATION CLIENT
+// With comprehensive error handling and debugging
+// ============================================
 
-    // Payment Constants
-    const UPI_ID = 'aliffaizan1212@oksbi';
-    const UPI_PAYEE = 'DevUp Society';
+// Configuration
+const BACKEND_URL = 'http://localhost:3001';
+const UPI_ID = 'aliffaizan1212@oksbi';
+const UPI_PAYEE = 'DevUp Society';
 
-    // Define vars passed from Astro markup
+// Logger
+const logger = {
+  info: (msg, data = {}) => console.log(`[INFO] ${new Date().toISOString()} - ${msg}`, data),
+  error: (msg, err = {}) => console.error(`[ERROR] ${new Date().toISOString()} - ${msg}`, err),
+  debug: (msg, data = {}) => console.log(`[DEBUG] ${new Date().toISOString()} - ${msg}`, data)
+};
+
+// API Functions
+async function fetchWithRetry(url, options = {}, retries = 3) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      logger.debug(`Fetch attempt ${i + 1}/${retries}`, { url });
+      const response = await fetch(url, options);
+      logger.debug('Response received', { status: response.status, url });
+      return response;
+    } catch (error) {
+      logger.error(`Fetch attempt ${i + 1} failed`, { url, error });
+      if (i === retries - 1) throw error;
+      await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
+    }
+  }
+}
+
+async function getNextTeamNumber(slug) {
+  try {
+    const url = `${BACKEND_URL}/api/get-team-number?slug=${encodeURIComponent(slug)}`;
+    const response = await fetchWithRetry(url);
+    if (!response.ok) throw new Error('Failed to fetch team number');
+    const data = await response.json();
+    logger.info('Team number received', { teamNumber: data.teamNumber });
+    return data.teamNumber || 'DEV2026-001';
+  } catch (error) {
+    logger.error('Error fetching team number', error);
+    return 'DEV2026-001';
+  }
+}
+
+async function submitRegistration(formData) {
+  try {
+    const url = `${BACKEND_URL}/api/register`;
+    const response = await fetchWithRetry(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+    
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || 'Registration failed');
+    }
+    
+    logger.info('Registration successful', { registrationId: data.registrationId });
+    return data;
+  } catch (error) {
+    logger.error('Registration failed', error);
+    throw error;
+  }
+}
+
+// Validation Functions
+function validateEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function validatePhone(phone) {
+  const clean = phone.replace(/[\s\-\(\)]/g, '');
+  return /^[0-9]{10}$/.test(clean);
+}
+
+function validateFormData(data) {
+  const errors = [];
+  if (!data.team_name?.trim()) errors.push('Team name is required');
+  if (!data.lead_name?.trim()) errors.push('Lead name is required');
+  if (!data.lead_email?.trim()) errors.push('Lead email is required');
+  else if (!validateEmail(data.lead_email)) errors.push('Lead email is invalid');
+  if (!data.lead_phone?.trim()) errors.push('Lead phone is required');
+  else if (!validatePhone(data.lead_phone)) errors.push('Lead phone must be 10 digits');
+  if (!data.lead_college?.trim()) errors.push('College name is required');
+  if (data.team_size < 2 || data.team_size > 4) errors.push('Team size must be 2-4');
+  
+  data.members.forEach((m, i) => {
+    if (!m.name?.trim()) errors.push(`Member ${i + 2} name is required`);
+    if (!m.email?.trim()) errors.push(`Member ${i + 2} email is required`);
+    else if (!validateEmail(m.email)) errors.push(`Member ${i + 2} email is invalid`);
+    if (!m.phone?.trim()) errors.push(`Member ${i + 2} phone is required`);
+    else if (!validatePhone(m.phone)) errors.push(`Member ${i + 2} phone is invalid`);
+  });
+  
+  if (data.payment_amount > 0 && !data.transaction_id?.trim()) {
+    errors.push('Transaction ID is required');
+  }
+  
+  return { valid: errors.length === 0, errors };
+}
+
+// Payment Functions
+function buildUpiLink(amount, teamNumber) {
+  const params = new URLSearchParams({
+    pa: UPI_ID,
+    pn: UPI_PAYEE,
+    am: amount.toString(),
+    cu: 'INR',
+    tn: teamNumber
+  });
+  return `upi://pay?${params.toString()}`;
+}
+
+function getQRCodeUrl(upiLink) {
+  return `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiLink)}`;
+}
+
+function isMobileDevice() {
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', async () => {
+  logger.info('Registration page loaded - initializing');
+  
+  try {
+    // ============================================
+    // DOM ELEMENT REFERENCES
+    // ============================================
     const form = document.getElementById('registration-form');
-    const eventFeeRaw = form?.dataset.eventFee || '0';
-    const eventFee = parseInt(eventFeeRaw);
-
-    // DOM Elements - Explicit Casts
     const teamSizeInput = document.getElementById('team-size-display');
     const increaseBtn = document.getElementById('increase-size');
     const decreaseBtn = document.getElementById('decrease-size');
@@ -256,215 +373,283 @@ document.addEventListener('DOMContentLoaded', () => {
     const upiNoteDisplay = document.getElementById('upi-note');
     const teamNumberInput = document.getElementById('team-number');
     const paymentAmountInput = document.getElementById('payment-amount');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const successScreen = document.getElementById('success-screen');
 
-    // Fetch next team number from API
-    async function getNextTeamNumber(eventSlug) {
-        try {
-            const response = await fetch(`/api/events/get-team-number?slug=${encodeURIComponent(eventSlug)}`);
-            if (!response.ok) throw new Error('Failed to fetch team number');
-            const data = await response.json();
-            return data.teamNumber || 'DEV2026-001';
-        } catch (err) {
-            console.error('Team number fetch failed:', err);
-            return 'DEV2026-001';
-        }
+    if (!form) {
+      logger.error('Registration form element not found');
+      return;
     }
 
-    function buildUpiLink(amount, teamNumber) {
-        const params = new URLSearchParams({
-            pa: UPI_ID,
-            pn: UPI_PAYEE,
-            am: amount.toString(),
-            cu: 'INR',
-            tn: teamNumber
-        });
-        return `upi://pay?${params.toString()}`;
-    }
+    // Get event fee from form data attribute
+    const eventFeeRaw = form.dataset.eventFee || '0';
+    const eventFee = parseInt(eventFeeRaw);
+    logger.info('Event fee loaded', { eventFee });
 
-    function isMobileDevice() {
-        return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    }
-
+    // ============================================
+    // PAYMENT UI UPDATE
+    // ============================================
     function updatePaymentUI(total, teamNumber) {
-        const upiLink = buildUpiLink(total, teamNumber);
+      logger.debug('Updating payment UI', { total, teamNumber });
+      
+      const upiLink = buildUpiLink(total, teamNumber);
 
-        if (upiIdDisplay) upiIdDisplay.textContent = UPI_ID;
-        if (upiNoteDisplay) upiNoteDisplay.textContent = teamNumber;
-        if (paymentAmountInput) paymentAmountInput.value = total.toString();
+      if (upiIdDisplay) upiIdDisplay.textContent = UPI_ID;
+      if (upiNoteDisplay) upiNoteDisplay.textContent = teamNumber;
+      if (paymentAmountInput) paymentAmountInput.value = total.toString();
 
-        if (qrImage) {
-            const encoded = encodeURIComponent(upiLink);
-            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encoded}`;
-        }
+      if (qrImage) {
+        qrImage.src = getQRCodeUrl(upiLink);
+        logger.debug('QR code URL set', { url: qrImage.src });
+      }
 
-        if (upiOpenButton) {
-            upiOpenButton.onclick = () => {
-                window.location.href = upiLink;
-            };
-        }
+      if (upiOpenButton) {
+        upiOpenButton.onclick = () => {
+          logger.info('Opening UPI app', { upiLink });
+          window.location.href = upiLink;
+        };
+      }
 
-        if (upiMobile && upiDesktop) {
-            const mobile = isMobileDevice();
-            upiMobile.classList.toggle('hidden', !mobile);
-            upiDesktop.classList.toggle('hidden', mobile);
-        }
+      if (upiMobile && upiDesktop) {
+        const mobile = isMobileDevice();
+        logger.debug('Device type detected', { mobile });
+        upiMobile.classList.toggle('hidden', !mobile);
+        upiDesktop.classList.toggle('hidden', mobile);
+      }
     }
 
-    // Function to render member fields
+    // ============================================
+    // MEMBER FIELDS RENDERING
+    // ============================================
     function updateMemberFields() {
-        if (!membersContainer || !teamSizeInput) return;
-        
-        // Safely parse or default to 2
-        let size = parseInt(teamSizeInput.value) || 2;
-        
-        // Validation for min/max logic inside
-        if (size < 2) size = 2; 
-        if (size > 4) size = 4;
+      if (!membersContainer || !teamSizeInput) return;
+      
+      let size = parseInt(teamSizeInput.value) || 2;
+      if (size < 2) size = 2;
+      if (size > 4) size = 4;
 
-        membersContainer.innerHTML = ''; // Clear current
+      logger.debug('Updating member fields', { teamSize: size });
+      membersContainer.innerHTML = '';
 
-        // Create fields for Member 2 to Size
-        for (let i = 2; i <= size; i++) {
-            const memberHtml = `
-                    <div class="space-y-6 pt-6 border-t border-zinc-900">
-                    <div class="flex items-center gap-3 mb-2">
-                            <span class="font-mono text-[10px] bg-zinc-900 text-signal px-2 py-1 rounded border border-zinc-800 uppercase tracking-widest">
-                            // Member 0${i}
-                        </span>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <input type="text" name="member_${i}_name" required placeholder="Name" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
-                        <input type="email" name="member_${i}_email" required placeholder="Email" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
-                            <input type="tel" name="member_${i}_phone" required placeholder="Phone Number" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
-                    </div>
-                </div>
-            `;
-            membersContainer.insertAdjacentHTML('beforeend', memberHtml);
-        }
+      // Create fields for Member 2 to Size
+      for (let i = 2; i <= size; i++) {
+        const memberHtml = `
+          <div class="space-y-6 pt-6 border-t border-zinc-900">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="font-mono text-[10px] bg-zinc-900 text-signal px-2 py-1 rounded border border-zinc-800 uppercase tracking-widest">
+                // Member 0${i}
+              </span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <input type="text" name="member_${i}_name" required placeholder="Name" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
+              <input type="email" name="member_${i}_email" required placeholder="Email" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
+              <input type="tel" name="member_${i}_phone" required placeholder="Phone Number" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
+            </div>
+          </div>
+        `;
+        membersContainer.insertAdjacentHTML('beforeend', memberHtml);
+      }
 
-        // Update Payment Info
-        if (eventFee > 0 && totalAmountDisplay && teamNumberInput) {
-            const total = eventFee * size;
-            totalAmountDisplay.textContent = `Total: ₹${total}`;
-            updatePaymentUI(total, teamNumberInput.value || 'DEV2026-000');
-        }
+      // Update Payment Info
+      if (eventFee > 0 && totalAmountDisplay && teamNumberInput) {
+        const total = eventFee * size;
+        totalAmountDisplay.textContent = `Total: ₹${total}`;
+        updatePaymentUI(total, teamNumberInput.value || 'DEV2026-000');
+      }
+      
+      logger.debug('Member fields updated', { count: size - 1 });
     }
 
+    // ============================================
+    // TEAM SIZE CONTROLS
+    // ============================================
     function initTeamControls() {
-        if (increaseBtn && decreaseBtn && teamSizeInput) {
-            increaseBtn.addEventListener('click', () => {
-                let current = parseInt(teamSizeInput.value) || 2;
-                if (current < 4) {
-                    teamSizeInput.value = (current + 1).toString();
-                    updateMemberFields();
-                }
-            });
+      if (increaseBtn && decreaseBtn && teamSizeInput) {
+        increaseBtn.addEventListener('click', () => {
+          let current = parseInt(teamSizeInput.value) || 2;
+          if (current < 4) {
+            teamSizeInput.value = (current + 1).toString();
+            logger.info('Team size increased', { newSize: current + 1 });
+            updateMemberFields();
+          }
+        });
 
-            decreaseBtn.addEventListener('click', () => {
-                let current = parseInt(teamSizeInput.value) || 2;
-                if (current > 2) {
-                    teamSizeInput.value = (current - 1).toString();
-                    updateMemberFields();
-                }
-            });
-        }
+        decreaseBtn.addEventListener('click', () => {
+          let current = parseInt(teamSizeInput.value) || 2;
+          if (current > 2) {
+            teamSizeInput.value = (current - 1).toString();
+            logger.info('Team size decreased', { newSize: current - 1 });
+            updateMemberFields();
+          }
+        });
+        
+        logger.debug('Team controls initialized');
+      }
     }
 
+    // ============================================
+    // TEAM NUMBER INITIALIZATION
+    // ============================================
     async function initTeamNumber() {
-        if (!teamNumberInput) return;
-        const slugInput = document.querySelector('input[name="event_slug"]');
-        const slug = slugInput?.value || 'event';
+      if (!teamNumberInput) return;
+      
+      const slugInput = document.querySelector('input[name="event_slug"]');
+      const slug = slugInput?.value || 'event';
+      
+      logger.info('Fetching team number', { slug });
+      
+      try {
         const teamNumber = await getNextTeamNumber(slug);
         teamNumberInput.value = teamNumber;
+        logger.info('Team number initialized', { teamNumber });
         updateMemberFields();
-    }
-
-    // Initialize immediately or wait for DOM
-    function init() {
-        initTeamControls();
-        initTeamNumber();
+      } catch (error) {
+        logger.error('Failed to initialize team number', error);
+        teamNumberInput.value = 'DEV2026-001';
         updateMemberFields();
+      }
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
+    // ============================================
+    // FORM SUBMISSION
+    // ============================================
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      logger.info('Form submission started');
+      
+      if (!successScreen || !loadingOverlay) {
+        logger.error('Success screen or loading overlay not found');
+        alert('ERROR: Missing UI elements. Check console.');
+        return;
+      }
 
-
-    // Form Submission Logic
-    if (form && teamSizeInput) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const overlay = document.getElementById('loading-overlay');
-            const successScreen = document.getElementById('success-screen');
-            if (!overlay || !successScreen) return;
-
-            // Show loading
-            overlay.classList.remove('hidden');
-            overlay.classList.add('flex');
-            
-            try {
-                const formData = new FormData(form);
-                const transactionId = formData.get('transaction_id');
-
-                // Validate transaction ID if payment required
-                if (eventFee > 0 && !transactionId) {
-                    alert('Please enter your Transaction ID (UTR) to continue.');
-                    overlay.classList.add('hidden');
-                    overlay.classList.remove('flex');
-                    return;
-                }
-
-                // Submit to API
-                const response = await fetch('/api/events/register', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Registration failed');
-                }
-
-                const result = await response.json();
-
-                // Success!
-                setTimeout(() => {
-                    overlay.classList.add('hidden');
-                    overlay.classList.remove('flex');
-                    form.classList.add('hidden');
-                    successScreen.classList.remove('hidden');
-                    
-                    // Update success screen with data
-                    const teamNameEl = document.getElementById('success-team-name');
-                    const leadNameEl = document.getElementById('success-lead-name');
-                    const teamSizeEl = document.getElementById('success-team-size');
-                    const teamNumberEl = document.getElementById('success-team-number');
-                    const amountEl = document.getElementById('success-amount');
-                    const transactionEl = document.getElementById('success-transaction');
-                    const emailEl = document.getElementById('success-email');
-
-                    if (teamNameEl) teamNameEl.textContent = result.teamName || '';
-                    if (leadNameEl) leadNameEl.textContent = result.leadName || '';
-                    if (teamSizeEl) teamSizeEl.textContent = String(result.teamSize || '');
-                    if (teamNumberEl) teamNumberEl.textContent = result.teamNumber || '';
-                    if (amountEl) amountEl.textContent = `₹${result.paymentAmount || 0}`;
-                    if (transactionEl) transactionEl.textContent = result.transactionId || '';
-                    if (emailEl) emailEl.textContent = result.leadEmail || '';
-                }, 1000);
-
-            } catch (error) {
-                console.error('Registration Error:', error);
-                
-                const errorMessage = error instanceof Error ? error.message : "Unknown error";
-                alert('Registration failed: ' + errorMessage);
-                
-                overlay.classList.add('hidden');
-                overlay.classList.remove('flex');
-            }
+      // Show loading
+      loadingOverlay.classList.remove('hidden');
+      loadingOverlay.classList.add('flex');
+      logger.debug('Loading overlay shown');
+      
+      try {
+        // Extract form data
+        const formData = new FormData(form);
+        const teamSize = parseInt(teamSizeInput?.value || '2');
+        
+        logger.debug('Extracting form data...', { teamSize });
+        
+        // Build members array
+        const members = [];
+        for (let i = 2; i <= teamSize; i++) {
+          const name = formData.get(`member_${i}_name`);
+          const email = formData.get(`member_${i}_email`);
+          const phone = formData.get(`member_${i}_phone`);
+          if (name || email || phone) {
+            members.push({ name, email, phone });
+          }
+        }
+        
+        const registrationData = {
+          event_slug: formData.get('event_slug'),
+          event_name: formData.get('event_name'),
+          team_name: formData.get('team_name'),
+          lead_name: formData.get('lead_name'),
+          lead_email: formData.get('lead_email'),
+          lead_phone: formData.get('lead_phone'),
+          lead_college: formData.get('lead_college'),
+          team_number: formData.get('team_number'),
+          team_size: teamSize,
+          payment_amount: parseInt(formData.get('payment_amount')) || 0,
+          transaction_id: formData.get('transaction_id') || undefined,
+          members
+        };
+        
+        logger.info('Form data extracted successfully', { 
+          teamName: registrationData.team_name,
+          teamNumber: registrationData.team_number,
+          teamSize: registrationData.team_size,
+          memberCount: members.length
         });
-    }
-}); // End DOMContentLoaded
+
+        // Validate form data
+        logger.debug('Validating form data...');
+        const validation = validateFormData(registrationData);
+        
+        if (!validation.valid) {
+          logger.error('Form validation failed', { errors: validation.errors });
+          loadingOverlay.classList.add('hidden');
+          loadingOverlay.classList.remove('flex');
+          alert('Please fix the following errors:\n\n' + validation.errors.map(e => `• ${e}`).join('\n'));
+          return;
+        }
+
+        logger.info('Form validation passed - submitting to backend...');
+
+        // Submit registration
+        const result = await submitRegistration(registrationData);
+
+        logger.info('✅ Registration API call successful!', { 
+          registrationId: result.registrationId,
+          teamNumber: result.teamNumber
+        });
+
+        // Success!
+        logger.info('Showing success screen in 1 second...');
+        
+        setTimeout(() => {
+          loadingOverlay.classList.add('hidden');
+          loadingOverlay.classList.remove('flex');
+          form.classList.add('hidden');
+          successScreen.classList.remove('hidden');
+          
+          logger.debug('Success screen made visible');
+          
+          // Update success screen with data
+          const setTextContent = (id, text) => {
+            const el = document.getElementById(id);
+            if (el) {
+              el.textContent = text;
+              logger.debug(`Set ${id} to: ${text}`);
+            } else {
+              logger.error(`Element not found: ${id}`);
+            }
+          };
+          
+          setTextContent('success-team-name', result.teamName || '');
+          setTextContent('success-lead-name', result.leadName || '');
+          setTextContent('success-team-size', (result.teamSize || 0).toString());
+          setTextContent('success-team-number', result.teamNumber || '');
+          setTextContent('success-amount', `₹${result.paymentAmount || 0}`);
+          setTextContent('success-transaction', result.transactionId || '-');
+          setTextContent('success-email', result.leadEmail || '');
+          
+          logger.info('✅ SUCCESS SCREEN DISPLAYED');
+        }, 1000);
+
+      } catch (error) {
+        logger.error('❌ Registration submission failed', error);
+        logger.error('Error details:', {
+          message: error.message,
+          stack: error.stack
+        });
+        
+        loadingOverlay.classList.add('hidden');
+        loadingOverlay.classList.remove('flex');
+        
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+        alert(`Registration failed: ${errorMessage}\n\nCheck console (F12) for details.`);
+      }
+    });
+
+    // ============================================
+    // INITIALIZATION
+    // ============================================
+    logger.info('Initializing registration form');
+    initTeamControls();
+    await initTeamNumber();
+    
+    logger.info('Registration page fully initialized and ready');
+
+  } catch (error) {
+    logger.error('Critical error during initialization', error);
+    alert('Failed to initialize registration form. Please refresh the page.');
+  }
+});
 </script>
