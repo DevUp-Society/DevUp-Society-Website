@@ -116,11 +116,26 @@ export const prerender = false;
   }
 </style>
 
-<script>
-  import { supabase } from '../../lib/supabase';
+<script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  let registrations: any[] = [];
-  let teamMembersMap: Record<string, any[]> = {};
+<script is:inline>
+  // Wait for Supabase to load
+  function initPayments() {
+    const { createClient } = window.supabase || {};
+    
+    if (!createClient) {
+      console.error('Supabase not loaded');
+      setTimeout(initPayments, 100);
+      return;
+    }
+
+    const supabase = createClient(
+      'https://xdxkmxzkbpwbukfkxphw.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkeGtteHprYnB3YnVrZmt4cGh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU0ODA5MDcsImV4cCI6MjA1MTA1NjkwN30.o-vfBPbGHRPt-N8LU_gL7cmDHtIXu34MiSwDEAu9bOY'
+    );
+
+  let registrations = [];
+  let teamMembersMap = {};
   let currentFilter = 'all';
   let searchQuery = '';
 
@@ -132,7 +147,7 @@ export const prerender = false;
   const logoutBtn = document.getElementById('logout-btn');
   const filterBtns = document.querySelectorAll('.filter-btn');
   const adminEmailEl = document.getElementById('admin-email');
-  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const searchInput = document.getElementById('search-input');
 
   // Admin whitelist
   const ADMIN_EMAILS = ['devupsociety@gmail.com'];
@@ -168,7 +183,7 @@ export const prerender = false;
     return session?.access_token || null;
   }
 
-  async function loadTeamMembers(regId: string) {
+  async function loadTeamMembers(regId) {
     if (teamMembersMap[regId]) {
       return teamMembersMap[regId];
     }
@@ -197,7 +212,7 @@ export const prerender = false;
     }
   }
 
-  async function toggleMembers(regId: string) {
+  async function toggleMembers(regId) {
     const membersDiv = document.getElementById(`members-${regId}`);
     if (!membersDiv) return;
 
@@ -211,7 +226,7 @@ export const prerender = false;
     if (members.length === 0) {
       membersDiv.innerHTML = '<div class="font-mono text-zinc-500 text-xs">No team members found</div>';
     } else {
-      membersDiv.innerHTML = members.map((m: any, i: number) => `
+      membersDiv.innerHTML = members.map((m, i) => `
         <div class="mb-2 pb-2 ${i < members.length - 1 ? 'border-b border-zinc-800' : ''}">
           <div class="font-mono text-white font-bold">${i + 1}. ${m.name}</div>
           <div class="font-mono text-zinc-400 text-[10px] mt-1">📧 ${m.email}</div>
@@ -245,15 +260,15 @@ export const prerender = false;
     renderTable();
   });
 
-  function showError(message: string) {
+  function showError(message) {
     loading?.classList.add('hidden');
     container?.classList.add('hidden');
     error?.classList.remove('hidden');
     if (errorText) errorText.textContent = message;
   }
 
-  function getStatusBadge(status: string) {
-    const badges: Record<string, string> = {
+  function getStatusBadge(status) {
+    const badges = {
       pending: '<span class="inline-flex items-center gap-1 px-2 py-1 bg-yellow-950/30 border border-yellow-900/50 text-yellow-400 font-mono text-[10px] uppercase tracking-wider">⏳ Pending</span>',
       verified: '<span class="inline-flex items-center gap-1 px-2 py-1 bg-green-950/30 border border-green-900/50 text-green-400 font-mono text-[10px] uppercase tracking-wider">✓ Verified</span>',
       rejected: '<span class="inline-flex items-center gap-1 px-2 py-1 bg-red-950/30 border border-red-900/50 text-red-400 font-mono text-[10px] uppercase tracking-wider">✗ Rejected</span>',
@@ -261,7 +276,7 @@ export const prerender = false;
     return badges[status] || badges.pending;
   }
 
-  function formatDate(dateStr: string) {
+  function formatDate(dateStr) {
     return new Date(dateStr).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
@@ -270,7 +285,7 @@ export const prerender = false;
     });
   }
 
-  async function updatePaymentStatus(id: string, status: 'verified' | 'rejected') {
+  async function updatePaymentStatus(id, status) {
     try {
       const token = await getAccessToken();
       if (!token) {
@@ -294,7 +309,7 @@ export const prerender = false;
 
       // Refresh data
       await loadRegistrations();
-    } catch (err: any) {
+    } catch (err) {
       alert('Error: ' + err.message);
     }
   }
@@ -404,15 +419,15 @@ export const prerender = false;
       container?.classList.remove('hidden');
 
       renderTable();
-    } catch (err: any) {
+    } catch (err) {
       console.error('Load error:', err);
       showError(err.message || 'Failed to load registrations');
     }
   }
 
   // Expose functions to global scope for onclick handlers
-  (window as any).updatePaymentStatus = updatePaymentStatus;
-  (window as any).toggleMembers = toggleMembers;
+  window.updatePaymentStatus = updatePaymentStatus;
+  window.toggleMembers = toggleMembers;
 
   // Initialize: Check auth then load data
   async function init() {
@@ -423,4 +438,12 @@ export const prerender = false;
   }
 
   init();
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPayments);
+  } else {
+    initPayments();
+  }
 </script>
