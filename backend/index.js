@@ -9,10 +9,10 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Initialize Supabase
+// Initialize Supabase with service role key (bypasses RLS for backend operations)
 const supabase = createClient(
   process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY
 );
 
 // Middleware
@@ -113,6 +113,7 @@ app.post('/api/register', async (req, res) => {
     }
 
     // Insert team members if any
+    let insertedTeamMembers = [];
     if (members && Array.isArray(members) && members.length > 0) {
       const teamMembers = members.map(member => ({
         registration_id: registrationId,
@@ -121,12 +122,16 @@ app.post('/api/register', async (req, res) => {
         phone: member.phone
       }));
 
-      const { error: memError } = await supabase
+      const { data: memberData, error: memError } = await supabase
         .from('team_members')
-        .insert(teamMembers);
+        .insert(teamMembers)
+        .select();
 
       if (memError) {
         console.error('Team members insert error:', memError);
+      } else if (memberData) {
+        insertedTeamMembers = memberData;
+        console.log(`Inserted ${memberData.length} team members`);
       }
     }
 
@@ -152,17 +157,8 @@ app.post('/api/register', async (req, res) => {
           updated_at: new Date().toISOString()
         };
 
-        const teamMembersData = members && Array.isArray(members) && members.length > 0
-          ? members.map(member => ({
-              registration_id: registrationId,
-              name: member.name,
-              email: member.email,
-              phone: member.phone,
-              created_at: new Date().toISOString()
-            }))
-          : [];
-
-        await syncRegistrationToSheets(registrationData, teamMembersData);
+        // Use inserted team members with IDs from Supabase
+        await syncRegistrationToSheets(registrationData, insertedTeamMembers);
       } catch (sheetsError) {
         console.error('[GoogleSheets] Auto-sync failed:', sheetsError);
         // Don't fail registration if sheets sync fails

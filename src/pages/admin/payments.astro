@@ -24,14 +24,24 @@ export const prerender = false;
             <h1 class="font-display text-4xl text-white mb-2">Payment Verification</h1>
             <p class="font-mono text-sm text-zinc-400">Logged in as: <span class="text-signal" id="admin-email">Loading...</span></p>
           </div>
-          <button
-            id="logout-btn"
-            class="h-10 px-6 border-2 border-zinc-800 hover:border-zinc-600 clip-corner flex items-center justify-center transition-colors group"
-          >
-            <span class="font-mono text-xs font-bold uppercase tracking-[0.25em] text-zinc-400 group-hover:text-white transition-colors">
-              Sign Out
-            </span>
-          </button>
+          <div class="flex gap-4">
+            <button
+              id="sync-sheets-btn"
+              class="h-10 px-6 border-2 border-signal hover:bg-signal/10 clip-corner flex items-center justify-center transition-colors group"
+            >
+              <span class="font-mono text-xs font-bold uppercase tracking-[0.25em] text-signal group-hover:text-white transition-colors">
+                Sync to Sheets
+              </span>
+            </button>
+            <button
+              id="logout-btn"
+              class="h-10 px-6 border-2 border-zinc-800 hover:border-zinc-600 clip-corner flex items-center justify-center transition-colors group"
+            >
+              <span class="font-mono text-xs font-bold uppercase tracking-[0.25em] text-zinc-400 group-hover:text-white transition-colors">
+                Sign Out
+              </span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -242,6 +252,57 @@ export const prerender = false;
   logoutBtn?.addEventListener('click', async () => {
     await supabase.auth.signOut();
     window.location.href = '/admin/login';
+  });
+
+  // Sync to Sheets handler
+  const syncSheetsBtn = document.getElementById('sync-sheets-btn');
+  syncSheetsBtn?.addEventListener('click', async () => {
+    const originalText = syncSheetsBtn.querySelector('span').textContent;
+    
+    try {
+      syncSheetsBtn.disabled = true;
+      syncSheetsBtn.querySelector('span').textContent = 'Syncing...';
+      syncSheetsBtn.style.opacity = '0.6';
+      
+      const response = await fetch('https://devup-society-website.onrender.com/api/sync-sheets', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const result = await response.json();
+      
+      if (response.ok) {
+        syncSheetsBtn.querySelector('span').textContent = '✓ Synced!';
+        syncSheetsBtn.style.borderColor = '#ccff00';
+        
+        // Show success message
+        const successMsg = `Successfully backed up ${result.stats?.registrations || 0} registrations and ${result.stats?.teamMembers || 0} team members to Google Sheets`;
+        alert(successMsg);
+        
+        setTimeout(() => {
+          syncSheetsBtn.querySelector('span').textContent = originalText;
+          syncSheetsBtn.style.borderColor = '';
+        }, 3000);
+      } else {
+        throw new Error(result.message || result.error || 'Sync failed');
+      }
+    } catch (err) {
+      console.error('Sync error:', err);
+      syncSheetsBtn.querySelector('span').textContent = '✗ Failed';
+      syncSheetsBtn.style.borderColor = '#ff0000';
+      
+      alert(`Sync failed: ${err.message}\n\nCheck if Google Sheets credentials are configured in backend environment variables.`);
+      
+      setTimeout(() => {
+        syncSheetsBtn.querySelector('span').textContent = originalText;
+        syncSheetsBtn.style.borderColor = '';
+      }, 3000);
+    } finally {
+      syncSheetsBtn.disabled = false;
+      syncSheetsBtn.style.opacity = '';
+    }
   });
 
   // Filter handlers
