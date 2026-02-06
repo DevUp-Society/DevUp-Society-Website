@@ -129,6 +129,46 @@ app.post('/api/register', async (req, res) => {
       }
     }
 
+    // Send pending payment email
+    console.log('[EMAIL] Sending pending payment email to:', lead_email);
+    try {
+      const memberNames = members && members.length > 0 
+        ? members.map(m => m.name).filter(n => n).join(', ')
+        : undefined;
+
+      const emailFormData = new URLSearchParams({
+        teamNumber: team_number,
+        teamName: team_name,
+        leadName: lead_name,
+        leadEmail: lead_email,
+        teamSize: team_size.toString(),
+        amount: payment_amount.toString(),
+        transactionId: transaction_id || 'N/A'
+      });
+
+      if (memberNames) {
+        emailFormData.append('teamMembers', memberNames);
+      }
+
+      const emailResponse = await fetch('https://www.devupvjit.in/api/email/pending', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: emailFormData.toString()
+      });
+
+      if (emailResponse.ok) {
+        console.log('[EMAIL] Pending payment email sent successfully');
+      } else {
+        const errorText = await emailResponse.text();
+        console.error('[EMAIL] Failed to send email:', errorText);
+      }
+    } catch (emailError) {
+      console.error('[EMAIL] Error sending email:', emailError);
+      // Don't fail registration if email fails
+    }
+
     // Return success
     res.json({
       success: true,
