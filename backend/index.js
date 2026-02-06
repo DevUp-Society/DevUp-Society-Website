@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
+import { syncRegistrationToSheets, fullBackupToSheets, isConfigured } from './googleSheets.js';
 
 dotenv.config();
 
@@ -129,6 +130,45 @@ app.post('/api/register', async (req, res) => {
       }
     }
 
+    // Backup to Google Sheets
+    if (isConfigured()) {
+      console.log('[GoogleSheets] Auto-syncing registration...');
+      try {
+        const registrationData = {
+          id: registrationId,
+          team_number,
+          event_slug,
+          team_name,
+          lead_name,
+          lead_email,
+          lead_phone,
+          lead_college,
+          team_size: parseInt(team_size) || 2,
+          payment_amount: parseInt(payment_amount) || 0,
+          transaction_id,
+          payment_status: 'pending',
+          status: 'pending',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+
+        const teamMembersData = members && Array.isArray(members) && members.length > 0
+          ? members.map(member => ({
+              registration_id: registrationId,
+              name: member.name,
+              email: member.email,
+              phone: member.phone,
+              created_at: new Date().toISOString()
+            }))
+          : [];
+
+        await syncRegistrationToSheets(registrationData, teamMembersData);
+      } catch (sheetsError) {
+        console.error('[GoogleSheets] Auto-sync failed:', sheetsError);
+        // Don't fail registration if sheets sync fails
+      }
+    }
+
     // Send pending payment email
     console.log('[EMAIL] Sending pending payment email to:', lead_email);
     try {
@@ -187,6 +227,39 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
+// POST /api/sync-sheets - Manual full backup to Google Sheets
+app.post('/api/sync-sheets', async (req, res) => {
+  try {
+    if (!isConfigured()) {
+      return res.status(503).json({ 
+        error: 'Google Sheets backup not configured',
+        message: 'Missing credentials: GOOGLE_SHEETS_SPREADSHEET_ID, GOOGLE_SERVICE_ACCOUNT_EMAIL, or GOOGLE_PRIVATE_KEY'
+      });
+    }
+
+    console.log('[GoogleSheets] Starting manual full backup...');
+    const result = await fullBackupToSheets(supabase);
+
+    if (!result.success) {
+      return res.status(500).json({ 
+        error: 'Backup failed',
+        message: result.error
+      });
+    }
+
+    console.log('[GoogleSheets] Manual backup completed successfully');
+    res.json({
+      success: true,
+      message: 'Full backup completed',
+      stats: result.stats
+    });
+  } catch (err) {
+    console.error('[GoogleSheets] Manual backup error:', err);
+    res.status(500).json({ error: 'Backup failed', message: err.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 Backend running on http://localhost:${PORT}`);
+  console.log(`📊 Google Sheets backup: ${isConfigured() ? '✓ Enabled' : '✗ Disabled (missing credentials)'}`);
 });
