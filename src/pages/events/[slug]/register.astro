@@ -359,22 +359,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ============================================
     // DOM ELEMENT REFERENCES
     // ============================================
-    const form = document.getElementById('registration-form') as HTMLFormElement;
-    const teamSizeInput = document.getElementById('team-size-display') as HTMLInputElement;
-    const increaseBtn = document.getElementById('increase-size') as HTMLButtonElement;
-    const decreaseBtn = document.getElementById('decrease-size') as HTMLButtonElement;
-    const membersContainer = document.getElementById('members-container') as HTMLDivElement;
-    const qrImage = document.getElementById('payment-qr') as HTMLImageElement;
-    const totalAmountDisplay = document.getElementById('total-amount') as HTMLElement;
-    const upiOpenButton = document.getElementById('upi-open') as HTMLButtonElement;
-    const upiMobile = document.getElementById('upi-mobile') as HTMLElement;
-    const upiDesktop = document.getElementById('upi-desktop') as HTMLElement;
-    const upiIdDisplay = document.getElementById('upi-id') as HTMLElement;
-    const upiNoteDisplay = document.getElementById('upi-note') as HTMLElement;
-    const teamNumberInput = document.getElementById('team-number') as HTMLInputElement;
-    const paymentAmountInput = document.getElementById('payment-amount') as HTMLInputElement;
-    const loadingOverlay = document.getElementById('loading-overlay') as HTMLElement;
-    const successScreen = document.getElementById('success-screen') as HTMLElement;
+    const form = document.getElementById('registration-form');
+    const teamSizeInput = document.getElementById('team-size-display');
+    const increaseBtn = document.getElementById('increase-size');
+    const decreaseBtn = document.getElementById('decrease-size');
+    const membersContainer = document.getElementById('members-container');
+    const qrImage = document.getElementById('payment-qr');
+    const totalAmountDisplay = document.getElementById('total-amount');
+    const upiOpenButton = document.getElementById('upi-open');
+    const upiMobile = document.getElementById('upi-mobile');
+    const upiDesktop = document.getElementById('upi-desktop');
+    const upiIdDisplay = document.getElementById('upi-id');
+    const upiNoteDisplay = document.getElementById('upi-note');
+    const teamNumberInput = document.getElementById('team-number');
+    const paymentAmountInput = document.getElementById('payment-amount');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const successScreen = document.getElementById('success-screen');
 
     if (!form) {
       logger.error('Registration form element not found');
@@ -493,7 +493,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function initTeamNumber() {
       if (!teamNumberInput) return;
       
-      const slugInput = document.querySelector('input[name="event_slug"]') as HTMLInputElement;
+      const slugInput = document.querySelector('input[name="event_slug"]');
       const slug = slugInput?.value || 'event';
       
       logger.info('Fetching team number', { slug });
@@ -538,26 +538,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Build members array
         const members = [];
         for (let i = 2; i <= teamSize; i++) {
-          const name = formData.get(`member_${i}_name`) as string;
-          const email = formData.get(`member_${i}_email`) as string;
-          const phone = formData.get(`member_${i}_phone`) as string;
+          const name = formData.get(`member_${i}_name`);
+          const email = formData.get(`member_${i}_email`);
+          const phone = formData.get(`member_${i}_phone`);
           if (name || email || phone) {
             members.push({ name, email, phone });
           }
         }
         
         const registrationData = {
-          event_slug: formData.get('event_slug') as string,
-          event_name: formData.get('event_name') as string,
-          team_name: formData.get('team_name') as string,
-          lead_name: formData.get('lead_name') as string,
-          lead_email: formData.get('lead_email') as string,
-          lead_phone: formData.get('lead_phone') as string,
-          lead_college: formData.get('lead_college') as string,
-          team_number: formData.get('team_number') as string,
+          event_slug: formData.get('event_slug'),
+          event_name: formData.get('event_name'),
+          team_name: formData.get('team_name'),
+          lead_name: formData.get('lead_name'),
+          lead_email: formData.get('lead_email'),
+          lead_phone: formData.get('lead_phone'),
+          lead_college: formData.get('lead_college'),
+          team_number: formData.get('team_number'),
           team_size: teamSize,
-          payment_amount: parseInt((formData.get('payment_amount') as string) || '0'),
-          transaction_id: (formData.get('transaction_id') as string) || undefined,
+          payment_amount: parseInt(formData.get('payment_amount') || '0'),
+          transaction_id: formData.get('transaction_id') || undefined,
           members
         };
         
