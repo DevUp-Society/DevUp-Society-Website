@@ -256,7 +256,7 @@ export const prerender = false;
 
   // Search handler
   searchInput?.addEventListener('input', (e) => {
-    searchQuery = (e.target as HTMLInputElement).value.toLowerCase();
+    searchQuery = e.target.value.toLowerCase();
     renderTable();
   });
 
