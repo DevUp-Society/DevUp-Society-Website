@@ -1,12 +1,18 @@
+<<<<<<< HEAD
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import QRCode from "qrcode";
+=======
+import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import QRCode from 'qrcode';
+import type { TeamMember } from './resend';
+>>>>>>> b29a5b1854d49719119855953f0686e67163ab5e
 
 interface TicketData {
   teamNumber: string;
   teamName: string;
   leadName: string;
   teamSize: number;
-  teamMembers?: string[]; // Array of member names
+  teamMembers?: TeamMember[]; // Array of member objects with name and optional phone
   eventName: string;
   eventDate: string;
   eventVenue: string;
@@ -193,8 +199,13 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
       font: regularFont,
       color: labelGray,
     });
+<<<<<<< HEAD
 
     const membersList = data.teamMembers.join(", ");
+=======
+    
+    const membersList = data.teamMembers.map(m => typeof m === 'string' ? m : m.name).join(', ');
+>>>>>>> b29a5b1854d49719119855953f0686e67163ab5e
     const maxWidth = 250;
     let memberText = membersList;
 
