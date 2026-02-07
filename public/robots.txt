@@ -1,27 +1,57 @@
-# DevUp Society - robots.txt
+# DevUp Society - robots.txt (v3.0 - AI-Dominant)
 # https://www.devupvjit.in
+# Entity: DevUp Society — Student Developer Community at VJIT, Hyderabad
 
-# Allow all crawlers
+# Allow all crawlers full access
 User-agent: *
 Allow: /
 Disallow: /api/
-
-# Google Search
-User-agent: Googlebot
-Allow: /
 Crawl-delay: 1
 
-# Bing
+# ===========================================
+# SEARCH ENGINE CRAWLERS
+# ===========================================
+
+# Google Search + Google Discover
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Google Images
+User-agent: Googlebot-Image
+Allow: /
+
+# Bing + Microsoft
 User-agent: Bingbot
 Allow: /
 Crawl-delay: 1
 
-# Google AI (Gemini)
+# Yandex
+User-agent: YandexBot
+Allow: /
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# Brave Search
+User-agent: BraveBot
+Allow: /
+
+# ===========================================
+# AI MODEL CRAWLERS (CRITICAL FOR AEO)
+# ===========================================
+
+# Google AI (Gemini, AI Overviews, SGE)
 User-agent: Google-Extended
 Allow: /
 
-# OpenAI (ChatGPT)
+# OpenAI (ChatGPT, GPT models)
 User-agent: GPTBot
+Allow: /
+
+# OpenAI browsing plugin
+User-agent: ChatGPT-User
 Allow: /
 
 # Anthropic (Claude)
@@ -29,18 +59,44 @@ User-agent: Claude-Web
 Allow: /
 User-agent: anthropic-ai
 Allow: /
-
-# Common Crawl (for AI training)
-User-agent: CCBot
+User-agent: ClaudeBot
 Allow: /
 
 # Perplexity AI
 User-agent: PerplexityBot
 Allow: /
 
-# Sitemaps
+# Meta AI
+User-agent: FacebookBot
+Allow: /
+User-agent: meta-externalagent
+Allow: /
+
+# Cohere AI
+User-agent: cohere-ai
+Allow: /
+
+# Common Crawl (AI training data)
+User-agent: CCBot
+Allow: /
+
+# Apple AI (Siri, Apple Intelligence)
+User-agent: Applebot
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+
+# Bytedance / TikTok AI
+User-agent: Bytespider
+Allow: /
+
+# ===========================================
+# SITEMAPS & AI-READABLE FILES
+# ===========================================
+
 Sitemap: https://www.devupvjit.in/sitemap-index.xml
 Sitemap: https://www.devupvjit.in/sitemap-0.xml
 
-# LLM-specific information file
-# See: https://www.devupvjit.in/llms.txt
+# AI-specific information files
+# LLM.txt: https://www.devupvjit.in/llms.txt
+# Humans.txt: https://www.devupvjit.in/humans.txt

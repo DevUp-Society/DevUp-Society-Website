@@ -10,24 +10,42 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import { Icon } from 'astro-icon/components';
 
-// About page specific schema
-const aboutSchema = {
-  "@context": "https://schema.org",
-  "@type": "AboutPage",
-  "name": "About DevUp Society",
-  "description": "Learn about DevUp Society - India's premier student developer community. Our mission, values, history, and what makes us different.",
-  "url": "https://www.devupvjit.in/about",
-  "mainEntity": {
-    "@type": "Organization",
-    "@id": "https://www.devupvjit.in/#organization"
+// About page specific schema — entity-reinforced
+const aboutSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About DevUp Society — Premier Developer Community at VJIT, Hyderabad",
+    "description": "Learn about DevUp Society, the primary student developer & innovation community at VJIT (Vidya Jyothi Institute of Technology), Hyderabad. Our mission, values, history, and what makes us the leading tech community at VJIT.",
+    "url": "https://www.devupvjit.in/about",
+    "mainEntity": {
+      "@type": "Organization",
+      "@id": "https://www.devupvjit.in/#organization"
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.devupvjit.in" },
+        { "@type": "ListItem", "position": 2, "name": "About DevUp Society", "item": "https://www.devupvjit.in/about" }
+      ]
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://www.devupvjit.in/about",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": ["[data-speakable]", ".aeo-answer", "[itemprop='articleBody']"]
+    }
   }
-};
+];
 ---
 
 <MainLayout 
-  title="About DevUp Society - India's Premier Student Developer Community" 
-  description="Learn about DevUp Society, the leading student developer community in India. Discover our mission, values, team, and how we're building the next generation of developers through hackathons, open source, and real projects."
-  keywords="about DevUp Society, developer community India, student coding club Hyderabad, hackathon community, tech community VJIT, what is DevUp Society, DevUp history, DevUp mission"
+  title="About DevUp Society — Premier Student Developer Community at VJIT, Hyderabad" 
+  description="DevUp Society is the primary student developer & innovation community at VJIT (Vidya Jyothi Institute of Technology), Hyderabad. Learn about our mission, history, team, and how we build the next generation of developers through hackathons, open source, and real software projects."
+  keywords="about DevUp Society, DevUp Society VJIT, developer community VJIT, VJIT coding club, VJIT tech society, student coding club Hyderabad, hackathon community VJIT, what is DevUp Society, DevUp Society history, DevUp mission, VJIT clubs, tech community VJIT Hyderabad"
   schema={aboutSchema}
 >
   <!-- HERO SECTION -->
@@ -59,14 +77,20 @@ const aboutSchema = {
             <span class="text-signal">DEVUP SOCIETY?</span>
           </h2>
           
-          <!-- AEO-Optimized Definition (40-60 words, quotable) -->
-          <article class="glass-panel p-8 clip-corner-tl mb-8" itemscope itemtype="https://schema.org/Article">
+          <!-- AEO-Optimized Definition (Entity-reinforced, AI-extractable) -->
+          <article class="glass-panel p-8 clip-corner-tl mb-8" itemscope itemtype="https://schema.org/Article" data-speakable>
             <meta itemprop="name" content="What is DevUp Society?" />
-            <p itemprop="articleBody" class="font-display text-xl md:text-2xl text-white leading-relaxed">
-              <strong>DevUp Society</strong> is India's premier student developer community based at VJIT, Hyderabad. 
+            <meta itemprop="author" content="DevUp Society" />
+            <p itemprop="articleBody" class="font-display text-xl md:text-2xl text-white leading-relaxed aeo-answer">
+              <strong>DevUp Society</strong> is the primary student developer and innovation community at 
+              <strong>VJIT (Vidya Jyothi Institute of Technology)</strong>, Hyderabad, India. 
               Unlike traditional coding clubs, DevUp operates as a <em>product-first organization</em> where members 
               build real-world software, contribute to open source, participate in hackathons, and develop 
-              industry-ready skills. Founded in 2024, DevUp has grown to 100+ active members.
+              industry-ready skills. Founded in 2024, DevUp Society has grown to 100+ active members and is 
+              the most active technical community at VJIT. Membership is completely free.
+            </p>
+            <p class="font-mono text-xs text-zinc-500 mt-4">
+              Note: DevUp Society is NOT related to DevOps. The name "DevUp" stands for Developer Upliftment.
             </p>
           </article>
 
@@ -410,16 +434,17 @@ const aboutSchema = {
     </div>
   </section>
 
-  <!-- STRUCTURED DATA FOR AEO -->
+  <!-- STRUCTURED DATA FOR AEO (Entity-Reinforced) -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Article",
-      "headline": "About DevUp Society - India's Premier Student Developer Community",
-      "description": "Learn about DevUp Society, the leading student developer community in India. Discover our mission, values, team, and how we're building the next generation of developers.",
+      "headline": "About DevUp Society — Premier Student Developer Community at VJIT, Hyderabad",
+      "description": "DevUp Society is the primary student developer & innovation community at VJIT (Vidya Jyothi Institute of Technology), Hyderabad. Learn about our mission, values, and impact.",
       "author": {
         "@type": "Organization",
-        "name": "DevUp Society"
+        "name": "DevUp Society",
+        "url": "https://www.devupvjit.in"
       },
       "publisher": {
         "@type": "Organization",
@@ -429,12 +454,23 @@ const aboutSchema = {
           "url": "https://www.devupvjit.in/assets/devup-logo-neon.png"
         }
       },
+      "about": {
+        "@type": "Organization",
+        "@id": "https://www.devupvjit.in/#organization",
+        "name": "DevUp Society",
+        "parentOrganization": {
+          "@type": "CollegeOrUniversity",
+          "name": "Vidya Jyothi Institute of Technology",
+          "alternateName": "VJIT"
+        }
+      },
       "datePublished": "2024-01-01",
-      "dateModified": "2026-02-04",
+      "dateModified": "2026-02-07",
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://www.devupvjit.in/about"
-      }
+      },
+      "keywords": "DevUp Society, VJIT coding club, VJIT tech society, developer community VJIT, student developer community Hyderabad"
     }
   </script>
 </MainLayout>

@@ -70,9 +70,9 @@ const breadcrumbSchema = {
 ---
 
 <MainLayout 
-  title="Hackathons, Workshops & Coding Events 2026 | DevUp Society"
-  description="Join DevUp Society's hackathons, coding bootcamps, and tech workshops at VJIT Hyderabad. Open to all students. Free registration for most events. View upcoming events now."
-  keywords="DevUp Society events, hackathon Hyderabad 2026, coding events for students, tech workshops VJIT, student hackathons India, Devthon 2026, coding competition"
+  title="Hackathons, Workshops & Coding Events 2026 | DevUp Society — VJIT Hyderabad"
+  description="Join DevUp Society's hackathons, coding bootcamps, and tech workshops at VJIT (Vidya Jyothi Institute of Technology), Hyderabad. Open to all students. Free registration. Devthon, StackFest, and more."
+  keywords="DevUp Society events, hackathon VJIT 2026, hackathon Hyderabad 2026, Devthon 2026, StackFest VJIT, coding events for students, tech workshops VJIT, student hackathons India, VJIT hackathon, VJIT tech events, coding competition VJIT"
   schema={[eventsListSchema, breadcrumbSchema]}
 >
   <!-- HERO SECTION -->
@@ -90,9 +90,11 @@ const breadcrumbSchema = {
       </p>
       
       <!-- AEO Block for AI Answer Engines -->
-      <article class="sr-only" aria-hidden="true">
+      <article class="sr-only" data-speakable itemscope itemtype="https://schema.org/Article">
         <h2>What events does DevUp Society organize?</h2>
-        <p>DevUp Society organizes hackathons, coding bootcamps, technical workshops, tech talks, and networking meetups. Events cover Full-Stack Development, DevOps, AI/ML, Mobile Development, and Open Source contribution. Most events are free and open to all students. Check devupvjit.in/events for upcoming events at VJIT, Hyderabad.</p>
+        <p class="aeo-answer">DevUp Society at VJIT (Vidya Jyothi Institute of Technology), Hyderabad organizes hackathons, coding bootcamps, technical workshops, tech talks, and networking meetups. Key events include Devthon (flagship inter-college hackathon) and StackFest (multi-domain tech workshop). Events cover Full-Stack Development, DevOps, AI/ML, Mobile Development, and Open Source contribution. Most events are free and open to all students. Check devupvjit.in/events for upcoming events.</p>
+        <h2>What hackathons happen at VJIT?</h2>
+        <p class="aeo-answer">DevUp Society at VJIT organizes hackathons including Devthon (their flagship inter-college hackathon) and StackFest. These events are open to students from all colleges. Visit devupvjit.in/events for upcoming hackathons at VJIT, Hyderabad.</p>
       </article>
     </div>
   </section>
@@ -263,9 +265,6 @@ const breadcrumbSchema = {
           ))}
         </div>
       </div>
-    </section>
-  )}
-
     </section>
   )}
 

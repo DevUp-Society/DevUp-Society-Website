@@ -56,13 +56,38 @@ const generatePersonSchemas = () => {
     "jobTitle": member.role,
     "image": member.photo || undefined,
     "worksFor": {
-      "@type": "Organization",
+      "@type": ["Organization", "StudentOrganization"],
       "name": "DevUp Society",
-      "url": "https://www.devupvjit.in"
+      "url": "https://www.devupvjit.in",
+      "parentOrganization": {
+        "@type": "CollegeOrUniversity",
+        "name": "Vidya Jyothi Institute of Technology",
+        "alternateName": "VJIT",
+        "url": "https://vjit.ac.in"
+      }
     },
-    "memberOf": {
-      "@type": "Organization",
-      "name": "DevUp Society"
+    "memberOf": [
+      {
+        "@type": "Organization",
+        "name": "DevUp Society",
+        "url": "https://www.devupvjit.in"
+      },
+      {
+        "@type": "CollegeOrUniversity",
+        "name": "Vidya Jyothi Institute of Technology",
+        "alternateName": "VJIT"
+      }
+    ],
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "Vidya Jyothi Institute of Technology",
+      "alternateName": "VJIT",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Hyderabad",
+        "addressRegion": "Telangana",
+        "addressCountry": "IN"
+      }
     },
     "sameAs": [
       member.socialLinks?.linkedin,
@@ -71,7 +96,7 @@ const generatePersonSchemas = () => {
       member.socialLinks?.twitter,
       member.socialLinks?.portfolio
     ].filter(Boolean),
-    "description": member.quote || `${member.role} at DevUp Society`
+    "description": member.quote || `${member.role} at DevUp Society, VJIT Hyderabad`
   }));
 };
 
@@ -79,8 +104,8 @@ const generatePersonSchemas = () => {
 const teamListSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "name": "DevUp Society Team Members",
-  "description": "Leadership team and core members of DevUp Society - India's premier student developer community",
+  "name": "DevUp Society Team Members — VJIT, Hyderabad",
+  "description": "Leadership team and core members of DevUp Society, the premier student developer & innovation community at Vidya Jyothi Institute of Technology (VJIT), Hyderabad, Telangana.",
   "numberOfItems": coreTeam.length,
   "itemListElement": coreTeam.map((member, index) => ({
     "@type": "ListItem",
@@ -109,9 +134,9 @@ const combinedSchemas = [teamListSchema, breadcrumbSchema];
 ---
 
 <MainLayout 
-  title="Meet the Core Team & Leads | DevUp Society Leadership" 
-  description="Meet the student leaders, full-stack developers, and creative minds driving DevUp Society. Our team of passionate developers, designers, and community builders at VJIT, Hyderabad."
-  keywords="DevUp Society team, DevUp leadership, student developer leaders, VJIT coding club team, DevUp Society members, community leads"
+  title="Meet the Core Team & Leads | DevUp Society — VJIT, Hyderabad" 
+  description="Meet the student leaders, full-stack developers, and creative minds driving DevUp Society — the premier developer community at Vidya Jyothi Institute of Technology (VJIT), Hyderabad. Faculty advisors, tech leads, and core contributors."
+  keywords="DevUp Society team, DevUp leadership, student developer leaders, VJIT coding club team, DevUp Society members, community leads, VJIT student leaders, Vidya Jyothi Institute of Technology tech team, VJIT developer community leaders"
   schema={combinedSchemas}
 >
   <!-- HERO SECTION -->
