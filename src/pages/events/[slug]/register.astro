@@ -15,6 +15,14 @@ export async function getStaticPaths() {
 
 const { event } = Astro.props;
 
+// Check if registration is closed
+const isRegistrationOpen = event.status === 'upcoming';
+
+// Get registration deadline from timeline
+const registrationDeadline = event.timeline?.find(item => 
+  item.title.toLowerCase().includes('registration closes')
+);
+
 // Logic moved from previous DevthonRegistration.astro
 // Assuming a generic registration form component or structure here.
 // For now, I will create a robust, generic registration form that adapts to the event.
@@ -25,6 +33,14 @@ const { event } = Astro.props;
   title={`Register for ${event.title} | DevUp Society`}
   description={`Secure your spot for ${event.title}. Limited seats available.`}
 >
+  <!-- Google Analytics - DISABLED FOR NOW -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script> -->
+  <!-- <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX'); // Replace with your GA4 ID
+  </script> -->
   <div class="min-h-screen bg-[#030303] flex items-center justify-center p-6 relative overflow-hidden">
     <!-- Background FX -->
     <div class="fixed inset-0 pointer-events-none">
@@ -50,10 +66,45 @@ const { event } = Astro.props;
                 <span class="font-mono text-xs text-zinc-400">Registration Fee: <span class="text-white font-bold">₹{event.fee}/person</span></span>
             </div>
         )}
+        
+        {/* Registration Countdown Timer */}
+        {isRegistrationOpen && registrationDeadline && (
+          <div class="mt-6">
+            <div class="inline-block px-6 py-3 bg-signal/10 border border-signal/30 rounded-sm">
+              <div class="flex items-center gap-3">
+                <Icon name="lucide:timer" class="text-signal" />
+                <div class="text-left">
+                  <div class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">Registration Closes In</div>
+                  <div id="countdown-timer" class="font-mono text-signal text-xl font-bold" data-deadline={registrationDeadline.date}>
+                    Loading...
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <!-- Form Container -->
       <div class="glass-panel p-8 md:p-12 clip-corner relative overflow-hidden">
+        
+        {/* Registration Closed Message */}
+        {!isRegistrationOpen && (
+          <div class="text-center py-16">
+            <div class="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20">
+              <Icon name="lucide:x-circle" class="text-4xl text-red-500" />
+            </div>
+            <h2 class="font-display text-3xl text-white mb-4">REGISTRATION CLOSED</h2>
+            <p class="font-mono text-zinc-400 text-sm mb-8">
+              Registration for this event is no longer available.
+            </p>
+            <a href="/events" class="inline-flex items-center gap-2 px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-mono text-xs uppercase tracking-widest transition-colors">
+              View Other Events
+            </a>
+          </div>
+        )}
+        
+        {isRegistrationOpen && (
         
         <!-- Loading Overlay -->
         <div id="loading-overlay" class="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex-col items-center justify-center">
@@ -179,6 +230,22 @@ const { event } = Astro.props;
                         <h3 class="font-display text-xl text-white">Payment</h3>
                     </div>
                     
+                    {/* IMPORTANT UPI NOTE - RED ALERT BOX */}
+                    <div class="bg-red-950/30 border-2 border-red-600 p-4 rounded-sm">
+                        <div class="flex items-start gap-3">
+                            <Icon name="lucide:alert-triangle" class="text-red-500 text-xl flex-shrink-0 mt-0.5" />
+                            <div class="flex-1">
+                                <h4 class="font-mono text-red-500 text-xs font-bold uppercase tracking-widest mb-2">⚠️ IMPORTANT: UPI Payment Note</h4>
+                                <p class="font-mono text-red-300 text-xs leading-relaxed mb-2">
+                                    When making payment via UPI, <strong class="text-red-200">YOU MUST include your TEAM NAME in the UPI message/note field</strong>.
+                                </p>
+                                <p class="font-mono text-red-400 text-[10px] leading-relaxed">
+                                    This is mandatory for payment verification. Without the team name in your UPI note, your payment may not be verified correctly.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="bg-zinc-900/50 p-6 border border-zinc-800 flex flex-col items-center text-center">
                         <p class="font-mono text-xs text-zinc-400 mb-2">Pay to DevUp Society</p>
                         <p class="font-mono text-[10px] text-zinc-500 mb-6">
@@ -214,11 +281,19 @@ const { event } = Astro.props;
                 </div>
             )}
 
-            <button type="submit" class="w-full py-4 bg-signal text-black font-mono font-bold uppercase tracking-widest hover:bg-white transition-colors btn-glitch">
-                Submit Registration
+            <button type="submit" id="submit-btn" class="w-full py-4 bg-signal text-black font-mono font-bold uppercase tracking-widest hover:bg-white transition-colors btn-glitch disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-signal relative overflow-hidden">
+                <span id="submit-btn-text">Submit Registration</span>
+                <span id="submit-btn-spinner" class="hidden absolute inset-0 flex items-center justify-center gap-3">
+                  <svg class="animate-spin h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span>Processing...</span>
+                </span>
             </button>
 
         </form>
+        )}
 
       </div>
     </div>
@@ -351,9 +426,54 @@ function isMobileDevice() {
   return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
+// Countdown Timer
+function initCountdownTimer() {
+  const timerEl = document.getElementById('countdown-timer');
+  if (!timerEl) return;
+  
+  const deadlineStr = timerEl.dataset.deadline;
+  if (!deadlineStr) return;
+  
+  // Parse deadline (format: "Feb 25, 2026")
+  const deadline = new Date(deadlineStr + ' 23:59:59');
+  
+  function updateCountdown() {
+    const now = new Date();
+    const diff = deadline - now;
+    
+    if (diff <= 0) {
+      timerEl.textContent = 'Registration Closed';
+      timerEl.classList.add('text-red-500');
+      timerEl.classList.remove('text-signal');
+      
+      // Disable form
+      const form = document.getElementById('registration-form');
+      if (form) {
+        form.innerHTML = '<div class="text-center py-10"><p class="font-mono text-red-500 text-sm">Registration has closed.</p></div>';
+      }
+      return;
+    }
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    timerEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+  
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+  
+  logger.info('Countdown timer initialized');
+}
+
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', async () => {
   logger.info('Registration page loaded - initializing');
+  
+  // Initialize countdown timer
+  initCountdownTimer();
   
   try {
     // ============================================
@@ -375,6 +495,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const paymentAmountInput = document.getElementById('payment-amount');
     const loadingOverlay = document.getElementById('loading-overlay');
     const successScreen = document.getElementById('success-screen');
+    const submitBtn = document.getElementById('submit-btn');
+    const submitBtnText = document.getElementById('submit-btn-text');
+    const submitBtnSpinner = document.getElementById('submit-btn-spinner');
 
     if (!form) {
       logger.error('Registration form element not found');
@@ -528,6 +651,21 @@ document.addEventListener('DOMContentLoaded', async () => {
       loadingOverlay.classList.add('flex');
       logger.debug('Loading overlay shown');
       
+      // Disable submit button and show spinner
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtnText?.classList.add('invisible');
+        submitBtnSpinner?.classList.remove('hidden');
+      }
+      
+      // Track form submission in Google Analytics - DISABLED FOR NOW
+      // if (typeof gtag !== 'undefined') {
+      //   gtag('event', 'registration_started', {
+      //     event_category: 'registration',
+      //     event_label: formData.get('event_name') || 'unknown'
+      //   });
+      // }
+      
       try {
         // Extract form data
         const formData = new FormData(form);
@@ -576,6 +714,14 @@ document.addEventListener('DOMContentLoaded', async () => {
           logger.error('Form validation failed', { errors: validation.errors });
           loadingOverlay.classList.add('hidden');
           loadingOverlay.classList.remove('flex');
+          
+          // Re-enable submit button
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtnText.classList.remove('invisible');
+            submitBtnSpinner.classList.add('hidden');
+          }
+          
           alert('Please fix the following errors:\n\n' + validation.errors.map(e => `• ${e}`).join('\n'));
           return;
         }
@@ -620,6 +766,15 @@ document.addEventListener('DOMContentLoaded', async () => {
           setTextContent('success-transaction', result.transactionId || '-');
           setTextContent('success-email', result.leadEmail || '');
           
+          // Track successful registration in Google Analytics - DISABLED FOR NOW
+          // if (typeof gtag !== 'undefined') {
+          //   gtag('event', 'registration_completed', {
+          //     event_category: 'registration',
+          //     event_label: result.teamNumber || 'unknown',
+          //     value: result.paymentAmount || 0
+          //   });
+          // }
+          
           logger.info('✅ SUCCESS SCREEN DISPLAYED');
         }, 1000);
 
@@ -632,6 +787,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         loadingOverlay.classList.add('hidden');
         loadingOverlay.classList.remove('flex');
+        
+        // Re-enable submit button
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtnText?.classList.remove('invisible');
+          submitBtnSpinner?.classList.add('hidden');
+        }
+        
+        // Track error in Google Analytics - DISABLED FOR NOW
+        // if (typeof gtag !== 'undefined') {
+        //   gtag('event', 'registration_error', {
+        //     event_category: 'registration',
+        //     event_label: error.message || 'unknown_error'
+        //   });
+        // }
         
         const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
         alert(`Registration failed: ${errorMessage}\n\nCheck console (F12) for details.`);

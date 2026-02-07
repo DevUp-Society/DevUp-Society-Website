@@ -3,6 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
 import { syncRegistrationToSheets, fullBackupToSheets, isConfigured } from './googleSheets.js';
+import rateLimit from 'express-rate-limit';
+import validator from 'validator';
 
 dotenv.config();
 
@@ -15,10 +17,42 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY
 );
 
+// Rate limiting
+const teamNumberLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 10, // 10 requests per minute
+  message: { error: 'Too many requests, please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const registrationLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 5, // 5 registrations per 5 minutes per IP
+  message: { error: 'Too many registration attempts, please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 // Middleware
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Input sanitization helper
+function sanitizeInput(str) {
+  if (typeof str !== 'string') return str;
+  return validator.escape(validator.trim(str));
+}
+
+function validateEmail(email) {
+  return validator.isEmail(email);
+}
+
+function validatePhone(phone) {
+  // Indian phone number: 10 digits
+  return /^[6-9]\d{9}$/.test(phone.replace(/\s/g, ''));
+}
 
 // Health check
 app.get('/', (req, res) => {
@@ -26,7 +60,7 @@ app.get('/', (req, res) => {
 });
 
 // GET /api/get-team-number?slug=event-slug
-app.get('/api/get-team-number', async (req, res) => {
+app.get('/api/get-team-number', teamNumberLimiter, async (req, res) => {
   try {
     const { slug } = req.query;
 
@@ -64,7 +98,7 @@ app.get('/api/get-team-number', async (req, res) => {
 });
 
 // POST /api/register
-app.post('/api/register', async (req, res) => {
+app.post('/api/register', registrationLimiter, async (req, res) => {
   try {
     const {
       event_slug,
@@ -80,28 +114,85 @@ app.post('/api/register', async (req, res) => {
       members
     } = req.body;
 
-    // Validation
+    // Basic validation
     if (!event_slug || !team_name || !lead_name || !lead_email || !lead_phone || !lead_college || !team_number) {
       return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // Validate email format
+    if (!validateEmail(lead_email)) {
+      return res.status(400).json({ error: 'Invalid email format' });
+    }
+
+    // Validate phone format
+    const cleanPhone = lead_phone.replace(/\s/g, '');
+    if (!validatePhone(cleanPhone)) {
+      return res.status(400).json({ error: 'Invalid phone number. Must be a 10-digit Indian mobile number.' });
+    }
+
+    // Sanitize text inputs
+    const sanitizedData = {
+      event_slug: sanitizeInput(event_slug),
+      team_name: sanitizeInput(team_name),
+      lead_name: sanitizeInput(lead_name),
+      lead_email: lead_email.toLowerCase().trim(),
+      lead_phone: cleanPhone,
+      lead_college: sanitizeInput(lead_college),
+      team_number: sanitizeInput(team_number),
+      transaction_id: transaction_id ? sanitizeInput(transaction_id) : null
+    };
+
+    // Check for duplicate registrations (same email or phone for this event)
+    const { data: existingReg, error: checkError } = await supabase
+      .from('registrations')
+      .select('id, team_number')
+      .eq('event_slug', sanitizedData.event_slug)
+      .or(`lead_email.eq.${sanitizedData.lead_email},lead_phone.eq.${sanitizedData.lead_phone}`)
+      .limit(1);
+
+    if (checkError) {
+      console.error('Duplicate check error:', checkError);
+      // Don't fail registration if check fails, just log it
+    } else if (existingReg && existingReg.length > 0) {
+      return res.status(409).json({ 
+        error: 'Duplicate registration detected',
+        message: `This email or phone number is already registered for this event (Team: ${existingReg[0].team_number})`
+      });
+    }
+
+    // Check for duplicate transaction ID
+    if (transaction_id) {
+      const { data: existingTxn } = await supabase
+        .from('registrations')
+        .select('team_number')
+        .eq('transaction_id', sanitizedData.transaction_id)
+        .limit(1);
+
+      if (existingTxn && existingTxn.length > 0) {
+        return res.status(409).json({ 
+          error: 'Duplicate transaction ID',
+          message: 'This transaction ID has already been used. Please enter the correct transaction ID.'
+        });
+      }
     }
 
     // Generate registration ID
     const registrationId = crypto.randomUUID();
 
-    // Insert registration
+    // Insert registration with sanitized data
     const { error: regError } = await supabase
       .from('registrations')
       .insert([{
         id: registrationId,
-        event_slug,
-        team_name,
-        lead_name,
-        lead_email,
-        lead_phone,
-        lead_college,
-        team_number,
+        event_slug: sanitizedData.event_slug,
+        team_name: sanitizedData.team_name,
+        lead_name: sanitizedData.lead_name,
+        lead_email: sanitizedData.lead_email,
+        lead_phone: sanitizedData.lead_phone,
+        lead_college: sanitizedData.lead_college,
+        team_number: sanitizedData.team_number,
         payment_amount: parseInt(payment_amount) || 0,
-        transaction_id,
+        transaction_id: sanitizedData.transaction_id,
         payment_status: 'pending',
         team_size: parseInt(team_size) || 2,
         status: 'pending'
@@ -115,12 +206,15 @@ app.post('/api/register', async (req, res) => {
     // Insert team members if any
     let insertedTeamMembers = [];
     if (members && Array.isArray(members) && members.length > 0) {
-      const teamMembers = members.map(member => ({
-        registration_id: registrationId,
-        name: member.name,
-        email: member.email,
-        phone: member.phone
-      }));
+      const teamMembers = members.map(member => {
+        const cleanMemberPhone = member.phone ? member.phone.replace(/\s/g, '') : '';
+        return {
+          registration_id: registrationId,
+          name: sanitizeInput(member.name),
+          email: member.email ? member.email.toLowerCase().trim() : null,
+          phone: cleanMemberPhone || null
+        };
+      });
 
       const { data: memberData, error: memError } = await supabase
         .from('team_members')
@@ -141,16 +235,16 @@ app.post('/api/register', async (req, res) => {
       try {
         const registrationData = {
           id: registrationId,
-          team_number,
-          event_slug,
-          team_name,
-          lead_name,
-          lead_email,
-          lead_phone,
-          lead_college,
+          team_number: sanitizedData.team_number,
+          event_slug: sanitizedData.event_slug,
+          team_name: sanitizedData.team_name,
+          lead_name: sanitizedData.lead_name,
+          lead_email: sanitizedData.lead_email,
+          lead_phone: sanitizedData.lead_phone,
+          lead_college: sanitizedData.lead_college,
           team_size: parseInt(team_size) || 2,
           payment_amount: parseInt(payment_amount) || 0,
-          transaction_id,
+          transaction_id: sanitizedData.transaction_id,
           payment_status: 'pending',
           status: 'pending',
           created_at: new Date().toISOString(),
@@ -166,24 +260,27 @@ app.post('/api/register', async (req, res) => {
     }
 
     // Send pending payment email
-    console.log('[EMAIL] Sending pending payment email to:', lead_email);
+    console.log('[EMAIL] Sending pending payment email to:', sanitizedData.lead_email);
     try {
-      const memberNames = members && members.length > 0 
-        ? members.map(m => m.name).filter(n => n).join(', ')
-        : undefined;
+      const teamMembersData = members && members.length > 0 
+        ? members.map(m => ({
+            name: sanitizeInput(m.name),
+            phone: m.phone ? m.phone.replace(/\s/g, '') : undefined
+          })).filter(m => m.name)
+        : [];
 
       const emailFormData = new URLSearchParams({
-        teamNumber: team_number,
-        teamName: team_name,
-        leadName: lead_name,
-        leadEmail: lead_email,
+        teamNumber: sanitizedData.team_number,
+        teamName: sanitizedData.team_name,
+        leadName: sanitizedData.lead_name,
+        leadEmail: sanitizedData.lead_email,
         teamSize: team_size.toString(),
         amount: payment_amount.toString(),
-        transactionId: transaction_id || 'N/A'
+        transactionId: sanitizedData.transaction_id || 'N/A'
       });
 
-      if (memberNames) {
-        emailFormData.append('teamMembers', memberNames);
+      if (teamMembersData.length > 0) {
+        emailFormData.append('teamMembers', JSON.stringify(teamMembersData));
       }
 
       const emailResponse = await fetch('https://www.devupvjit.in/api/email/pending', {
@@ -209,17 +306,22 @@ app.post('/api/register', async (req, res) => {
     res.json({
       success: true,
       registrationId,
-      teamNumber: team_number,
-      teamName: team_name,
-      leadName: lead_name,
-      leadEmail: lead_email,
-      teamSize: team_size,
-      paymentAmount: payment_amount,
-      transactionId: transaction_id
+      teamNumber: sanitizedData.team_number,
+      teamName: sanitizedData.team_name,
+      leadName: sanitizedData.lead_name,
+      leadEmail: sanitizedData.lead_email,
+      teamSize: parseInt(team_size) || 2,
+      paymentAmount: parseInt(payment_amount) || 0,
+      transactionId: sanitizedData.transaction_id,
+      message: 'Registration successful! Check your email for confirmation.'
     });
   } catch (err) {
-    console.error('Server error:', err);
-    res.status(500).json({ error: 'Server error occurred' });
+    console.error('Registration error:', err);
+    // Don't expose internal error details to users
+    res.status(500).json({ 
+      error: 'Registration failed',
+      message: 'An error occurred while processing your registration. Please try again or contact support.'
+    });
   }
 });
 
