@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Health check
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.json({ status: 'ok', message: 'DevUp Backend API' });
 });
 
@@ -224,7 +224,7 @@ app.post('/api/register', async (req, res) => {
 });
 
 // POST /api/sync-sheets - Manual full backup to Google Sheets
-app.post('/api/sync-sheets', async (req, res) => {
+app.post('/api/sync-sheets', async (_req, res) => {
   try {
     if (!isConfigured()) {
       return res.status(503).json({ 

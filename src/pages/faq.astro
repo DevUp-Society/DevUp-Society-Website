@@ -193,7 +193,7 @@ const faqSchema = {
   <section class="py-20 bg-void">
     <div class="max-w-4xl mx-auto px-6">
       
-      {faqs.map((category, catIndex) => (
+      {faqs.map((category) => (
         <div class="mb-16" id={category.category.toLowerCase().replace(/[\s&]+/g, '-').replace(/-+/g, '-')}>
           <div class="flex items-center gap-4 mb-8">
             <span class="text-signal font-mono text-xs tracking-widest uppercase">/// {category.category}</span>
@@ -201,7 +201,7 @@ const faqSchema = {
           </div>
 
           <div class="space-y-4">
-            {category.questions.map((faq, index) => (
+            {category.questions.map((faq) => (
               <details class="group glass-panel clip-corner-tl" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
                 <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
                   <h2 itemprop="name" class="font-display text-lg md:text-xl text-white pr-8 group-hover:text-signal transition-colors">

@@ -48,16 +48,6 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devupvjit.in');
-const currentYear = new Date().getFullYear();
-
-// Helper to render schema - handles both single object and array
-const renderSchema = (schemaData: object | object[] | undefined): string | null => {
-  if (!schemaData) return null;
-  if (Array.isArray(schemaData)) {
-    return JSON.stringify(schemaData);
-  }
-  return JSON.stringify(schemaData);
-};
 ---
 
 <!DOCTYPE html>
@@ -130,7 +120,7 @@ const renderSchema = (schemaData: object | object[] | undefined): string | null 
   <meta name="twitter:image:alt" content="DevUp Society - Premier Student Developer Community">
 
   <!-- Organization Schema (Primary Entity — AI Knowledge Graph Anchor) -->
-  <script type="application/ld+json">
+  <script is:inline type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": ["Organization", "StudentOrganization"],
@@ -235,7 +225,7 @@ const renderSchema = (schemaData: object | object[] | undefined): string | null 
   </script>
 
   <!-- VJIT CollegeOrUniversity Schema (Entity cross-link) -->
-  <script type="application/ld+json">
+  <script is:inline type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "CollegeOrUniversity",
@@ -262,7 +252,7 @@ const renderSchema = (schemaData: object | object[] | undefined): string | null 
   </script>
 
   <!-- Educational Organization Schema (Entity-linked to VJIT) -->
-  <script type="application/ld+json">
+  <script is:inline type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "EducationalOrganization",
@@ -309,7 +299,7 @@ const renderSchema = (schemaData: object | object[] | undefined): string | null 
   </script>
 
   <!-- WebSite Schema with SearchAction -->
-  <script type="application/ld+json">
+  <script is:inline type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
@@ -333,7 +323,7 @@ const renderSchema = (schemaData: object | object[] | undefined): string | null 
   </script>
 
   <!-- BreadcrumbList Schema -->
-  <script type="application/ld+json">
+  <script is:inline type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
@@ -349,7 +339,7 @@ const renderSchema = (schemaData: object | object[] | undefined): string | null 
   </script>
 
   <!-- FAQ Schema (AEO Optimization) -->
-  <script type="application/ld+json">
+  <script is:inline type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "FAQPage",
@@ -455,7 +445,7 @@ const renderSchema = (schemaData: object | object[] | undefined): string | null 
   </script>
 
   <!-- LocalBusiness Schema for Google Maps + Local Pack -->
-  <script type="application/ld+json">
+  <script is:inline type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
@@ -502,11 +492,11 @@ const renderSchema = (schemaData: object | object[] | undefined): string | null 
 
   {schema && (
     Array.isArray(schema) ? (
-      schema.map(s => (
-        <script type="application/ld+json" set:html={JSON.stringify(s)} />
+      schema.map((s: object) => (
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(s)} />
       ))
     ) : (
-      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
     )
   )}
   
@@ -552,7 +542,7 @@ const renderSchema = (schemaData: object | object[] | undefined): string | null 
   </div>
 
   <!-- NAV -->
-  <nav class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-gradient-to-b from-[#030303] to-transparent">
+  <nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl z-50 px-6 py-3 flex justify-between items-center bg-[#0a0a0a]/90 backdrop-blur-md border border-white/5 rounded-2xl shadow-xl shadow-black/50 transition-all duration-300">
     <a href="/" class="flex items-center gap-4 group cursor-pointer">
       <div class="w-10 h-10 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center clip-corner group-hover:border-signal/50 transition-colors p-1">
         <img src={logoImg.src} alt="DevUp" class="w-full h-full object-contain" />
@@ -588,7 +578,7 @@ const renderSchema = (schemaData: object | object[] | undefined): string | null 
   </nav>
 
   <!-- Mobile Navigation Panel -->
-  <div id="mobile-menu" class="fixed top-0 right-0 h-screen w-80 bg-black/95 backdrop-blur-lg border-l border-zinc-800 transform translate-x-full transition-transform duration-300 z-40 md:hidden">
+  <div id="mobile-menu" class="fixed top-0 right-0 h-screen w-80 bg-black/95 backdrop-blur-lg border-l border-zinc-800 transform translate-x-full transition-transform duration-300 z-[60] md:hidden">
     <div class="flex flex-col h-full p-8">
       <!-- Close Button -->
       <div class="flex justify-end mb-12">
@@ -645,7 +635,6 @@ const renderSchema = (schemaData: object | object[] | undefined): string | null 
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const mobileMenuClose = document.getElementById('mobile-menu-close');
     const mobileMenu = document.getElementById('mobile-menu');
-    const hamburgerIcon = document.getElementById('hamburger-icon');
 
     function openMobileMenu() {
       mobileMenu.classList.remove('translate-x-full');
@@ -689,6 +678,517 @@ const renderSchema = (schemaData: object | object[] | undefined): string | null 
 
   <!-- Footer -->
   <Footer />
+
+  <!-- AI CHAT WIDGET -->
+  <div id="ai-chat-widget" class="fixed bottom-6 right-6 z-[90] flex flex-col items-end gap-6 font-mono">
+    <!-- Chat Panel -->
+    <div 
+      id="ai-chat-panel" 
+      class="hidden opacity-0 translate-y-4 scale-95 origin-bottom-right transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] w-[380px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-8rem)] bg-[#050505]/95 backdrop-blur-2xl border border-signal/20 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.8),0_0_15px_rgba(204,255,0,0.1)] flex flex-col overflow-hidden cyber-clip-panel perspective-1000"
+    >
+      <!-- Header -->
+      <div class="flex items-center justify-between px-6 py-5 border-b border-white/5 bg-gradient-to-r from-signal/5 via-transparent to-transparent relative overflow-hidden">
+        <!-- Scanner Effect -->
+        <div class="absolute top-0 bottom-0 w-[4px] bg-gradient-to-b from-transparent via-white/10 to-transparent blur-[2px] animate-[scan_4s_linear_infinite]"></div>
+        
+        <div class="flex items-center gap-4">
+          <div class="relative w-2.5 h-2.5">
+            <span class="absolute inset-0 rounded-full bg-signal animate-ti-pulse"></span>
+            <span class="absolute inset-0 rounded-full bg-signal blur-[3px]"></span>
+          </div>
+          <div class="flex flex-col gap-0.5">
+            <span class="font-display font-bold text-white text-sm tracking-wider flex items-center gap-2">
+              DEVUP INTELLIGENCE
+            </span>
+            <span class="text-[9px] text-zinc-500 font-mono tracking-widest flex items-center gap-2">
+               <span class="w-1 h-1 bg-green-500 rounded-full"></span> ONLINE
+               <span class="text-zinc-700">|</span> V.2.4.0
+            </span>
+          </div>
+        </div>
+        <button 
+          id="ai-chat-close" 
+          class="w-8 h-8 rounded-full hover:bg-white/10 border border-white/5 hover:border-white/20 flex items-center justify-center transition-all group backdrop-blur-sm"
+          aria-label="Close chat"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-zinc-400 group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Messages Area -->
+      <div id="ai-chat-messages" class="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-hide relative bg-[#030303]">
+        <!-- Grid Background -->
+        <div class="absolute inset-0 pointer-events-none opacity-[0.03]" style="background-image: radial-gradient(circle, #CCFF00 1px, transparent 1px); background-size: 24px 24px;"></div>
+        
+        <!-- Ambient Glow -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] bg-signal/5 blur-[100px] rounded-full pointer-events-none"></div>
+
+        <!-- Welcome Message -->
+        <div class="flex flex-col gap-2 relative z-10 animate-in fade-in slide-in-from-bottom-2 duration-500">
+          <div class="flex items-center gap-2 mb-1 opacity-50">
+             <div class="w-1 h-1 bg-signal rounded-full"></div>
+             <span class="text-[9px] uppercase tracking-widest text-signal font-mono">System Message</span>
+          </div>
+          <div class="bg-zinc-900/40 border border-white/5 rounded-2xl rounded-tl-sm p-4 backdrop-blur-md shadow-sm">
+            <p class="text-[13px] text-zinc-300 leading-relaxed font-sans">
+              <span class="text-white font-semibold block mb-2 text-sm flex items-center gap-2">
+                 ⚡ Systems Online
+              </span>
+              Welcome to the DevUp Society Intelligence Hub. I can assist with event details, team info, or registration queries.
+            </p>
+          </div>
+          
+          <!-- Quick Suggestions -->
+          <div class="grid grid-cols-2 gap-2 mt-2" id="ai-suggestions">
+            <button class="suggestion-chip bg-zinc-900/30 border border-white/5 hover:border-signal/40 hover:bg-zinc-800/50 p-3 text-left group rounded-xl transition-all duration-300" onclick="window.sendSuggestion('How do I join DevUp?')">
+              <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider group-hover:text-signal transition-colors font-mono">Career</span>
+              <span class="text-xs text-zinc-200 group-hover:text-white transition-colors">How do I join?</span>
+            </button>
+            <button class="suggestion-chip bg-zinc-900/30 border border-white/5 hover:border-signal/40 hover:bg-zinc-800/50 p-3 text-left group rounded-xl transition-all duration-300" onclick="window.sendSuggestion('Upcoming events?')">
+              <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider group-hover:text-signal transition-colors font-mono">Calendar</span>
+              <span class="text-xs text-zinc-200 group-hover:text-white transition-colors">Upcoming events?</span>
+            </button>
+             <button class="suggestion-chip bg-zinc-900/30 border border-white/5 hover:border-signal/40 hover:bg-zinc-800/50 p-3 text-left group rounded-xl transition-all duration-300" onclick="window.sendSuggestion('What is DevUp?')">
+              <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider group-hover:text-signal transition-colors font-mono">Mission</span>
+              <span class="text-xs text-zinc-200 group-hover:text-white transition-colors">What is DevUp?</span>
+            </button>
+             <button class="suggestion-chip bg-zinc-900/30 border border-white/5 hover:border-signal/40 hover:bg-zinc-800/50 p-3 text-left group rounded-xl transition-all duration-300" onclick="window.sendSuggestion('Who is the founder?')">
+              <span class="block text-[9px] text-zinc-500 uppercase mb-1 tracking-wider group-hover:text-signal transition-colors font-mono">Legacy</span>
+              <span class="text-xs text-zinc-200 group-hover:text-white transition-colors">Who founded this?</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Area (Modern Chat) -->
+      <div class="p-4 bg-[#080808]/80 border-t border-white/5 relative z-20 backdrop-blur-xl" id="chat-input-container">
+        
+        <!-- Command Mode Background (Hidden by default) -->
+        <div id="cmd-mode-bg" class="absolute inset-0 bg-red-900/5 opacity-0 transition-opacity pointer-events-none"></div>
+
+        <form id="ai-chat-form" class="relative group">
+          <input 
+            type="text" 
+            id="ai-chat-input" 
+            placeholder="Ask AI Assistant..."
+            autocomplete="off"
+            class="w-full bg-zinc-900/50 border border-white/10 focus:border-signal/30 focus:bg-zinc-900 hover:border-white/20 rounded-xl px-4 py-3.5 pr-12 text-[13px] text-white placeholder-zinc-600 outline-none transition-all font-sans shadow-inner z-10 relative"
+          />
+          
+          <button 
+            type="submit" 
+            id="ai-chat-send"
+            class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-signal text-black rounded-lg flex items-center justify-center hover:scale-105 hover:shadow-[0_0_15px_rgba(204,255,0,0.3)] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none z-20"
+            aria-label="Send"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </button>
+        </form>
+        
+        <div class="flex justify-center mt-2 opacity-30">
+             <div class="h-0.5 w-16 bg-white/20 rounded-full"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Button -->
+    <button 
+      id="ai-chat-toggle" 
+      class="group relative w-20 h-20 flex items-center justify-center outline-none orb-container"
+      aria-label="Open AI Chat"
+    >
+      <!-- Orb Rings -->
+      <div class="orb-ring group-hover:scale-110 transition-transform duration-500"></div>
+      <div class="orb-ring group-hover:scale-110 transition-transform duration-500 delay-75"></div>
+      
+      <!-- Core -->
+      <div id="ai-btn-surface" class="orb-core flex items-center justify-center transition-all duration-300 group-hover:shadow-[0_0_50px_var(--signal)]">
+        <!-- Chat Icon -->
+        <svg id="ai-btn-chat-icon" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 transition-all duration-300 group-hover:scale-0 group-hover:opacity-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        
+
+
+         <!-- Close Icon (Absolute) -->
+        <svg id="ai-btn-close-icon" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 absolute opacity-0 rotate-90 transition-all duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+        </svg>
+      </div>
+
+      <!-- Online Dot -->
+      <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-black z-20 group-hover:bg-signal transition-colors shadow-[0_0_10px_rgba(239,68,68,0.5)] group-hover:shadow-[0_0_10px_rgba(204,255,0,0.5)]"></span>
+    </button>
+  </div>
+
+  <!-- AI Chat Widget Script -->
+  <script is:inline>
+  (function() {
+    const chatToggle = document.getElementById('ai-chat-toggle');
+    const chatPanel = document.getElementById('ai-chat-panel');
+    const chatClose = document.getElementById('ai-chat-close');
+    const chatForm = document.getElementById('ai-chat-form');
+    const chatInput = document.getElementById('ai-chat-input');
+    const chatMessages = document.getElementById('ai-chat-messages');
+    const chatBtnIcon = document.getElementById('ai-btn-chat-icon');
+    const closeBtnIcon = document.getElementById('ai-btn-close-icon');
+    const sendBtn = document.getElementById('ai-chat-send');
+    const chatButtonContainer = document.getElementById('ai-btn-surface');
+    // const aiText = chatToggle.querySelector('span.font-display'); // DOM Element Removed in Orb Design
+
+    let isOpen = false;
+    let isLoading = false;
+    let loadingInterval;
+
+    // Globals for suggestion clicks
+    window.sendSuggestion = function(text) {
+      sendMessage(text);
+    };
+
+    function toggleChat() {
+      // Safety check for critical elements
+      if (!chatPanel || !chatToggle) {
+          console.error('CRITICAL: Chat DOM elements missing.');
+          return;
+      }
+
+      isOpen = !isOpen;
+      if (isOpen) {
+        chatPanel.classList.remove('hidden');
+        // Force Reflow
+        void chatPanel.offsetWidth; 
+        
+        // Remove Exit State
+        chatPanel.classList.remove('opacity-0', 'scale-95', 'translate-y-4');
+        
+        // Add Enter State
+        chatPanel.classList.add('opacity-100', 'scale-100', 'translate-y-0');
+
+        
+        // Button Morph
+        if (chatBtnIcon) chatBtnIcon.classList.add('opacity-0', 'scale-0');
+        if (closeBtnIcon) {
+             closeBtnIcon.classList.remove('opacity-0', 'rotate-90');
+             closeBtnIcon.classList.add('opacity-100', 'rotate-0');
+        }
+        
+        // Force Button State to "Active" styling
+        if (chatButtonContainer) {
+            chatButtonContainer.classList.add('bg-white', 'text-black', 'shadow-[0_0_50px_white]');
+            chatButtonContainer.classList.remove('bg-signal', 'text-black', 'shadow-[0_0_50px_var(--signal)]');
+        }
+
+        if (chatInput) chatInput.focus();
+      } else {
+        // Exit State
+        chatPanel.classList.remove('opacity-100', 'scale-100', 'translate-y-0');
+        chatPanel.classList.add('opacity-0', 'scale-95', 'translate-y-4');
+        
+        setTimeout(() => {
+            if(!isOpen) chatPanel.classList.add('hidden');
+        }, 300);
+        
+        // Button Morph Back
+        if (chatBtnIcon) chatBtnIcon.classList.remove('opacity-0', 'scale-0');
+        
+        if (closeBtnIcon) {
+            closeBtnIcon.classList.remove('opacity-100', 'rotate-0');
+            closeBtnIcon.classList.add('opacity-0', 'rotate-90');
+        }
+
+        // Force Button State Back
+        if (chatButtonContainer) {
+            chatButtonContainer.classList.remove('bg-white', 'text-black', 'shadow-[0_0_50px_white]');
+            chatButtonContainer.classList.add('bg-signal', 'text-black', 'shadow-[0_0_50px_var(--signal)]');
+        }
+      }
+    }
+
+    // --- CINEMATIC DECODING EFFECT ---
+    // Replaces standard typewriter with a matrix-style decryption animation
+    function typeWriter(element, text, speed = 10) {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&";
+      const tokens = text.match(/<[^>]+>|&[^;]+;|[^<]/g) || [];
+      
+      let finalHTML = ""; // To reconstruct content safely
+      let i = 0;
+      
+      // Temporary span for the "decoding" character
+      const decodeSpan = document.createElement('span');
+      decodeSpan.className = "text-signal font-mono bg-signal/20 select-none";
+      element.appendChild(decodeSpan);
+
+      function type() {
+        if (i < tokens.length) {
+          const token = tokens[i];
+          const isTag = token.startsWith('<') || token.startsWith('&');
+          
+          if (isTag) {
+            finalHTML += token;
+            element.innerHTML = finalHTML; // Render tags immediately
+            element.appendChild(decodeSpan); // Keep decode cursor at end
+            i++;
+            requestAnimationFrame(type);
+          } else {
+             // Scramble effect for n frames before settling
+             let scrambleCount = 0;
+             const maxScrambles = 2; // Short duration for performance
+
+             function scramble() {
+                if (scrambleCount < maxScrambles) {
+                   decodeSpan.innerText = chars[Math.floor(Math.random() * chars.length)];
+                   scrambleCount++;
+                   setTimeout(scramble, 30);
+                } else {
+                   // Settle
+                   finalHTML += token;
+                   element.innerHTML = finalHTML;
+                   element.appendChild(decodeSpan); // Move cursor
+                   i++;
+                   
+                   // Sound Effect Trigger (Optional - keeping silent for now)
+                   // playClickSound();
+
+                   setTimeout(type, speed);
+                   
+                   // Auto scroll
+                   chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+             }
+             scramble();
+          }
+        } else {
+           // Done
+           decodeSpan.remove();
+        }
+      }
+      type();
+    }
+
+    function addMessage(content, isUser = false, isError = false) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'flex flex-col animate-in fade-in slide-in-from-bottom-2 duration-300 relative z-10';
+
+      const timestamp = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+
+      if (isUser) {
+        msgDiv.innerHTML = `
+           <div class="flex items-center justify-end gap-2 mb-1 opacity-50">
+             <span class="text-[9px] uppercase tracking-widest text-white font-mono">YOU</span>
+             <div class="w-1 h-1 bg-white rounded-full"></div>
+          </div>
+          <div class="self-end max-w-[90%] bg-zinc-800/80 border border-white/10 p-3 rounded-2xl rounded-tr-sm backdrop-blur-sm shadow-sm">
+            <p class="text-[13px] text-white leading-relaxed font-sans">${escapeHtml(content)}</p>
+          </div>
+        `;
+        chatMessages.appendChild(msgDiv);
+      } else {
+         const formattedContent = formatResponse(content);
+         
+         // Create container structure but leave text content empty for typing
+        msgDiv.innerHTML = `
+           <div class="flex items-center gap-2 mb-1 opacity-50">
+             <div class="w-1 h-1 bg-signal rounded-full"></div>
+             <span class="text-[9px] uppercase tracking-widest text-signal font-mono">DevUp AI</span>
+             <span class="text-[9px] font-mono text-zinc-500">${timestamp}</span>
+          </div>
+          <div class="self-start max-w-[90%] ${isError ? 'bg-red-900/10 border-red-500/50' : 'bg-zinc-900/40 border-white/5'} border p-4 rounded-2xl rounded-tl-sm backdrop-blur-sm shadow-sm group hover:border-signal/20 transition-colors">
+            <p class="text-[13px] ${isError ? 'text-red-300' : 'text-zinc-200'} leading-relaxed font-sans" id="typing-${Date.now()}"></p>
+          </div>
+        `;
+        
+        chatMessages.appendChild(msgDiv);
+        
+        // Start Typewriter effect for AI
+        const typeTarget = msgDiv.querySelector('p');
+        if(!isError) {
+            typeWriter(typeTarget, formattedContent);
+        } else {
+            typeTarget.innerHTML = formattedContent; 
+        }
+      }
+
+      // Smooth Scroll
+      requestAnimationFrame(() => {
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+      });
+    }
+
+    function addLoading() {
+      const loadingDiv = document.createElement('div');
+      loadingDiv.id = 'ai-loading';
+      loadingDiv.className = 'flex flex-col animate-in fade-in duration-300 relative z-10 pl-2';
+      loadingDiv.innerHTML = `
+          <div class="flex items-center gap-2 mb-1 opacity-50">
+             <div class="w-1 h-1 bg-signal rounded-full"></div>
+             <span class="text-[9px] uppercase tracking-widest text-signal font-mono">NEURAL NET</span>
+          </div>
+          <div class="self-start bg-zinc-900/40 border border-white/5 p-3 rounded-xl rounded-tl-sm flex items-center gap-3 backdrop-blur-sm shadow-sm">
+             <!-- Wave Animation -->
+             <div class="flex items-center gap-0.5 h-3">
+                <span class="w-0.5 h-3 bg-signal animate-[wave_1s_ease-in-out_infinite]"></span>
+                <span class="w-0.5 h-3 bg-signal animate-[wave_1s_ease-in-out_infinite_0.1s]"></span>
+                <span class="w-0.5 h-3 bg-signal animate-[wave_1s_ease-in-out_infinite_0.2s]"></span>
+                <span class="w-0.5 h-3 bg-signal animate-[wave_1s_ease-in-out_infinite_0.3s]"></span>
+                <span class="w-0.5 h-3 bg-signal animate-[wave_1s_ease-in-out_infinite_0.4s]"></span>
+             </div>
+             <!-- Cycling Text -->
+             <span class="text-[10px] text-zinc-400 font-mono tracking-widest tabular-nums w-[80px]" id="loading-text">THINKING</span>
+          </div>
+      `;
+      chatMessages.appendChild(loadingDiv);
+      requestAnimationFrame(() => {
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+      });
+
+      // Status Cycling
+      const states = [
+        "THINKING",
+        "ANALYZING",
+        "SEARCHING",
+        "COMPUTING",
+        "GENERATING",
+      ];
+      let stateIdx = 0;
+      
+      if (loadingInterval) clearInterval(loadingInterval);
+      
+      loadingInterval = setInterval(() => {
+        stateIdx = (stateIdx + 1) % states.length;
+        const textEl = document.getElementById('loading-text');
+        if(textEl) {
+           textEl.innerText = states[stateIdx];
+        }
+      }, 600);
+    }
+
+    function removeLoading() {
+      if (loadingInterval) clearInterval(loadingInterval);
+      const loading = document.getElementById('ai-loading');
+      if (loading) loading.remove();
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function formatResponse(text) {
+      return escapeHtml(text)
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-bold">$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em class="text-signal/80 not-italic">$1</em>')
+        .replace(/`([^`]+)`/g, '<code class="bg-black/50 px-1 py-0.5 rounded text-signal font-mono text-xs">$1</code>')
+        .replace(/\n/g, '<br>');
+    }
+
+    async function sendMessage(message) {
+      if (isLoading || !message.trim()) return;
+
+      isLoading = true;
+      sendBtn.disabled = true;
+      chatInput.disabled = true;
+      
+      // Hide suggestions if visible
+      const suggestions = document.getElementById('ai-suggestions');
+      if(suggestions) suggestions.style.display = 'none';
+
+      addMessage(message, true);
+      addLoading();
+
+      try {
+        const response = await fetch('/api/assistant', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: message.trim() })
+        });
+
+        removeLoading();
+
+        if (!response.ok) {
+          throw new Error('HTTP ' + response.status);
+        }
+
+        const data = await response.json();
+
+        if (data.answer) {
+          addMessage(data.answer, false, !data.success);
+        } else {
+          addMessage('SYSTEM ERROR: Unable to process request.', false, true);
+        }
+      } catch (error) {
+        removeLoading();
+        console.error('AI Chat Error:', error);
+        addMessage('NETWORK ERROR: Connection Failed.', false, true);
+      } finally {
+        isLoading = false;
+        sendBtn.disabled = false;
+        chatInput.disabled = false;
+        chatInput.value = '';
+        chatInput.focus();
+      }
+    }
+
+    // Event Listeners (Robust)
+    if (chatToggle) {
+        chatToggle.style.pointerEvents = 'auto';
+        chatToggle.onclick = (e) => {
+            e.preventDefault();
+            toggleChat();
+        };
+    } else {
+        // Fallback: Try finding it again if variable capture failed
+        const freshToggle = document.getElementById('ai-chat-toggle');
+        if (freshToggle) {
+            freshToggle.onclick = (e) => {
+                 e.preventDefault();
+                 toggleChat();
+            };
+        }
+    }
+
+    if (chatClose) {
+         chatClose.onclick = toggleChat;
+    }
+
+    chatForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const message = chatInput.value.trim();
+      if (message) {
+        sendMessage(message);
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        toggleChat();
+      }
+    });
+    
+    // Command Mode Detection
+    chatInput?.addEventListener('input', (e) => {
+       const val = e.target.value;
+       const inputContainer = document.getElementById('chat-input-container');
+       const cmdBg = document.getElementById('cmd-mode-bg');
+       
+       if (val.startsWith('/')) {
+         inputContainer.style.borderColor = 'rgba(239, 68, 68, 0.3)'; // Red alert color
+         cmdBg.style.opacity = '1';
+         e.target.style.color = '#fca5a5';
+       } else {
+         inputContainer.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+         cmdBg.style.opacity = '0';
+         e.target.style.color = 'white';
+       }
+    });
+
+    chatPanel?.addEventListener('click', (e) => e.stopPropagation());
+  })();
+  </script>
 
   <!-- DEVSOC TERMINAL OVERLAY -->
   <div id="dev-terminal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl hidden flex items-center justify-center pt-20 pb-20 px-4 opacity-0 transition-opacity duration-300">
@@ -811,7 +1311,7 @@ const renderSchema = (schemaData: object | object[] | undefined): string | null 
     }
 
     terminalInput.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter' || e.keyCode === 13) {
+        if(e.key === 'Enter') {
             e.preventDefault();
             executeCommand();
         }

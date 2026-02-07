@@ -4,7 +4,7 @@ import { isAdmin } from '../../../lib/auth';
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async ({ request: _request }) => {
   try {
     // Get session from Supabase client (browser-side)
     const { data: { session }, error } = await supabase.auth.getSession();

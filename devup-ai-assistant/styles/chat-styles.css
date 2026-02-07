@@ -1,0 +1,141 @@
+/**
+ * Chat Widget Styles
+ * 
+ * Add these styles to your global.css or tailwind.config.js
+ */
+
+/* ==========================================
+   REQUIRED CSS - Add to your global.css
+   ========================================== */
+
+/* Hide scrollbar for chat messages */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+/* Signal color variable (DevUp green) */
+:root {
+  --signal: #CCFF00;
+}
+
+/* If using TailwindCSS, add this to tailwind.config.js:
+   
+   theme: {
+     extend: {
+       colors: {
+         signal: '#CCFF00',
+       }
+     }
+   }
+*/
+
+/* ==========================================
+   OPTIONAL ENHANCEMENTS
+   ========================================== */
+
+/* Smooth animations for chat */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-message-animate {
+  animation: slideUp 0.3s ease-out;
+}
+
+/* Glow effect for floating button */
+.chat-button-glow {
+  box-shadow: 
+    0 0 20px rgba(204, 255, 0, 0.3),
+    0 0 40px rgba(204, 255, 0, 0.1);
+}
+
+.chat-button-glow:hover {
+  box-shadow: 
+    0 0 30px rgba(204, 255, 0, 0.5),
+    0 0 60px rgba(204, 255, 0, 0.2);
+}
+
+/* Typing indicator animation */
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-5px);
+  }
+}
+
+.typing-dot {
+  animation: typing 1s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* ==========================================
+   DARK THEME VARIANT (if not using TailwindCSS)
+   ========================================== */
+
+/* Chat panel styles without Tailwind */
+.chat-panel {
+  position: fixed;
+  bottom: 6rem;
+  right: 1.5rem;
+  width: 340px;
+  max-width: calc(100vw - 3rem);
+  height: 480px;
+  max-height: calc(100vh - 8rem);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(204, 255, 0, 0.3);
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(204, 255, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 90;
+}
+
+/* Chat toggle button without Tailwind */
+.chat-toggle {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  background: var(--signal);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(204, 255, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 90;
+}
+
+.chat-toggle:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 30px rgba(204, 255, 0, 0.5);
+}
+
+.chat-toggle:active {
+  transform: scale(0.95);
+}

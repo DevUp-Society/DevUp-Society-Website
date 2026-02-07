@@ -47,59 +47,6 @@ const otherLeads = coreTeam.filter(m =>
   m.id !== 'tm-014'    // Sanchit
 );
 
-// Generate Person schemas for all team members
-const generatePersonSchemas = () => {
-  return coreTeam.map(member => ({
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": member.name,
-    "jobTitle": member.role,
-    "image": member.photo || undefined,
-    "worksFor": {
-      "@type": ["Organization", "StudentOrganization"],
-      "name": "DevUp Society",
-      "url": "https://www.devupvjit.in",
-      "parentOrganization": {
-        "@type": "CollegeOrUniversity",
-        "name": "Vidya Jyothi Institute of Technology",
-        "alternateName": "VJIT",
-        "url": "https://vjit.ac.in"
-      }
-    },
-    "memberOf": [
-      {
-        "@type": "Organization",
-        "name": "DevUp Society",
-        "url": "https://www.devupvjit.in"
-      },
-      {
-        "@type": "CollegeOrUniversity",
-        "name": "Vidya Jyothi Institute of Technology",
-        "alternateName": "VJIT"
-      }
-    ],
-    "affiliation": {
-      "@type": "CollegeOrUniversity",
-      "name": "Vidya Jyothi Institute of Technology",
-      "alternateName": "VJIT",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Hyderabad",
-        "addressRegion": "Telangana",
-        "addressCountry": "IN"
-      }
-    },
-    "sameAs": [
-      member.socialLinks?.linkedin,
-      member.socialLinks?.github,
-      member.socialLinks?.instagram,
-      member.socialLinks?.twitter,
-      member.socialLinks?.portfolio
-    ].filter(Boolean),
-    "description": member.quote || `${member.role} at DevUp Society, VJIT Hyderabad`
-  }));
-};
-
 // Generate ItemList schema for the team page
 const teamListSchema = {
   "@context": "https://schema.org",
@@ -168,7 +115,7 @@ const combinedSchemas = [teamListSchema, breadcrumbSchema];
        {/* FACULTY ADVISORS - 3 COLUMN GRID */}
        {facultyAdvisors.length > 0 && (
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20">
-          {facultyAdvisors.map((member, index) => (
+          {facultyAdvisors.map((member) => (
             <div class="group relative">
               <div class="glass-panel p-8 clip-corner-tl hover:border-signal/30 transition-all h-full flex flex-col">
                 <!-- Photo -->

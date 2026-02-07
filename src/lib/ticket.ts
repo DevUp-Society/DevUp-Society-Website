@@ -26,7 +26,6 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
   // Colors - Updated for better visibility
   const signalYellow = rgb(0.8, 1, 0); // #ccff00
   const white = rgb(1, 1, 1);
-  const black = rgb(0, 0, 0);
   const darkBg = rgb(0.015, 0.015, 0.015); // Very dark #040404
   const cardBg = rgb(0.06, 0.06, 0.07); // #0f0f12
   const borderGray = rgb(0.2, 0.2, 0.21); // #333336
