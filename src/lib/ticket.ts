@@ -1,6 +1,6 @@
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import QRCode from 'qrcode';
-import type { TeamMember } from './resend';
+import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import QRCode from "qrcode";
+import type { TeamMember } from "./resend";
 
 interface TicketData {
   teamNumber: string;
@@ -195,7 +195,9 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
       color: labelGray,
     });
 
-    const membersList = data.teamMembers.map(m => typeof m === 'string' ? m : m.name).join(', ');
+    const membersList = data.teamMembers
+      .map((m) => (typeof m === "string" ? m : m.name))
+      .join(", ");
     const maxWidth = 250;
     let memberText = membersList;
 
