@@ -8,12 +8,7 @@ const SENDER_EMAIL = 'noreply@devupvjit.in'; // Use main domain, not send. subdo
 const REPLY_TO_EMAIL = 'devupsociety@gmail.com'; // Users can reply to this Gmail
 const SUPPORT_EMAIL = 'devupsociety@gmail.com';
 
-interface TeamMember {
-  name: string;
-  phone?: string;
-}
-
-interface TeamMember {
+export interface TeamMember {
   name: string;
   phone?: string;
 }
