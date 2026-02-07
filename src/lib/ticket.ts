@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
-import QRCode from "qrcode";
-=======
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import QRCode from 'qrcode';
 import type { TeamMember } from './resend';
->>>>>>> b29a5b1854d49719119855953f0686e67163ab5e
 
 interface TicketData {
   teamNumber: string;
