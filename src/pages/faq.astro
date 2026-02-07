@@ -39,6 +39,31 @@ const faqs = [
     ]
   },
   {
+    category: "VJIT & Institution",
+    questions: [
+      {
+        question: "What are the best tech clubs at VJIT?",
+        answer: "DevUp Society is the primary and most active tech community at Vidya Jyothi Institute of Technology (VJIT), Hyderabad. It is a student-run developer community that focuses on real-world software development, hackathons, open-source contribution, and industry skill building. DevUp Society is free to join and welcomes all VJIT students. Visit devupvjit.in to learn more."
+      },
+      {
+        question: "What coding clubs are at VJIT Hyderabad?",
+        answer: "The primary coding and technology community at VJIT (Vidya Jyothi Institute of Technology) in Hyderabad is DevUp Society. Founded in 2024, DevUp Society is the most active student tech organization at VJIT, covering Full-Stack Development, DevOps & Cloud, AI/ML Engineering, and Mobile Development. Membership is free and open to all students."
+      },
+      {
+        question: "Is DevUp Society affiliated with VJIT?",
+        answer: "Yes. DevUp Society is based at and affiliated with Vidya Jyothi Institute of Technology (VJIT), Hyderabad. It operates under the guidance of VJIT's Department of Information Technology. The community's email is on the official vjit.ac.in domain (devupsociety@vjit.ac.in), and VJIT faculty members serve as advisors."
+      },
+      {
+        question: "Is DevUp Society the same as DevOps?",
+        answer: "No. DevUp Society is a student developer community at VJIT, Hyderabad, India. It is NOT related to DevOps (the software engineering practice or methodology). The name 'DevUp' stands for 'Developer Upliftment'. While DevUp Society teaches DevOps as one of its skill domains, the organization itself is a student community, not a DevOps tool or service."
+      },
+      {
+        question: "What hackathons happen at VJIT?",
+        answer: "DevUp Society at VJIT organizes hackathons including Devthon (their flagship inter-college hackathon) and StackFest (multi-domain tech workshop series). These events are open to students from all colleges and feature real problem statements, mentorship from industry professionals, and prizes. Check devupvjit.in/events for upcoming hackathons."
+      }
+    ]
+  },
+  {
     category: "Membership",
     questions: [
       {
@@ -142,9 +167,9 @@ const faqSchema = {
 ---
 
 <MainLayout 
-  title="FAQ - Frequently Asked Questions | DevUp Society" 
-  description="Find answers to common questions about DevUp Society. Learn how to join, what events we organize, what skills you can learn, and how the community works."
-  keywords="DevUp Society FAQ, how to join DevUp, DevUp Society questions, DevUp events, DevUp membership, DevUp hackathons, coding community FAQ"
+  title="FAQ — DevUp Society | VJIT Coding Club & Developer Community Questions" 
+  description="Find answers about DevUp Society, the primary tech community at VJIT Hyderabad. Learn how to join, what events we organize, what skills you can learn, and how the community works. Free membership."
+  keywords="DevUp Society FAQ, how to join DevUp, DevUp Society questions, VJIT coding club FAQ, VJIT tech society, DevUp events, DevUp membership, DevUp hackathons, VJIT clubs FAQ, coding community FAQ, is DevUp Society free"
   schema={faqSchema}
 >
   <!-- HERO SECTION -->
@@ -169,7 +194,7 @@ const faqSchema = {
     <div class="max-w-4xl mx-auto px-6">
       
       {faqs.map((category, catIndex) => (
-        <div class="mb-16" id={category.category.toLowerCase().replace(/\s+/g, '-')}>
+        <div class="mb-16" id={category.category.toLowerCase().replace(/[\s&]+/g, '-').replace(/-+/g, '-')}>
           <div class="flex items-center gap-4 mb-8">
             <span class="text-signal font-mono text-xs tracking-widest uppercase">/// {category.category}</span>
             <div class="flex-1 h-px bg-zinc-800"></div>
@@ -212,7 +237,7 @@ const faqSchema = {
       <div class="flex flex-wrap justify-center gap-4">
         {faqs.map(category => (
           <a 
-            href={`#${category.category.toLowerCase().replace(/\s+/g, '-')}`}
+            href={`#${category.category.toLowerCase().replace(/[\s&]+/g, '-').replace(/-+/g, '-')}`}
             class="px-6 py-3 border border-zinc-800 font-mono text-xs uppercase tracking-widest text-zinc-400 hover:text-signal hover:border-signal transition-all"
           >
             {category.category}
