@@ -8,6 +8,16 @@ const SENDER_EMAIL = 'noreply@devupvjit.in'; // Use main domain, not send. subdo
 const REPLY_TO_EMAIL = 'devupsociety@gmail.com'; // Users can reply to this Gmail
 const SUPPORT_EMAIL = 'devupsociety@gmail.com';
 
+interface TeamMember {
+  name: string;
+  phone?: string;
+}
+
+interface TeamMember {
+  name: string;
+  phone?: string;
+}
+
 interface PendingEmailData {
   teamNumber: string;
   teamName: string;
@@ -16,7 +26,7 @@ interface PendingEmailData {
   teamSize: number;
   amount: number;
   transactionId: string;
-  teamMembers?: string[]; // Array of member names
+  teamMembers?: TeamMember[]; // Array of member objects with name and phone
 }
 
 interface VerifiedEmailData extends PendingEmailData {
@@ -219,7 +229,14 @@ export async function sendPendingEmail(data: PendingEmailData) {
                 ${data.teamMembers && data.teamMembers.length > 0 ? `
                 <div class="detail-row">
                   <div class="label">Team Members</div>
-                  <div class="value">${data.teamMembers.join(', ')}</div>
+                  <div class="value" style="line-height: 1.8;">
+                    ${data.teamMembers.map(m => `
+                      <div style="margin-bottom: 8px;">
+                        <strong style="color: #ffffff;">${m.name}</strong>
+                        ${m.phone ? `<span style="color: #a1a1aa; margin-left: 8px;">• ${m.phone}</span>` : ''}
+                      </div>
+                    `).join('')}
+                  </div>
                 </div>
                 ` : ''}
 
@@ -236,7 +253,7 @@ export async function sendPendingEmail(data: PendingEmailData) {
 
               <div class="info-box">
                 <p>
-                  We verify payments manually every evening. Once verified, you will receive a confirmation email with your event ticket and further details.
+                  We verify payments manually every evening. Once verified, you will receive a confirmation email with your event ticket, venue details, and WhatsApp group link.
                 </p>
               </div>
             </div>
@@ -515,7 +532,14 @@ export async function sendVerifiedEmail(data: VerifiedEmailData) {
                 ${data.teamMembers && data.teamMembers.length > 0 ? `
                 <div class="detail-row">
                   <div class="label">Team Members</div>
-                  <div class="value">${data.teamMembers.join(', ')}</div>
+                  <div class="value" style="line-height: 1.8;">
+                    ${data.teamMembers.map(m => `
+                      <div style="margin-bottom: 8px;">
+                        <strong style="color: #ffffff;">${m.name}</strong>
+                        ${m.phone ? `<span style="color: #a1a1aa; margin-left: 8px;">• ${m.phone}</span>` : ''}
+                      </div>
+                    `).join('')}
+                  </div>
                 </div>
                 ` : ''}
 
@@ -535,16 +559,19 @@ export async function sendVerifiedEmail(data: VerifiedEmailData) {
                 <p>📍 VJIT Campus, Hyderabad</p>
                 <p>🗓️ February 27-28, 2026</p>
                 <p>⏰ 36-hour Hackathon</p>
+                <p style="margin-top: 12px;">
+                  <a href="https://maps.app.goo.gl/1TVBQEfzYStHc3pn6" style="color: #ccff00; text-decoration: none; font-weight: 600;">🗺️ View Venue on Google Maps →</a>
+                </p>
               </div>
 
-              ${data.whatsappLink ? `
-              <div style="text-align: center; margin: 32px 0;">
-                <p class="message">Join our official WhatsApp group for event updates and announcements:</p>
-                <a href="${data.whatsappLink}" class="cta-button">
-                  📱 Join WhatsApp Group
+              <div style="background: linear-gradient(135deg, rgba(204, 255, 0, 0.12) 0%, rgba(204, 255, 0, 0.05) 100%); border: 2px solid #ccff00; border-radius: 8px; padding: 24px; margin: 24px 0; text-align: center;">
+                <p style="color: #ccff00; font-weight: 700; font-size: 16px; margin-bottom: 12px;">⚠️ IMPORTANT: Join WhatsApp Group</p>
+                <p style="color: #d4d4d8; margin-bottom: 16px; font-size: 14px;">It is <strong style="color: #ffffff;">mandatory</strong> to join our official WhatsApp group. All important updates, schedule changes, and announcements will be shared here.</p>
+                <a href="https://chat.whatsapp.com/ERAYANFQPlpEBrjgE6355i" style="background: #25D366; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: 700; font-size: 15px; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);">
+                  📱 Join WhatsApp Group Now
                 </a>
+                <p style="color: #a1a1aa; margin-top: 12px; font-size: 12px;">Don't miss out on important updates!</p>
               </div>
-              ` : ''}
 
               <div class="ticket-info">
                 <strong>📎 Your Event Ticket is Attached!</strong>

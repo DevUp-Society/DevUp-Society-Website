@@ -157,7 +157,10 @@ function determineConfidence(
 /**
  * Extracts relevant source page from the response
  */
-function extractSource(_response: string, question: string): string | undefined {
+function extractSource(
+  _response: string,
+  question: string,
+): string | undefined {
   const lowerQuestion = question.toLowerCase();
 
   if (

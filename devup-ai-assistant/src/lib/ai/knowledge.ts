@@ -1,11 +1,11 @@
 /**
  * Knowledge Context Builder
  * DevUp Society - Site-Restricted AI Assistant
- * 
+ *
  * Copy this file to: src/lib/ai/knowledge.ts
- * 
+ *
  * ⚠️ CUSTOMIZE THIS FILE: Update with YOUR organization's data!
- * 
+ *
  * This file builds the knowledge base that the AI uses to answer questions.
  * You can either:
  * 1. Import your existing data files (events.ts, team.ts)
@@ -24,13 +24,13 @@ import type { KnowledgeContext } from "./types";
 
 /**
  * Build the "About" section of the knowledge context
- * 
+ *
  * ⚠️ CUSTOMIZE: Update all information about your organization
  */
 function buildAboutContext(): string {
-    const { SITE } = AI_CONFIG;
-    
-    return `
+  const { SITE } = AI_CONFIG;
+
+  return `
 ## ABOUT DEVUP SOCIETY
 
 DevUp Society is a student-led tech community at ${SITE.institution} in ${SITE.location}.
@@ -78,15 +78,15 @@ CURRENT STATUS:
 
 /**
  * Build the "Events" section of the knowledge context
- * 
+ *
  * ⚠️ CUSTOMIZE: Add your events here
- * 
+ *
  * If you have an events.ts file, import it and use the data.
  * Otherwise, hardcode your events below.
  */
 function buildEventsContext(): string {
-    // Example hardcoded events - replace with your actual events
-    return `
+  // Example hardcoded events - replace with your actual events
+  return `
 ## EVENTS
 
 ### UPCOMING EVENTS:
@@ -121,11 +121,11 @@ function buildEventsContext(): string {
 
 /**
  * Build the "Team" section of the knowledge context
- * 
+ *
  * ⚠️ CUSTOMIZE: Add your team members here
  */
 function buildTeamContext(): string {
-    return `
+  return `
 ## TEAM MEMBERS
 
 ### FACULTY ADVISORS:
@@ -158,7 +158,7 @@ TOTAL TEAM SIZE: 60+ members across all teams
  * Build the "Pages" section - descriptions of website pages
  */
 function buildPagesContext(): string {
-    return `
+  return `
 ## WEBSITE PAGES
 
 ### HOME PAGE (/)
@@ -193,11 +193,11 @@ function buildPagesContext(): string {
 
 /**
  * Build the "FAQ" section - common questions and answers
- * 
+ *
  * ⚠️ CUSTOMIZE: Add your frequently asked questions
  */
 function buildFAQContext(): string {
-    return `
+  return `
 ## FREQUENTLY ASKED QUESTIONS
 
 Q: How do I join DevUp Society?
@@ -240,24 +240,24 @@ A: While based in the IT department at VJIT, DevUp welcomes students from CSE, E
  * This is called at request time to compile all site knowledge
  */
 export function buildKnowledgeContext(): string {
-    const sections: KnowledgeContext = {
-        about: buildAboutContext(),
-        events: buildEventsContext(),
-        team: buildTeamContext(),
-        pages: buildPagesContext(),
-        faq: buildFAQContext()
-    };
-    
-    // Combine all sections into a single context string
-    const fullContext = [
-        sections.about,
-        sections.events,
-        sections.team,
-        sections.pages,
-        sections.faq
-    ].join("\n\n---\n\n");
-    
-    return fullContext;
+  const sections: KnowledgeContext = {
+    about: buildAboutContext(),
+    events: buildEventsContext(),
+    team: buildTeamContext(),
+    pages: buildPagesContext(),
+    faq: buildFAQContext(),
+  };
+
+  // Combine all sections into a single context string
+  const fullContext = [
+    sections.about,
+    sections.events,
+    sections.team,
+    sections.pages,
+    sections.faq,
+  ].join("\n\n---\n\n");
+
+  return fullContext;
 }
 
 /**
@@ -265,12 +265,18 @@ export function buildKnowledgeContext(): string {
  * Useful for debugging or selective context injection
  */
 export function getKnowledgeSection(section: keyof KnowledgeContext): string {
-    switch (section) {
-        case "about": return buildAboutContext();
-        case "events": return buildEventsContext();
-        case "team": return buildTeamContext();
-        case "pages": return buildPagesContext();
-        case "faq": return buildFAQContext();
-        default: return "";
-    }
+  switch (section) {
+    case "about":
+      return buildAboutContext();
+    case "events":
+      return buildEventsContext();
+    case "team":
+      return buildTeamContext();
+    case "pages":
+      return buildPagesContext();
+    case "faq":
+      return buildFAQContext();
+    default:
+      return "";
+  }
 }

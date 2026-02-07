@@ -1,5 +1,5 @@
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import QRCode from 'qrcode';
+import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import QRCode from "qrcode";
 
 interface TicketData {
   teamNumber: string;
@@ -16,13 +16,13 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
   // Create a new PDF document
   const pdfDoc = await PDFDocument.create();
   const page = pdfDoc.addPage([600, 400]);
-  
+
   // Load fonts
   const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
   const regularFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
-  
+
   const { width, height } = page.getSize();
-  
+
   // Colors - Updated for better visibility
   const signalYellow = rgb(0.8, 1, 0); // #ccff00
   const white = rgb(1, 1, 1);
@@ -31,7 +31,7 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
   const borderGray = rgb(0.2, 0.2, 0.21); // #333336
   const textGray = rgb(0.63, 0.63, 0.67); // zinc-400
   const labelGray = rgb(0.44, 0.44, 0.48); // zinc-500
-  
+
   // Background
   page.drawRectangle({
     x: 0,
@@ -40,7 +40,7 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
     height,
     color: darkBg,
   });
-  
+
   // Decorative corner accents (top-left)
   page.drawLine({
     start: { x: 20, y: height - 20 },
@@ -54,7 +54,7 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
     thickness: 3,
     color: signalYellow,
   });
-  
+
   // Decorative corner accents (bottom-right)
   page.drawLine({
     start: { x: width - 20, y: 20 },
@@ -68,7 +68,7 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
     thickness: 3,
     color: signalYellow,
   });
-  
+
   // Main border
   page.drawRectangle({
     x: 15,
@@ -78,7 +78,7 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
     borderColor: borderGray,
     borderWidth: 1,
   });
-  
+
   // Header bar
   page.drawRectangle({
     x: 15,
@@ -87,7 +87,7 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
     height: 85,
     color: cardBg,
   });
-  
+
   // Accent line under header
   page.drawLine({
     start: { x: 30, y: height - 100 },
@@ -95,24 +95,24 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
     thickness: 2,
     color: signalYellow,
   });
-  
+
   // Event title
-  page.drawText('DEVTHON 2026', {
+  page.drawText("DEVTHON 2026", {
     x: 30,
     y: height - 40,
     size: 32,
     font: boldFont,
     color: white,
   });
-  
-  page.drawText('36-HOUR HACKATHON', {
+
+  page.drawText("36-HOUR HACKATHON", {
     x: 30,
     y: height - 65,
     size: 12,
     font: regularFont,
     color: signalYellow,
   });
-  
+
   // Team Number (top right)
   const teamNumWidth = boldFont.widthOfTextAtSize(data.teamNumber, 24);
   page.drawText(data.teamNumber, {
@@ -122,16 +122,16 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
     font: boldFont,
     color: signalYellow,
   });
-  
+
   // Content area - left side
   let yPos = height - 130;
   const leftX = 30;
   const labelSize = 9;
   const valueSize = 14;
   const lineHeight = 40;
-  
+
   // Team Name
-  page.drawText('TEAM NAME', {
+  page.drawText("TEAM NAME", {
     x: leftX,
     y: yPos,
     size: labelSize,
@@ -145,11 +145,11 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
     font: boldFont,
     color: white,
   });
-  
+
   yPos -= lineHeight;
-  
+
   // Team Lead
-  page.drawText('TEAM LEAD', {
+  page.drawText("TEAM LEAD", {
     x: leftX,
     y: yPos,
     size: labelSize,
@@ -163,11 +163,11 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
     font: regularFont,
     color: white,
   });
-  
+
   yPos -= lineHeight;
-  
+
   // Team Size
-  page.drawText('TEAM SIZE', {
+  page.drawText("TEAM SIZE", {
     x: leftX,
     y: yPos,
     size: labelSize,
@@ -181,32 +181,35 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
     font: regularFont,
     color: white,
   });
-  
+
   yPos -= lineHeight;
-  
+
   // Team Members
   if (data.teamMembers && data.teamMembers.length > 0) {
-    page.drawText('TEAM MEMBERS', {
+    page.drawText("TEAM MEMBERS", {
       x: leftX,
       y: yPos,
       size: labelSize,
       font: regularFont,
       color: labelGray,
     });
-    
-    const membersList = data.teamMembers.join(', ');
+
+    const membersList = data.teamMembers.join(", ");
     const maxWidth = 250;
     let memberText = membersList;
-    
+
     // Truncate if too long
     if (regularFont.widthOfTextAtSize(membersList, 12) > maxWidth) {
       let truncated = membersList;
-      while (regularFont.widthOfTextAtSize(truncated + '...', 12) > maxWidth && truncated.length > 10) {
-        truncated = truncated.substring(0, truncated.lastIndexOf(','));
+      while (
+        regularFont.widthOfTextAtSize(truncated + "...", 12) > maxWidth &&
+        truncated.length > 10
+      ) {
+        truncated = truncated.substring(0, truncated.lastIndexOf(","));
       }
-      memberText = truncated + '...';
+      memberText = truncated + "...";
     }
-    
+
     page.drawText(memberText, {
       x: leftX,
       y: yPos - 18,
@@ -214,12 +217,12 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
       font: regularFont,
       color: white,
     });
-    
+
     yPos -= lineHeight;
   }
-  
+
   // Event Details
-  page.drawText('EVENT DATE', {
+  page.drawText("EVENT DATE", {
     x: leftX,
     y: yPos,
     size: labelSize,
@@ -233,11 +236,11 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
     font: regularFont,
     color: white,
   });
-  
+
   yPos -= lineHeight;
-  
+
   // Venue
-  page.drawText('VENUE', {
+  page.drawText("VENUE", {
     x: leftX,
     y: yPos,
     size: labelSize,
@@ -251,7 +254,7 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
     font: regularFont,
     color: white,
   });
-  
+
   // QR Code - right side
   const qrCodeData = JSON.stringify({
     teamNumber: data.teamNumber,
@@ -260,24 +263,24 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
     eventName: data.eventName,
     verified: true,
   });
-  
+
   const qrCodeDataUrl = await QRCode.toDataURL(qrCodeData, {
     width: 150,
     margin: 1,
     color: {
-      dark: '#000000',
-      light: '#FFFFFF',
+      dark: "#000000",
+      light: "#FFFFFF",
     },
   });
-  
+
   // Embed QR code
-  const qrImageBytes = Buffer.from(qrCodeDataUrl.split(',')[1], 'base64');
+  const qrImageBytes = Buffer.from(qrCodeDataUrl.split(",")[1], "base64");
   const qrImage = await pdfDoc.embedPng(qrImageBytes);
-  
+
   const qrSize = 150;
   const qrX = width - qrSize - 40;
   const qrY = height - 280;
-  
+
   // QR code background
   page.drawRectangle({
     x: qrX - 10,
@@ -286,16 +289,16 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
     height: qrSize + 20,
     color: white,
   });
-  
+
   page.drawImage(qrImage, {
     x: qrX,
     y: qrY,
     width: qrSize,
     height: qrSize,
   });
-  
+
   // QR code label
-  const qrLabelText = 'SCAN FOR CHECK-IN';
+  const qrLabelText = "SCAN FOR CHECK-IN";
   const qrLabelWidth = regularFont.widthOfTextAtSize(qrLabelText, 10);
   page.drawText(qrLabelText, {
     x: qrX + (qrSize - qrLabelWidth) / 2,
@@ -304,25 +307,25 @@ export async function generateTicket(data: TicketData): Promise<Uint8Array> {
     font: boldFont,
     color: signalYellow,
   });
-  
+
   // Footer
-  page.drawText('DevUp Society | VJIT Hyderabad', {
+  page.drawText("DevUp Society | VJIT Hyderabad", {
     x: 30,
     y: 25,
     size: 10,
     font: regularFont,
     color: textGray,
   });
-  
+
   // Important notice with icon substitute
-  page.drawText('[!] IMPORTANT: Present this ticket at the venue for entry', {
+  page.drawText("[!] IMPORTANT: Present this ticket at the venue for entry", {
     x: width - 360,
     y: 25,
     size: 9,
     font: boldFont,
     color: signalYellow,
   });
-  
+
   // Save the PDF
   const pdfBytes = await pdfDoc.save();
   return pdfBytes;

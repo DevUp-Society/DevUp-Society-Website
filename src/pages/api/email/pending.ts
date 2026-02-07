@@ -8,11 +8,18 @@ export const POST: APIRoute = async ({ request }) => {
     // Parse the form data (since Astro handles this better than raw JSON)
     const formData = await request.formData();
     
-    // Parse team members if provided (comma-separated string)
+    // Parse team members if provided (JSON string)
     const teamMembersStr = formData.get('teamMembers') as string;
-    const teamMembers = teamMembersStr 
-      ? teamMembersStr.split(',').map(m => m.trim()).filter(m => m.length > 0)
-      : undefined;
+    let teamMembers = undefined;
+    if (teamMembersStr) {
+      try {
+        teamMembers = JSON.parse(teamMembersStr);
+      } catch (e) {
+        console.error('[EMAIL API] Failed to parse teamMembers:', e);
+        // Fallback to old format (comma-separated) for backward compatibility
+        teamMembers = teamMembersStr.split(',').map(m => ({ name: m.trim() })).filter(m => m.name.length > 0);
+      }
+    }
     
     const emailData = {
       teamNumber: formData.get('teamNumber') as string,

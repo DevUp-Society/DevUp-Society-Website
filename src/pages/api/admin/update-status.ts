@@ -83,10 +83,13 @@ export const POST: APIRoute = async ({ request }) => {
         // Get team members
         const { data: members } = await supabaseAdmin
           .from('team_members')
-          .select('name')
+          .select('name, phone')
           .eq('registration_id', id);
 
-        const teamMembers = members?.map(m => m.name) || [];
+        const teamMembers = members?.map(m => ({ 
+          name: m.name,
+          phone: m.phone 
+        })) || [];
 
         await sendVerifiedEmail({
           teamNumber: registration.team_number,

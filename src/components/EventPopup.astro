@@ -76,11 +76,11 @@ const { event } = Astro.props;
         <!-- Action Buttons -->
         <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <a 
-            href={event.registrationLink || `/events/${event.slug}/register`}
+            href={`/events/${event.slug}`}
             class="flex-1 group relative h-12 bg-signal text-black clip-corner flex items-center justify-center overflow-hidden btn-glitch"
           >
             <span class="relative z-10 font-mono text-xs font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] flex items-center gap-2">
-              Register Now
+              Learn More
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
