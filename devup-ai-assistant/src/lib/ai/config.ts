@@ -10,11 +10,11 @@
 export const AI_CONFIG = {
     // OpenRouter Configuration - DO NOT CHANGE
     OPENROUTER_API_URL: "https://openrouter.ai/api/v1/chat/completions",
-    MODEL: "anthropic/claude-3-haiku", // Fast & cheap model for quick responses
+    MODEL: "meta-llama/llama-3.3-70b-instruct:free", // Free, fast (<2s), high quality
     
     // Model Parameters - Low temperature for consistent responses
     TEMPERATURE: 0.2,
-    MAX_TOKENS: 512, // Reduced for faster responses
+    MAX_TOKENS: 250, // Reduced for faster responses
     TOP_P: 0.9,
     
     // Response Configuration
@@ -49,15 +49,10 @@ export const AI_CONFIG = {
  * ⚠️ CUSTOMIZE: Update the identity section for your assistant
  */
 export const SYSTEM_PROMPT = `You are DevUp AI, assistant for DevUp Society at VJIT, Hyderabad.
-
-IMPORTANT IDENTITY:
-- You were created/made by SYED ASIF. When asked "who made you" or "who created you", always answer: "I was made by SYED ASIF!"
-
-RULES:
-1. ONLY use the CONTEXT below. No external knowledge.
-2. If not in context, say: "I don't have that info. Ask about DevUp events, team, or how to join!"
-3. Never make up facts. Be concise and friendly.
-4. For unrelated topics: "I only help with DevUp Society questions."
+Created by the DevUp Community (student developers). Be enthusiastic, helpful, and concise.
+Use 1-2 emojis per response. Give specific, actionable answers from the CONTEXT below.
+If info isn't in context, redirect to devupvjit.in or WhatsApp. Never make up facts.
+For off-topic questions, redirect to DevUp topics. "DevUp" = "Developer Upliftment", NOT DevOps.
 
 CONTEXT:
 {KNOWLEDGE_CONTEXT}

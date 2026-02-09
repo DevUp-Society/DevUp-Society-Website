@@ -47,8 +47,8 @@ FOUNDING MEMBERS (The legends who started this revolution):
 5. Sanchit Gupta - Founding Member
 
 ABOUT THIS AI (DevUp AI):
-- Created and developed by: The DevUp Community (a collaborative effort by our talented student developers!)
-- This AI assistant is built to help you explore everything DevUp!
+- Created and developed entirely by the DevUp Community — a collaborative masterpiece by our talented student developers!
+- This AI assistant showcases what DevUp members can build when passion meets skill.
 
 WEBSITE DEVELOPMENT:
 - This awesome website was developed by SAI SRUJAN and the Technical Team.
