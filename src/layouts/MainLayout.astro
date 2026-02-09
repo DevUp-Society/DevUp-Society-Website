@@ -910,63 +910,52 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
 
     // --- CINEMATIC DECODING EFFECT ---
     // Replaces standard typewriter with a matrix-style decryption animation
-    function typeWriter(element, text, speed = 10) {
+    function typeWriter(element, text, speed = 3) {
       const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&";
       const tokens = text.match(/<[^>]+>|&[^;]+;|[^<]/g) || [];
       
-      let finalHTML = ""; // To reconstruct content safely
+      let finalHTML = "";
       let i = 0;
+      let batchSize = 1; // Accelerates over time
       
-      // Temporary span for the "decoding" character
       const decodeSpan = document.createElement('span');
       decodeSpan.className = "text-signal font-mono bg-signal/20 select-none";
       element.appendChild(decodeSpan);
 
       function type() {
-        if (i < tokens.length) {
+        if (i >= tokens.length) {
+           decodeSpan.remove();
+           chatMessages.scrollTop = chatMessages.scrollHeight;
+           return;
+        }
+        
+        // Process multiple tokens per frame for speed
+        let processed = 0;
+        while (i < tokens.length && processed < batchSize) {
           const token = tokens[i];
           const isTag = token.startsWith('<') || token.startsWith('&');
-          
-          if (isTag) {
-            finalHTML += token;
-            element.innerHTML = finalHTML; // Render tags immediately
-            element.appendChild(decodeSpan); // Keep decode cursor at end
-            i++;
-            requestAnimationFrame(type);
-          } else {
-             // Scramble effect for n frames before settling
-             let scrambleCount = 0;
-             const maxScrambles = 2; // Short duration for performance
-
-             function scramble() {
-                if (scrambleCount < maxScrambles) {
-                   decodeSpan.innerText = chars[Math.floor(Math.random() * chars.length)];
-                   scrambleCount++;
-                   setTimeout(scramble, 30);
-                } else {
-                   // Settle
-                   finalHTML += token;
-                   element.innerHTML = finalHTML;
-                   element.appendChild(decodeSpan); // Move cursor
-                   i++;
-                   
-                   // Sound Effect Trigger (Optional - keeping silent for now)
-                   // playClickSound();
-
-                   setTimeout(type, speed);
-                   
-                   // Auto scroll
-                   chatMessages.scrollTop = chatMessages.scrollHeight;
-                }
-             }
-             scramble();
-          }
-        } else {
-           // Done
-           decodeSpan.remove();
+          finalHTML += token;
+          i++;
+          if (!isTag) processed++;
         }
+        
+        // Quick scramble flash on the decode cursor
+        decodeSpan.innerText = chars[Math.floor(Math.random() * chars.length)];
+        element.innerHTML = finalHTML;
+        element.appendChild(decodeSpan);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Accelerate: start slow (1 char), ramp up to 4 chars per tick
+        if (i > tokens.length * 0.3) batchSize = 2;
+        if (i > tokens.length * 0.6) batchSize = 3;
+        if (i > tokens.length * 0.8) batchSize = 4;
+        
+        setTimeout(type, speed);
       }
-      type();
+      
+      // Initial scramble flash then start
+      decodeSpan.innerText = chars[Math.floor(Math.random() * chars.length)];
+      setTimeout(type, 50);
     }
 
     function addMessage(content, isUser = false, isError = false) {
@@ -981,8 +970,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
              <span class="text-[9px] uppercase tracking-widest text-white font-mono">YOU</span>
              <div class="w-1 h-1 bg-white rounded-full"></div>
           </div>
-          <div class="self-end max-w-[90%] bg-zinc-800/80 border border-white/10 p-3 rounded-2xl rounded-tr-sm backdrop-blur-sm shadow-sm">
-            <p class="text-[13px] text-white leading-relaxed font-sans">${escapeHtml(content)}</p>
+          <div class="self-end max-w-[90%] overflow-hidden bg-zinc-800/80 border border-white/10 p-3 rounded-2xl rounded-tr-sm backdrop-blur-sm shadow-sm">
+            <p class="text-[13px] text-white leading-relaxed font-sans break-words">${escapeHtml(content)}</p>
           </div>
         `;
         chatMessages.appendChild(msgDiv);
@@ -996,8 +985,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
              <span class="text-[9px] uppercase tracking-widest text-signal font-mono">DevUp AI</span>
              <span class="text-[9px] font-mono text-zinc-500">${timestamp}</span>
           </div>
-          <div class="self-start max-w-[90%] ${isError ? 'bg-red-900/10 border-red-500/50' : 'bg-zinc-900/40 border-white/5'} border p-4 rounded-2xl rounded-tl-sm backdrop-blur-sm shadow-sm group hover:border-signal/20 transition-colors">
-            <p class="text-[13px] ${isError ? 'text-red-300' : 'text-zinc-200'} leading-relaxed font-sans" id="typing-${Date.now()}"></p>
+          <div class="self-start max-w-[90%] overflow-hidden ${isError ? 'bg-red-900/10 border-red-500/50' : 'bg-zinc-900/40 border-white/5'} border p-4 rounded-2xl rounded-tl-sm backdrop-blur-sm shadow-sm group hover:border-signal/20 transition-colors">
+            <p class="text-[13px] ${isError ? 'text-red-300' : 'text-zinc-200'} leading-relaxed font-sans break-words [overflow-wrap:anywhere]" id="typing-${Date.now()}"></p>
           </div>
         `;
         

@@ -1,7 +1,7 @@
 /**
  * OpenRouter API Client for DevUp AI Assistant
- *
- * This client handles all communication with OpenRouter's API.
+ * Production-ready with model fallback, think-block stripping,
+ * and system-prompt compatibility for all model types.
  * Server-side only — never expose API keys to the client.
  */
 
@@ -15,13 +15,14 @@ import type {
   OpenRouterMessage,
 } from "./types";
 
-/**
- * OpenRouter error response structure
- */
+/** Models that do NOT support the "system" role */
+const NO_SYSTEM_ROLE_MODELS = ["google/gemma"];
+
+/** OpenRouter error response structure */
 interface OpenRouterErrorResponse {
   error?: {
     message?: string;
-    code?: string;
+    code?: number | string;
   };
 }
 
@@ -30,14 +31,12 @@ interface OpenRouterErrorResponse {
  */
 function validateEnvironment(): { valid: boolean; error?: string } {
   const apiKey = import.meta.env.OPENROUTER_API_KEY;
-
   if (!apiKey) {
     return {
       valid: false,
       error: "OPENROUTER_API_KEY environment variable is not set",
     };
   }
-
   return { valid: true };
 }
 
@@ -50,9 +49,47 @@ function buildSystemPrompt(): string {
 }
 
 /**
- * Makes a request to OpenRouter API
+ * Check if a model supports the system role
+ */
+function supportsSystemRole(model: string): boolean {
+  return !NO_SYSTEM_ROLE_MODELS.some((prefix) => model.startsWith(prefix));
+}
+
+/**
+ * Build messages array, adapting system prompt for models that don't support it
+ */
+function buildMessages(
+  model: string,
+  systemPrompt: string,
+  userMessage: string,
+): OpenRouterMessage[] {
+  if (supportsSystemRole(model)) {
+    return [
+      { role: "system", content: systemPrompt },
+      { role: "user", content: userMessage },
+    ];
+  }
+  // For models without system role support, prepend instructions to user message
+  return [
+    {
+      role: "user",
+      content: `[Instructions]\n${systemPrompt}\n[End Instructions]\n\nUser Question: ${userMessage}`,
+    },
+  ];
+}
+
+/**
+ * Strip <think>...</think> blocks from reasoning models (Qwen, DeepSeek, etc.)
+ */
+function stripThinkBlocks(text: string): string {
+  return text.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+}
+
+/**
+ * Makes a request to OpenRouter API with a specific model
  */
 async function callOpenRouter(
+  model: string,
   messages: OpenRouterMessage[],
 ): Promise<OpenRouterResponse> {
   const apiKey = import.meta.env.OPENROUTER_API_KEY;
@@ -60,46 +97,78 @@ async function callOpenRouter(
   const siteName = AI_CONFIG.SITE.name;
 
   const requestBody: OpenRouterRequest = {
-    model: AI_CONFIG.MODEL,
+    model,
     messages,
     temperature: AI_CONFIG.TEMPERATURE,
     max_tokens: AI_CONFIG.MAX_TOKENS,
     top_p: AI_CONFIG.TOP_P,
   };
 
-  const response = await fetch(AI_CONFIG.OPENROUTER_API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
-      "HTTP-Referer": siteUrl,
-      "X-Title": siteName,
-    },
-    body: JSON.stringify(requestBody),
-  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 12000); // 12s timeout
 
-  if (!response.ok) {
-    const errorBody = await response.text();
-    console.error("OpenRouter API Error:", {
-      status: response.status,
-      body: errorBody,
+  try {
+    const response = await fetch(AI_CONFIG.OPENROUTER_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+        "HTTP-Referer": siteUrl,
+        "X-Title": siteName,
+      },
+      body: JSON.stringify(requestBody),
+      signal: controller.signal,
     });
 
-    let errorMessage = `OpenRouter API error: ${response.status}`;
+    if (!response.ok) {
+      const errorBody = await response.text();
+      console.error(`OpenRouter Error [${model}]:`, {
+        status: response.status,
+        body: errorBody,
+      });
 
-    try {
-      const errorJson = JSON.parse(errorBody) as OpenRouterErrorResponse;
-      if (errorJson.error?.message) {
-        errorMessage = errorJson.error.message;
+      let errorMessage = `API error ${response.status}`;
+      try {
+        const errorJson = JSON.parse(errorBody) as OpenRouterErrorResponse;
+        if (errorJson.error?.message) {
+          errorMessage = errorJson.error.message;
+        }
+      } catch {
+        // use default
       }
-    } catch {
-      errorMessage = `OpenRouter API error: ${response.status} - ${response.statusText}`;
+      throw new Error(errorMessage);
     }
 
-    throw new Error(errorMessage);
+    return response.json() as Promise<OpenRouterResponse>;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+/**
+ * Try calling OpenRouter with model fallback chain
+ * If primary model fails, tries each fallback in order
+ */
+async function callWithFallback(
+  systemPrompt: string,
+  userMessage: string,
+): Promise<{ response: OpenRouterResponse; model: string }> {
+  const models = [AI_CONFIG.MODEL, ...AI_CONFIG.FALLBACK_MODELS];
+  let lastError: Error | null = null;
+
+  for (const model of models) {
+    try {
+      const messages = buildMessages(model, systemPrompt, userMessage);
+      const response = await callOpenRouter(model, messages);
+      return { response, model };
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+      console.warn(`Model ${model} failed, trying next...`, lastError.message);
+      continue;
+    }
   }
 
-  return response.json() as Promise<OpenRouterResponse>;
+  throw lastError || new Error("All models failed");
 }
 
 /**
@@ -108,9 +177,8 @@ async function callOpenRouter(
 function determineConfidence(
   response: string,
 ): "high" | "medium" | "low" | "none" {
-  const lowerResponse = response.toLowerCase();
+  const lower = response.toLowerCase();
 
-  // Low confidence indicators - redirect responses (but still helpful!)
   const redirectIndicators = [
     "check out devupvjit.in",
     "connect with us",
@@ -118,16 +186,11 @@ function determineConfidence(
     "reach out to our team",
     "for the latest details",
   ];
-
-  if (
-    redirectIndicators.some((indicator) => lowerResponse.includes(indicator)) &&
-    lowerResponse.length < 150
-  ) {
+  if (redirectIndicators.some((i) => lower.includes(i)) && lower.length < 150) {
     return "low";
   }
 
-  // High confidence - specific mentions of DevUp content
-  const highConfidenceIndicators = [
+  const highIndicators = [
     "devthon",
     "stackfest",
     "faizan",
@@ -142,12 +205,7 @@ function determineConfidence(
     "prize pool",
     "developer upliftment",
   ];
-
-  if (
-    highConfidenceIndicators.some((indicator) =>
-      lowerResponse.includes(indicator),
-    )
-  ) {
+  if (highIndicators.some((i) => lower.includes(i))) {
     return "high";
   }
 
@@ -161,59 +219,16 @@ function extractSource(
   _response: string,
   question: string,
 ): string | undefined {
-  const lowerQuestion = question.toLowerCase();
+  const q = question.toLowerCase();
 
-  if (
-    lowerQuestion.includes("event") ||
-    lowerQuestion.includes("devthon") ||
-    lowerQuestion.includes("stackfest") ||
-    lowerQuestion.includes("register") ||
-    lowerQuestion.includes("prize") ||
-    lowerQuestion.includes("hackathon")
-  ) {
+  if (/event|devthon|stackfest|register|prize|hackathon/.test(q))
     return "/events";
-  }
-
-  if (
-    lowerQuestion.includes("team") ||
-    lowerQuestion.includes("member") ||
-    lowerQuestion.includes("lead") ||
-    lowerQuestion.includes("who is") ||
-    lowerQuestion.includes("founder")
-  ) {
-    return "/team";
-  }
-
-  if (
-    lowerQuestion.includes("join") ||
-    lowerQuestion.includes("apply") ||
-    lowerQuestion.includes("become a member") ||
-    lowerQuestion.includes("how to join")
-  ) {
-    return "/join";
-  }
-
-  if (
-    lowerQuestion.includes("about") ||
-    lowerQuestion.includes("what is devup")
-  ) {
-    return "/about";
-  }
-
-  if (lowerQuestion.includes("faq") || lowerQuestion.includes("question")) {
-    return "/faq";
-  }
-
-  if (
-    lowerQuestion.includes("community") ||
-    lowerQuestion.includes("connect") ||
-    lowerQuestion.includes("social") ||
-    lowerQuestion.includes("instagram") ||
-    lowerQuestion.includes("linkedin") ||
-    lowerQuestion.includes("whatsapp")
-  ) {
+  if (/team|member|lead|who is|founder/.test(q)) return "/team";
+  if (/join|apply|become a member|how to join/.test(q)) return "/join";
+  if (/about|what is devup/.test(q)) return "/about";
+  if (/faq|question/.test(q)) return "/faq";
+  if (/community|connect|social|instagram|linkedin|whatsapp/.test(q))
     return "/community";
-  }
 
   return "/";
 }
@@ -245,7 +260,6 @@ export async function processAssistantRequest(
     };
   }
 
-  // Check message length
   if (userMessage.length > 500) {
     return {
       success: false,
@@ -256,23 +270,25 @@ export async function processAssistantRequest(
   }
 
   try {
-    // Build system prompt with knowledge context
     const systemPrompt = buildSystemPrompt();
 
-    // Build messages array
-    const messages: OpenRouterMessage[] = [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: userMessage },
-    ];
+    // Call OpenRouter with automatic model fallback
+    const { response: openRouterResponse } = await callWithFallback(
+      systemPrompt,
+      userMessage,
+    );
 
-    // Call OpenRouter
-    const openRouterResponse = await callOpenRouter(messages);
-
-    // Extract response
-    const assistantMessage = openRouterResponse.choices?.[0]?.message?.content;
-
+    // Extract response content
+    let assistantMessage = openRouterResponse.choices?.[0]?.message?.content;
     if (!assistantMessage) {
       throw new Error("No response content received from AI model");
+    }
+
+    // Strip <think> blocks from reasoning models
+    assistantMessage = stripThinkBlocks(assistantMessage);
+
+    if (!assistantMessage) {
+      throw new Error("Empty response after processing");
     }
 
     // Determine confidence and source
@@ -290,7 +306,6 @@ export async function processAssistantRequest(
     };
   } catch (error) {
     console.error("AI Assistant Error:", error);
-
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error occurred";
 
@@ -304,7 +319,7 @@ export async function processAssistantRequest(
 }
 
 /**
- * Utility function to check if the assistant is properly configured
+ * Check if the assistant is properly configured
  */
 export function isAssistantConfigured(): boolean {
   return validateEnvironment().valid;
