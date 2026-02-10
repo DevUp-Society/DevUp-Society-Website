@@ -503,10 +503,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
   <!-- ICONS -->
   <!-- Iconify script removed for production bundling -->
   
-  <!-- GSAP -->
+  <!-- GSAP (TextPlugin removed - causes window property errors) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
   
   <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -807,9 +806,28 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
       
       <!-- Core -->
       <div id="ai-btn-surface" class="orb-core flex items-center justify-center transition-all duration-300 group-hover:shadow-[0_0_70px_var(--signal),0_0_100px_rgba(204,255,0,0.3)]">
-        <!-- Chat Icon -->
+        <!-- AI Bot Icon -->
         <svg id="ai-btn-chat-icon" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 transition-all duration-300 group-hover:scale-0 group-hover:opacity-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          <!-- Antenna -->
+          <line x1="12" y1="2" x2="12" y2="4"/>
+          <circle cx="12" cy="2" r="1" fill="currentColor"/>
+          <!-- Head -->
+          <rect x="7" y="4" width="10" height="8" rx="1"/>
+          <!-- Eyes -->
+          <circle cx="9.5" cy="8" r="1" fill="currentColor"/>
+          <circle cx="14.5" cy="8" r="1" fill="currentColor"/>
+          <!-- Body -->
+          <rect x="8" y="12" width="8" height="6" rx="1"/>
+          <!-- Arms -->
+          <line x1="8" y1="14" x2="5" y2="14"/>
+          <line x1="16" y1="14" x2="19" y2="14"/>
+          <circle cx="5" cy="14" r="0.5" fill="currentColor"/>
+          <circle cx="19" cy="14" r="0.5" fill="currentColor"/>
+          <!-- Legs -->
+          <line x1="10" y1="18" x2="10" y2="21"/>
+          <line x1="14" y1="18" x2="14" y2="21"/>
+          <line x1="9" y1="21" x2="11" y2="21"/>
+          <line x1="13" y1="21" x2="15" y2="21"/>
         </svg>
         
 
@@ -1075,7 +1093,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
         .replace(/\n/g, '<br>');
     }
 
-    async function sendMessage(message) {
+    async function sendMessage(message, retryCount = 0) {
       if (isLoading || !message.trim()) return;
 
       isLoading = true;
@@ -1093,12 +1111,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
         const response = await fetch('/api/assistant', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: message.trim() })
+          body: JSON.stringify({ message: message.trim() }),
+          // Disable cache to prevent stale responses
+          cache: 'no-store'
         });
 
         removeLoading();
 
         if (!response.ok) {
+          // Specific error for 500 (likely API key not configured)
+          if (response.status === 500) {
+            throw new Error('AI_NOT_CONFIGURED');
+          }
           throw new Error('HTTP ' + response.status);
         }
 
@@ -1112,7 +1136,23 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
       } catch (error) {
         removeLoading();
         console.error('AI Chat Error:', error);
-        addMessage('NETWORK ERROR: Connection Failed.', false, true);
+        
+        // Retry logic for transient failures (max 2 retries)
+        if (retryCount < 2 && !(error instanceof Error && error.message === 'AI_NOT_CONFIGURED')) {
+          console.log(`Retrying... Attempt ${retryCount + 1}/2`);
+          // Wait 1 second before retry
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          return sendMessage(message, retryCount + 1);
+        }
+        
+        // Friendly error messages
+        if (error instanceof Error && error.message === 'AI_NOT_CONFIGURED') {
+          addMessage('⚠️ AI Assistant needs setup. Please redeploy on Vercel without build cache. Go to Deployments → ⋯ → Redeploy → Uncheck "Use existing Build Cache".', false, true);
+        } else if (error instanceof Error && error.message.includes('HTTP 429')) {
+          addMessage('⏱️ Rate limit reached. Please wait a moment before trying again.', false, true);
+        } else {
+          addMessage('NETWORK ERROR: Connection failed after retries. Please check your internet or try again later.', false, true);
+        }
       } finally {
         isLoading = false;
         sendBtn.disabled = false;

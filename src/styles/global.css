@@ -78,6 +78,22 @@ body {
   );
 }
 
+/* Carousel Animations */
+.carousel-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-track {
+  display: flex;
+  will-change: transform;
+  transition: transform 0.05s linear;
+}
+
+.carousel-item {
+  flex-shrink: 0;
+}
+
 .animate-float {
   animation: float-y 3s ease-in-out infinite;
 }
