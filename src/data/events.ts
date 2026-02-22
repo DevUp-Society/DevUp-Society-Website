@@ -138,10 +138,18 @@ export const events: Event[] = [
             { id: 3, type: "Bronze", amount: "₹25,000", perks: ["Trophy", "Swag Kit", "Certificate"] }
         ],
         themes: [
-            { title: "Smart City", description: "Solutions for urban challenges." },
-            { title: "HealthTech", description: "Innovating healthcare with AI." },
-            { title: "EdTech", description: "Revolutionizing learning." },
-            { title: "Open Innovation", description: "Build what you believe in." }
+            { title: "Medical & Healthcare", description: "Innovate solutions for healthcare delivery, diagnostics, telemedicine, and patient care systems." },
+            { title: "Agriculture", description: "Build tech for smart farming, crop monitoring, supply chain optimization, and farmer support." },
+            { title: "Welfare & Social Impact", description: "Create solutions addressing poverty, education access, employment, and community welfare." },
+            { title: "Women Safety", description: "Develop safety apps, alert systems, support networks, and empowerment platforms." },
+            { title: "Open Innovation", description: "Build anything innovative that solves real-world problems—your vision, your way." },
+            { title: "Everyday Problems", description: "Solve daily life challenges with simple, practical, and user-friendly solutions." },
+            { title: "Simple AI-Assisted Apps", description: "Leverage AI for automation, recommendations, chatbots, and intelligent user experiences." },
+            { title: "Student Utilities", description: "Tools for academic management, collaboration, learning resources, and campus life." },
+            { title: "Business Automation", description: "Streamline workflows, billing, inventory, CRM, and enterprise operations with tech." },
+            { title: "Travel & Tourism", description: "Enhance travel planning, local discovery, booking systems, and traveler experiences." },
+            { title: "Transportation", description: "Innovate in logistics, public transit, ride-sharing, delivery systems, and mobility." },
+            { title: "Emergency & Crisis Support", description: "Build systems for disaster response, emergency alerts, rescue coordination, and crisis management." }
         ],
         faqs: [
             { question: "Team Size?", answer: "2-4 Members. You can't participate alone." },

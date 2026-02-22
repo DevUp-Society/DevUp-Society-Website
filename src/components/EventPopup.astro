@@ -137,6 +137,13 @@ const { event } = Astro.props;
         
         setTimeout(() => {
           overlay.classList.add('pointer-events-none');
+          
+          // Open AI chatbot after 600ms to let popup fully close
+          setTimeout(() => {
+            if (window.openAIChat && typeof window.openAIChat === 'function') {
+              window.openAIChat();
+            }
+          }, 600);
         }, 300);
       };
 

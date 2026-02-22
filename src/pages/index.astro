@@ -345,43 +345,207 @@ const nextEvent = upcomingEvents.length > 0 ? upcomingEvents[0] : null;
     </div>
   </section>
 
-  <!-- PARTNERS / ORGANIZERS -->
-  <section class="py-20 bg-void border-t border-zinc-900 relative">
-    <div class="max-w-5xl mx-auto px-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+  <!-- COLLABORATORS & PARTNERS CAROUSEL -->
+  <section class="py-24 bg-void border-t border-zinc-900 relative overflow-hidden">
+    <!-- Background Grid -->
+    <div class="absolute inset-0 bg-[linear-gradient(rgba(204,255,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(204,255,0,0.02)_1px,transparent_1px)] bg-[size:30px_30px] opacity-30 pointer-events-none"></div>
+    
+    <!-- Ambient Glow -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-signal/5 blur-[150px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <!-- Section Header -->
+      <div class="text-center mb-16 space-y-4">
+        <div class="flex items-center justify-center gap-4 mb-6">
+          <div class="h-px w-16 bg-zinc-800"></div>
+          <div class="flex items-center gap-3">
+            <div class="w-2 h-2 bg-signal rounded-full animate-pulse shadow-[0_0_10px_var(--signal)]"></div>
+            <h2 class="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em]">
+              Network
+            </h2>
+          </div>
+          <div class="h-px w-16 bg-zinc-800"></div>
+        </div>
         
-        <!-- Organized By -->
-        <div class="text-center space-y-6">
-          <h3 class="font-mono text-xs text-zinc-400 uppercase tracking-widest mb-4">
-            Organized by
-          </h3>
-          <div class="glass-panel p-8 clip-corner bg-white/5 hover:bg-white/10 transition-colors inline-block">
-            <img 
-              src="https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770106897/IEC-Logo_cxbv77.png" 
-              alt="IEC Logo" 
-              class="h-24 w-auto mx-auto filter brightness-0 invert"
-            />
-          </div>
-          <p class="font-mono text-xs text-signal uppercase tracking-wider">IEC</p>
-        </div>
+        <h3 class="font-display text-5xl md:text-6xl font-bold text-white leading-tight tracking-tight">
+          Collaborators & <span class="text-transparent text-stroke-signal">Partners</span>
+        </h3>
+        
+        <p class="font-mono text-sm text-zinc-500 max-w-2xl mx-auto leading-relaxed">
+          Empowering innovation through strategic partnerships and ecosystem collaboration
+        </p>
+      </div>
 
-        <!-- Startup Ecosystems Partner -->
-        <div class="text-center space-y-6">
-          <h3 class="font-mono text-xs text-zinc-400 uppercase tracking-widest mb-4">
-            Startup Ecosystems Partner
-          </h3>
-          <div class="glass-panel p-8 clip-corner bg-white/5 hover:bg-white/10 transition-colors inline-block">
-            <img 
-              src="https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770106897/Startups_India_Logo_ba8vml.png" 
-              alt="Startup India Logo" 
-              class="h-24 w-auto mx-auto filter brightness-0 invert"
-            />
-          </div>
-          <p class="font-mono text-xs text-signal uppercase tracking-wider">Startup India</p>
-        </div>
+      <!-- Carousel Container -->
+      <div class="relative">
+        <!-- Gradient Fade Edges -->
+        <div class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#030303] to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#030303] to-transparent z-10 pointer-events-none"></div>
+        
+        <!-- Carousel Track -->
+        <div class="carousel-container overflow-hidden">
+          <div class="carousel-track flex gap-8 py-8" id="partners-carousel">
+            <!-- Partner Card: IEC -->
+            <div class="carousel-item flex-shrink-0 w-80">
+              <div class="glass-panel h-full p-8 clip-corner bg-zinc-900/40 border border-zinc-800/50 hover:border-signal/30 hover:bg-zinc-800/40 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(204,255,0,0.1)] group">
+                <div class="flex flex-col items-center justify-center space-y-6 h-full">
+                  <div class="relative w-full h-32 flex items-center justify-center">
+                    <img 
+                      src="https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770106897/IEC-Logo_cxbv77.png" 
+                      alt="IEC Logo" 
+                      class="h-full w-auto object-contain filter brightness-0 invert group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div class="text-center space-y-2">
+                    <p class="font-mono text-base text-signal uppercase tracking-wider font-bold">IEC</p>
+                    <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
+                      Organizing Partner
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
+            <!-- Partner Card: Startup India -->
+            <div class="carousel-item flex-shrink-0 w-80">
+              <div class="glass-panel h-full p-8 clip-corner bg-zinc-900/40 border border-zinc-800/50 hover:border-signal/30 hover:bg-zinc-800/40 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(204,255,0,0.1)] group">
+                <div class="flex flex-col items-center justify-center space-y-6 h-full">
+                  <div class="relative w-full h-32 flex items-center justify-center">
+                    <img 
+                      src="https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770106897/Startups_India_Logo_ba8vml.png" 
+                      alt="Startup India Logo" 
+                      class="h-full w-auto object-contain filter brightness-0 invert group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div class="text-center space-y-2">
+                    <p class="font-mono text-base text-signal uppercase tracking-wider font-bold">Startup India</p>
+                    <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
+                      Startup Ecosystems Partner
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Partner Card: VJIT -->
+            <div class="carousel-item flex-shrink-0 w-80">
+              <div class="glass-panel h-full p-8 clip-corner bg-zinc-900/40 border border-zinc-800/50 hover:border-signal/30 hover:bg-zinc-800/40 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(204,255,0,0.1)] group">
+                <div class="flex flex-col items-center justify-center space-y-6 h-full">
+                  <div class="relative w-full h-32 flex items-center justify-center">
+                    <img 
+                      src="https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770701540/vjit_logo_obr7zf.png" 
+                      alt="VJIT Logo" 
+                      class="h-full w-auto object-contain filter brightness-0 invert group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div class="text-center space-y-2">
+                    <p class="font-mono text-base text-signal uppercase tracking-wider font-bold">VJIT</p>
+                    <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
+                      Institutional Partner
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Duplicate cards for seamless loop -->
+            <div class="carousel-item flex-shrink-0 w-80">
+              <div class="glass-panel h-full p-8 clip-corner bg-zinc-900/40 border border-zinc-800/50 hover:border-signal/30 hover:bg-zinc-800/40 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(204,255,0,0.1)] group">
+                <div class="flex flex-col items-center justify-center space-y-6 h-full">
+                  <div class="relative w-full h-32 flex items-center justify-center">
+                    <img 
+                      src="https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770106897/IEC-Logo_cxbv77.png" 
+                      alt="IEC Logo" 
+                      class="h-full w-auto object-contain filter brightness-0 invert group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div class="text-center space-y-2">
+                    <p class="font-mono text-base text-signal uppercase tracking-wider font-bold">IEC</p>
+                    <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
+                      Organizing Partner
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="carousel-item flex-shrink-0 w-80">
+              <div class="glass-panel h-full p-8 clip-corner bg-zinc-900/40 border border-zinc-800/50 hover:border-signal/30 hover:bg-zinc-800/40 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(204,255,0,0.1)] group">
+                <div class="flex flex-col items-center justify-center space-y-6 h-full">
+                  <div class="relative w-full h-32 flex items-center justify-center">
+                    <img 
+                      src="https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770106897/Startups_India_Logo_ba8vml.png" 
+                      alt="Startup India Logo" 
+                      class="h-full w-auto object-contain filter brightness-0 invert group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div class="text-center space-y-2">
+                    <p class="font-mono text-base text-signal uppercase tracking-wider font-bold">Startup India</p>
+                    <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
+                      Startup Ecosystems Partner
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="carousel-item flex-shrink-0 w-80">
+              <div class="glass-panel h-full p-8 clip-corner bg-zinc-900/40 border border-zinc-800/50 hover:border-signal/30 hover:bg-zinc-800/40 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(204,255,0,0.1)] group">
+                <div class="flex flex-col items-center justify-center space-y-6 h-full">
+                  <div class="relative w-full h-32 flex items-center justify-center">
+                    <img 
+                      src="https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770701540/vjit_logo_obr7zf.png" 
+                      alt="VJIT Logo" 
+                      class="h-full w-auto object-contain filter brightness-0 invert group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div class="text-center space-y-2">
+                    <p class="font-mono text-base text-signal uppercase tracking-wider font-bold">VJIT</p>
+                    <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
+                      Institutional Partner
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- Carousel Animation Script -->
+    <script is:inline>
+      (function() {
+        const carousel = document.getElementById('partners-carousel');
+        if (!carousel) return;
+        
+        let scrollPosition = 0;
+        const scrollSpeed = 0.5; // pixels per frame
+        let isPaused = false;
+        
+        // Pause on hover
+        carousel.addEventListener('mouseenter', () => { isPaused = true; });
+        carousel.addEventListener('mouseleave', () => { isPaused = false; });
+        
+        function autoScroll() {
+          if (!isPaused) {
+            scrollPosition += scrollSpeed;
+            
+            // Reset when first set of items is out of view
+            const itemWidth = 320 + 32; // 80 (w-80) * 4 (rem to px) + gap
+            if (scrollPosition >= itemWidth * 3) { // 3 original items
+              scrollPosition = 0;
+            }
+            
+            carousel.style.transform = `translateX(-${scrollPosition}px)`;
+          }
+          
+          requestAnimationFrame(autoScroll);
+        }
+        
+        autoScroll();
+      })();
+    </script>
   </section>
 
   <!-- CONTACT / CTA -->

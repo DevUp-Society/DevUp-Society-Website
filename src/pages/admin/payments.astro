@@ -264,7 +264,7 @@ export const prerender = false;
       syncSheetsBtn.querySelector('span').textContent = 'Syncing...';
       syncSheetsBtn.style.opacity = '0.6';
       
-      const response = await fetch('https://devup-society-website.onrender.com/api/sync-sheets', {
+      const response = await fetch('/api/registrations/sync-sheets', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

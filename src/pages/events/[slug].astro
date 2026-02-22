@@ -294,11 +294,11 @@ const metaDescription = event.isHackathon
 
       <!-- EVENT POSTER -->
       <section class="py-16 bg-void border-b border-zinc-900">
-        <div class="max-w-5xl mx-auto px-6">
+        <div class="max-w-3xl mx-auto px-6">
           <div class="mb-8 text-center">
             <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Event Poster</span>
           </div>
-          <div class="relative w-full overflow-hidden border border-zinc-800 bg-zinc-900">
+          <div class="relative w-full max-w-2xl mx-auto overflow-hidden border-2 border-zinc-800 bg-zinc-900 clip-corner shadow-[0_0_50px_rgba(204,255,0,0.1)]">
             <img 
               src="https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770480533/WhatsApp_Image_2026-02-05_at_2.59.57_PM_nmnwtl.jpg" 
               alt="{event.title} Event Poster"
@@ -308,6 +308,91 @@ const metaDescription = event.isHackathon
           </div>
         </div>
       </section>
+
+      <!-- HACKATHON THEMES -->
+      {event.themes && event.themes.length > 0 && (
+        <section class="py-28 bg-[#050505] border-b border-zinc-900 relative overflow-hidden">
+          {/* Grid Background */}
+          <div class="absolute inset-0 opacity-[0.02] pointer-events-none" style="background-image: radial-gradient(circle, #CCFF00 1px, transparent 1px); background-size: 30px 30px;"></div>
+          
+          {/* Ambient Glow */}
+          <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-signal/5 blur-[150px] rounded-full pointer-events-none"></div>
+
+          <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="mb-16 text-center">
+              <span class="inline-flex items-center gap-2 px-4 py-2 border-2 border-signal/30 bg-signal/5 clip-corner mb-6">
+                <Icon name="lucide:lightbulb" class="text-signal text-lg" />
+                <span class="text-signal font-mono text-xs tracking-widest uppercase font-bold">Choose Your Challenge</span>
+              </span>
+              <h2 class="font-display text-5xl md:text-6xl text-white font-bold mb-4">HACKATHON THEMES</h2>
+              <p class="font-mono text-zinc-400 text-sm max-w-2xl mx-auto">Pick a domain that excites you and build solutions that matter. From healthcare to AI, agriculture to emergency response—your innovation starts here.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {event.themes.map((theme, index) => (
+                <div class="group glass-panel p-6 clip-corner border-2 border-zinc-800 hover:border-signal/60 bg-zinc-900/40 hover:bg-zinc-900/70 transition-all duration-500 hover:shadow-[0_0_40px_rgba(204,255,0,0.15)] hover:-translate-y-1 relative overflow-hidden">
+                  {/* Accent Bar */}
+                  <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-signal via-signal/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  
+                  {/* Theme Number Badge */}
+                  <div class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center border border-zinc-700 group-hover:border-signal/50 bg-black/50 clip-corner transition-colors">
+                    <span class="font-mono text-[10px] text-zinc-600 group-hover:text-signal transition-colors">{String(index + 1).padStart(2, '0')}</span>
+                  </div>
+
+                  {/* Icon based on theme */}
+                  <div class="mb-4">
+                    {theme.title.includes('Medical') || theme.title.includes('Health') ? (
+                      <Icon name="lucide:heart-pulse" class="text-4xl text-signal/70 group-hover:text-signal transition-colors" />
+                    ) : theme.title.includes('Agriculture') ? (
+                      <Icon name="lucide:sprout" class="text-4xl text-signal/70 group-hover:text-signal transition-colors" />
+                    ) : theme.title.includes('Welfare') || theme.title.includes('Social') ? (
+                      <Icon name="lucide:users" class="text-4xl text-signal/70 group-hover:text-signal transition-colors" />
+                    ) : theme.title.includes('Women') ? (
+                      <Icon name="lucide:shield-check" class="text-4xl text-signal/70 group-hover:text-signal transition-colors" />
+                    ) : theme.title.includes('Innovation') ? (
+                      <Icon name="lucide:sparkles" class="text-4xl text-signal/70 group-hover:text-signal transition-colors" />
+                    ) : theme.title.includes('Everyday') ? (
+                      <Icon name="lucide:home" class="text-4xl text-signal/70 group-hover:text-signal transition-colors" />
+                    ) : theme.title.includes('AI') ? (
+                      <Icon name="lucide:bot" class="text-4xl text-signal/70 group-hover:text-signal transition-colors" />
+                    ) : theme.title.includes('Student') ? (
+                      <Icon name="lucide:graduation-cap" class="text-4xl text-signal/70 group-hover:text-signal transition-colors" />
+                    ) : theme.title.includes('Business') ? (
+                      <Icon name="lucide:briefcase" class="text-4xl text-signal/70 group-hover:text-signal transition-colors" />
+                    ) : theme.title.includes('Travel') ? (
+                      <Icon name="lucide:plane" class="text-4xl text-signal/70 group-hover:text-signal transition-colors" />
+                    ) : theme.title.includes('Transportation') ? (
+                      <Icon name="lucide:truck" class="text-4xl text-signal/70 group-hover:text-signal transition-colors" />
+                    ) : theme.title.includes('Emergency') ? (
+                      <Icon name="lucide:siren" class="text-4xl text-signal/70 group-hover:text-signal transition-colors" />
+                    ) : (
+                      <Icon name="lucide:zap" class="text-4xl text-signal/70 group-hover:text-signal transition-colors" />
+                    )}
+                  </div>
+
+                  {/* Theme Content */}
+                  <h3 class="font-display text-xl text-white font-bold mb-3 group-hover:text-signal transition-colors">
+                    {theme.title}
+                  </h3>
+                  <p class="font-mono text-xs text-zinc-400 leading-relaxed group-hover:text-zinc-300 transition-colors">
+                    {theme.description}
+                  </p>
+
+                  {/* Hover Effect Line */}
+                  <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-signal group-hover:w-full transition-all duration-500"></div>
+                </div>
+              ))}
+            </div>
+
+            {/* Additional Info */}
+            <div class="mt-12 text-center">
+              <p class="font-mono text-zinc-500 text-xs">
+                <span class="text-signal">💡 Pro Tip:</span> You can pick any theme or even combine multiple domains for your project!
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
 
       <!-- STATS BAR -->
       {event.stats && (
