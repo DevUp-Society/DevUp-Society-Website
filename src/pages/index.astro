@@ -53,18 +53,32 @@ const nextEvent = upcomingEvents.length > 0 ? upcomingEvents[0] : null;
       </div>
 
       <!-- Main Title -->
-      <h1 class="font-display font-bold leading-[0.8] tracking-tighter mb-8 mix-blend-screen relative perspective-1000">
+      <h1 class="font-display font-bold leading-[0.8] tracking-tighter mb-4 mix-blend-screen relative perspective-1000">
         <div class="overflow-hidden">
           <span class="block text-[13vw] md:text-[11vw] hero-title animate-[slideUp_1s_cubic-bezier(0.16,1,0.3,1)_0.5s_both] scramble-target" data-original="DEVUP">
             DEVUP
           </span>
         </div>
-        <div class="overflow-hidden flex items-center justify-center gap-2 md:gap-6">
+        <div class="overflow-hidden flex items-center justify-center">
           <span class="block text-[13vw] md:text-[11vw] text-stroke-white animate-[slideUp_1s_cubic-bezier(0.16,1,0.3,1)_0.6s_both] scramble-target" data-original="SOCIETY">
             SOCIETY
           </span>
         </div>
       </h1>
+
+      <!-- VJIT Badge Link -->
+      <div class="flex justify-center mb-6 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.9s_forwards]">
+        <a
+          href="https://vjit.ac.in"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-4 py-1.5 border border-signal/50 bg-signal/5 hover:bg-signal/15 hover:border-signal transition-all duration-300 font-mono text-[11px] text-signal uppercase tracking-[0.3em] clip-corner group"
+        >
+          <span class="w-1.5 h-1.5 rounded-full bg-signal animate-pulse"></span>
+          VJIT
+          <Icon name="lucide:arrow-up-right" class="w-3 h-3 text-signal group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+        </a>
+      </div>
 
       <!-- Subheadline -->
       <div class="max-w-xl mx-auto space-y-8 opacity-0 animate-[fadeIn_1s_ease-out_1s_forwards]">
@@ -94,7 +108,7 @@ const nextEvent = upcomingEvents.length > 0 ? upcomingEvents[0] : null;
         <div class="flex flex-col md:flex-row items-center justify-center gap-6">
           <a href="/join" class="group relative w-64 h-14 bg-signal text-black clip-corner flex items-center justify-center overflow-hidden btn-glitch">
             <span class="relative z-10 font-mono text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-3">
-              Join DevUp
+              Join DevUp VJIT
               <Icon name="lucide:chevron-right" />
             </span>
           </a>
@@ -168,12 +182,35 @@ const nextEvent = upcomingEvents.length > 0 ? upcomingEvents[0] : null;
   });
 </script>
 
-  <!-- MARQUEE -->
-  <div class="py-6 bg-signal border-y border-black relative z-30 -skew-y-1 origin-left overflow-hidden">
-    <div class="marquee-wrapper">
-      <div class="marquee-track">
-        <span class="font-display text-4xl font-bold uppercase tracking-tight text-black mx-8">/// 100+ PROJECTS SHIPPED /// ZERO EXCUSES /// HANDS-ON LEARNING /// REAL WORLD SKILLS /// 100+ PROJECTS SHIPPED /// ZERO EXCUSES /// HANDS-ON LEARNING /// REAL WORLD SKILLS</span>
-        <span class="font-display text-4xl font-bold uppercase tracking-tight text-black mx-8">/// 100+ PROJECTS SHIPPED /// ZERO EXCUSES /// HANDS-ON LEARNING /// REAL WORLD SKILLS /// 100+ PROJECTS SHIPPED /// ZERO EXCUSES /// HANDS-ON LEARNING /// REAL WORLD SKILLS</span>
+  <!-- MARQUEES SECTION -->
+  <div class="relative z-30 flex flex-col pt-8 pb-16 overflow-hidden">
+    <!-- Marquee 1 -->
+    <div class="py-5 bg-signal border-y border-black relative z-30 -skew-y-2 origin-center overflow-hidden shadow-xl">
+      <div class="marquee-wrapper">
+        <div class="marquee-track">
+          <span class="font-display text-4xl font-bold uppercase tracking-tight text-black mx-8">/// 100+ PROJECTS SHIPPED /// ZERO EXCUSES /// HANDS-ON LEARNING /// REAL WORLD SKILLS /// 100+ PROJECTS SHIPPED /// ZERO EXCUSES /// HANDS-ON LEARNING /// REAL WORLD SKILLS</span>
+          <span class="font-display text-4xl font-bold uppercase tracking-tight text-black mx-8">/// 100+ PROJECTS SHIPPED /// ZERO EXCUSES /// HANDS-ON LEARNING /// REAL WORLD SKILLS /// 100+ PROJECTS SHIPPED /// ZERO EXCUSES /// HANDS-ON LEARNING /// REAL WORLD SKILLS</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Marquee 2 (Opposite slant, runs backward, distinct colors) -->
+    <div class="py-5 bg-white border-y border-black relative z-20 skew-y-2 origin-center overflow-hidden -mt-3 shadow-xl">
+      <div class="marquee-wrapper">
+        <div class="marquee-track" style="animation-direction: reverse; animation-duration: 35s;">
+          <span class="font-display text-4xl font-bold uppercase tracking-tight text-black mx-8">/// COMMUNITY OF BUILDERS /// CODE. BUILD. DEPLOY. /// OPEN SOURCE SPRINT /// COMMUNITY OF BUILDERS /// CODE. BUILD. DEPLOY. /// OPEN SOURCE SPRINT</span>
+          <span class="font-display text-4xl font-bold uppercase tracking-tight text-black mx-8">/// COMMUNITY OF BUILDERS /// CODE. BUILD. DEPLOY. /// OPEN SOURCE SPRINT /// COMMUNITY OF BUILDERS /// CODE. BUILD. DEPLOY. /// OPEN SOURCE SPRINT</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Marquee 3 (Original slant, distinct dark aesthetic) -->
+    <div class="py-5 bg-zinc-950 border-y border-zinc-800 relative z-10 -skew-y-2 origin-center overflow-hidden -mt-3 shadow-xl">
+      <div class="marquee-wrapper">
+        <div class="marquee-track" style="animation-duration: 30s;">
+          <span class="font-display text-4xl font-bold uppercase tracking-tight text-signal mx-8">/// NO MORE TUTORIAL HELL /// HACKATHON CHAMPIONS /// INNOVATION PROTOCOL /// NO MORE TUTORIAL HELL /// HACKATHON CHAMPIONS /// INNOVATION PROTOCOL</span>
+          <span class="font-display text-4xl font-bold uppercase tracking-tight text-signal mx-8">/// NO MORE TUTORIAL HELL /// HACKATHON CHAMPIONS /// INNOVATION PROTOCOL /// NO MORE TUTORIAL HELL /// HACKATHON CHAMPIONS /// INNOVATION PROTOCOL</span>
+        </div>
       </div>
     </div>
   </div>
@@ -238,112 +275,163 @@ const nextEvent = upcomingEvents.length > 0 ? upcomingEvents[0] : null;
     </div>
   </section>
 
-  <!-- WHAT WE DO / FOCUS AREAS -->
-  <section id="focus" class="py-32 relative bg-[#050505] overflow-hidden">
-    <!-- Background Grid -->
-    <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] opacity-20 pointer-events-none"></div>
-
-    <div class="max-w-7xl mx-auto px-6 relative z-10">
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-20">
-        <div>
-          <span class="text-signal font-mono text-xs tracking-widest uppercase mb-2 block">/// Core Domains</span>
-          <h2 class="font-display text-6xl md:text-8xl text-white font-medium leading-[0.85] tracking-tight">
-            WHAT WE<br><span class="text-stroke-white opacity-30">BUILD</span>
-          </h2>
-        </div>
+  <!-- 7 PILLARS OF DEVUP (Interactive GSAP Horizontal Scroll) -->
+  <section id="pillars-wrapper" class="relative bg-void overflow-hidden">
+    <div id="pillars-pin" class="h-screen min-h-[750px] w-full flex flex-col relative pt-24 md:pt-32 pb-12">
+      <!-- Background Grid -->
+      <div class="absolute inset-0 bg-[linear-gradient(rgba(204,255,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(204,255,0,0.02)_1px,transparent_1px)] bg-[size:100px_100px] opacity-20 pointer-events-none"></div>
+      
+      <!-- Big persistent title -->
+      <div class="px-6 md:px-20 z-20 pointer-events-none flex-shrink-0 mb-6 md:mb-10">
+        <span class="text-signal font-mono text-[10px] tracking-widest uppercase mb-2 block animate-pulse">/// Core Philosophy</span>
+        <h2 class="font-display text-5xl md:text-6xl text-white font-medium leading-[0.85] tracking-tight drop-shadow-2xl">
+          7 PILLARS<br><span class="text-stroke-white opacity-30">OF DEVUP</span>
+        </h2>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- Domain 1 -->
-        <div class="spotlight-card group border border-zinc-800 hover:border-zinc-600 transition-colors duration-500 overflow-hidden">
-          <div class="p-8 relative">
-            <div class="flex justify-between items-start mb-6">
-              <div>
-                <div class="w-16 h-16 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center mb-4">
-                  <Icon name="lucide:code" class="text-signal text-3xl" />
-                </div>
-                <h3 class="font-display text-3xl text-white mb-1">Full-Stack Dev</h3>
-                <div class="font-mono text-xs text-zinc-500 uppercase tracking-widest">MERN // Django // Next.js</div>
-              </div>
-            </div>
-            <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 border-l border-zinc-800 pl-4">
-              Build production-ready web applications. From database design to deployment. API development, authentication, performance optimization.
-            </p>
-            <div class="flex items-center gap-4 pt-6 border-t border-white/5">
-              <span class="text-[10px] font-mono text-zinc-600 uppercase">Weekly Workshops</span>
-              <span class="text-[10px] font-mono text-zinc-600 uppercase">Pair Programming</span>
-            </div>
+      <!-- The Horizontal Track -->
+      <div class="flex-grow flex items-center w-full">
+        <div id="pillars-track" class="flex items-center gap-8 md:gap-12 px-[10vw] md:px-[15vw] w-max relative z-10">
+        
+        <!-- Pillar 01 -->
+        <div class="pillar-panel w-[85vw] md:w-[300px] min-h-[280px] bg-[#0a0a0a]/90 backdrop-blur-md border border-zinc-800 hover:border-signal/50 transition-colors duration-500 p-5 flex flex-col relative group clip-corner-tl shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+          <div class="absolute top-0 right-4 p-4 font-display text-7xl text-zinc-900/50 group-hover:text-zinc-800 transition-colors pointer-events-none">01</div>
+          <div class="w-12 h-12 border border-zinc-700 bg-black flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(204,255,0,0.05)]">
+             <Icon name="lucide:cpu" class="text-signal text-2xl group-hover:scale-110 transition-transform duration-500" />
           </div>
+          <h3 class="font-display text-2xl text-white mb-3">Industry Tech Stack Focus</h3>
+          <p class="font-mono text-sm text-zinc-400 leading-relaxed border-l-2 border-signal/30 pl-4 flex-grow">
+            Mastering in-demand technologies (MERN, Cloud, AI) through guided projects, interactive sessions, and hands-on workshops to build true job-readiness.
+          </p>
         </div>
 
-        <!-- Domain 2 -->
-        <div class="spotlight-card group border border-zinc-800 hover:border-zinc-600 transition-colors duration-500 overflow-hidden mt-0 md:mt-24">
-          <div class="p-8 relative">
-            <div class="flex justify-between items-start mb-6">
-              <div>
-                <div class="w-16 h-16 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center mb-4">
-                  <Icon name="lucide:cloud" class="text-signal text-3xl" />
-                </div>
-                <h3 class="font-display text-3xl text-white mb-1">DevOps & Cloud</h3>
-                <div class="font-mono text-xs text-zinc-500 uppercase tracking-widest">Docker // K8s // AWS</div>
-              </div>
-            </div>
-            <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 border-l border-zinc-800 pl-4">
-              Master containerization, CI/CD pipelines, infrastructure as code. Deploy with confidence. Scale without fear.
-            </p>
-            <div class="flex items-center gap-4 pt-6 border-t border-white/5">
-              <span class="text-[10px] font-mono text-zinc-600 uppercase">Hands-On Labs</span>
-              <span class="text-[10px] font-mono text-zinc-600 uppercase">Real Infrastructure</span>
-            </div>
+        <!-- Pillar 02 -->
+        <div class="pillar-panel w-[85vw] md:w-[300px] min-h-[280px] bg-[#0a0a0a]/90 backdrop-blur-md border border-zinc-800 hover:border-signal/50 transition-colors duration-500 p-5 flex flex-col relative group clip-corner shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+          <div class="absolute top-0 right-4 p-4 font-display text-7xl text-zinc-900/50 group-hover:text-zinc-800 transition-colors pointer-events-none">02</div>
+          <div class="w-12 h-12 border border-zinc-700 bg-black flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(204,255,0,0.05)]">
+             <Icon name="lucide:globe" class="text-signal text-2xl group-hover:rotate-180 transition-transform duration-1000" />
           </div>
+          <h3 class="font-display text-2xl text-white mb-3">Open Source & Global Programs</h3>
+          <p class="font-mono text-sm text-zinc-400 leading-relaxed border-l-2 border-signal/30 pl-4 flex-grow">
+            Guidance to contribute to GSoC, MLH, Outreachy, and CNCF through collaborative sprints, continuous mentorship, and structured pathways.
+          </p>
         </div>
 
-        <!-- Domain 3 -->
-        <div class="spotlight-card group border border-zinc-800 hover:border-zinc-600 transition-colors duration-500 overflow-hidden">
-          <div class="p-8 relative">
-            <div class="flex justify-between items-start mb-6">
-              <div>
-                <div class="w-16 h-16 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center mb-4">
-                  <Icon name="lucide:brain" class="text-signal text-3xl" />
-                </div>
-                <h3 class="font-display text-3xl text-white mb-1">AI/ML Engineering</h3>
-                <div class="font-mono text-xs text-zinc-500 uppercase tracking-widest">PyTorch // TensorFlow // LLMs</div>
-              </div>
-            </div>
-            <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 border-l border-zinc-800 pl-4">
-              Build intelligent systems. Train models. Fine-tune LLMs. From neural networks to production AI applications.
-            </p>
-            <div class="flex items-center gap-4 pt-6 border-t border-white/5">
-              <span class="text-[10px] font-mono text-zinc-600 uppercase">Kaggle Competitions</span>
-              <span class="text-[10px] font-mono text-zinc-600 uppercase">Research Projects</span>
-            </div>
+        <!-- Pillar 03 -->
+        <div class="pillar-panel w-[85vw] md:w-[300px] min-h-[280px] bg-[#0a0a0a]/90 backdrop-blur-md border border-zinc-800 hover:border-signal/50 transition-colors duration-500 p-5 flex flex-col relative group clip-corner-tl shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+          <div class="absolute top-0 right-4 p-4 font-display text-7xl text-zinc-900/50 group-hover:text-zinc-800 transition-colors pointer-events-none">03</div>
+          <div class="w-12 h-12 border border-zinc-700 bg-black flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(204,255,0,0.05)]">
+             <Icon name="lucide:terminal" class="text-signal text-2xl group-hover:translate-x-1 transition-transform duration-300" />
           </div>
+          <h3 class="font-display text-2xl text-white mb-3">DevOps & Deployment Culture</h3>
+          <p class="font-mono text-sm text-zinc-400 leading-relaxed border-l-2 border-signal/30 pl-4 flex-grow">
+            Hands-on mastery in modern software delivery practices like CI/CD, Docker, and Kubernetes to prepare for real-world production workflows.
+          </p>
         </div>
 
-        <!-- Domain 4 -->
-        <div class="spotlight-card group border border-zinc-800 hover:border-zinc-600 transition-colors duration-500 overflow-hidden mt-0 md:mt-24">
-          <div class="p-8 relative">
-            <div class="flex justify-between items-start mb-6">
-              <div>
-                <div class="w-16 h-16 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center mb-4">
-                  <Icon name="lucide:smartphone" class="text-signal text-3xl" />
-                </div>
-                <h3 class="font-display text-3xl text-white mb-1">Mobile Development</h3>
-                <div class="font-mono text-xs text-zinc-500 uppercase tracking-widest">React Native // Flutter</div>
-              </div>
-            </div>
-            <p class="font-mono text-xs text-zinc-400 leading-relaxed mb-6 border-l border-zinc-800 pl-4">
-              Cross-platform mobile apps. Native performance. App store deployments. Build the next viral app.
-            </p>
-            <div class="flex items-center gap-4 pt-6 border-t border-white/5">
-              <span class="text-[10px] font-mono text-zinc-600 uppercase">Build & Ship</span>
-              <span class="text-[10px] font-mono text-zinc-600 uppercase">User Feedback</span>
-            </div>
+        <!-- Pillar 04 -->
+        <div class="pillar-panel w-[85vw] md:w-[300px] min-h-[280px] bg-[#0a0a0a]/90 backdrop-blur-md border border-zinc-800 hover:border-signal/50 transition-colors duration-500 p-5 flex flex-col relative group clip-corner shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+          <div class="absolute top-0 right-4 p-4 font-display text-7xl text-zinc-900/50 group-hover:text-zinc-800 transition-colors pointer-events-none">04</div>
+          <div class="w-12 h-12 border border-zinc-700 bg-black flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(204,255,0,0.05)]">
+             <Icon name="lucide:rocket" class="text-signal text-2xl group-hover:-translate-y-2 group-hover:translate-x-2 transition-transform duration-500" />
           </div>
+          <h3 class="font-display text-2xl text-white mb-3">Startup & Product Mindset</h3>
+          <p class="font-mono text-sm text-zinc-400 leading-relaxed border-l-2 border-signal/30 pl-4 flex-grow">
+            Empowering students to turn ideas into scalable products covering market research, MVP development, and pitching with a true founder's mentality.
+          </p>
         </div>
+
+        <!-- Pillar 05 -->
+        <div class="pillar-panel w-[85vw] md:w-[300px] min-h-[280px] bg-[#0a0a0a]/90 backdrop-blur-md border border-zinc-800 hover:border-signal/50 transition-colors duration-500 p-5 flex flex-col relative group clip-corner-tl shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+          <div class="absolute top-0 right-4 p-4 font-display text-7xl text-zinc-900/50 group-hover:text-zinc-800 transition-colors pointer-events-none">05</div>
+          <div class="w-12 h-12 border border-zinc-700 bg-black flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(204,255,0,0.05)]">
+             <Icon name="lucide:flame" class="text-signal text-2xl group-hover:scale-125 transition-transform duration-500" />
+          </div>
+          <h3 class="font-display text-2xl text-white mb-3">Hackathon-Oriented Learning</h3>
+          <p class="font-mono text-sm text-zinc-400 leading-relaxed border-l-2 border-signal/30 pl-4 flex-grow">
+            Guided time-bound challenges to brainstorm, plan, and build innovative solutions under constraint while enhancing core problem-solving muscles.
+          </p>
+        </div>
+
+        <!-- Pillar 06 -->
+        <div class="pillar-panel w-[85vw] md:w-[300px] min-h-[280px] bg-[#0a0a0a]/90 backdrop-blur-md border border-zinc-800 hover:border-signal/50 transition-colors duration-500 p-5 flex flex-col relative group clip-corner shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+          <div class="absolute top-0 right-4 p-4 font-display text-7xl text-zinc-900/50 group-hover:text-zinc-800 transition-colors pointer-events-none">06</div>
+          <div class="w-12 h-12 border border-zinc-700 bg-black flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(204,255,0,0.05)]">
+             <Icon name="lucide:hammer" class="text-signal text-2xl group-hover:rotate-12 transition-transform duration-500" />
+          </div>
+          <h3 class="font-display text-2xl text-white mb-3">Real World Project Incubation</h3>
+          <p class="font-mono text-sm text-zinc-400 leading-relaxed border-l-2 border-signal/30 pl-4 flex-grow">
+            From student to contributor. We guide you through project selection, hands-on development, and mentorship to build portfolio-ready solutions.
+          </p>
+        </div>
+
+        <!-- Pillar 07 -->
+        <div class="pillar-panel w-[85vw] md:w-[300px] min-h-[280px] bg-gradient-to-br from-[#0a0a0a]/90 to-zinc-900/90 backdrop-blur-md border border-signal hover:shadow-[0_0_50px_rgba(204,255,0,0.2)] transition-all duration-700 p-5 flex flex-col relative group clip-corner-tl shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+          <div class="absolute top-0 right-4 p-4 font-display text-7xl text-zinc-800 group-hover:text-signal/20 transition-colors pointer-events-none">07</div>
+          <div class="w-12 h-12 border border-signal/50 bg-black flex items-center justify-center mb-6 relative overflow-hidden">
+             <div class="absolute inset-0 bg-signal/20 blur-xl animate-pulse"></div>
+             <Icon name="lucide:bot" class="text-signal text-2xl relative z-10 animate-[float-y_3s_ease-in-out_infinite]" />
+          </div>
+          <h3 class="font-display text-2xl text-white mb-3">AI & Prompt Innovation</h3>
+          <p class="font-mono text-sm text-zinc-400 leading-relaxed border-l-2 border-signal/50 pl-4 flex-grow z-10">
+            Design effective prompts, explore advanced AI tools, and build innovative applications. Harness AI to supercharge your problem-solving.
+          </p>
+        </div>
+
+      </div>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="absolute bottom-12 left-1/2 -translate-x-1/2 font-mono text-xs text-signal uppercase tracking-widest flex items-center gap-4 animate-pulse">
+        <span>Scroll to Explore</span>
+        <div class="w-24 h-px bg-signal"></div>
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    // Self-executing setup for GSAP Horizontal Scroll
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+          const track = document.getElementById('pillars-track');
+          const pin = document.getElementById('pillars-pin');
+          
+          if(track && pin) {
+            // Calculate total scroll distance
+            let scrollWidth = track.scrollWidth - window.innerWidth;
+            
+            // Create the horizontal scroll tween
+            gsap.to(track, {
+              x: -scrollWidth,
+              ease: "none",
+              scrollTrigger: {
+                trigger: pin,
+                pin: true,
+                scrub: 1, // Smooth scrubbing taking 1 second to catch up
+                // The pinning acts as a virtual vertical space based on horizontal length
+                end: () => "+=" + track.scrollWidth,
+                invalidateOnRefresh: true
+              }
+            });
+
+            // Optional: Subtle parallax/tilt on the panels as they scroll
+            gsap.utils.toArray('.pillar-panel').forEach((panel) => {
+               gsap.to(panel, {
+                  rotateY: 2,
+                  rotateX: 2,
+                  ease: "none",
+                  scrollTrigger: {
+                     trigger: pin,
+                     scrub: true
+                  }
+               });
+            });
+          }
+        }
+      }, 500);
+    });
+  </script>
 
   <!-- COLLABORATORS & PARTNERS CAROUSEL -->
   <section class="py-24 bg-void border-t border-zinc-900 relative overflow-hidden">
