@@ -248,6 +248,9 @@ export function buildKnowledgeContext(): string {
     faq: buildFAQContext(),
   };
 
+  // DevUp Quizzes & Fun Facts
+  const devupQuizzes = `\n\n---\n\n## DEVUP QUIZZES & FUN FACTS\n\n### QUIZZES:\n1. Who is the main founder of DevUp Society?\n   a) Faizan Ali\n   b) Syed Asif\n   c) Thapendra\n   d) Sanchit\n\n2. What is the tagline of DevUp Society?\n   a) Code. Build. Deploy.\n   b) Where Code Meets Innovation\n   c) Learn. Lead. Launch.\n   d) Tech for All\n\n3. What is the prize pool for DevThon 2026?\n   a) ₹10,000\n   b) ₹15,000\n   c) ₹35,000+\n   d) ₹5,000\n\n4. Which platform does DevUp use for community updates?\n   a) Discord\n   b) WhatsApp\n   c) Telegram\n   d) Facebook\n\n### FUN FACTS:\n- DevUp Society was founded in 2024 and already has 60+ active members!\n- The website was developed by Sai Srujan and his technical team.\n- DevThon is exclusively for 1st Year VJIT students.\n- DevUp focuses on Full-Stack, DevOps, AI/ML, and Mobile Development.\n- DevUp never gives up!\n`;
+
   // Combine all sections into a single context string
   const fullContext = [
     sections.about,
@@ -255,6 +258,7 @@ export function buildKnowledgeContext(): string {
     sections.team,
     sections.pages,
     sections.faq,
+    devupQuizzes,
   ].join("\n\n---\n\n");
 
   return fullContext;
