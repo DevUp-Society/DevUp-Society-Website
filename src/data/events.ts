@@ -97,12 +97,12 @@ export const events: Event[] = [
         id: "evt-002",
         title: "Devthon 2026",
         slug: "devthon-2026",
-        date: "2026-02-27",
+        date: "2026-03-27",
         location: "VJIT Campus",
         mapEmbedLink: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d18711.1396264906!2d78.33616666991054!3d17.39169720077843!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb95a2780aa0eb%3A0xe5495572621379da!2sVidya%20Jyothi%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1706698654321!5m2!1sen!2sin",
         mode: "Offline",
-        shortDescription: "An intense 36-hour hackathon challenging you to build future-ready solutions. Registration opens February 7th!",
-        fullDescription: "Get ready for the ultimate coding challenge! DevUp Society presents 'Devthon', a 36-hour hackathon happening on February 27-28, 2026. This event calls upon developers, designers, and problem solvers to collaborate and build innovative solutions. Whether you are into AI, Blockchain, or App Dev, this is your platform to showcase your skills. Registration opens February 7th and closes February 25th. Don't miss out on this incredible opportunity with a massive prize pool of ₹1,50,000!",
+        shortDescription: "An intense 36-hour hackathon challenging you to build future-ready solutions. Registration opens March 7th!",
+        fullDescription: "Get ready for the ultimate coding challenge! DevUp Society presents 'Devthon', a 36-hour hackathon happening on March 27-28, 2026. This event calls upon developers, designers, and problem solvers to collaborate and build innovative solutions. Whether you are into AI, Blockchain, or App Dev, this is your platform to showcase your skills. Registration opens March 7th and closes March 25th. Don't miss out on this incredible opportunity with a massive prize pool of ₹1,50,000!",
         images: ["/events/devathon-teaser.jpg"],
         speakers: [],
         tags: ["Hackathon", "Devathon", "Innovation", "36HourChallenge", "Competition"],
@@ -116,21 +116,21 @@ export const events: Event[] = [
             prizePool: "₹1,50,000"
         },
         timeline: [
-            { id: 1, title: "Registration Opens", date: "Feb 7, 2026", description: "Team Registration Begins - Don't Miss Out!" },
-            { id: 2, title: "Registration Closes", date: "Feb 25, 2026", description: "Last Day to Register Your Team" },
-            { id: 3, title: "Day 1 - Check-in", date: "Feb 27, 9:00 AM", description: "Participants check-in (E-Block)" },
-            { id: 4, title: "Day 1 - Inauguration", date: "Feb 27, 10:00 AM", description: "Inaugural ceremony (E-Block auditorium)" },
-            { id: 5, title: "Day 1 - Venue Shift", date: "Feb 27, 11:30 AM", description: "Proceed to venues" },
-            { id: 6, title: "Day 1 - Theme Reveal", date: "Feb 27, 11:40 AM", description: "Theme reveal and idea selection" },
-            { id: 7, title: "Day 1 - Hacking Begins", date: "Feb 27, 12:30 PM", description: "Hackathon Phase I & II, Lunch, Snacks & Tea" },
-            { id: 8, title: "Day 1 - Mentors Check-in", date: "Feb 27, 7:00 PM", description: "Mentors arrive for guidance" },
-            { id: 9, title: "Day 1 - Night Session", date: "Feb 27, 9:00 PM", description: "Dinner break & Hackathon Phase III (Night coding)" },
-            { id: 10, title: "Day 2 - Fun Activities", date: "Feb 28, 12:00 AM", description: "Fun activities (Gaming, DJ Night) & Ice Breaking Session" },
-            { id: 11, title: "Day 2 - Late Night Dev", date: "Feb 28, 3:00 AM", description: "Hackathon Phase IV (Late Night Development) & Breakfast" },
-            { id: 12, title: "Day 2 - Final Dev", date: "Feb 28, 8:00 AM", description: "Final Development & Submission Preparation" },
-            { id: 13, title: "Day 2 - Submissions", date: "Feb 28, 10:00 AM", description: "Code Freeze & Project Submission, Evaluation & Presentations" },
-            { id: 14, title: "Day 2 - Break", date: "Feb 28, 1:00 PM", description: "Judges Deliberation & Participant Break" },
-            { id: 15, title: "Day 2 - Valedictory", date: "Feb 28, 2:00 PM", description: "Valedictory & Prize Distribution, Feedback" }
+            { id: 1, title: "Registration Opens", date: "Mar 7, 2026", description: "Team Registration Begins - Don't Miss Out!" },
+            { id: 2, title: "Registration Closes", date: "Mar 25, 2026", description: "Last Day to Register Your Team" },
+            { id: 3, title: "Day 1 - Check-in", date: "Mar 27, 9:00 AM", description: "Participants check-in (E-Block)" },
+            { id: 4, title: "Day 1 - Inauguration", date: "Mar 27, 10:00 AM", description: "Inaugural ceremony (E-Block auditorium)" },
+            { id: 5, title: "Day 1 - Venue Shift", date: "Mar 27, 11:30 AM", description: "Proceed to venues" },
+            { id: 6, title: "Day 1 - Theme Reveal", date: "Mar 27, 11:40 AM", description: "Theme reveal and idea selection" },
+            { id: 7, title: "Day 1 - Hacking Begins", date: "Mar 27, 12:30 PM", description: "Hackathon Phase I & II, Lunch, Snacks & Tea" },
+            { id: 8, title: "Day 1 - Mentors Check-in", date: "Mar 27, 7:00 PM", description: "Mentors arrive for guidance" },
+            { id: 9, title: "Day 1 - Night Session", date: "Mar 27, 9:00 PM", description: "Dinner break & Hackathon Phase III (Night coding)" },
+            { id: 10, title: "Day 2 - Fun Activities", date: "Mar 28, 12:00 AM", description: "Fun activities (Gaming, DJ Night) & Ice Breaking Session" },
+            { id: 11, title: "Day 2 - Late Night Dev", date: "Mar 28, 3:00 AM", description: "Hackathon Phase IV (Late Night Development) & Breakfast" },
+            { id: 12, title: "Day 2 - Final Dev", date: "Mar 28, 8:00 AM", description: "Final Development & Submission Preparation" },
+            { id: 13, title: "Day 2 - Submissions", date: "Mar 28, 10:00 AM", description: "Code Freeze & Project Submission, Evaluation & Presentations" },
+            { id: 14, title: "Day 2 - Break", date: "Mar 28, 1:00 PM", description: "Judges Deliberation & Participant Break" },
+            { id: 15, title: "Day 2 - Valedictory", date: "Mar 28, 2:00 PM", description: "Valedictory & Prize Distribution, Feedback" }
         ],
         prizes: [
             { id: 1, type: "Gold", amount: "₹75,000", perks: ["Trophy", "Merch Kit", "Internship Referral", "Certificate"] },
@@ -154,8 +154,8 @@ export const events: Event[] = [
         faqs: [
             { question: "Team Size?", answer: "2-4 Members. You can't participate alone." },
             { question: "Registration Fee?", answer: "₹500 per person. Includes food and swag." },
-            { question: "When does registration open?", answer: "Registration opens on February 7, 2026 and closes on February 25, 2026." },
-            { question: "How long is the hackathon?", answer: "36 hours - Starting February 27 at 12:30 PM and ending February 28 at 10:00 AM." }
+            { question: "When does registration open?", answer: "Registration opens on March 7, 2026 and closes on March 25, 2026." },
+            { question: "How long is the hackathon?", answer: "36 hours - Starting March 27 at 12:30 PM and ending March 28 at 10:00 AM." }
         ]
     }
 ];
