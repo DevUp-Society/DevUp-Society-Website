@@ -42,9 +42,10 @@ DevUp Society is THE most happening student-led tech community at ${SITE.institu
 FOUNDING MEMBERS (The legends who started this revolution):
 1. Mohammed Faizan Ali - Founder & Chief of Community & Vision
 2. Syed Asif - Co-Founder
-3. Thapendra D - Founding Member
-4. Narsing Yadav - Founding Member
-5. Sanchit Gupta - Founding Member
+3. Nashra Fatima - Co-Founder & Partnerships Lead
+4. Thapendra D - Founding Member
+5. Narsing Yadav - Founding Member
+6. Sanchit Gupta - Founding Member
 
 ABOUT THIS AI (DevUp AI):
 - Created and developed entirely by the DevUp Community — a collaborative masterpiece by our talented student developers!

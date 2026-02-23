@@ -219,7 +219,7 @@ Q: What are the hackathon themes?
 A: Smart City, HealthTech, EdTech, and Open Innovation.
 
 Q: Who is the founder/leader of DevUp Society?
-A: Mohammed Faizan Ali is the Chief of Community & Vision (Main Founder). The society was founded by Faizan Ali, Syed Asif, Thapendra, Narsing, and Sanchit.
+A: Mohammed Faizan Ali is the Chief of Community & Vision (Main Founder). The society was founded by Faizan Ali, Syed Asif, Nashra Fatima, Thapendra, Narsing, and Sanchit.
 
 Q: Who developed this website?
 A: This website was developed by SAI SRUJAN and his Technical Team.
