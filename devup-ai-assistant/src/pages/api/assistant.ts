@@ -116,87 +116,87 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
           success: false,
           answer: "You're sending too many requests. Please wait a moment before trying again.",
           confidence: "none",
-          error: "Rate limit exceeded",
-        } satisfies AssistantResponse),
-        { status: 429, headers }
-      );
-    }
-    
-    // Parse request body
-    let body: AssistantRequest;
-    try {
-      body = await request.json();
-    } catch {
-      return new Response(
-        JSON.stringify({
-          success: false,
-          answer: "Invalid request format. Please send a valid JSON body.",
-          confidence: "none",
-          error: "Invalid JSON",
-        } satisfies AssistantResponse),
-        { status: 400, headers }
-      );
-    }
-    
-    // Validate message field
-    if (!body.message || typeof body.message !== "string") {
-      return new Response(
-        JSON.stringify({
-          success: false,
-          answer: "Please provide a message to ask the assistant.",
-          confidence: "none",
-          error: "Missing message field",
-        } satisfies AssistantResponse),
-        { status: 400, headers }
-      );
-    }
-    
-    // Sanitize message - remove any HTML/script tags
-    const sanitizedMessage = body.message
-      .replaceAll(/<[^>]*>/g, "")
-      .trim()
-      .substring(0, 500);
-    
-    if (!sanitizedMessage) {
-      return new Response(
-        JSON.stringify({
-          success: false,
-          answer: "Please provide a valid question.",
-          confidence: "none",
-          error: "Empty message after sanitization",
-        } satisfies AssistantResponse),
-        { status: 400, headers }
-      );
-    }
-    
-    // Process the request
-    const response = await processAssistantRequest({
-      message: sanitizedMessage,
-      conversationId: body.conversationId,
-    });
-    
-    // Return response
-    return new Response(JSON.stringify(response), {
-      status: response.success ? 200 : 500,
-      headers,
-    });
-    
-  } catch (error) {
-    console.error("Assistant API Error:", error);
-    
-    return new Response(
-      JSON.stringify({
-        success: false,
-        answer: "An unexpected error occurred. Please try again later.",
-        confidence: "none",
-        error: error instanceof Error ? error.message : "Unknown error",
-      } satisfies AssistantResponse),
-      { status: 500, headers }
-    );
-  }
-};
-
-/**
+          try {
+            // Rate limiting - get IP from headers or clientAddress
+            // Use X-Forwarded-For for proxied requests (Vercel, Cloudflare, etc.)
+            const forwardedFor = request.headers.get("x-forwarded-for");
+            const ip = forwardedFor?.split(",")[0]?.trim() || clientAddress || "unknown";
+            if (!checkRateLimit(ip)) {
+              return new Response(
+                JSON.stringify({
+                  success: false,
+                  answer: "Whoa, slow down! DevUp AI loves enthusiasm, but please wait a moment before trying again. Join our WhatsApp community for more fun!",
+                  confidence: "none",
+                  error: "Rate limit exceeded",
+                } satisfies AssistantResponse),
+                { status: 429, headers }
+              );
+            }
+            // Parse request body
+            let body: AssistantRequest;
+            try {
+              body = await request.json();
+            } catch {
+              return new Response(
+                JSON.stringify({
+                  success: false,
+                  answer: "Oops! DevUp AI only understands valid questions. Please send a proper JSON body and let's get coding!",
+                  confidence: "none",
+                  error: "Invalid JSON",
+                } satisfies AssistantResponse),
+                { status: 400, headers }
+              );
+            }
+            // Validate message field
+            if (!body.message || typeof body.message !== "string") {
+              return new Response(
+                JSON.stringify({
+                  success: false,
+                  answer: "Hey, you forgot to ask a question! Please provide a message for DevUp AI to answer.",
+                  confidence: "none",
+                  error: "Missing message field",
+                } satisfies AssistantResponse),
+                { status: 400, headers }
+              );
+            }
+            // Sanitize message - remove any HTML/script tags
+            const sanitizedMessage = body.message
+              .replaceAll(/<[^>]*>/g, "")
+              .trim()
+              .substring(0, 500);
+            if (!sanitizedMessage) {
+              return new Response(
+                JSON.stringify({
+                  success: false,
+                  answer: "Hmm, that question looks empty! Please ask something about DevUp Society, our events, or how to join.",
+                  confidence: "none",
+                  error: "Empty message after sanitization",
+                } satisfies AssistantResponse),
+                { status: 400, headers }
+              );
+            }
+            // Process the request
+            const response = await processAssistantRequest({
+              message: sanitizedMessage,
+              conversationId: body.conversationId,
+            });
+            // Return response
+            return new Response(JSON.stringify(response), {
+              status: response.success ? 200 : 500,
+              headers,
+            });
+          } catch (error) {
+            console.error("Assistant API Error:", error);
+            return new Response(
+              JSON.stringify({
+                success: false,
+                answer: "DevUp AI hit a snag! Please try again soon, or join our WhatsApp community for updates. DevUp never gives up!",
+                confidence: "none",
+                error: error instanceof Error ? error.message : "Unknown error",
+              } satisfies AssistantResponse),
+              { status: 500, headers }
+            );
+          }
  * OPTIONS handler - CORS preflight
  */
 export const OPTIONS: APIRoute = async () => {

@@ -8,48 +8,106 @@
 -->
 
 <!-- AI CHAT WIDGET -->
-<div id="ai-chat-widget" class="fixed bottom-6 right-6 z-[90] flex flex-col items-end gap-4">
+<div
+  id="ai-chat-widget"
+  class="fixed bottom-6 right-6 z-[90] flex flex-col items-end gap-4"
+>
   <!-- Chat Panel -->
-  <div 
-    id="ai-chat-panel" 
+  <div
+    id="ai-chat-panel"
     class="hidden opacity-0 scale-95 origin-bottom-right transition-all duration-300 ease-out w-[340px] max-w-[calc(100vw-3rem)] h-[480px] max-h-[calc(100vh-8rem)] bg-black/80 backdrop-blur-xl border border-signal/30 rounded-2xl shadow-2xl shadow-signal/10 flex flex-col overflow-hidden"
   >
     <!-- Header -->
-    <div class="flex items-center justify-between px-4 py-3 border-b border-signal/20 bg-black/50">
+    <div
+      class="flex items-center justify-between px-4 py-3 border-b border-signal/20 bg-black/50"
+    >
       <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-full bg-signal/20 border border-signal/50 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-signal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>
+        <div
+          class="w-8 h-8 rounded-full bg-signal/20 border border-signal/50 flex items-center justify-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4 text-signal"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 8V4H8" />
+            <rect width="16" height="12" x="4" y="8" rx="2" />
+            <path d="M2 14h2" />
+            <path d="M20 14h2" />
+            <path d="M15 13v2" />
+            <path d="M9 13v2" />
           </svg>
         </div>
         <div class="flex flex-col">
-          <span class="font-display font-bold text-white text-sm leading-tight">DevUp AI</span>
-          <span class="font-mono text-[9px] text-signal/80 uppercase tracking-wider">Online • Ask me anything</span>
+          <span class="font-display font-bold text-white text-sm leading-tight"
+            >DevUp AI</span
+          >
+          <span
+            class="font-mono text-[9px] text-signal/80 uppercase tracking-wider"
+            >Online • Ask me anything</span
+          >
         </div>
       </div>
-      <button 
-        id="ai-chat-close" 
+      <button
+        id="ai-chat-close"
         class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-signal/30 flex items-center justify-center transition-all group"
         aria-label="Close chat"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-zinc-400 group-hover:text-signal transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-4 h-4 text-zinc-400 group-hover:text-signal transition-colors"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
         </svg>
       </button>
     </div>
 
     <!-- Messages Area -->
-    <div id="ai-chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-hide">
+    <div
+      id="ai-chat-messages"
+      class="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-hide"
+    >
       <!-- Welcome Message -->
       <div class="flex gap-3">
-        <div class="w-7 h-7 rounded-full bg-signal/20 border border-signal/40 flex items-center justify-center flex-shrink-0 mt-0.5">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-signal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>
+        <div
+          class="w-7 h-7 rounded-full bg-signal/20 border border-signal/40 flex items-center justify-center flex-shrink-0 mt-0.5"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-3.5 h-3.5 text-signal"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 8V4H8" />
+            <rect width="16" height="12" x="4" y="8" rx="2" />
+            <path d="M2 14h2" />
+            <path d="M20 14h2" />
+            <path d="M15 13v2" />
+            <path d="M9 13v2" />
           </svg>
         </div>
-        <div class="flex-1 bg-zinc-900/80 border border-zinc-800 rounded-2xl rounded-tl-sm px-4 py-3">
+        <div
+          class="flex-1 bg-zinc-900/80 border border-zinc-800 rounded-2xl rounded-tl-sm px-4 py-3"
+        >
           <p class="text-sm text-zinc-300 leading-relaxed">
-            Hey! 👋 I'm the DevUp AI assistant. Ask me about our events, team, how to join, or anything about DevUp Society!
+            Hey! 👋 I'm the DevUp AI assistant. Ask me about our events, team,
+            how to join, or anything about DevUp Society!
           </p>
         </div>
       </div>
@@ -58,93 +116,138 @@
     <!-- Input Area -->
     <div class="p-3 border-t border-signal/20 bg-black/50">
       <form id="ai-chat-form" class="flex gap-2">
-        <input 
-          type="text" 
-          id="ai-chat-input" 
+        <input
+          type="text"
+          id="ai-chat-input"
           placeholder="Type your question..."
           autocomplete="off"
           class="flex-1 bg-zinc-900/80 border border-zinc-700 focus:border-signal/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-zinc-500 outline-none transition-colors font-mono"
         />
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           id="ai-chat-send"
           class="w-10 h-10 bg-signal hover:bg-signal/80 disabled:bg-zinc-700 disabled:cursor-not-allowed rounded-xl flex items-center justify-center transition-all group"
           aria-label="Send message"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-black group-disabled:text-zinc-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4 text-black group-disabled:text-zinc-500"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="m22 2-7 20-4-9-9-4Z" />
+            <path d="M22 2 11 13" />
           </svg>
         </button>
       </form>
-      <p class="text-[10px] text-zinc-600 text-center mt-2 font-mono">Powered by Claude • DevUp Society</p>
+      <p class="text-[10px] text-zinc-600 text-center mt-2 font-mono">
+        Powered by Claude • DevUp Society
+      </p>
     </div>
   </div>
 
   <!-- Floating Button -->
-  <button 
-    id="ai-chat-toggle" 
+  <button
+    id="ai-chat-toggle"
     class="w-14 h-14 bg-signal hover:bg-signal/90 rounded-full flex items-center justify-center shadow-lg shadow-signal/30 hover:shadow-signal/50 transition-all hover:scale-105 active:scale-95 group relative"
     aria-label="Open AI Chat"
   >
     <!-- Chat Icon (default) -->
-    <svg id="ai-btn-chat-icon" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-black transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>
+    <svg
+      id="ai-btn-chat-icon"
+      xmlns="http://www.w3.org/2000/svg"
+      class="w-6 h-6 text-black transition-transform"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M12 8V4H8" />
+      <rect width="16" height="12" x="4" y="8" rx="2" />
+      <path d="M2 14h2" />
+      <path d="M20 14h2" />
+      <path d="M15 13v2" />
+      <path d="M9 13v2" />
     </svg>
     <!-- Close Icon (when open) -->
-    <svg id="ai-btn-close-icon" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-black absolute opacity-0 scale-0 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+    <svg
+      id="ai-btn-close-icon"
+      xmlns="http://www.w3.org/2000/svg"
+      class="w-6 h-6 text-black absolute opacity-0 scale-0 transition-all"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M18 6 6 18" />
+      <path d="m6 6 12 12" />
     </svg>
     <!-- Pulse ring -->
-    <span class="absolute inset-0 rounded-full bg-signal/50 animate-ping opacity-75 pointer-events-none"></span>
+    <span
+      class="absolute inset-0 rounded-full bg-signal/50 animate-ping opacity-75 pointer-events-none"
+    ></span>
   </button>
 </div>
 
 <!-- AI Chat Widget Script -->
 <script>
-(function() {
-  const chatToggle = document.getElementById('ai-chat-toggle');
-  const chatPanel = document.getElementById('ai-chat-panel');
-  const chatClose = document.getElementById('ai-chat-close');
-  const chatForm = document.getElementById('ai-chat-form');
-  const chatInput = document.getElementById('ai-chat-input');
-  const chatMessages = document.getElementById('ai-chat-messages');
-  const chatBtnIcon = document.getElementById('ai-btn-chat-icon');
-  const closeBtnIcon = document.getElementById('ai-btn-close-icon');
-  const sendBtn = document.getElementById('ai-chat-send');
+  (function () {
+    const chatToggle = document.getElementById("ai-chat-toggle");
+    const chatPanel = document.getElementById("ai-chat-panel");
+    const chatClose = document.getElementById("ai-chat-close");
+    const chatForm = document.getElementById("ai-chat-form");
+    const chatInput = document.getElementById("ai-chat-input");
+    const chatMessages = document.getElementById("ai-chat-messages");
+    const chatBtnIcon = document.getElementById("ai-btn-chat-icon");
+    const closeBtnIcon = document.getElementById("ai-btn-close-icon");
+    const sendBtn = document.getElementById("ai-chat-send");
 
-  let isOpen = false;
-  let isLoading = false;
+    let isOpen = false;
+    let isLoading = false;
 
-  // Toggle chat panel
-  function toggleChat() {
-    isOpen = !isOpen;
-    if (isOpen) {
-      chatPanel.classList.remove('hidden');
-      setTimeout(() => {
-        chatPanel.classList.remove('opacity-0', 'scale-95');
-        chatPanel.classList.add('opacity-100', 'scale-100');
-      }, 10);
-      chatBtnIcon.classList.add('opacity-0', 'scale-0');
-      closeBtnIcon.classList.remove('opacity-0', 'scale-0');
-      chatInput.focus();
-      // Stop pulse when opened
-      chatToggle.querySelector('.animate-ping')?.classList.add('hidden');
-    } else {
-      chatPanel.classList.remove('opacity-100', 'scale-100');
-      chatPanel.classList.add('opacity-0', 'scale-95');
-      setTimeout(() => chatPanel.classList.add('hidden'), 300);
-      chatBtnIcon.classList.remove('opacity-0', 'scale-0');
-      closeBtnIcon.classList.add('opacity-0', 'scale-0');
+    // Toggle chat panel
+      function toggleChat() {
+        isOpen = !isOpen;
+        if (isOpen) {
+          chatPanel.classList.remove("hidden");
+          setTimeout(() => {
+            chatPanel.classList.remove("opacity-0", "scale-95");
+            chatPanel.classList.add("opacity-100", "scale-100");
+          }, 10);
+          chatBtnIcon.classList.add("opacity-0", "scale-0");
+          closeBtnIcon.classList.remove("opacity-0", "scale-0");
+          chatInput.focus();
+          // Stop pulse when opened
+          chatToggle.querySelector(".animate-ping")?.classList.add("hidden");
+          // Show welcome/features message
+          addMessage(
+            "👋 Welcome to DevUp AI!\n\nYou can ask me about:\n- DevUp Society events (DevThon, StackFest, etc)\n- How to join DevUp\n- Team members and leadership\n- DevUp’s focus areas (Full-Stack, DevOps, AI/ML, Mobile)\n- Fun facts about DevUp\n- Play DevUp-themed quizzes or challenges\n\nTry: ‘Tell me a fun fact about DevUp’, ‘Who is the founder?’, ‘What’s the next event?’, or ‘Give me a DevUp quiz!’",
+            false
+          );
+        } else {
+          chatPanel.classList.remove("opacity-100", "scale-100");
+          chatPanel.classList.add("opacity-0", "scale-95");
+          setTimeout(() => chatPanel.classList.add("hidden"), 300);
+          chatBtnIcon.classList.remove("opacity-0", "scale-0");
+          closeBtnIcon.classList.add("opacity-0", "scale-0");
+        }
     }
-  }
 
-  // Add message to chat
-  function addMessage(content, isUser = false, isError = false) {
-    const msgDiv = document.createElement('div');
-    msgDiv.className = 'flex gap-3' + (isUser ? ' flex-row-reverse' : '');
+    // Add message to chat
+    function addMessage(content, isUser = false, isError = false) {
+      const msgDiv = document.createElement("div");
+      msgDiv.className = "flex gap-3" + (isUser ? " flex-row-reverse" : "");
 
-    if (isUser) {
-      msgDiv.innerHTML = `
+      if (isUser) {
+        msgDiv.innerHTML = `
         <div class="w-7 h-7 rounded-full bg-zinc-700 border border-zinc-600 flex items-center justify-center flex-shrink-0 mt-0.5">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-zinc-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
@@ -154,10 +257,12 @@
           <p class="text-sm text-white leading-relaxed">${escapeHtml(content)}</p>
         </div>
       `;
-    } else {
-      const bgClass = isError ? 'bg-red-900/30 border-red-500/30' : 'bg-zinc-900/80 border-zinc-800';
-      const textClass = isError ? 'text-red-300' : 'text-zinc-300';
-      msgDiv.innerHTML = `
+      } else {
+        const bgClass = isError
+          ? "bg-red-900/30 border-red-500/30"
+          : "bg-zinc-900/80 border-zinc-800";
+        const textClass = isError ? "text-red-300" : "text-zinc-300";
+        msgDiv.innerHTML = `
         <div class="w-7 h-7 rounded-full bg-signal/20 border border-signal/40 flex items-center justify-center flex-shrink-0 mt-0.5">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-signal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>
@@ -167,18 +272,18 @@
           <p class="text-sm ${textClass} leading-relaxed">${formatResponse(content)}</p>
         </div>
       `;
+      }
+
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    chatMessages.appendChild(msgDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-
-  // Add loading indicator
-  function addLoading() {
-    const loadingDiv = document.createElement('div');
-    loadingDiv.id = 'ai-loading';
-    loadingDiv.className = 'flex gap-3';
-    loadingDiv.innerHTML = `
+    // Add loading indicator
+    function addLoading() {
+      const loadingDiv = document.createElement("div");
+      loadingDiv.id = "ai-loading";
+      loadingDiv.className = "flex gap-3";
+      loadingDiv.innerHTML = `
       <div class="w-7 h-7 rounded-full bg-signal/20 border border-signal/40 flex items-center justify-center flex-shrink-0 mt-0.5">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-signal animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>
@@ -192,96 +297,102 @@
         </div>
       </div>
     `;
-    chatMessages.appendChild(loadingDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
+      chatMessages.appendChild(loadingDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
 
-  function removeLoading() {
-    const loading = document.getElementById('ai-loading');
-    if (loading) loading.remove();
-  }
+    function removeLoading() {
+      const loading = document.getElementById("ai-loading");
+      if (loading) loading.remove();
+    }
 
-  // Escape HTML to prevent XSS
-  function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-  }
+    // Escape HTML to prevent XSS
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
 
-  // Format response with basic markdown support
-  function formatResponse(text) {
-    return escapeHtml(text)
-      .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/\n/g, '<br>');
-  }
+    // Format response with basic markdown support
+    function formatResponse(text) {
+      return escapeHtml(text)
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
+        .replace(/\*(.*?)\*/g, "<em>$1</em>")
+        .replace(/\n/g, "<br>");
+    }
 
-  // Send message to API
-  async function sendMessage(message) {
-    if (isLoading || !message.trim()) return;
+    // Send message to API
+    async function sendMessage(message) {
+      if (isLoading || !message.trim()) return;
 
-    isLoading = true;
-    sendBtn.disabled = true;
-    chatInput.disabled = true;
+      isLoading = true;
+      sendBtn.disabled = true;
+      chatInput.disabled = true;
 
-    addMessage(message, true);
-    addLoading();
+      addMessage(message, true);
+      addLoading();
 
-    try {
-      const response = await fetch('/api/assistant', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: message.trim() })
-      });
+      try {
+        const response = await fetch("/api/assistant", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: message.trim() }),
+        });
 
-      removeLoading();
+        removeLoading();
 
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.answer) {
+          addMessage(data.answer, false);
+        } else {
+          addMessage(
+            "DevUp AI hit a snag! Please try again soon, or join our WhatsApp community for updates. DevUp never gives up!",
+            false,
+            true,
+          );
+        }
+      } catch (error) {
+        removeLoading();
+        // Only show friendly fallback, never raw error
+        addMessage(
+          "DevUp AI hit a snag! Please try again soon, or join our WhatsApp community for updates. DevUp never gives up!",
+          false,
+          true,
+        );
+      } finally {
+        isLoading = false;
+        sendBtn.disabled = false;
+        chatInput.disabled = false;
+        chatInput.focus();
       }
+    }
 
-      const data = await response.json();
+    // Event Listeners
+    chatToggle.addEventListener("click", toggleChat);
+    chatClose.addEventListener("click", toggleChat);
 
-      if (data.success && data.answer) {
-        addMessage(data.answer, false);
-      } else if (data.answer) {
-        addMessage(data.answer, false);
-      } else {
-        addMessage('Sorry, I couldn\'t process that request. Please try again.', false, true);
+    chatForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const message = chatInput.value.trim();
+      if (message) {
+        sendMessage(message);
+        chatInput.value = "";
       }
-    } catch (error) {
-      removeLoading();
-      console.error('AI Chat Error:', error);
-      addMessage('Connection error. Please check your internet and try again.', false, true);
-    } finally {
-      isLoading = false;
-      sendBtn.disabled = false;
-      chatInput.disabled = false;
-      chatInput.focus();
-    }
-  }
+    });
 
-  // Event Listeners
-  chatToggle.addEventListener('click', toggleChat);
-  chatClose.addEventListener('click', toggleChat);
+    // Close on Escape
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && isOpen) {
+        toggleChat();
+      }
+    });
 
-  chatForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const message = chatInput.value.trim();
-    if (message) {
-      sendMessage(message);
-      chatInput.value = '';
-    }
-  });
-
-  // Close on Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && isOpen) {
-      toggleChat();
-    }
-  });
-
-  // Prevent chat from closing when clicking inside
-  chatPanel.addEventListener('click', (e) => e.stopPropagation());
-})();
+    // Prevent chat from closing when clicking inside
+    chatPanel.addEventListener("click", (e) => e.stopPropagation());
+  })();
 </script>
