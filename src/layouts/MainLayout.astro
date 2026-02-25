@@ -534,9 +534,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
 </head>
 
 <body class="loading">
-  <!-- OVERLAYS -->
+  <!-- OVERLAYS (Optimized - removed scanlines for performance) -->
   <div class="noise"></div>
-  <div class="scanlines"></div>
   
   <!-- CURSOR -->
   <div class="cursor-dot hidden md:block"></div>
@@ -1581,27 +1580,42 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
       }, 30);
     }
 
-    // --- CURSOR LOGIC ---
+    // --- CURSOR LOGIC (OPTIMIZED) ---
     const cursorDot = document.querySelector('.cursor-dot');
     const cursorRing = document.querySelector('.cursor-ring');
 
     if (window.matchMedia("(pointer: fine)").matches && cursorDot && cursorRing) {
       let mouseX = 0, mouseY = 0;
       let ringX = 0, ringY = 0;
+      let isAnimating = false;
 
       window.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
         cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+        
+        // Start ring animation if not already running
+        if (!isAnimating) {
+          isAnimating = true;
+          animateRing();
+        }
       });
 
       const animateRing = () => {
-        ringX += (mouseX - ringX) * 0.3; // Increased from 0.15 to 0.3 for faster response
+        const deltaX = Math.abs(mouseX - ringX);
+        const deltaY = Math.abs(mouseY - ringY);
+        
+        // Stop animation when cursor is stable (performance boost)
+        if (deltaX < 0.5 && deltaY < 0.5) {
+          isAnimating = false;
+          return;
+        }
+        
+        ringX += (mouseX - ringX) * 0.3;
         ringY += (mouseY - ringY) * 0.3;
         cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
         requestAnimationFrame(animateRing);
       }
-      animateRing();
 
       // Interactive Elements
       document.querySelectorAll('a, button, .spotlight-card').forEach((el) => {
@@ -1620,9 +1634,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
       });
     }
 
-    // --- SPOTLIGHT EFFECT ---
+    // --- SPOTLIGHT EFFECT (THROTTLED) ---
     const cards = document.querySelectorAll('.spotlight-card');
+    let lastSpotlightUpdate = 0;
+    const throttleDelay = 16; // ~60fps, down from every pixel
+
     window.addEventListener('mousemove', (e) => {
+      const now = Date.now();
+      if (now - lastSpotlightUpdate < throttleDelay) return;
+      lastSpotlightUpdate = now;
+      
       cards.forEach((card) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -1632,24 +1653,23 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.devu
       });
     });
 
-    // --- GSAP ANIMATIONS ---
+    // --- GSAP ANIMATIONS (OPTIMIZED) ---
     // Wait for GSAP to load from CDN
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
       gsap.registerPlugin(ScrollTrigger);
 
-      // Scroll reveal for sections
+      // Reduced animations - only h2 titles for performance
       gsap.utils.toArray('section').forEach((section) => {
-        gsap.from(section.querySelectorAll('h2, h3, p'), {
+        gsap.from(section.querySelectorAll('h2'), {
           scrollTrigger: {
             trigger: section,
             start: "top 80%",
             toggleActions: "play none none reverse"
           },
-          y: 30,
+          y: 20,
           opacity: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "power3.out"
+          duration: 0.6,
+          ease: "power2.out"
         });
       });
     }

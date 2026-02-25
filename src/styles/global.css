@@ -78,7 +78,7 @@ body {
   );
 }
 
-/* Carousel Animations */
+/* Carousel Animations (Optimized) */
 .carousel-container {
   overflow: hidden;
   position: relative;
@@ -86,7 +86,6 @@ body {
 
 .carousel-track {
   display: flex;
-  will-change: transform;
   transition: transform 0.05s linear;
 }
 
@@ -140,7 +139,7 @@ body {
   z-index: 9990;
   pointer-events: none;
   background-image: var(--tw-bg-noise);
-  opacity: 0.07;
+  opacity: 0.03; /* Reduced from 0.07 for better performance */
   mix-blend-mode: overlay;
 }
 
@@ -162,7 +161,7 @@ body {
 
 /* .vignette removed to prevent edge darkening */
 
-/* --- ORB ANIMATIONS --- */
+/* --- ORB ANIMATIONS (OPTIMIZED) --- */
 @keyframes scan {
   0% {
     left: -10%;
@@ -199,11 +198,11 @@ body {
   0%,
   100% {
     transform: scale(1);
-    box-shadow: 0 0 30px var(--signal), 0 0 60px rgba(204, 255, 0, 0.4);
+    box-shadow: 0 0 20px var(--signal), 0 0 40px rgba(204, 255, 0, 0.3); /* Reduced glow intensity */
   }
   50% {
     transform: scale(0.95);
-    box-shadow: 0 0 20px var(--signal), 0 0 40px rgba(204, 255, 0, 0.3);
+    box-shadow: 0 0 15px var(--signal), 0 0 30px rgba(204, 255, 0, 0.2);
   }
 }
 
@@ -215,20 +214,21 @@ body {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1px dashed rgba(204, 255, 0, 0.5);
+  border: 1px dashed rgba(204, 255, 0, 0.4); /* Reduced from 0.5 */
   border-bottom-color: transparent;
-  animation: spin-orb 10s linear infinite;
+  animation: spin-orb 15s linear infinite; /* Slowed from 10s */
   transition: all 0.5s ease;
   pointer-events: none;
-  opacity: 0.8;
+  opacity: 0.6; /* Reduced from 0.8 */
+  will-change: transform;
 }
 
 .orb-ring:nth-child(2) {
   inset: 8px;
-  border: 1px solid rgba(204, 255, 0, 0.3);
+  border: 1px solid rgba(204, 255, 0, 0.2); /* Reduced from 0.3 */
   border-bottom-color: transparent;
-  animation: spin-orb-rev 3s linear infinite;
-  opacity: 0.6;
+  animation: spin-orb-rev 5s linear infinite; /* Slowed from 3s */
+  opacity: 0.4; /* Reduced from 0.6 */
 }
 
 .orb-core {
@@ -236,8 +236,9 @@ body {
   inset: 18px;
   background: var(--signal);
   border-radius: 50%;
-  box-shadow: 0 0 30px var(--signal), 0 0 60px rgba(204, 255, 0, 0.4);
+  box-shadow: 0 0 20px var(--signal), 0 0 40px rgba(204, 255, 0, 0.3); /* Reduced glow */
   animation: pulse-core 2s ease-in-out infinite;
+  will-change: transform;
 }
 
 /* Typing Indicator Bars */
@@ -316,10 +317,11 @@ body {
   transform: translate(-50%, -50%);
   z-index: 10000;
   pointer-events: none;
+  will-change: transform, width, height;
   transition:
-    width 0.3s cubic-bezier(0.19, 1, 0.22, 1),
-    height 0.3s cubic-bezier(0.19, 1, 0.22, 1),
-    background-color 0.3s;
+    width 0.2s ease-out,
+    height 0.2s ease-out,
+    background-color 0.2s ease-out;
 }
 
 /* --- TYPOGRAPHY & TEXTURE --- */
@@ -367,7 +369,7 @@ body {
   }
 }
 
-/* --- 3D GRID FLOOR --- */
+/* --- 3D GRID FLOOR (OPTIMIZED) --- */
 .grid-floor {
   position: absolute;
   width: 300%;
@@ -375,9 +377,9 @@ body {
   bottom: -60%;
   left: -100%;
   background-image:
-    linear-gradient(rgba(204, 255, 0, 0.15) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(204, 255, 0, 0.15) 1px, transparent 1px);
-  background-size: 60px 60px;
+    linear-gradient(rgba(204, 255, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(204, 255, 0, 0.1) 1px, transparent 1px);
+  background-size: 80px 80px; /* Increased from 60px for less complexity */
   transform: perspective(1000px) rotateX(80deg);
   mask-image: linear-gradient(
     to bottom,
@@ -386,7 +388,8 @@ body {
     transparent 95%
   );
   z-index: 1;
-  animation: grid-move 10s linear infinite;
+  will-change: transform;
+  animation: grid-move 15s linear infinite; /* Slowed from 10s to 15s */
 }
 
 @keyframes grid-move {
@@ -395,7 +398,7 @@ body {
   }
 
   to {
-    transform: perspective(1000px) rotateX(80deg) translateY(60px);
+    transform: perspective(1000px) rotateX(80deg) translateY(80px); /* Adjusted for new grid size */
   }
 }
 
@@ -442,7 +445,7 @@ body {
   left: 100%;
 }
 
-/* Marquee */
+/* Marquee (Optimized) */
 .marquee-wrapper {
   position: relative;
   overflow: hidden;
@@ -451,7 +454,8 @@ body {
 
 .marquee-track {
   display: inline-block;
-  animation: marquee 20s linear infinite;
+  animation: marquee 25s linear infinite; /* Slowed from 20s */
+  will-change: transform;
 }
 
 @keyframes marquee {
@@ -502,7 +506,7 @@ body {
   pointer-events: none;
 }
 
-/* Atom/Reactor Core Animation */
+/* Atom/Reactor Core Animation (Optimized) */
 .atom {
   position: absolute;
   top: 50%;
@@ -511,7 +515,7 @@ body {
   height: 60vw;
   transform: translate(-50%, -50%);
   z-index: 0;
-  opacity: 0.6;
+  opacity: 0.5; /* Reduced from 0.6 */
   pointer-events: none;
   mix-blend-mode: screen;
 }
@@ -520,7 +524,7 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Reduced opacity from 0.08 */
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
@@ -532,8 +536,9 @@ body {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 1px solid rgba(204, 255, 0, 0.2);
-  animation: rotate3d 20s linear infinite;
+  border: 1px solid rgba(204, 255, 0, 0.15); /* Reduced from 0.2 */
+  animation: rotate3d 25s linear infinite; /* Slowed from 20s */
+  will-change: transform;
 }
 
 @keyframes rotate3d {

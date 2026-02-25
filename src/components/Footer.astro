@@ -95,15 +95,15 @@ const socialLinks = [
              </a>
           </div>
 
-          <!-- The Map -->
+          <!-- The Map - Lazy Loaded -->
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3808.376934232647!2d78.3235988!3d17.3455861!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb95a278ecef95%3A0x6cd763949617029a!2sVidya%20Jyothi%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1770012766031!5m2!1sen!2sin" 
+            data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3808.376934232647!2d78.3235988!3d17.3455861!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb95a278ecef95%3A0x6cd763949617029a!2sVidya%20Jyothi%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1770012766031!5m2!1sen!2sin" 
             width="100%" 
             height="100%" 
             style="border:0; filter: grayscale(100%) invert(90%) contrast(85%);" 
             allowfullscreen="" 
             loading="lazy" 
-            class="group-hover:filter-none transition-all duration-700 opacity-80 group-hover:opacity-100"
+            class="lazy-map group-hover:filter-none transition-all duration-700 opacity-80 group-hover:opacity-100"
             referrerpolicy="no-referrer-when-downgrade">
           </iframe>
 
@@ -176,7 +176,7 @@ const socialLinks = [
     <!-- 6. Legal / Closing Strip -->
     <div class="border-t border-zinc-900 pt-8">
       <!-- SEO Internal Links Section -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 pb-8 border-b border-zinc-900">
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-8 pb-8 border-b border-zinc-900">
         <div>
           <h4 class="font-mono text-xs text-signal uppercase tracking-widest mb-4">Navigate</h4>
           <nav class="space-y-2">
@@ -207,13 +207,7 @@ const socialLinks = [
             ))}
           </nav>
         </div>
-        <div>
-          <h4 class="font-mono text-xs text-signal uppercase tracking-widest mb-4">Legal</h4>
-          <nav class="space-y-2">
-            <a href="/llms.txt" class="block text-zinc-500 hover:text-white text-sm transition-colors">LLM Information</a>
-            <a href="/sitemap-index.xml" class="block text-zinc-500 hover:text-white text-sm transition-colors">Sitemap</a>
-          </nav>
-        </div>
+
       </div>
       
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -232,3 +226,21 @@ const socialLinks = [
   </div>
 </footer>
 
+<script>
+  // Lazy load map when it becomes visible (performance optimization)
+  const lazyMap = document.querySelector('.lazy-map');
+  if (lazyMap) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const iframe = entry.target;
+          iframe.src = iframe.dataset.src;
+          iframe.classList.remove('lazy-map');
+          observer.unobserve(iframe);
+        }
+      });
+    }, { rootMargin: '100px' });
+    
+    observer.observe(lazyMap);
+  }
+</script>
