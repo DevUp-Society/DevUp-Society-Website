@@ -233,8 +233,8 @@ const socialLinks = [
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const iframe = entry.target;
-          iframe.src = iframe.dataset.src;
+          const iframe = entry.target as HTMLIFrameElement;
+          if (iframe.dataset.src) iframe.src = iframe.dataset.src;
           iframe.classList.remove('lazy-map');
           observer.unobserve(iframe);
         }
