@@ -234,8 +234,11 @@ const socialLinks = [
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const iframe = entry.target as HTMLIFrameElement;
-          if (iframe.dataset.src) iframe.src = iframe.dataset.src;
-          iframe.classList.remove('lazy-map');
+          const src = iframe.getAttribute('data-src');
+          if (src) {
+            iframe.src = src;
+            iframe.classList.remove('lazy-map');
+          }
           observer.unobserve(iframe);
         }
       });

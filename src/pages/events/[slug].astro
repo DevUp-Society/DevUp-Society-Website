@@ -274,15 +274,15 @@ const metaDescription = event.isHackathon
           <div class="flex flex-col md:flex-row items-center gap-6 justify-center">
              {/* Dynamic Registration Link */}
              {event.registrationLink && (
-               <a 
-                 href={`/events/${event.slug}/register`}
-                 class="group relative w-64 h-16 bg-signal text-black clip-corner flex items-center justify-center overflow-hidden btn-glitch"
+               <div
+                 class="group relative w-64 h-16 bg-zinc-900 border border-zinc-700 text-zinc-500 clip-corner flex items-center justify-center cursor-not-allowed"
+                 title="Registrations are temporarily paused while dates are being finalized."
                >
                  <span class="relative z-10 font-mono text-sm font-bold uppercase tracking-[0.2em] flex items-center gap-3">
-                   Register Now
-                   <Icon name="lucide:arrow-right" />
+                   Paused
+                   <Icon name="lucide:lock" class="w-4 h-4" />
                  </span>
-               </a>
+               </div>
              )}
              
              <a href="#details" class="text-zinc-500 hover:text-white font-mono text-xs uppercase tracking-widest border-b border-transparent hover:border-white transition-all pb-1">

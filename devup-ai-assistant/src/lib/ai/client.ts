@@ -306,40 +306,20 @@ export async function processAssistantRequest(
     return {
       success: true,
       answer: assistantMessage,
-      try {
-        // Build system prompt with knowledge context
-        const systemPrompt = buildSystemPrompt();
-        // Build messages array
-        const messages: OpenRouterMessage[] = [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: userMessage },
-        ];
-        // Call OpenRouter
-        const openRouterResponse = await callOpenRouter(messages);
-        // Extract response
-        const assistantMessage = openRouterResponse.choices?.[0]?.message?.content;
-        if (!assistantMessage) {
-          throw new Error("No response content received from AI model");
-        }
-        // Determine confidence and source
-        const confidence = determineConfidence(assistantMessage);
-        const source = confidence === "none" ? undefined : extractSource(assistantMessage, userMessage);
-        return {
-          success: true,
-          answer: assistantMessage,
-          confidence,
-          source,
-        };
-      } catch (error) {
-        // Friendly fallback for OpenRouter/model errors
-        let fallback = "DevUp AI is feeling a bit tired right now (provider error or rate limit)! Please try again soon, or join our WhatsApp community for updates. DevUp never gives up!";
-        if (typeof error === "object" && error && (error as Error).message && (error as Error).message.includes("rate limit")) {
-          fallback = "DevUp AI is currently rate-limited. Please try again in a few minutes, or check out our events and join the DevUp community!";
-        }
-        return {
-          success: false,
-          answer: fallback,
-          confidence: "none",
-          error: error instanceof Error ? error.message : "Unknown error occurred",
-        };
-      }
+      confidence,
+      source,
+    };
+  } catch (error) {
+    // Friendly fallback for OpenRouter/model errors
+    let fallback = "DevUp AI is feeling a bit tired right now (provider error or rate limit)! Please try again soon, or join our WhatsApp community for updates. DevUp never gives up!";
+    if (typeof error === "object" && error && (error as Error).message && (error as Error).message.includes("rate limit")) {
+      fallback = "DevUp AI is currently rate-limited. Please try again in a few minutes, or check out our events and join the DevUp community!";
+    }
+    return {
+      success: false,
+      answer: fallback,
+      confidence: "none",
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
+  }
+}

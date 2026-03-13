@@ -15,8 +15,8 @@ export async function getStaticPaths() {
 
 const { event } = Astro.props;
 
-// Check if registration is closed
-const isRegistrationOpen = event.status === 'upcoming';
+// Temporarily pause registrations
+const isRegistrationOpen = false; // event.status === 'upcoming';
 
 // Get registration deadline from timeline
 const registrationDeadline = event.timeline?.find(item => 
@@ -91,15 +91,15 @@ const registrationDeadline = event.timeline?.find(item =>
         {/* Registration Closed Message */}
         {!isRegistrationOpen && (
           <div class="text-center py-16">
-            <div class="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20">
-              <Icon name="lucide:x-circle" class="text-4xl text-red-500" />
+            <div class="w-20 h-20 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-yellow-500/20">
+              <Icon name="lucide:clock" class="text-4xl text-yellow-500" />
             </div>
-            <h2 class="font-display text-3xl text-white mb-4">REGISTRATION CLOSED</h2>
+            <h2 class="font-display text-3xl text-white mb-4">REGISTRATIONS PAUSED</h2>
             <p class="font-mono text-zinc-400 text-sm mb-8">
-              Registration for this event is no longer available.
+              Hackathon dates are being finalized. Registrations will open soon!
             </p>
             <a href="/events" class="inline-flex items-center gap-2 px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-mono text-xs uppercase tracking-widest transition-colors">
-              View Other Events
+              Return to Events
             </a>
           </div>
         )}
