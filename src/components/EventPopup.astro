@@ -4,7 +4,10 @@ export interface Props {
     id: string;
     title: string;
     date: string;
+    location: string;
     shortDescription: string;
+    fee?: number;
+    seatsLeft?: number;
     registrationLink?: string;
     slug: string;
   } | null;
@@ -66,6 +69,22 @@ const { event } = Astro.props;
               day: 'numeric' 
             })}
           </span>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <span class="inline-flex items-center gap-1 px-2 py-1 border border-zinc-800 bg-black/40 font-mono text-[10px] text-zinc-300 uppercase tracking-wider">
+            Venue: {event.location}
+          </span>
+          {event.seatsLeft && (
+            <span class="inline-flex items-center gap-1 px-2 py-1 border border-signal/40 bg-signal/10 font-mono text-[10px] text-signal uppercase tracking-wider">
+              {event.seatsLeft} Seats Left
+            </span>
+          )}
+          {event.fee && (
+            <span class="inline-flex items-center gap-1 px-2 py-1 border border-zinc-800 bg-black/40 font-mono text-[10px] text-zinc-300 uppercase tracking-wider">
+              Fee: Rs. {event.fee}
+            </span>
+          )}
         </div>
 
         <!-- Description -->

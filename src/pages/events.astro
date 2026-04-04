@@ -19,6 +19,8 @@ import MainLayout from '../layouts/MainLayout.astro';
 import { upcomingEvents, pastEvents } from '../data/events';
 import { Icon } from 'astro-icon/components';
 
+const featuredEvent = upcomingEvents.length > 0 ? upcomingEvents[0] : null;
+
 // Generate ItemList schema for upcoming events
 const eventsListSchema = {
   "@context": "https://schema.org",
@@ -71,8 +73,8 @@ const breadcrumbSchema = {
 
 <MainLayout 
   title="Hackathons, Workshops & Coding Events 2026 | DevUp Society — VJIT Hyderabad"
-  description="Join DevUp Society's hackathons, coding bootcamps, and tech workshops at VJIT (Vidya Jyothi Institute of Technology), Hyderabad. Open to all students. Free registration. Devthon, StackFest, and more."
-  keywords="DevUp Society events, hackathon VJIT 2026, hackathon Hyderabad 2026, Devthon 2026, StackFest VJIT, coding events for students, tech workshops VJIT, student hackathons India, VJIT hackathon, VJIT tech events, coding competition VJIT"
+  description="Join DevUp Society events in Hyderabad including Founders Meet 2026 at T-HUB on 11 April 2026. Limited seats, startup networking, and mentor discussions."
+  keywords="DevUp Society events, Founders Meet 2026, T-HUB Hyderabad events, startup events Hyderabad, coding events for students, tech workshops VJIT"
   schema={[eventsListSchema, breadcrumbSchema]}
 >
   <!-- HERO SECTION -->
@@ -92,32 +94,48 @@ const breadcrumbSchema = {
       <!-- AEO Block for AI Answer Engines -->
       <article class="sr-only" data-speakable itemscope itemtype="https://schema.org/Article">
         <h2>What events does DevUp Society organize?</h2>
-        <p class="aeo-answer">DevUp Society at VJIT (Vidya Jyothi Institute of Technology), Hyderabad organizes hackathons, coding bootcamps, technical workshops, tech talks, and networking meetups. Key events include Devthon (flagship inter-college hackathon) and StackFest (multi-domain tech workshop). Events cover Full-Stack Development, DevOps, AI/ML, Mobile Development, and Open Source contribution. Most events are free and open to all students. Check devupvjit.in/events for upcoming events.</p>
+        <p class="aeo-answer">DevUp Society at VJIT (Vidya Jyothi Institute of Technology), Hyderabad organizes hackathons, coding bootcamps, technical workshops, tech talks, and founder networking meetups. Upcoming highlight: Founders Meet 2026 at T-HUB on 11 April 2026, with limited paid seats. Events cover Full-Stack Development, DevOps, AI/ML, Mobile Development, entrepreneurship, and Open Source contribution. Check devupvjit.in/events for current details.</p>
         <h2>What hackathons happen at VJIT?</h2>
-        <p class="aeo-answer">DevUp Society at VJIT organizes hackathons including Devthon (their flagship inter-college hackathon) and StackFest. These events are open to students from all colleges. Visit devupvjit.in/events for upcoming hackathons at VJIT, Hyderabad.</p>
+        <p class="aeo-answer">DevUp Society at VJIT organizes hackathons and tech events for students, along with startup-focused community events like Founders Meet. Visit devupvjit.in/events for upcoming event details in Hyderabad.</p>
       </article>
     </div>
   </section>
 
   <!-- EVENT POSTER -->
-  <section class="py-16 bg-void border-b border-zinc-900">
-    <div class="max-w-3xl mx-auto px-6">
-      <div class="mb-8 text-center">
-        <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Featured Event</span>
-        <h2 class="font-display text-4xl text-white font-medium leading-[0.9] mb-2">
-          DEVTHON 2026
-        </h2>
+  {featuredEvent && (
+    <section class="py-16 bg-void border-b border-zinc-900">
+      <div class="max-w-3xl mx-auto px-6">
+        <div class="mb-8 text-center">
+          <span class="text-signal font-mono text-xs tracking-widest uppercase mb-4 block">/// Featured Event</span>
+          <h2 class="font-display text-4xl text-white font-medium leading-[0.9] mb-2">
+            {featuredEvent.title}
+          </h2>
+          <p class="font-mono text-xs text-zinc-400 uppercase tracking-wider">
+            {new Date(featuredEvent.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} • {featuredEvent.location}
+          </p>
+        </div>
+        {featuredEvent.images.length > 0 ? (
+          <div class="relative w-full max-w-md mx-auto overflow-hidden border-2 border-zinc-800 bg-zinc-900 clip-corner shadow-[0_0_50px_rgba(204,255,0,0.1)]">
+            <img 
+              src={featuredEvent.images[0]}
+              alt={`${featuredEvent.title} Event Poster`}
+              class="w-full h-auto object-contain"
+              loading="eager"
+            />
+          </div>
+        ) : (
+          <div class="max-w-md mx-auto glass-panel p-6 clip-corner border border-zinc-800 space-y-3">
+            <p class="font-mono text-xs text-zinc-300">Only {featuredEvent.seatsLeft ?? 'limited'} seats left</p>
+            <p class="font-mono text-xs text-zinc-300">Entry Fee: {featuredEvent.fee ? `₹${featuredEvent.fee} per seat` : 'Free'}</p>
+            <a href={`/events/${featuredEvent.slug}`} class="inline-flex items-center gap-2 text-signal font-mono text-xs uppercase tracking-widest">
+              View Event
+              <Icon name="lucide:arrow-right" />
+            </a>
+          </div>
+        )}
       </div>
-      <div class="relative w-full max-w-md mx-auto overflow-hidden border-2 border-zinc-800 bg-zinc-900 clip-corner shadow-[0_0_50px_rgba(204,255,0,0.1)]">
-        <img 
-          src="https://res.cloudinary.com/dmrp1d1tv/image/upload/v1770480533/WhatsApp_Image_2026-02-05_at_2.59.57_PM_nmnwtl.jpg" 
-          alt="Devthon 2026 Event Poster"
-          class="w-full h-auto object-contain"
-          loading="eager"
-        />
-      </div>
-    </div>
-  </section>
+    </section>
+  )}
 
   <!-- UPCOMING EVENTS -->
   {upcomingEvents.length > 0 && (
@@ -170,6 +188,18 @@ const breadcrumbSchema = {
                     <Icon name="lucide:monitor" class="text-signal" />
                     <span>{event.mode}</span>
                   </div>
+                  {event.seatsLeft && (
+                    <div class="flex items-center gap-2 font-mono text-xs text-zinc-400">
+                      <Icon name="lucide:users" class="text-signal" />
+                      <span>{event.seatsLeft} seats left</span>
+                    </div>
+                  )}
+                  {event.fee && (
+                    <div class="flex items-center gap-2 font-mono text-xs text-zinc-400">
+                      <Icon name="lucide:indian-rupee" class="text-signal" />
+                      <span>₹{event.fee} per seat</span>
+                    </div>
+                  )}
                 </div>
 
                 <!-- Description -->
