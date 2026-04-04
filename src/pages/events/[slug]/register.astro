@@ -14,9 +14,10 @@ export async function getStaticPaths() {
 }
 
 const { event } = Astro.props;
+const isFoundersMeet = event.slug === 'founders-meet-2026';
 
 // Temporarily pause registrations
-const isRegistrationOpen = false; // event.status === 'upcoming';
+const isRegistrationOpen = event.status === 'upcoming' && event.slug === 'founders-meet-2026';
 
 // Get registration deadline from timeline
 const registrationDeadline = event.timeline?.find(item => 
@@ -164,36 +165,40 @@ const registrationDeadline = event.timeline?.find(item =>
             <input type="hidden" name="event_name" value={event.title} />
             <input type="hidden" name="team_number" id="team-number" />
             <input type="hidden" name="payment_amount" id="payment-amount" />
+          {isFoundersMeet && <input type="hidden" name="team_name" id="team-name-hidden" value="" />}
+          {isFoundersMeet && <input type="hidden" name="team_size" value="1" />}
 
              {/* Team Details Section */}
+           {!isFoundersMeet && (
              <div class="space-y-6">
-                <div class="flex items-center gap-3 border-b border-zinc-800 pb-2">
-                    <span class="w-6 h-6 rounded-full bg-signal text-black flex items-center justify-center font-bold text-xs">1</span>
-                    <h3 class="font-display text-xl text-white">Team Details</h3>
+              <div class="flex items-center gap-3 border-b border-zinc-800 pb-2">
+                <span class="w-6 h-6 rounded-full bg-signal text-black flex items-center justify-center font-bold text-xs">1</span>
+                <h3 class="font-display text-xl text-white">Team Details</h3>
+              </div>
+                  
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label class="font-mono text-xs text-zinc-500 uppercase">Team Name</label>
+                  <input type="text" name="team_name" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" placeholder="e.g. Code Blasters" />
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-2">
-                        <label class="font-mono text-xs text-zinc-500 uppercase">Team Name</label>
-                        <input type="text" name="team_name" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" placeholder="e.g. Code Blasters" />
-                    </div>
-                    
-                    {/* Team Size Counter */}
-                     <div class="space-y-2">
-                        <label class="font-mono text-xs text-zinc-500 uppercase">Team Size</label>
-                        <div class="flex items-center gap-4">
-                            <button type="button" id="decrease-size" class="w-12 h-12 bg-zinc-900 border border-zinc-800 hover:border-signal text-white font-mono text-xl flex items-center justify-center transition-colors clip-corner">-</button>
-                            <input type="text" id="team-size-display" name="team_size" value="2" readonly class="w-16 h-12 bg-black/50 border border-zinc-800 text-white font-mono text-xl text-center outline-none" />
-                            <button type="button" id="increase-size" class="w-12 h-12 bg-zinc-900 border border-zinc-800 hover:border-signal text-white font-mono text-xl flex items-center justify-center transition-colors clip-corner">+</button>
-                        </div>
-                    </div>
+                      
+                {/* Team Size Counter */}
+                 <div class="space-y-2">
+                  <label class="font-mono text-xs text-zinc-500 uppercase">Team Size</label>
+                  <div class="flex items-center gap-4">
+                    <button type="button" id="decrease-size" class="w-12 h-12 bg-zinc-900 border border-zinc-800 hover:border-signal text-white font-mono text-xl flex items-center justify-center transition-colors clip-corner">-</button>
+                    <input type="text" id="team-size-display" name="team_size" value="2" readonly class="w-16 h-12 bg-black/50 border border-zinc-800 text-white font-mono text-xl text-center outline-none" />
+                    <button type="button" id="increase-size" class="w-12 h-12 bg-zinc-900 border border-zinc-800 hover:border-signal text-white font-mono text-xl flex items-center justify-center transition-colors clip-corner">+</button>
+                  </div>
                 </div>
+              </div>
             </div>
+           )}
 
             <div class="space-y-6">
                 <div class="flex items-center gap-3 border-b border-zinc-800 pb-2">
-                    <span class="w-6 h-6 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center font-bold text-xs">2</span>
-                    <h3 class="font-display text-xl text-white">Team Lead (You)</h3>
+              <span class="w-6 h-6 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center font-bold text-xs">{isFoundersMeet ? '1' : '2'}</span>
+              <h3 class="font-display text-xl text-white">{isFoundersMeet ? 'Participant Details' : 'Team Lead (You)'}</h3>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -202,24 +207,32 @@ const registrationDeadline = event.timeline?.find(item =>
                         <input type="text" name="lead_name" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" />
                     </div>
                     <div class="space-y-2">
-                        <label class="font-mono text-xs text-zinc-500 uppercase">Email (College ID)</label>
+                      <label class="font-mono text-xs text-zinc-500 uppercase">Email</label>
                         <input type="email" name="lead_email" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" />
                     </div>
                     <div class="space-y-2">
                         <label class="font-mono text-xs text-zinc-500 uppercase">Phone Number</label>
                         <input type="tel" name="lead_phone" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" />
                     </div>
+                    {isFoundersMeet && (
+                      <div class="space-y-2">
+                        <label class="font-mono text-xs text-zinc-500 uppercase">Designation / If Student, Year</label>
+                        <input type="text" name="designation" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" placeholder="Founder / Software Engineer / Student - 2nd Year" />
+                      </div>
+                    )}
                     <div class="space-y-2">
-                        <label class="font-mono text-xs text-zinc-500 uppercase">College Name</label>
-                        <input type="text" name="lead_college" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" />
+                      <label class="font-mono text-xs text-zinc-500 uppercase">{isFoundersMeet ? 'Company / College' : 'College Name'}</label>
+                      <input type="text" name="lead_college" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" />
                     </div>
                 </div>
             </div>
 
             {/* Member 2, 3, 4 Containers (Toggled via JS) */}
-            <div id="members-container" class="space-y-6">
-                 {/* Populated by JS */}
-            </div>
+                {!isFoundersMeet && (
+                  <div id="members-container" class="space-y-6">
+                     {/* Populated by JS */}
+                  </div>
+                )}
 
 
             {/* Payment Section (if fee exists) */}
@@ -237,7 +250,7 @@ const registrationDeadline = event.timeline?.find(item =>
                             <div class="flex-1">
                                 <h4 class="font-mono text-red-500 text-xs font-bold uppercase tracking-widest mb-2">⚠️ IMPORTANT: UPI Payment Note</h4>
                                 <p class="font-mono text-red-300 text-xs leading-relaxed mb-2">
-                                    When making payment via UPI, <strong class="text-red-200">YOU MUST include your TEAM NAME in the UPI message/note field</strong>.
+                                  When making payment via UPI, <strong class="text-red-200">YOU MUST include your {isFoundersMeet ? 'FULL NAME' : 'TEAM NAME'} in the UPI message/note field</strong>.
                                 </p>
                                 <p class="font-mono text-red-400 text-[10px] leading-relaxed">
                                     This is mandatory for payment verification. Without the team name in your UPI note, your payment may not be verified correctly.
@@ -268,7 +281,7 @@ const registrationDeadline = event.timeline?.find(item =>
                             </div>
                         </div>
 
-                        <p class="font-mono text-xl text-white mb-2" id="total-amount">Total: ₹{event.fee * 2}</p>
+                        <p class="font-mono text-xl text-white mb-2" id="total-amount">Total: ₹{event.fee * (isFoundersMeet ? 1 : 2)}</p>
                         <p class="font-mono text-[10px] text-zinc-500 max-w-xs mx-auto">
                             After payment, please enter the Transaction ID (UTR) below for verification.
                         </p>
@@ -300,7 +313,7 @@ const registrationDeadline = event.timeline?.find(item =>
   </div>
 </MainLayout>
 
-<script is:inline define:vars={{ BACKEND_URL: import.meta.env.PUBLIC_SITE_URL || 'https://www.devupvjit.in' }}>
+<script is:inline define:vars={{ BACKEND_URL: import.meta.env.PUBLIC_SITE_URL || 'https://www.devupvjit.in', EVENT_SLUG: event.slug }}>
 // ============================================
 // PRODUCTION-READY REGISTRATION CLIENT
 // With comprehensive error handling and debugging
@@ -310,6 +323,7 @@ const registrationDeadline = event.timeline?.find(item =>
 // BACKEND_URL is injected from Astro context above
 const UPI_ID = 'aliffaizan1212@oksbi';
 const UPI_PAYEE = 'DevUp Society';
+const IS_FOUNDERS_MEET = EVENT_SLUG === 'founders-meet-2026';
 
 // Logger
 const logger = {
@@ -382,6 +396,21 @@ function validatePhone(phone) {
 
 function validateFormData(data) {
   const errors = [];
+
+  if (IS_FOUNDERS_MEET) {
+    if (!data.lead_name?.trim()) errors.push('Name is required');
+    if (!data.lead_email?.trim()) errors.push('Email is required');
+    else if (!validateEmail(data.lead_email)) errors.push('Email is invalid');
+    if (!data.lead_phone?.trim()) errors.push('Phone number is required');
+    else if (!validatePhone(data.lead_phone)) errors.push('Phone number must be 10 digits');
+    if (!data.designation?.trim()) errors.push('Designation / year is required');
+    if (!data.lead_college?.trim()) errors.push('Company / college is required');
+    if (data.payment_amount > 0 && !data.transaction_id?.trim()) {
+      errors.push('Transaction ID is required');
+    }
+    return { valid: errors.length === 0, errors };
+  }
+
   if (!data.team_name?.trim()) errors.push('Team name is required');
   if (!data.lead_name?.trim()) errors.push('Lead name is required');
   if (!data.lead_email?.trim()) errors.push('Lead email is required');
@@ -529,6 +558,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ============================================
     // PAYMENT UI UPDATE
     // ============================================
+    function getPaymentReference() {
+      if (!IS_FOUNDERS_MEET) {
+        return teamNumberInput?.value || 'DEV2026-000';
+      }
+
+      const leadNameInput = document.querySelector('input[name="lead_name"]');
+      const name = leadNameInput?.value?.trim();
+      return name || 'Founders Meet';
+    }
+
     function updatePaymentUI(total, teamNumber) {
       logger.info('Updating payment UI', { total, teamNumber });
       
@@ -585,6 +624,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     // MEMBER FIELDS RENDERING
     // ============================================
     function updateMemberFields() {
+      if (IS_FOUNDERS_MEET) {
+        if (eventFee > 0 && totalAmountDisplay && teamNumberInput) {
+          const total = eventFee;
+          totalAmountDisplay.textContent = `Total: ₹${total}`;
+          updatePaymentUI(total, getPaymentReference());
+        }
+        return;
+      }
+
       if (!membersContainer || !teamSizeInput) return;
       
       let size = parseInt(teamSizeInput.value) || 2;
@@ -617,7 +665,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (eventFee > 0 && totalAmountDisplay && teamNumberInput) {
         const total = eventFee * size;
         totalAmountDisplay.textContent = `Total: ₹${total}`;
-        updatePaymentUI(total, teamNumberInput.value || 'DEV2026-000');
+        updatePaymentUI(total, getPaymentReference());
       }
       
       logger.debug('Member fields updated', { count: size - 1 });
@@ -627,6 +675,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // TEAM SIZE CONTROLS
     // ============================================
     function initTeamControls() {
+      if (IS_FOUNDERS_MEET) return;
+
       if (increaseBtn && decreaseBtn && teamSizeInput) {
         increaseBtn.addEventListener('click', () => {
           let current = parseInt(teamSizeInput.value) || 2;
@@ -666,6 +716,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         teamNumberInput.value = teamNumber;
         logger.info('Team number initialized', { teamNumber });
         updateMemberFields();
+
+        const leadNameInput = document.querySelector('input[name="lead_name"]');
+        if (leadNameInput) {
+          leadNameInput.addEventListener('input', () => updateMemberFields());
+        }
       } catch (error) {
         logger.error('Failed to initialize team number', error);
         teamNumberInput.value = 'DEV2026-001';
@@ -709,29 +764,43 @@ document.addEventListener('DOMContentLoaded', async () => {
       try {
         // Extract form data
         const formData = new FormData(form);
-        const teamSize = parseInt(teamSizeInput?.value || '2');
+        const teamSize = IS_FOUNDERS_MEET ? 1 : parseInt(teamSizeInput?.value || '2');
         
         logger.debug('Extracting form data...', { teamSize });
         
         // Build members array
         const members = [];
-        for (let i = 2; i <= teamSize; i++) {
-          const name = formData.get(`member_${i}_name`);
-          const email = formData.get(`member_${i}_email`);
-          const phone = formData.get(`member_${i}_phone`);
-          if (name || email || phone) {
-            members.push({ name, email, phone });
+        if (!IS_FOUNDERS_MEET) {
+          for (let i = 2; i <= teamSize; i++) {
+            const name = formData.get(`member_${i}_name`);
+            const email = formData.get(`member_${i}_email`);
+            const phone = formData.get(`member_${i}_phone`);
+            if (name || email || phone) {
+              members.push({ name, email, phone });
+            }
           }
+        }
+
+        const participantName = (formData.get('lead_name') || '').toString();
+        const designation = (formData.get('designation') || '').toString();
+        const teamName = IS_FOUNDERS_MEET
+          ? `${participantName}${designation ? ` - ${designation}` : ''} - Individual`
+          : formData.get('team_name');
+
+        const hiddenTeamName = document.getElementById('team-name-hidden');
+        if (hiddenTeamName && typeof teamName === 'string') {
+          hiddenTeamName.value = teamName;
         }
         
         const registrationData = {
           event_slug: formData.get('event_slug'),
           event_name: formData.get('event_name'),
-          team_name: formData.get('team_name'),
+          team_name: teamName,
           lead_name: formData.get('lead_name'),
           lead_email: formData.get('lead_email'),
           lead_phone: formData.get('lead_phone'),
           lead_college: formData.get('lead_college'),
+          designation,
           team_number: formData.get('team_number'),
           team_size: teamSize,
           payment_amount: parseInt(formData.get('payment_amount') || '0'),
