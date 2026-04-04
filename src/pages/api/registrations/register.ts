@@ -40,6 +40,7 @@ export const POST: APIRoute = async ({ request }) => {
       lead_email,
       lead_phone,
       lead_college,
+      designation,
       team_number,
       payment_amount,
       transaction_id,
@@ -59,6 +60,14 @@ export const POST: APIRoute = async ({ request }) => {
     ) {
       return new Response(
         JSON.stringify({ error: 'Missing required fields' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Founders Meet requires designation/year information
+    if (event_slug === 'founders-meet-2026' && !designation) {
+      return new Response(
+        JSON.stringify({ error: 'Designation / year is required for Founders Meet' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -90,6 +99,7 @@ export const POST: APIRoute = async ({ request }) => {
       lead_email: lead_email.toLowerCase().trim(),
       lead_phone: cleanPhone,
       lead_college: sanitizeInput(lead_college),
+      designation: designation ? sanitizeInput(designation) : null,
       team_number: sanitizeInput(team_number),
       transaction_id: transaction_id ? sanitizeInput(transaction_id) : null,
     };
@@ -143,23 +153,39 @@ export const POST: APIRoute = async ({ request }) => {
     const registrationId = crypto.randomUUID();
 
     // Insert registration
-    const { error: regError } = await supabase.from('registrations').insert([
-      {
-        id: registrationId,
-        event_slug: sanitizedData.event_slug,
-        team_name: sanitizedData.team_name,
-        lead_name: sanitizedData.lead_name,
-        lead_email: sanitizedData.lead_email,
-        lead_phone: sanitizedData.lead_phone,
-        lead_college: sanitizedData.lead_college,
-        team_number: sanitizedData.team_number,
-        payment_amount: parseInt(payment_amount) || 0,
-        transaction_id: sanitizedData.transaction_id,
-        payment_status: 'pending',
-        team_size: parseInt(team_size) || 2,
-        status: 'pending',
-      },
-    ]);
+    const registrationInsert: Record<string, any> = {
+      id: registrationId,
+      event_slug: sanitizedData.event_slug,
+      team_name: sanitizedData.team_name,
+      lead_name: sanitizedData.lead_name,
+      lead_email: sanitizedData.lead_email,
+      lead_phone: sanitizedData.lead_phone,
+      lead_college: sanitizedData.lead_college,
+      team_number: sanitizedData.team_number,
+      payment_amount: parseInt(payment_amount) || 0,
+      transaction_id: sanitizedData.transaction_id,
+      payment_status: 'pending',
+      team_size: parseInt(team_size) || 2,
+      status: 'pending',
+    };
+
+    if (sanitizedData.designation) {
+      registrationInsert.lead_designation = sanitizedData.designation;
+    }
+
+    let regError: any = null;
+    const insertResult = await supabase.from('registrations').insert([registrationInsert]);
+    regError = insertResult.error;
+
+    // Backward-compatible fallback if lead_designation column is not yet added in DB
+    if (regError && sanitizedData.designation) {
+      const msg = String(regError.message || '').toLowerCase();
+      if (msg.includes('lead_designation') || msg.includes('column')) {
+        delete registrationInsert.lead_designation;
+        const fallbackResult = await supabase.from('registrations').insert([registrationInsert]);
+        regError = fallbackResult.error;
+      }
+    }
 
     if (regError) {
       console.error('[register] Supabase insert error:', regError);
@@ -205,6 +231,7 @@ export const POST: APIRoute = async ({ request }) => {
         lead_email: sanitizedData.lead_email,
         lead_phone: sanitizedData.lead_phone,
         lead_college: sanitizedData.lead_college,
+        lead_designation: sanitizedData.designation,
         team_size: parseInt(team_size) || 2,
         payment_amount: parseInt(payment_amount) || 0,
         transaction_id: sanitizedData.transaction_id,
