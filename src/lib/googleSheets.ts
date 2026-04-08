@@ -46,7 +46,10 @@ export async function syncRegistrationToSheets(
   teamMembers: any[] = []
 ): Promise<{ success: boolean; error?: string }> {
   if (!sheets) sheets = initSheetsClient();
-  if (!sheets) return { success: false, error: 'Sheets not configured' };
+  if (!sheets) {
+    console.error('[GoogleSheets] Client not initialized - credentials missing or invalid');
+    return { success: false, error: 'Sheets client not initialized' };
+  }
 
   try {
     // Format registration data
@@ -62,8 +65,14 @@ export async function syncRegistrationToSheets(
       registration.created_at || new Date().toISOString(),
     ];
 
+    console.log('[GoogleSheets] Attempting to append row:', {
+      spreadsheetId: SPREADSHEET_ID ? '✓ Set' : '✗ Missing',
+      registrationId: registration.id,
+      email: registration.lead_email,
+    });
+
     // Append to Registrations sheet
-    await sheets.spreadsheets.values.append({
+    const response = await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
       range: 'Registrations!A:I',
       valueInputOption: 'RAW',
@@ -74,11 +83,18 @@ export async function syncRegistrationToSheets(
     });
 
     console.log('[GoogleSheets] ✓ Synced registration:', registration.id, {
-      ignoredTeamMembers: teamMembers.length,
+      updates: response.data.updates,
+      teamMembers: teamMembers.length,
     });
     return { success: true };
   } catch (error: any) {
-    console.error('[GoogleSheets] Sync failed:', error.message);
+    console.error('[GoogleSheets] Sync failed:', {
+      message: error.message,
+      code: error.code,
+      status: error.status,
+      details: error.details,
+      registrationId: registration.id,
+    });
     return { success: false, error: error.message };
   }
 }
