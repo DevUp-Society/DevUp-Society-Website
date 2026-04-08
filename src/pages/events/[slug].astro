@@ -47,6 +47,7 @@ const formattedDate = eventDate.toLocaleDateString('en-US', {
 const isoDate = eventDate.toISOString();
 
 const isUpcoming = event.status === 'upcoming';
+const isFoundersMeet = event.slug === 'founders-meet-2026';
 
 /**
  * Generate comprehensive Event schema for Google Events
@@ -279,9 +280,9 @@ const metaDescription = event.isHackathon
                 {event.seatsLeft} Seats Left
               </span>
             )}
-            {event.fee && (
-              <span class="px-3 py-1 border border-zinc-800 bg-black/40 font-mono text-[10px] text-zinc-300 uppercase tracking-widest">
-                Fee: Rs. {event.fee}
+            {isFoundersMeet && (
+              <span id="pitchquest-countdown" class="px-3 py-1 border border-zinc-800 bg-black/40 font-mono text-[10px] text-zinc-300 uppercase tracking-widest">
+                Pitch Quest close countdown loading...
               </span>
             )}
           </div>
@@ -321,6 +322,24 @@ const metaDescription = event.isHackathon
                 alt={`${event.title} Event Poster`}
                 class="w-full h-auto object-contain"
                 loading="eager"
+              />
+            </div>
+          </div>
+        </section>
+      )}
+
+      {isFoundersMeet && (
+        <section class="py-10 bg-void border-b border-zinc-900">
+          <div class="max-w-5xl mx-auto px-6">
+            <div class="mb-4 text-center">
+              <span class="text-signal font-mono text-xs tracking-widest uppercase">Pitch Quest to Founders Meet Timeline</span>
+            </div>
+            <div class="relative w-full max-w-3xl mx-auto overflow-hidden border border-zinc-800 bg-zinc-900 clip-corner shadow-[0_0_30px_rgba(204,255,0,0.08)]">
+              <img
+                src="https://res.cloudinary.com/dmrp1d1tv/image/upload/q_auto/f_auto/v1775653201/Pitch_Quest_to_Founders_Meet_Timeline_fyd48y.png"
+                alt="Pitch Quest to Founders Meet Timeline"
+                class="w-full h-auto object-cover"
+                loading="lazy"
               />
             </div>
           </div>
@@ -691,3 +710,32 @@ const metaDescription = event.isHackathon
   )}
 
 </MainLayout>
+
+{isFoundersMeet && (
+  <script is:inline>
+    (function () {
+      const el = document.getElementById('pitchquest-countdown');
+      if (!el) return;
+
+      const closeDate = new Date('2026-04-11T23:59:59+05:30');
+
+      const updateCountdown = () => {
+        const now = new Date();
+        const diff = closeDate.getTime() - now.getTime();
+
+        if (diff <= 0) {
+          el.textContent = 'Pitch Quest registrations closed';
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        el.textContent = `Pitch Quest closes in ${days}d ${hours}h ${minutes}m`;
+      };
+
+      updateCountdown();
+      setInterval(updateCountdown, 60000);
+    })();
+  </script>
+)}
