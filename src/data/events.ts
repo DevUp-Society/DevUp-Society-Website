@@ -98,13 +98,13 @@ export const events: Event[] = [
         id: "evt-002",
         title: "Founders Meet 2026",
         slug: "founders-meet-2026",
-        date: "2026-04-11",
+        date: "2026-04-14",
         location: "T-HUB, Hyderabad",
         mapEmbedLink: "https://www.google.com/maps?q=T-Hub,+Hyderabad&output=embed",
         mode: "Offline",
-        shortDescription: "A high-energy founder networking and idea-validation meetup on 11 April 2026 at T-HUB. Only 100 seats left. Fee: ₹1000 per seat.",
-        fullDescription: "DevUp Society presents Founders Meet 2026 on 11 April 2026 at T-HUB, Hyderabad. This focused meetup is designed for founders, aspiring entrepreneurs, builders, and students who want to discuss startup ideas, validate concepts, and connect with mentors and investors. You will get practical conversations around execution, market fit, and building with speed. Seats are limited and filling fast. Only 100 seats are left, and the participation fee is ₹1000 per seat.",
-        images: ["/Founders-Meet.svg"],
+        shortDescription: "Pitch Quest starts online and is completely free. Shortlisted innovators move to the paid Founders Meet main event on 14 April 2026 at T-HUB, Hyderabad.",
+        fullDescription: "DevUp Society presents a two-stage founder journey. Stage 1 is Pitch Quest, an online and completely free screening round. Pitch Quest registrations close on 11 April, and the pitching phase runs online on 11-12 April. On 13 April, shortlisted innovators are announced and Founders Meet registrations open for shortlisted participants. Stage 2 is the Founders Meet main event on 14 April 2026 at T-HUB, Hyderabad, where selected innovators get to network, validate ideas, and connect with mentors and startup ecosystem leaders.",
+        images: ["https://res.cloudinary.com/dmrp1d1tv/image/upload/q_auto/f_auto/v1775653200/Founders_Meet_Poster_1_epf1vt.png"],
         speakers: [],
         tags: ["FoundersMeet", "Startup", "Networking", "Mentorship", "Innovation"],
         status: "upcoming",
@@ -112,17 +112,20 @@ export const events: Event[] = [
         seatsLeft: 100,
         registrationLink: "/events/founders-meet-2026/register",
         timeline: [
-            { id: 1, title: "Check-in & Networking", date: "Apr 11, 9:30 AM", description: "Entry, registration desk support, and founder networking kickoff." },
-            { id: 2, title: "Opening Keynote", date: "Apr 11, 10:30 AM", description: "Opening session on startup execution and founder mindset." },
-            { id: 3, title: "Founder Discussions", date: "Apr 11, 11:30 AM", description: "Focused discussions on validation, traction, and growth strategies." },
-            { id: 4, title: "Mentor Connect", date: "Apr 11, 1:00 PM", description: "Meet mentors for practical feedback on ideas and next steps." },
-            { id: 5, title: "Investor Interaction", date: "Apr 11, 2:30 PM", description: "Interactive session with investors and ecosystem enablers." }
+            { id: 1, title: "Pitch Quest Registrations Close", date: "Apr 11", description: "Last date to submit for the free online Pitch Quest round." },
+            { id: 2, title: "Pitching Phase (Online)", date: "Apr 11-12", description: "Shortlisted applications pitch online before the main event selection." },
+            { id: 3, title: "Shortlisted Innovators Declared", date: "Apr 13", description: "Results are announced for candidates moving to Founders Meet." },
+            { id: 4, title: "Founders Meet Registrations Open", date: "Apr 13", description: "Only shortlisted innovators can register for the T-HUB main event." },
+            { id: 5, title: "Founders Meet Main Event", date: "Apr 14", description: "In-person main event at T-HUB, Hyderabad." }
         ],
         faqs: [
-            { question: "What is the registration fee?", answer: "The registration fee is ₹1000 per seat." },
-            { question: "How many seats are currently available?", answer: "Only 100 seats are left at the moment." },
-            { question: "Where is the event happening?", answer: "The event will be held at T-HUB, Hyderabad." },
-            { question: "When is Founders Meet 2026?", answer: "Founders Meet 2026 is scheduled for 11 April 2026." }
+            { question: "Is Pitch Quest free?", answer: "Yes. The online Pitch Quest round is completely free." },
+            { question: "When does Pitch Quest registration close?", answer: "Pitch Quest registrations close on 11 April." },
+            { question: "When is the pitching phase?", answer: "Pitching happens online on 11-12 April." },
+            { question: "When are shortlisted innovators announced?", answer: "Shortlisted innovators are declared on 13 April." },
+            { question: "Who can register for Founders Meet at T-HUB?", answer: "Founders Meet registrations open on 13 April for shortlisted innovators." },
+            { question: "Is Founders Meet paid?", answer: "Yes. Founders Meet at T-HUB is a paid stage for shortlisted participants." },
+            { question: "When is the main event?", answer: "Founders Meet main event is on 14 April at T-HUB, Hyderabad." }
         ]
     }
 ];
