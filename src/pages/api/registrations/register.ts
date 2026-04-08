@@ -1,11 +1,11 @@
 /**
  * POST /api/registrations/register
- * Handles event registration with payment verification
- * Includes Google Sheets backup and email notifications
+ * Handles event registration with Google Sheets storage
  */
 import type { APIRoute } from 'astro';
-import { createClient } from '@supabase/supabase-js';
 import { syncRegistrationToSheets, isConfigured } from '../../../lib/googleSheets';
+
+export const prerender = false;
 
 export const config = {
   runtime: 'nodejs',
@@ -31,32 +31,41 @@ export const POST: APIRoute = async ({ request }) => {
   const startTime = Date.now();
 
   try {
-    // Parse request body
-    const body = await request.json();
+    // Parse request body safely
+    const rawBody = await request.text();
+    if (!rawBody || !rawBody.trim()) {
+      return new Response(
+        JSON.stringify({ error: 'Missing request body' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    let body: any;
+    try {
+      body = JSON.parse(rawBody);
+    } catch {
+      return new Response(
+        JSON.stringify({ error: 'Invalid JSON body' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
     const {
       event_slug,
-      team_name,
       lead_name,
       lead_email,
       lead_phone,
       lead_college,
       designation,
-      team_number,
-      payment_amount,
-      transaction_id,
-      team_size,
-      members,
     } = body;
 
     // Validate required fields
     if (
       !event_slug ||
-      !team_name ||
       !lead_name ||
       !lead_email ||
       !lead_phone ||
-      !lead_college ||
-      !team_number
+      !lead_college
     ) {
       return new Response(
         JSON.stringify({ error: 'Missing required fields' }),
@@ -94,212 +103,67 @@ export const POST: APIRoute = async ({ request }) => {
     // Sanitize inputs
     const sanitizedData = {
       event_slug: sanitizeInput(event_slug),
-      team_name: sanitizeInput(team_name),
       lead_name: sanitizeInput(lead_name),
       lead_email: lead_email.toLowerCase().trim(),
       lead_phone: cleanPhone,
       lead_college: sanitizeInput(lead_college),
       designation: designation ? sanitizeInput(designation) : null,
-      team_number: sanitizeInput(team_number),
-      transaction_id: transaction_id ? sanitizeInput(transaction_id) : null,
     };
-
-    // Initialize Supabase
-    const supabase = createClient(
-      import.meta.env.SUPABASE_URL,
-      import.meta.env.SUPABASE_SERVICE_ROLE_KEY || import.meta.env.SUPABASE_ANON_KEY
-    );
-
-    // Check for duplicate registrations
-    const { data: existingReg } = await supabase
-      .from('registrations')
-      .select('id, team_number')
-      .eq('event_slug', sanitizedData.event_slug)
-      .or(
-        `lead_email.eq.${sanitizedData.lead_email},lead_phone.eq.${sanitizedData.lead_phone}`
-      )
-      .limit(1);
-
-    if (existingReg && existingReg.length > 0) {
-      return new Response(
-        JSON.stringify({
-          error: 'Duplicate registration detected',
-          message: `This email or phone is already registered (Team: ${existingReg[0].team_number})`,
-        }),
-        { status: 409, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Check duplicate transaction ID
-    if (transaction_id) {
-      const { data: existingTxn } = await supabase
-        .from('registrations')
-        .select('team_number')
-        .eq('transaction_id', sanitizedData.transaction_id)
-        .limit(1);
-
-      if (existingTxn && existingTxn.length > 0) {
-        return new Response(
-          JSON.stringify({
-            error: 'Duplicate transaction ID',
-            message: 'This transaction ID has already been used.',
-          }),
-          { status: 409, headers: { 'Content-Type': 'application/json' } }
-        );
-      }
-    }
 
     // Generate registration ID
     const registrationId = crypto.randomUUID();
 
-    // Insert registration
     const registrationInsert: Record<string, any> = {
       id: registrationId,
       event_slug: sanitizedData.event_slug,
-      team_name: sanitizedData.team_name,
       lead_name: sanitizedData.lead_name,
       lead_email: sanitizedData.lead_email,
       lead_phone: sanitizedData.lead_phone,
       lead_college: sanitizedData.lead_college,
-      team_number: sanitizedData.team_number,
-      payment_amount: parseInt(payment_amount) || 0,
-      transaction_id: sanitizedData.transaction_id,
-      payment_status: 'pending',
-      team_size: parseInt(team_size) || 2,
-      status: 'pending',
+      status: 'submitted',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     };
 
     if (sanitizedData.designation) {
       registrationInsert.lead_designation = sanitizedData.designation;
     }
 
-    let regError: any = null;
-    const insertResult = await supabase.from('registrations').insert([registrationInsert]);
-    regError = insertResult.error;
-
-    // Backward-compatible fallback if lead_designation column is not yet added in DB
-    if (regError && sanitizedData.designation) {
-      const msg = String(regError.message || '').toLowerCase();
-      if (msg.includes('lead_designation') || msg.includes('column')) {
-        delete registrationInsert.lead_designation;
-        const fallbackResult = await supabase.from('registrations').insert([registrationInsert]);
-        regError = fallbackResult.error;
-      }
-    }
-
-    if (regError) {
-      console.error('[register] Supabase insert error:', regError);
+    if (!isConfigured()) {
       return new Response(
-        JSON.stringify({ error: 'Failed to create registration' }),
+        JSON.stringify({
+          error: 'Google Sheets is not configured',
+          message: 'Set GOOGLE_SHEETS_SPREADSHEET_ID, GOOGLE_SERVICE_ACCOUNT_EMAIL, and GOOGLE_PRIVATE_KEY.',
+        }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
-    // Insert team members
-    let insertedTeamMembers: any[] = [];
-    if (members && Array.isArray(members) && members.length > 0) {
-      const teamMembers = members.map((member: any) => ({
-        registration_id: registrationId,
-        name: sanitizeInput(member.name),
-        email: member.email ? member.email.toLowerCase().trim() : null,
-        phone: member.phone ? member.phone.replace(/\s/g, '') : null,
-      }));
-
-      const { data: memberData, error: memError } = await supabase
-        .from('team_members')
-        .insert(teamMembers)
-        .select();
-
-      if (memberData) {
-        insertedTeamMembers = memberData;
-        console.log(`[register] ✓ Inserted ${memberData.length} team members`);
-      }
-    }
-
-    const dbDuration = Date.now() - startTime;
-    console.log(`[register] ✓ Database operations: ${dbDuration}ms`);
-
-    // Async operations (don't wait for completion)
-    // Google Sheets backup
-    if (isConfigured()) {
-      const registrationData = {
-        id: registrationId,
-        team_number: sanitizedData.team_number,
-        event_slug: sanitizedData.event_slug,
-        team_name: sanitizedData.team_name,
-        lead_name: sanitizedData.lead_name,
-        lead_email: sanitizedData.lead_email,
-        lead_phone: sanitizedData.lead_phone,
-        lead_college: sanitizedData.lead_college,
-        lead_designation: sanitizedData.designation,
-        team_size: parseInt(team_size) || 2,
-        payment_amount: parseInt(payment_amount) || 0,
-        transaction_id: sanitizedData.transaction_id,
-        payment_status: 'pending',
-        status: 'pending',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
-
-      syncRegistrationToSheets(registrationData, insertedTeamMembers).catch(
-        (error) => console.error('[register] Sheets sync failed:', error)
+    const syncResult = await syncRegistrationToSheets(registrationInsert, []);
+    if (!syncResult.success) {
+      return new Response(
+        JSON.stringify({
+          error: 'Failed to save registration',
+          message: syncResult.error || 'Google Sheets sync failed',
+        }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
-    // Send email (async)
-    const teamMembersData =
-      members && members.length > 0
-        ? members
-            .map((m: any) => ({
-              name: sanitizeInput(m.name),
-              phone: m.phone ? m.phone.replace(/\s/g, '') : undefined,
-            }))
-            .filter((m: any) => m.name)
-        : [];
-
-    const emailFormData = new URLSearchParams({
-      teamNumber: sanitizedData.team_number,
-      teamName: sanitizedData.team_name,
-      leadName: sanitizedData.lead_name,
-      leadEmail: sanitizedData.lead_email,
-      teamSize: team_size.toString(),
-      amount: payment_amount.toString(),
-      transactionId: sanitizedData.transaction_id || 'N/A',
-    });
-
-    if (teamMembersData.length > 0) {
-      emailFormData.append('teamMembers', JSON.stringify(teamMembersData));
-    }
-
-    fetch('https://www.devupvjit.in/api/email/pending', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: emailFormData.toString(),
-    })
-      .then((res) => {
-        if (res.ok) console.log('[register] ✓ Email sent');
-        else console.error('[register] Email failed:', res.status);
-      })
-      .catch((error) => console.error('[register] Email error:', error));
-
     const totalDuration = Date.now() - startTime;
-    console.log(
-      `[register] ✓ Registration complete: ${sanitizedData.team_number} (${totalDuration}ms)`
-    );
+    console.log(`[register] ✓ Registration complete: ${registrationId} (${totalDuration}ms)`);
 
     // Return success immediately (don't wait for email/sheets)
     return new Response(
       JSON.stringify({
         success: true,
         registrationId,
-        teamNumber: sanitizedData.team_number,
-        teamName: sanitizedData.team_name,
         leadName: sanitizedData.lead_name,
         leadEmail: sanitizedData.lead_email,
-        teamSize: parseInt(team_size) || 2,
-        paymentAmount: parseInt(payment_amount) || 0,
-        transactionId: sanitizedData.transaction_id,
-        message: 'Registration successful! Check your email for confirmation.',
+        leadPhone: sanitizedData.lead_phone,
+        leadCollege: sanitizedData.lead_college,
+        designation: sanitizedData.designation,
+        message: 'Pitch Quest registration submitted successfully.',
       }),
       {
         status: 200,
@@ -328,7 +192,7 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(
       JSON.stringify({
         error: 'Registration failed',
-        message: 'An error occurred. Please try again or contact support.',
+        message: error?.message || 'An error occurred. Please try again or contact support.',
       }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );

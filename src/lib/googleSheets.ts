@@ -52,26 +52,20 @@ export async function syncRegistrationToSheets(
     // Format registration data
     const regRow = [
       registration.id,
-      registration.team_number,
       registration.event_slug,
-      registration.team_name,
       registration.lead_name,
       registration.lead_email,
       registration.lead_phone,
+      registration.lead_designation || 'N/A',
       registration.lead_college,
-      registration.team_size,
-      registration.payment_amount,
-      registration.transaction_id || 'N/A',
-      registration.payment_status || 'pending',
       registration.status || 'pending',
       registration.created_at || new Date().toISOString(),
-      registration.updated_at || new Date().toISOString(),
     ];
 
     // Append to Registrations sheet
     await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: 'Registrations!A:O',
+      range: 'Registrations!A:I',
       valueInputOption: 'RAW',
       insertDataOption: 'INSERT_ROWS',
       resource: {
@@ -79,30 +73,9 @@ export async function syncRegistrationToSheets(
       },
     });
 
-    // Append team members if any
-    if (teamMembers.length > 0) {
-      const memberRows = teamMembers.map((member) => [
-        member.id || crypto.randomUUID(),
-        registration.id,
-        registration.team_number,
-        member.name,
-        member.email || 'N/A',
-        member.phone || 'N/A',
-        member.created_at || new Date().toISOString(),
-      ]);
-
-      await sheets.spreadsheets.values.append({
-        spreadsheetId: SPREADSHEET_ID,
-        range: 'Team Members!A:G',
-        valueInputOption: 'RAW',
-        insertDataOption: 'INSERT_ROWS',
-        resource: {
-          values: memberRows,
-        },
-      });
-    }
-
-    console.log('[GoogleSheets] ✓ Synced:', registration.team_number);
+    console.log('[GoogleSheets] ✓ Synced registration:', registration.id, {
+      ignoredTeamMembers: teamMembers.length,
+    });
     return { success: true };
   } catch (error: any) {
     console.error('[GoogleSheets] Sync failed:', error.message);
@@ -130,42 +103,23 @@ export async function fullBackupToSheets(supabase: any): Promise<{
 
     if (regError) throw new Error(`Supabase error: ${regError.message}`);
 
-    // Fetch all team members
-    const { data: teamMembers, error: memError } = await supabase
-      .from('team_members')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (memError) throw new Error(`Team members error: ${memError.message}`);
-
     // Clear existing data
     await sheets.spreadsheets.values.clear({
       spreadsheetId: SPREADSHEET_ID,
-      range: 'Registrations!A2:O',
-    });
-
-    await sheets.spreadsheets.values.clear({
-      spreadsheetId: SPREADSHEET_ID,
-      range: 'Team Members!A2:G',
+      range: 'Registrations!A2:I',
     });
 
     // Format registration rows
     const regRows = registrations.map((reg: any) => [
       reg.id,
-      reg.team_number,
       reg.event_slug,
-      reg.team_name,
       reg.lead_name,
       reg.lead_email,
       reg.lead_phone,
+      reg.lead_designation || 'N/A',
       reg.lead_college,
-      reg.team_size,
-      reg.payment_amount,
-      reg.transaction_id || 'N/A',
-      reg.payment_status,
       reg.status,
       reg.created_at,
-      reg.updated_at,
     ]);
 
     // Write registrations
@@ -180,38 +134,13 @@ export async function fullBackupToSheets(supabase: any): Promise<{
       });
     }
 
-    // Format team member rows
-    const memberRows = teamMembers.map((member: any) => [
-      member.id,
-      member.registration_id,
-      member.team_number || 'N/A',
-      member.name,
-      member.email || 'N/A',
-      member.phone || 'N/A',
-      member.created_at,
-    ]);
-
-    // Write team members
-    if (memberRows.length > 0) {
-      await sheets.spreadsheets.values.update({
-        spreadsheetId: SPREADSHEET_ID,
-        range: 'Team Members!A2',
-        valueInputOption: 'RAW',
-        resource: {
-          values: memberRows,
-        },
-      });
-    }
-
-    console.log(
-      `[GoogleSheets] ✓ Full backup: ${regRows.length} regs, ${memberRows.length} members`
-    );
+    console.log(`[GoogleSheets] ✓ Full backup: ${regRows.length} registrations`);
 
     return {
       success: true,
       stats: {
         registrations: regRows.length,
-        members: memberRows.length,
+        members: 0,
       },
     };
   } catch (error: any) {
