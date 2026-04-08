@@ -75,16 +75,17 @@ const { event } = Astro.props;
           <span class="inline-flex items-center gap-1 px-2 py-1 border border-zinc-800 bg-black/40 font-mono text-[10px] text-zinc-300 uppercase tracking-wider">
             Venue: {event.location}
           </span>
+          <span class="inline-flex items-center gap-1 px-2 py-1 border border-signal/40 bg-signal/10 font-mono text-[10px] text-signal uppercase tracking-wider">
+            Pitch Quest: Free Online
+          </span>
           {event.seatsLeft && (
             <span class="inline-flex items-center gap-1 px-2 py-1 border border-signal/40 bg-signal/10 font-mono text-[10px] text-signal uppercase tracking-wider">
               {event.seatsLeft} Seats Left
             </span>
           )}
-          {event.fee && (
-            <span class="inline-flex items-center gap-1 px-2 py-1 border border-zinc-800 bg-black/40 font-mono text-[10px] text-zinc-300 uppercase tracking-wider">
-              Fee: Rs. {event.fee}
-            </span>
-          )}
+          <span id="popup-pitchquest-countdown" class="inline-flex items-center gap-1 px-2 py-1 border border-zinc-800 bg-black/40 font-mono text-[10px] text-zinc-300 uppercase tracking-wider">
+            Pitch Quest closes soon
+          </span>
         </div>
 
         <!-- Description -->
@@ -140,6 +141,21 @@ const { event } = Astro.props;
       const dismissBtn = document.getElementById('dismiss-popup');
       
       if (!overlay || !content) return;
+
+      const countdownEl = document.getElementById('popup-pitchquest-countdown');
+      if (countdownEl) {
+        const closeDate = new Date('2026-04-11T23:59:59+05:30');
+        const now = new Date();
+        const diff = closeDate.getTime() - now.getTime();
+
+        if (diff > 0) {
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          countdownEl.textContent = `Pitch Quest closes in ${days}d ${hours}h`;
+        } else {
+          countdownEl.textContent = 'Pitch Quest registrations closed';
+        }
+      }
 
       // Show popup after a short delay
       setTimeout(() => {
