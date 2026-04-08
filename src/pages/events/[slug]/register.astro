@@ -17,11 +17,11 @@ const { event } = Astro.props;
 const isFoundersMeet = event.slug === 'founders-meet-2026';
 
 // Temporarily pause registrations
-const isRegistrationOpen = event.status === 'upcoming' && event.slug === 'founders-meet-2026';
+const isRegistrationOpen = event.status === 'upcoming';
 
 // Get registration deadline from timeline
 const registrationDeadline = event.timeline?.find(item => 
-  item.title.toLowerCase().includes('registration closes')
+  /(registration\s*close|registrations\s*close|registration\s*closes|registrations\s*closes)/.test(item.title.toLowerCase())
 );
 
 // Logic moved from previous DevthonRegistration.astro
@@ -62,10 +62,15 @@ const registrationDeadline = event.timeline?.find(item =>
         <p class="font-mono text-zinc-400 text-sm">
           Event: <span class="text-signal">{event.title}</span>
         </p>
-        {event.fee && (
+        {event.fee && !isFoundersMeet && (
             <div class="mt-4 inline-block px-4 py-1 bg-zinc-900 border border-zinc-800 rounded-full">
-                <span class="font-mono text-xs text-zinc-400">Registration Fee: <span class="text-white font-bold">₹{event.fee}/person</span></span>
+                <span class="font-mono text-xs text-zinc-400">Founders Meet Fee: <span class="text-white font-bold">₹{event.fee}/person</span> <span class="text-zinc-500">(for shortlisted innovators)</span></span>
             </div>
+        )}
+        {isFoundersMeet && (
+          <p class="mt-3 font-mono text-xs text-zinc-500 uppercase tracking-wider">
+            Pitch Quest registrations are free and online. Fill this form to register for Pitch Quest.
+          </p>
         )}
         
         {/* Registration Countdown Timer */}
@@ -97,7 +102,9 @@ const registrationDeadline = event.timeline?.find(item =>
             </div>
             <h2 class="font-display text-3xl text-white mb-4">REGISTRATIONS PAUSED</h2>
             <p class="font-mono text-zinc-400 text-sm mb-8">
-              Hackathon dates are being finalized. Registrations will open soon!
+              {isFoundersMeet
+                ? 'Pitch Quest registrations are currently unavailable. Please try again shortly.'
+                : 'Registrations will open soon.'}
             </p>
             <a href="/events" class="inline-flex items-center gap-2 px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-mono text-xs uppercase tracking-widest transition-colors">
               Return to Events
@@ -120,38 +127,51 @@ const registrationDeadline = event.timeline?.find(item =>
             </div>
             <h2 class="font-display text-3xl text-white mb-4">REGISTRATION RECEIVED</h2>
             <p class="font-mono text-zinc-400 text-sm mb-8">
-                We are verifying your payment. You will receive confirmation at <span id="success-email" class="text-white"></span>.
-                For queries, reach us at <a href="mailto:devupsociety@vjit.ac.in" class="text-signal hover:underline">devupsociety@vjit.ac.in</a>.
+              Your registration is recorded. We will send updates to <span id="success-email" class="text-white"></span>.
+              For queries, reach us at <a href="mailto:devupsociety@vjit.ac.in" class="text-signal hover:underline">devupsociety@vjit.ac.in</a>.
             </p>
+
+            <div class="max-w-xl mx-auto mb-8 border-2 border-signal bg-signal/10 p-5 text-left">
+              <p class="font-mono text-[11px] text-signal uppercase tracking-widest mb-2">Mandatory Step</p>
+              <p class="font-mono text-sm text-white leading-relaxed mb-4">
+                Join the official WhatsApp group for all further communication, shortlisting updates, and announcements.
+              </p>
+              <a
+                href="https://chat.whatsapp.com/JbT6E5ut12YDlzsOapRvNY"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-4 py-2 bg-signal text-black font-mono text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors"
+              >
+                Join WhatsApp Group
+                <Icon name="lucide:external-link" class="w-4 h-4" />
+              </a>
+            </div>
+
             <div class="glass-panel p-6 clip-corner text-left max-w-xl mx-auto mb-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono text-zinc-400">
                     <div>
-                        <div class="text-zinc-500 uppercase tracking-widest">Team Number</div>
-                        <div id="success-team-number" class="text-white text-sm"></div>
+                  <div class="text-zinc-500 uppercase tracking-widest">Registration ID</div>
+                  <div id="success-registration-id" class="text-white text-sm"></div>
                     </div>
                     <div>
-                        <div class="text-zinc-500 uppercase tracking-widest">Team Name</div>
-                        <div id="success-team-name" class="text-white text-sm"></div>
+                  <div class="text-zinc-500 uppercase tracking-widest">Name</div>
+                  <div id="success-lead-name" class="text-white text-sm"></div>
                     </div>
                     <div>
-                        <div class="text-zinc-500 uppercase tracking-widest">Lead</div>
-                        <div id="success-lead-name" class="text-white text-sm"></div>
+                  <div class="text-zinc-500 uppercase tracking-widest">Phone</div>
+                  <div id="success-phone" class="text-white text-sm"></div>
                     </div>
                     <div>
-                        <div class="text-zinc-500 uppercase tracking-widest">Team Size</div>
-                        <div id="success-team-size" class="text-white text-sm"></div>
+                  <div class="text-zinc-500 uppercase tracking-widest">Designation / Year</div>
+                  <div id="success-designation" class="text-white text-sm"></div>
                     </div>
                     <div>
-                        <div class="text-zinc-500 uppercase tracking-widest">Amount</div>
-                        <div id="success-amount" class="text-white text-sm"></div>
-                    </div>
-                    <div>
-                        <div class="text-zinc-500 uppercase tracking-widest">Transaction ID</div>
-                        <div id="success-transaction" class="text-white text-sm"></div>
+                  <div class="text-zinc-500 uppercase tracking-widest">Company / College</div>
+                  <div id="success-college" class="text-white text-sm"></div>
                     </div>
                 </div>
                 <div class="mt-4 text-[10px] text-zinc-500 font-mono uppercase tracking-widest">
-                    Status: Payment verification pending
+                  Status: Registration submitted
                 </div>
             </div>
             <a href="/events" class="inline-flex items-center gap-2 px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-mono text-xs uppercase tracking-widest transition-colors">
@@ -163,42 +183,11 @@ const registrationDeadline = event.timeline?.find(item =>
         <form id="registration-form" class="space-y-8" data-event-fee={event.fee ?? 0}>
             <input type="hidden" name="event_slug" value={event.slug} />
             <input type="hidden" name="event_name" value={event.title} />
-            <input type="hidden" name="team_number" id="team-number" />
-            <input type="hidden" name="payment_amount" id="payment-amount" />
-          {isFoundersMeet && <input type="hidden" name="team_name" id="team-name-hidden" value="" />}
-          {isFoundersMeet && <input type="hidden" name="team_size" value="1" />}
-
-             {/* Team Details Section */}
-           {!isFoundersMeet && (
-             <div class="space-y-6">
-              <div class="flex items-center gap-3 border-b border-zinc-800 pb-2">
-                <span class="w-6 h-6 rounded-full bg-signal text-black flex items-center justify-center font-bold text-xs">1</span>
-                <h3 class="font-display text-xl text-white">Team Details</h3>
-              </div>
-                  
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-2">
-                  <label class="font-mono text-xs text-zinc-500 uppercase">Team Name</label>
-                  <input type="text" name="team_name" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" placeholder="e.g. Code Blasters" />
-                </div>
-                      
-                {/* Team Size Counter */}
-                 <div class="space-y-2">
-                  <label class="font-mono text-xs text-zinc-500 uppercase">Team Size</label>
-                  <div class="flex items-center gap-4">
-                    <button type="button" id="decrease-size" class="w-12 h-12 bg-zinc-900 border border-zinc-800 hover:border-signal text-white font-mono text-xl flex items-center justify-center transition-colors clip-corner">-</button>
-                    <input type="text" id="team-size-display" name="team_size" value="2" readonly class="w-16 h-12 bg-black/50 border border-zinc-800 text-white font-mono text-xl text-center outline-none" />
-                    <button type="button" id="increase-size" class="w-12 h-12 bg-zinc-900 border border-zinc-800 hover:border-signal text-white font-mono text-xl flex items-center justify-center transition-colors clip-corner">+</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-           )}
 
             <div class="space-y-6">
                 <div class="flex items-center gap-3 border-b border-zinc-800 pb-2">
-              <span class="w-6 h-6 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center font-bold text-xs">{isFoundersMeet ? '1' : '2'}</span>
-              <h3 class="font-display text-xl text-white">{isFoundersMeet ? 'Participant Details' : 'Team Lead (You)'}</h3>
+              <span class="w-6 h-6 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center font-bold text-xs">1</span>
+              <h3 class="font-display text-xl text-white">Participant Details</h3>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -214,88 +203,19 @@ const registrationDeadline = event.timeline?.find(item =>
                         <label class="font-mono text-xs text-zinc-500 uppercase">Phone Number</label>
                         <input type="tel" name="lead_phone" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" />
                     </div>
-                    {isFoundersMeet && (
-                      <div class="space-y-2">
-                        <label class="font-mono text-xs text-zinc-500 uppercase">Designation / If Student, Year</label>
-                        <input type="text" name="designation" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" placeholder="Founder / Software Engineer / Student - 2nd Year" />
-                      </div>
-                    )}
                     <div class="space-y-2">
-                      <label class="font-mono text-xs text-zinc-500 uppercase">{isFoundersMeet ? 'Company / College' : 'College Name'}</label>
+                      <label class="font-mono text-xs text-zinc-500 uppercase">Designation / If Student, Year</label>
+                      <input type="text" name="designation" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" placeholder="Founder / Software Engineer / Student - 2nd Year" />
+                    </div>
+                    <div class="space-y-2">
+                      <label class="font-mono text-xs text-zinc-500 uppercase">Company / College</label>
                       <input type="text" name="lead_college" required class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors" />
                     </div>
                 </div>
             </div>
 
-            {/* Member 2, 3, 4 Containers (Toggled via JS) */}
-                {!isFoundersMeet && (
-                  <div id="members-container" class="space-y-6">
-                     {/* Populated by JS */}
-                  </div>
-                )}
-
-
-            {/* Payment Section (if fee exists) */}
-            {event.fee && event.fee > 0 && (
-                <div class="space-y-6">
-                    <div class="flex items-center gap-3 border-b border-zinc-800 pb-2">
-                        <span class="w-6 h-6 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center font-bold text-xs">3</span>
-                        <h3 class="font-display text-xl text-white">Payment</h3>
-                    </div>
-                    
-                    {/* IMPORTANT UPI NOTE - RED ALERT BOX */}
-                    <div class="bg-red-950/30 border-2 border-red-600 p-4 rounded-sm">
-                        <div class="flex items-start gap-3">
-                            <Icon name="lucide:alert-triangle" class="text-red-500 text-xl flex-shrink-0 mt-0.5" />
-                            <div class="flex-1">
-                                <h4 class="font-mono text-red-500 text-xs font-bold uppercase tracking-widest mb-2">⚠️ IMPORTANT: UPI Payment Note</h4>
-                                <p class="font-mono text-red-300 text-xs leading-relaxed mb-2">
-                                  When making payment via UPI, <strong class="text-red-200">YOU MUST include your {isFoundersMeet ? 'FULL NAME' : 'TEAM NAME'} in the UPI message/note field</strong>.
-                                </p>
-                                <p class="font-mono text-red-400 text-[10px] leading-relaxed">
-                                    This is mandatory for payment verification. Without the team name in your UPI note, your payment may not be verified correctly.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-zinc-900/50 p-6 border border-zinc-800 flex flex-col items-center text-center">
-                        <p class="font-mono text-xs text-zinc-400 mb-2">Pay to DevUp Society</p>
-                        <p class="font-mono text-[10px] text-zinc-500 mb-6">
-                            UPI ID: <span id="upi-id" class="text-white"></span> • Note: <span id="upi-note" class="text-white"></span>
-                        </p>
-
-                        <div id="upi-mobile" class="hidden w-full">
-                            <button type="button" id="upi-open" class="w-full py-3 bg-signal text-black font-mono font-bold uppercase tracking-widest hover:bg-white transition-colors btn-glitch">
-                                Open UPI App to Pay
-                            </button>
-                            <p class="font-mono text-[10px] text-zinc-500 mt-3">
-                                After paying, come back and enter your Transaction ID (UTR).
-                            </p>
-                        </div>
-
-                        <div id="upi-desktop" class="hidden">
-                            <p class="font-mono text-xs text-zinc-400 mb-4">Scan QR to Pay</p>
-                            <div class="w-48 h-48 bg-white p-2 mb-4">
-                                <img src="" alt="Payment QR" class="w-full h-full object-contain" id="payment-qr" />
-                            </div>
-                        </div>
-
-                        <p class="font-mono text-xl text-white mb-2" id="total-amount">Total: ₹{event.fee * (isFoundersMeet ? 1 : 2)}</p>
-                        <p class="font-mono text-[10px] text-zinc-500 max-w-xs mx-auto">
-                            After payment, please enter the Transaction ID (UTR) below for verification.
-                        </p>
-
-                        <div class="w-full mt-6">
-                            <label class="font-mono text-xs text-zinc-500 uppercase block text-left mb-2">Transaction ID (UTR)</label>
-                            <input type="text" name="transaction_id" required placeholder="e.g. 403212345678" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-center font-mono tracking-widest" />
-                        </div>
-                    </div>
-                </div>
-            )}
-
             <button type="submit" id="submit-btn" class="w-full py-4 bg-signal text-black font-mono font-bold uppercase tracking-widest hover:bg-white transition-colors btn-glitch disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-signal relative overflow-hidden">
-                <span id="submit-btn-text">Submit Registration</span>
+              <span id="submit-btn-text">Submit Pitch Quest Registration</span>
                 <span id="submit-btn-spinner" class="hidden absolute inset-0 flex items-center justify-center gap-3">
                   <svg class="animate-spin h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -313,16 +233,13 @@ const registrationDeadline = event.timeline?.find(item =>
   </div>
 </MainLayout>
 
-<script is:inline define:vars={{ BACKEND_URL: import.meta.env.PUBLIC_SITE_URL || 'https://www.devupvjit.in', EVENT_SLUG: event.slug }}>
+<script is:inline define:vars={{ EVENT_SLUG: event.slug }}>
 // ============================================
 // PRODUCTION-READY REGISTRATION CLIENT
 // With comprehensive error handling and debugging
 // ============================================
 
-// Configuration - Now using Vercel Serverless Functions (No cold starts!)
-// BACKEND_URL is injected from Astro context above
-const UPI_ID = 'aliffaizan1212@oksbi';
-const UPI_PAYEE = 'DevUp Society';
+// Configuration
 const IS_FOUNDERS_MEET = EVENT_SLUG === 'founders-meet-2026';
 
 // Logger
@@ -348,23 +265,9 @@ async function fetchWithRetry(url, options = {}, retries = 3) {
   }
 }
 
-async function getNextTeamNumber(slug) {
-  try {
-    const url = `${BACKEND_URL}/api/registrations/get-team-number?slug=${encodeURIComponent(slug)}`;
-    const response = await fetchWithRetry(url);
-    if (!response.ok) throw new Error('Failed to fetch team number');
-    const data = await response.json();
-    logger.info('Team number received', { teamNumber: data.teamNumber });
-    return data.teamNumber || 'DEV2026-001';
-  } catch (error) {
-    logger.error('Error fetching team number', error);
-    return 'DEV2026-001';
-  }
-}
-
 async function submitRegistration(formData) {
   try {
-    const url = `${BACKEND_URL}/api/registrations/register`;
+    const url = '/api/registrations/register';
     const response = await fetchWithRetry(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -396,63 +299,15 @@ function validatePhone(phone) {
 
 function validateFormData(data) {
   const errors = [];
-
-  if (IS_FOUNDERS_MEET) {
-    if (!data.lead_name?.trim()) errors.push('Name is required');
-    if (!data.lead_email?.trim()) errors.push('Email is required');
-    else if (!validateEmail(data.lead_email)) errors.push('Email is invalid');
-    if (!data.lead_phone?.trim()) errors.push('Phone number is required');
-    else if (!validatePhone(data.lead_phone)) errors.push('Phone number must be 10 digits');
-    if (!data.designation?.trim()) errors.push('Designation / year is required');
-    if (!data.lead_college?.trim()) errors.push('Company / college is required');
-    if (data.payment_amount > 0 && !data.transaction_id?.trim()) {
-      errors.push('Transaction ID is required');
-    }
-    return { valid: errors.length === 0, errors };
-  }
-
-  if (!data.team_name?.trim()) errors.push('Team name is required');
-  if (!data.lead_name?.trim()) errors.push('Lead name is required');
-  if (!data.lead_email?.trim()) errors.push('Lead email is required');
-  else if (!validateEmail(data.lead_email)) errors.push('Lead email is invalid');
-  if (!data.lead_phone?.trim()) errors.push('Lead phone is required');
-  else if (!validatePhone(data.lead_phone)) errors.push('Lead phone must be 10 digits');
-  if (!data.lead_college?.trim()) errors.push('College name is required');
-  if (data.team_size < 2 || data.team_size > 4) errors.push('Team size must be 2-4');
-  
-  data.members.forEach((m, i) => {
-    if (!m.name?.trim()) errors.push(`Member ${i + 2} name is required`);
-    if (!m.email?.trim()) errors.push(`Member ${i + 2} email is required`);
-    else if (!validateEmail(m.email)) errors.push(`Member ${i + 2} email is invalid`);
-    if (!m.phone?.trim()) errors.push(`Member ${i + 2} phone is required`);
-    else if (!validatePhone(m.phone)) errors.push(`Member ${i + 2} phone is invalid`);
-  });
-  
-  if (data.payment_amount > 0 && !data.transaction_id?.trim()) {
-    errors.push('Transaction ID is required');
-  }
+  if (!data.lead_name?.trim()) errors.push('Name is required');
+  if (!data.lead_email?.trim()) errors.push('Email is required');
+  else if (!validateEmail(data.lead_email)) errors.push('Email is invalid');
+  if (!data.lead_phone?.trim()) errors.push('Phone number is required');
+  else if (!validatePhone(data.lead_phone)) errors.push('Phone number must be 10 digits');
+  if (!data.designation?.trim()) errors.push('Designation / year is required');
+  if (!data.lead_college?.trim()) errors.push('Company / college is required');
   
   return { valid: errors.length === 0, errors };
-}
-
-// Payment Functions
-function buildUpiLink(amount, teamNumber) {
-  const params = new URLSearchParams({
-    pa: UPI_ID,
-    pn: UPI_PAYEE,
-    am: amount.toString(),
-    cu: 'INR',
-    tn: teamNumber
-  });
-  return `upi://pay?${params.toString()}`;
-}
-
-function getQRCodeUrl(upiLink) {
-  return `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiLink)}`;
-}
-
-function isMobileDevice() {
-  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
 // Countdown Timer
@@ -472,8 +327,11 @@ function initCountdownTimer() {
   
   logger.info('Initializing countdown timer', { deadlineStr });
   
-  // Parse deadline (format: "Feb 25, 2026")
-  const deadline = new Date(deadlineStr + ' 23:59:59');
+  // Parse deadline; if year is missing, assume the event year from current runtime year
+  const normalizedDeadline = /\b\d{4}\b/.test(deadlineStr)
+    ? `${deadlineStr} 23:59:59`
+    : `${deadlineStr}, ${new Date().getFullYear()} 23:59:59`;
+  const deadline = new Date(normalizedDeadline);
   
   if (isNaN(deadline.getTime())) {
     logger.error('Invalid deadline date', { deadlineStr, parsed: deadline });
@@ -526,19 +384,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // DOM ELEMENT REFERENCES
     // ============================================
     const form = document.getElementById('registration-form');
-    const teamSizeInput = document.getElementById('team-size-display');
-    const increaseBtn = document.getElementById('increase-size');
-    const decreaseBtn = document.getElementById('decrease-size');
-    const membersContainer = document.getElementById('members-container');
-    const qrImage = document.getElementById('payment-qr');
-    const totalAmountDisplay = document.getElementById('total-amount');
-    const upiOpenButton = document.getElementById('upi-open');
-    const upiMobile = document.getElementById('upi-mobile');
-    const upiDesktop = document.getElementById('upi-desktop');
-    const upiIdDisplay = document.getElementById('upi-id');
-    const upiNoteDisplay = document.getElementById('upi-note');
-    const teamNumberInput = document.getElementById('team-number');
-    const paymentAmountInput = document.getElementById('payment-amount');
     const loadingOverlay = document.getElementById('loading-overlay');
     const successScreen = document.getElementById('success-screen');
     const submitBtn = document.getElementById('submit-btn');
@@ -550,183 +395,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    // Get event fee from form data attribute
-    const eventFeeRaw = form.dataset.eventFee || '0';
-    const eventFee = parseInt(eventFeeRaw);
-    logger.info('Event fee loaded', { eventFee });
-
-    // ============================================
-    // PAYMENT UI UPDATE
-    // ============================================
-    function getPaymentReference() {
-      if (!IS_FOUNDERS_MEET) {
-        return teamNumberInput?.value || 'DEV2026-000';
-      }
-
-      const leadNameInput = document.querySelector('input[name="lead_name"]');
-      const name = leadNameInput?.value?.trim();
-      return name || 'Founders Meet';
-    }
-
-    function updatePaymentUI(total, teamNumber) {
-      logger.info('Updating payment UI', { total, teamNumber });
-      
-      const upiLink = buildUpiLink(total, teamNumber);
-      logger.debug('UPI link generated', { upiLink });
-
-      if (upiIdDisplay) {
-        upiIdDisplay.textContent = UPI_ID;
-        logger.debug('UPI ID set', { UPI_ID });
-      } else {
-        logger.error('UPI ID display element not found');
-      }
-      
-      if (upiNoteDisplay) {
-        upiNoteDisplay.textContent = teamNumber;
-        logger.debug('UPI note set', { teamNumber });
-      } else {
-        logger.error('UPI note display element not found');
-      }
-      
-      if (paymentAmountInput) {
-        paymentAmountInput.value = total.toString();
-        logger.debug('Payment amount set', { total });
-      } else {
-        logger.error('Payment amount input not found');
-      }
-
-      if (qrImage) {
-        const qrUrl = getQRCodeUrl(upiLink);
-        qrImage.src = qrUrl;
-        logger.info('✅ QR code URL set successfully', { url: qrUrl });
-      } else {
-        logger.error('❌ QR image element not found - QR code will not display!');
-      }
-
-      if (upiOpenButton) {
-        upiOpenButton.onclick = () => {
-          logger.info('Opening UPI app', { upiLink });
-          window.location.href = upiLink;
-        };
-      }
-
-      if (upiMobile && upiDesktop) {
-        const mobile = isMobileDevice();
-        logger.info('Device type detected', { mobile });
-        upiMobile.classList.toggle('hidden', !mobile);
-        upiDesktop.classList.toggle('hidden', mobile);
-      } else {
-        logger.error('UPI mobile/desktop containers not found');
-      }
-    }
-
-    // ============================================
-    // MEMBER FIELDS RENDERING
-    // ============================================
-    function updateMemberFields() {
-      if (IS_FOUNDERS_MEET) {
-        if (eventFee > 0 && totalAmountDisplay && teamNumberInput) {
-          const total = eventFee;
-          totalAmountDisplay.textContent = `Total: ₹${total}`;
-          updatePaymentUI(total, getPaymentReference());
-        }
-        return;
-      }
-
-      if (!membersContainer || !teamSizeInput) return;
-      
-      let size = parseInt(teamSizeInput.value) || 2;
-      if (size < 2) size = 2;
-      if (size > 4) size = 4;
-
-      logger.debug('Updating member fields', { teamSize: size });
-      membersContainer.innerHTML = '';
-
-      // Create fields for Member 2 to Size
-      for (let i = 2; i <= size; i++) {
-        const memberHtml = `
-          <div class="space-y-6 pt-6 border-t border-zinc-900">
-            <div class="flex items-center gap-3 mb-2">
-              <span class="font-mono text-[10px] bg-zinc-900 text-signal px-2 py-1 rounded border border-zinc-800 uppercase tracking-widest">
-                // Member 0${i}
-              </span>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <input type="text" name="member_${i}_name" required placeholder="Name" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
-              <input type="email" name="member_${i}_email" required placeholder="Email" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
-              <input type="tel" name="member_${i}_phone" required placeholder="Phone Number" class="w-full bg-black/50 border border-zinc-800 focus:border-signal text-white px-4 py-3 outline-none transition-colors text-sm" />
-            </div>
-          </div>
-        `;
-        membersContainer.insertAdjacentHTML('beforeend', memberHtml);
-      }
-
-      // Update Payment Info
-      if (eventFee > 0 && totalAmountDisplay && teamNumberInput) {
-        const total = eventFee * size;
-        totalAmountDisplay.textContent = `Total: ₹${total}`;
-        updatePaymentUI(total, getPaymentReference());
-      }
-      
-      logger.debug('Member fields updated', { count: size - 1 });
-    }
-
-    // ============================================
-    // TEAM SIZE CONTROLS
-    // ============================================
-    function initTeamControls() {
-      if (IS_FOUNDERS_MEET) return;
-
-      if (increaseBtn && decreaseBtn && teamSizeInput) {
-        increaseBtn.addEventListener('click', () => {
-          let current = parseInt(teamSizeInput.value) || 2;
-          if (current < 4) {
-            teamSizeInput.value = (current + 1).toString();
-            logger.info('Team size increased', { newSize: current + 1 });
-            updateMemberFields();
-          }
-        });
-
-        decreaseBtn.addEventListener('click', () => {
-          let current = parseInt(teamSizeInput.value) || 2;
-          if (current > 2) {
-            teamSizeInput.value = (current - 1).toString();
-            logger.info('Team size decreased', { newSize: current - 1 });
-            updateMemberFields();
-          }
-        });
-        
-        logger.debug('Team controls initialized');
-      }
-    }
-
-    // ============================================
-    // TEAM NUMBER INITIALIZATION
-    // ============================================
-    async function initTeamNumber() {
-      if (!teamNumberInput) return;
-      
-      const slugInput = document.querySelector('input[name="event_slug"]');
-      const slug = slugInput?.value || 'event';
-      
-      logger.info('Fetching team number', { slug });
-      
-      try {
-        const teamNumber = await getNextTeamNumber(slug);
-        teamNumberInput.value = teamNumber;
-        logger.info('Team number initialized', { teamNumber });
-        updateMemberFields();
-
-        const leadNameInput = document.querySelector('input[name="lead_name"]');
-        if (leadNameInput) {
-          leadNameInput.addEventListener('input', () => updateMemberFields());
-        }
-      } catch (error) {
-        logger.error('Failed to initialize team number', error);
-        teamNumberInput.value = 'DEV2026-001';
-        updateMemberFields();
-      }
-    }
 
     // ============================================
     // FORM SUBMISSION
@@ -764,55 +432,23 @@ document.addEventListener('DOMContentLoaded', async () => {
       try {
         // Extract form data
         const formData = new FormData(form);
-        const teamSize = IS_FOUNDERS_MEET ? 1 : parseInt(teamSizeInput?.value || '2');
-        
-        logger.debug('Extracting form data...', { teamSize });
-        
-        // Build members array
-        const members = [];
-        if (!IS_FOUNDERS_MEET) {
-          for (let i = 2; i <= teamSize; i++) {
-            const name = formData.get(`member_${i}_name`);
-            const email = formData.get(`member_${i}_email`);
-            const phone = formData.get(`member_${i}_phone`);
-            if (name || email || phone) {
-              members.push({ name, email, phone });
-            }
-          }
-        }
+        logger.debug('Extracting form data...');
 
         const participantName = (formData.get('lead_name') || '').toString();
         const designation = (formData.get('designation') || '').toString();
-        const teamName = IS_FOUNDERS_MEET
-          ? `${participantName}${designation ? ` - ${designation}` : ''} - Individual`
-          : formData.get('team_name');
-
-        const hiddenTeamName = document.getElementById('team-name-hidden');
-        if (hiddenTeamName && typeof teamName === 'string') {
-          hiddenTeamName.value = teamName;
-        }
-        
         const registrationData = {
           event_slug: formData.get('event_slug'),
           event_name: formData.get('event_name'),
-          team_name: teamName,
           lead_name: formData.get('lead_name'),
           lead_email: formData.get('lead_email'),
           lead_phone: formData.get('lead_phone'),
           lead_college: formData.get('lead_college'),
           designation,
-          team_number: formData.get('team_number'),
-          team_size: teamSize,
-          payment_amount: parseInt(formData.get('payment_amount') || '0'),
-          transaction_id: formData.get('transaction_id') || undefined,
-          members
         };
         
         logger.info('Form data extracted successfully', { 
-          teamName: registrationData.team_name,
-          teamNumber: registrationData.team_number,
-          teamSize: registrationData.team_size,
-          memberCount: members.length
+          leadName: registrationData.lead_name,
+          leadEmail: registrationData.lead_email,
         });
 
         // Validate form data
@@ -842,7 +478,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         logger.info('✅ Registration API call successful!', { 
           registrationId: result.registrationId,
-          teamNumber: result.teamNumber
+          leadEmail: result.leadEmail
         });
 
         // Success!
@@ -867,12 +503,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
           };
           
-          setTextContent('success-team-name', result.teamName || '');
+          setTextContent('success-registration-id', result.registrationId || '');
           setTextContent('success-lead-name', result.leadName || '');
-          setTextContent('success-team-size', (result.teamSize || 0).toString());
-          setTextContent('success-team-number', result.teamNumber || '');
-          setTextContent('success-amount', `₹${result.paymentAmount || 0}`);
-          setTextContent('success-transaction', result.transactionId || '-');
+          setTextContent('success-phone', result.leadPhone || '');
+          setTextContent('success-designation', result.designation || '');
+          setTextContent('success-college', result.leadCollege || '');
           setTextContent('success-email', result.leadEmail || '');
           
           // Track successful registration in Google Analytics - DISABLED FOR NOW
@@ -921,8 +556,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // INITIALIZATION
     // ============================================
     logger.info('Initializing registration form');
-    initTeamControls();
-    await initTeamNumber();
+    
     
     logger.info('Registration page fully initialized and ready');
 
