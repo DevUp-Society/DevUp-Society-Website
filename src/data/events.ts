@@ -102,8 +102,8 @@ export const events: Event[] = [
         location: "T-HUB, Hyderabad",
         mapEmbedLink: "https://www.google.com/maps?q=T-Hub,+Hyderabad&output=embed",
         mode: "Offline",
-        shortDescription: "Founders Meet 2026 is a high-impact startup networking and founder showcase event at T-HUB on 18 April 2026, with quick registration and curated application flows.",
-        fullDescription: "DevUp Society presents Founders Meet 2026 at T-HUB, Hyderabad. The timeline begins with registration closure on 14 April, online pitching from 14-16 April, shortlist declaration on 16 April, and founders meet registrations from 16-17 April. The main event is on 18 April 2026, featuring founder interactions, networking opportunities, and high-visibility sessions.",
+        shortDescription: "Founders Meet 2026 is a high-impact startup networking and founder showcase event at T-HUB on 18 April 2026. Registration is free, followed by interviews and screening.",
+        fullDescription: "DevUp Society presents Founders Meet 2026 at T-HUB, Hyderabad. Everyone can register for free. All registered participants are guided through WhatsApp updates and interview-based screening. Selected participants then complete payment and final confirmation before the main event on 18 April 2026, featuring founder interactions, networking, and high-visibility sessions.",
         images: ["https://res.cloudinary.com/dmrp1d1tv/image/upload/q_auto/f_auto/v1775898652/Founders_Meet_Poster_lxwujw.png"],
         speakers: [],
         tags: ["FoundersMeet", "Startup", "Networking", "Mentorship", "Innovation"],
@@ -120,11 +120,11 @@ export const events: Event[] = [
         ],
         faqs: [
             { question: "What is the event date and venue?", answer: "Founders Meet 2026 main event is on 18 April 2026 at T-HUB, Hyderabad." },
-            { question: "What are the available passes?", answer: "Two passes are available: Normal Pass (INR 999) and Premium Pass (INR 1299)." },
-            { question: "What does the Normal Pass include?", answer: "Normal Pass includes event access, networking opportunities, and general participation." },
-            { question: "What does the Premium Pass include?", answer: "Premium Pass includes all Normal Pass benefits, 5 to 10 minutes stage speaking opportunity, direct interaction with founders and senior professionals, and higher visibility." },
-            { question: "Is there an application or approval process?", answer: "Yes. Curated entries can use the application and approval flow where details are reviewed before proceeding." },
-            { question: "How can I register quickly?", answer: "Use Quick Registration on the event page and choose your pass to register directly." },
+            { question: "Is registration free for everyone?", answer: "Yes. Initial registration is free for all participants." },
+            { question: "What happens after registration?", answer: "Registered participants are added to the official WhatsApp updates channel and moved into interview and screening rounds." },
+            { question: "When is payment required?", answer: "Only selected participants are asked to complete payment after screening." },
+            { question: "How are participants selected?", answer: "Selections are made through interviews and profile screening by the event team." },
+            { question: "How do I register?", answer: "Use the Register button on the event page and submit your details." },
             { question: "Who should I contact for support?", answer: "For support, contact devupsociety@vjit.ac.in." }
         ]
     }
