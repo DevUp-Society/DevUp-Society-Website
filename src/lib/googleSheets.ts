@@ -98,7 +98,7 @@ export async function findRegistrationInSheets(
   if (!sheets) return { found: false, error: 'Sheets client not initialized' };
 
   try {
-    const response = await withRetry(
+    const response: any = await withRetry<any>(
       () =>
         sheets.spreadsheets.values.get({
           spreadsheetId: SPREADSHEET_ID,
@@ -177,7 +177,7 @@ export async function syncRegistrationToSheets(
     });
 
     // Append to Registrations sheet and ask Google API to return the actual stored row.
-    const response = await withRetry(
+    const response: any = await withRetry<any>(
       () =>
         sheets.spreadsheets.values.append({
           spreadsheetId: SPREADSHEET_ID,
