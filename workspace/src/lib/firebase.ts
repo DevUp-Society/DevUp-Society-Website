@@ -1,18 +1,19 @@
-import { FirebaseOptions, getApp, getApps, initializeApp } from 'firebase/app';
+import { getApp, getApps, initializeApp } from 'firebase/app';
+import type { FirebaseOptions } from 'firebase/app';
 import { GoogleAuthProvider, getAuth, signInWithPopup, signOut, type User } from 'firebase/auth';
 import { addDoc, arrayUnion, collection, doc, getDoc, getFirestore, increment, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig: FirebaseOptions = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY ?? import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN ?? import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID ?? import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET ?? import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID ?? import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.PUBLIC_FIREBASE_APP_ID ?? import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-const adminEmails = (import.meta.env.VITE_ADMIN_EMAILS ?? '')
+const adminEmails = (import.meta.env.PUBLIC_ADMIN_EMAILS ?? import.meta.env.VITE_ADMIN_EMAILS ?? '')
   .split(',')
   .map((email: string) => email.trim().toLowerCase())
   .filter(Boolean);
@@ -36,7 +37,7 @@ export function isFirebaseReady() {
 
 export async function signInWithGoogle() {
   if (!auth || !googleProvider) {
-    throw new Error('Firebase is not configured. Set the VITE_FIREBASE_* environment variables first.');
+    throw new Error('Firebase is not configured. Set PUBLIC_FIREBASE_* or VITE_FIREBASE_* environment variables first.');
   }
 
   return signInWithPopup(auth, googleProvider);
