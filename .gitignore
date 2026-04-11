@@ -16,6 +16,9 @@ pnpm-debug.log*
 .env
 .env.production
 
+# TypeScript build cache
+*.tsbuildinfo
+
 # macOS-specific files
 .DS_Store
 

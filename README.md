@@ -152,6 +152,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Built with ❤️ by the DevUp Society team
 
+## Workspace App
+
+The repository now also includes a standalone internal app at [workspace/](workspace/) for `workspace.devupvjit.in`.
+It uses React, Firebase Auth, Firestore, and Firebase Storage while keeping the same DevUp visual system.
+
 - Design inspired by modern cyberpunk aesthetics
 - Powered by [Astro](https://astro.build) and [TailwindCSS](https://tailwindcss.com)
 
