@@ -21,6 +21,7 @@ const { event } = Astro.props;
     id="event-popup-overlay" 
     class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
     data-event-id={event.id}
+    data-event-date={event.date}
   >
     <div 
       id="event-popup-content"
@@ -76,15 +77,15 @@ const { event } = Astro.props;
             Venue: {event.location}
           </span>
           <span class="inline-flex items-center gap-1 px-2 py-1 border border-signal/40 bg-signal/10 font-mono text-[10px] text-signal uppercase tracking-wider">
-            Pitch Quest: Free Online
+            Quick + Curated Registration
           </span>
           {event.seatsLeft && (
             <span class="inline-flex items-center gap-1 px-2 py-1 border border-signal/40 bg-signal/10 font-mono text-[10px] text-signal uppercase tracking-wider">
               {event.seatsLeft} Seats Left
             </span>
           )}
-          <span id="popup-pitchquest-countdown" class="inline-flex items-center gap-1 px-2 py-1 border border-zinc-800 bg-black/40 font-mono text-[10px] text-zinc-300 uppercase tracking-wider">
-            Pitch Quest closes soon
+          <span id="popup-event-countdown" class="inline-flex items-center gap-1 px-2 py-1 border border-zinc-800 bg-black/40 font-mono text-[10px] text-zinc-300 uppercase tracking-wider">
+            Event starts soon
           </span>
         </div>
 
@@ -142,18 +143,21 @@ const { event } = Astro.props;
       
       if (!overlay || !content) return;
 
-      const countdownEl = document.getElementById('popup-pitchquest-countdown');
+      const countdownEl = document.getElementById('popup-event-countdown');
       if (countdownEl) {
-        const closeDate = new Date('2026-04-11T23:59:59+05:30');
+        const eventDateRaw = overlay.getAttribute('data-event-date');
+        const closeDate = eventDateRaw
+          ? new Date(`${eventDateRaw}T09:00:00+05:30`)
+          : new Date('2026-04-18T09:00:00+05:30');
         const now = new Date();
         const diff = closeDate.getTime() - now.getTime();
 
         if (diff > 0) {
           const days = Math.floor(diff / (1000 * 60 * 60 * 24));
           const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          countdownEl.textContent = `Pitch Quest closes in ${days}d ${hours}h`;
+          countdownEl.textContent = `Event starts in ${days}d ${hours}h`;
         } else {
-          countdownEl.textContent = 'Pitch Quest registrations closed';
+          countdownEl.textContent = 'Event in progress';
         }
       }
 

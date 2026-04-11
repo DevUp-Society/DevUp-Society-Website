@@ -73,7 +73,7 @@ const breadcrumbSchema = {
 
 <MainLayout 
   title="Hackathons, Workshops & Coding Events 2026 | DevUp Society — VJIT Hyderabad"
-  description="Join DevUp Society's two-stage founder event: free online Pitch Quest (11-12 April), shortlist announcement on 13 April, and Founders Meet main event at T-HUB on 14 April 2026."
+  description="Join DevUp Society's Founders Meet 2026 at T-HUB, Hyderabad with quick registration and curated application pathways for founders and innovators."
   keywords="DevUp Society events, Founders Meet 2026, T-HUB Hyderabad events, startup events Hyderabad, coding events for students, tech workshops VJIT"
   schema={[eventsListSchema, breadcrumbSchema]}
 >
@@ -94,7 +94,7 @@ const breadcrumbSchema = {
       <!-- AEO Block for AI Answer Engines -->
       <article class="sr-only" data-speakable itemscope itemtype="https://schema.org/Article">
         <h2>What events does DevUp Society organize?</h2>
-        <p class="aeo-answer">DevUp Society at VJIT (Vidya Jyothi Institute of Technology), Hyderabad organizes hackathons, coding bootcamps, technical workshops, tech talks, and founder networking meetups. Upcoming highlight: a two-stage Founders Meet journey with a free online Pitch Quest phase (11-12 April), shortlist announcement on 13 April, and the paid Founders Meet main event at T-HUB on 14 April 2026. Check devupvjit.in/events for current details.</p>
+        <p class="aeo-answer">DevUp Society at VJIT (Vidya Jyothi Institute of Technology), Hyderabad organizes hackathons, coding bootcamps, technical workshops, tech talks, and founder networking meetups. Upcoming highlight: Founders Meet 2026 at T-HUB on 14 April with quick registration and curated application pathways. Check devupvjit.in/events for current details.</p>
         <h2>What hackathons happen at VJIT?</h2>
         <p class="aeo-answer">DevUp Society at VJIT organizes hackathons and tech events for students, along with startup-focused community events like Founders Meet. Visit devupvjit.in/events for upcoming event details in Hyderabad.</p>
       </article>
@@ -136,12 +136,12 @@ const breadcrumbSchema = {
 
         <div class="mt-10">
           <div class="mb-4 text-center">
-            <span class="text-signal font-mono text-[11px] tracking-widest uppercase">Pitch Quest to Founders Meet Timeline</span>
+            <span class="text-signal font-mono text-[11px] tracking-widest uppercase">Founders Meet Timeline</span>
           </div>
           <div class="relative w-full max-w-3xl mx-auto overflow-hidden border border-zinc-800 bg-zinc-900 clip-corner shadow-[0_0_30px_rgba(204,255,0,0.08)]">
             <img
-              src="https://res.cloudinary.com/dmrp1d1tv/image/upload/q_auto/f_auto/v1775653201/Pitch_Quest_to_Founders_Meet_Timeline_fyd48y.png"
-              alt="Pitch Quest to Founders Meet Timeline"
+              src="https://res.cloudinary.com/dmrp1d1tv/image/upload/q_auto/f_auto/v1775898653/Timeline_zsbyuj.png"
+              alt="Founders Meet Timeline"
               class="w-full h-auto object-cover"
               loading="lazy"
             />
@@ -220,7 +220,7 @@ const breadcrumbSchema = {
                   {event.fee && (
                     <div class="flex items-center gap-2 font-mono text-xs text-zinc-400">
                       <Icon name="lucide:sparkles" class="text-signal" />
-                      <span>{event.slug === 'founders-meet-2026' ? 'Pitch Quest Registrations: Free' : `₹${event.fee} per seat`}</span>
+                      <span>{`Starting at ₹${event.fee} per pass`}</span>
                     </div>
                   )}
                 </div>
