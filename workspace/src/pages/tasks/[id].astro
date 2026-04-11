@@ -1,0 +1,10 @@
+---
+import WorkspaceLayout from '../../layouts/WorkspaceLayout.astro';
+import { WorkspaceApp } from '../../components/WorkspaceApp';
+
+const { id } = Astro.params;
+---
+
+<WorkspaceLayout title={`DevUp Workspace Task ${id}`}>
+  <WorkspaceApp route="task-detail" taskId={id} client:load />
+</WorkspaceLayout>

@@ -1,0 +1,10 @@
+---
+import WorkspaceLayout from '../layouts/WorkspaceLayout.astro';
+import { WorkspaceApp } from '../components/WorkspaceApp';
+
+const redirectTo = Astro.url.searchParams.get('redirect') ?? '/dashboard';
+---
+
+<WorkspaceLayout title="DevUp Workspace Login">
+  <WorkspaceApp route="login" redirectTo={redirectTo} client:load />
+</WorkspaceLayout>

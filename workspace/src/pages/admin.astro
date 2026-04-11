@@ -1,0 +1,8 @@
+---
+import WorkspaceLayout from '../layouts/WorkspaceLayout.astro';
+import { WorkspaceApp } from '../components/WorkspaceApp';
+---
+
+<WorkspaceLayout title="DevUp Workspace Admin">
+  <WorkspaceApp route="admin" client:load />
+</WorkspaceLayout>
