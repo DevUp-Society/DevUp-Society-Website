@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { useState, type ReactNode } from 'react';
 import { Bell, LogOut, Menu, PanelLeftClose, Target } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { TeamOnboardingGate } from './TeamOnboardingGate';
@@ -12,9 +11,8 @@ const links = [
   { label: 'Admin', to: '/admin' },
 ];
 
-export function WorkspaceShell() {
+export function WorkspaceShell({ currentPath, children }: { currentPath: string; children: ReactNode; }) {
   const { profile, signOut } = useAuth();
-  const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -29,7 +27,7 @@ export function WorkspaceShell() {
 
       <header className="fixed left-1/2 top-6 z-50 w-[95%] max-w-7xl -translate-x-1/2 rounded-2xl border border-white/5 bg-[#0a0a0a]/90 px-4 py-3 shadow-xl shadow-black/50 backdrop-blur-md sm:px-5">
         <div className="flex flex-wrap items-center gap-3">
-          <Link to="/dashboard" className="flex items-center gap-3">
+          <a href="/dashboard" className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center border border-zinc-800 bg-zinc-900/50 p-1.5 clip-corner">
               <div className="flex h-full w-full items-center justify-center border border-signal/30 text-signal">
                 <Target className="h-5 w-5" />
@@ -43,7 +41,7 @@ export function WorkspaceShell() {
                 Internal Operations Platform
               </span>
             </div>
-          </Link>
+          </a>
 
           <button
             type="button"
@@ -55,21 +53,24 @@ export function WorkspaceShell() {
           </button>
 
           <nav className={`w-full ${menuOpen ? 'flex' : 'hidden'} flex-col gap-2 md:ml-4 md:flex md:w-auto md:flex-row md:items-center md:gap-2`}>
-            {links.map((link) => (
-              <NavLink
+            {links.map((link) => {
+              const isActive = currentPath === link.to || (link.to === '/tasks' && currentPath.startsWith('/tasks/'));
+
+              return (
+              <a
                 key={link.to}
-                to={link.to}
-                className={({ isActive }) =>
-                  `rounded-xl border px-3 py-2 font-mono text-[10px] uppercase tracking-[0.25em] transition-colors ${
-                    isActive || location.pathname === link.to
-                      ? 'border-signal bg-signal/10 text-signal'
-                      : 'border-zinc-800 bg-black/30 text-zinc-400 hover:border-zinc-700 hover:text-white'
-                  }`
-                }
+                href={link.to}
+                aria-current={isActive ? 'page' : undefined}
+                className={`rounded-xl border px-3 py-2 font-mono text-[10px] uppercase tracking-[0.25em] transition-colors ${
+                  isActive
+                    ? 'border-signal bg-signal/10 text-signal'
+                    : 'border-zinc-800 bg-black/30 text-zinc-400 hover:border-zinc-700 hover:text-white'
+                }`}
               >
                 {link.label}
-              </NavLink>
-            ))}
+              </a>
+              );
+            })}
           </nav>
 
           <div className="flex w-full items-center justify-between gap-3 md:ml-auto md:w-auto">
@@ -106,7 +107,7 @@ export function WorkspaceShell() {
       </header>
 
       <main className="relative z-10 mx-auto max-w-7xl px-4 pb-16 pt-32 sm:px-6 lg:px-8">
-        <Outlet />
+        {children}
       </main>
 
       <footer className="relative z-10 border-t border-zinc-900 bg-[#030303]/95 px-4 py-8 sm:px-6 lg:px-8">

@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { ArrowRight, Calendar, CircleDotDashed, Gauge, Tag } from 'lucide-react';
 import type { ReactNode } from 'react';
 import type { TaskItem } from '../types';
@@ -19,10 +18,10 @@ export function TaskCard({ task, children }: { task: TaskItem; children?: ReactN
           <h3 className="font-display text-2xl text-white transition-colors group-hover:text-signal">{task.title}</h3>
           <p className="mt-2 max-w-2xl font-mono text-sm leading-relaxed text-zinc-400">{task.description}</p>
         </div>
-        <Link to={`/tasks/${task.id}`} className="inline-flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900/70 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.22em] text-zinc-300 transition-colors hover:border-signal hover:text-signal">
+        <a href={`/tasks/${task.id}`} className="inline-flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900/70 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.22em] text-zinc-300 transition-colors hover:border-signal hover:text-signal">
           Open
           <ArrowRight className="h-4 w-4" />
-        </Link>
+        </a>
       </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
