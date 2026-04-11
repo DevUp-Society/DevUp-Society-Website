@@ -72,6 +72,21 @@ const registrationDeadline = event.timeline?.find(item =>
             Pitch Quest registrations are free and online. Fill this form to register for Pitch Quest.
           </p>
         )}
+
+        {isFoundersMeet && (
+          <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3 text-left">
+            <div class="border border-zinc-800 bg-black/40 p-4">
+              <p class="font-mono text-[10px] uppercase tracking-widest text-zinc-500 mb-1">Flow 1</p>
+              <p class="text-white font-semibold">Quick Registration</p>
+              <p class="text-zinc-400 text-xs">Direct pass-based registration.</p>
+            </div>
+            <div class="border border-zinc-800 bg-black/40 p-4">
+              <p class="font-mono text-[10px] uppercase tracking-widest text-zinc-500 mb-1">Flow 2</p>
+              <p class="text-white font-semibold">Application / Approval</p>
+              <p class="text-zinc-400 text-xs">Submit first, proceed after approval.</p>
+            </div>
+          </div>
+        )}
         
         {/* Registration Countdown Timer */}
         {isRegistrationOpen && registrationDeadline && (
@@ -183,12 +198,31 @@ const registrationDeadline = event.timeline?.find(item =>
         <form id="registration-form" class="space-y-8" data-event-fee={event.fee ?? 0}>
             <input type="hidden" name="event_slug" value={event.slug} />
             <input type="hidden" name="event_name" value={event.title} />
+            <input type="hidden" name="registration_flow" value="quick" />
 
             <div class="space-y-6">
                 <div class="flex items-center gap-3 border-b border-zinc-800 pb-2">
               <span class="w-6 h-6 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center font-bold text-xs">1</span>
               <h3 class="font-display text-xl text-white">Participant Details</h3>
                 </div>
+
+                {isFoundersMeet && (
+                  <div class="space-y-3">
+                    <label class="font-mono text-xs text-zinc-500 uppercase">Choose Pass</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <label class="border border-zinc-800 bg-black/50 p-4 cursor-pointer hover:border-signal transition-colors">
+                        <input type="radio" name="pass_type" value="normal" class="mr-2" checked />
+                        <span class="text-white font-semibold">Normal Pass - INR 999</span>
+                        <p class="text-zinc-400 text-xs mt-2">Event access, networking opportunities, general participation.</p>
+                      </label>
+                      <label class="border border-zinc-800 bg-black/50 p-4 cursor-pointer hover:border-signal transition-colors">
+                        <input type="radio" name="pass_type" value="premium" class="mr-2" />
+                        <span class="text-white font-semibold">Premium Pass - INR 1299</span>
+                        <p class="text-zinc-400 text-xs mt-2">Normal benefits plus stage speaking and founder interaction.</p>
+                      </label>
+                    </div>
+                  </div>
+                )}
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-2">
@@ -306,6 +340,7 @@ function validateFormData(data) {
   else if (!validatePhone(data.lead_phone)) errors.push('Phone number must be 10 digits');
   if (!data.designation?.trim()) errors.push('Designation / year is required');
   if (!data.lead_college?.trim()) errors.push('Company / college is required');
+  if (IS_FOUNDERS_MEET && !data.pass_type) errors.push('Please select a pass type');
   
   return { valid: errors.length === 0, errors };
 }
@@ -439,6 +474,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const registrationData = {
           event_slug: formData.get('event_slug'),
           event_name: formData.get('event_name'),
+          registration_flow: formData.get('registration_flow') || 'quick',
+          pass_type: formData.get('pass_type') || 'normal',
           lead_name: formData.get('lead_name'),
           lead_email: formData.get('lead_email'),
           lead_phone: formData.get('lead_phone'),
@@ -556,6 +593,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     // INITIALIZATION
     // ============================================
     logger.info('Initializing registration form');
+
+    if (IS_FOUNDERS_MEET) {
+      const params = new URLSearchParams(window.location.search);
+      const flow = params.get('flow');
+      const pass = params.get('pass');
+
+      const flowInput = document.querySelector('input[name="registration_flow"]');
+      if (flowInput && (flow === 'quick' || flow === 'application')) {
+        flowInput.value = flow;
+      }
+
+      if (pass === 'premium' || pass === 'normal') {
+        const passInput = document.querySelector(`input[name="pass_type"][value="${pass}"]`);
+        if (passInput) {
+          passInput.checked = true;
+        }
+      }
+    }
     
     
     logger.info('Registration page fully initialized and ready');
