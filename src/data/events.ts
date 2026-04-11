@@ -104,7 +104,7 @@ export const events: Event[] = [
         mode: "Offline",
         shortDescription: "Pitch Quest starts online and is completely free. Shortlisted innovators move to the paid Founders Meet main event on 14 April 2026 at T-HUB, Hyderabad.",
         fullDescription: "DevUp Society presents a two-stage founder journey. Stage 1 is Pitch Quest, an online and completely free screening round. Pitch Quest registrations close on 11 April, and the pitching phase runs online on 11-12 April. On 13 April, shortlisted innovators are announced and Founders Meet registrations open for shortlisted participants. Stage 2 is the Founders Meet main event on 14 April 2026 at T-HUB, Hyderabad, where selected innovators get to network, validate ideas, and connect with mentors and startup ecosystem leaders.",
-        images: ["https://res.cloudinary.com/dmrp1d1tv/image/upload/q_auto/f_auto/v1775653200/Founders_Meet_Poster_1_epf1vt.png"],
+        images: ["https://res.cloudinary.com/dmrp1d1tv/image/upload/q_auto/f_auto/v1775898652/Founders_Meet_Poster_lxwujw.png"],
         speakers: [],
         tags: ["FoundersMeet", "Startup", "Networking", "Mentorship", "Innovation"],
         status: "upcoming",
@@ -119,13 +119,13 @@ export const events: Event[] = [
             { id: 5, title: "Founders Meet Main Event", date: "Apr 14", description: "In-person main event at T-HUB, Hyderabad." }
         ],
         faqs: [
-            { question: "Is Pitch Quest free?", answer: "Yes. The online Pitch Quest round is completely free." },
-            { question: "When does Pitch Quest registration close?", answer: "Pitch Quest registrations close on 11 April." },
-            { question: "When is the pitching phase?", answer: "Pitching happens online on 11-12 April." },
-            { question: "When are shortlisted innovators announced?", answer: "Shortlisted innovators are declared on 13 April." },
-            { question: "Who can register for Founders Meet at T-HUB?", answer: "Founders Meet registrations open on 13 April for shortlisted innovators." },
-            { question: "Is Founders Meet paid?", answer: "Yes. Founders Meet at T-HUB is a paid stage for shortlisted participants." },
-            { question: "When is the main event?", answer: "Founders Meet main event is on 14 April at T-HUB, Hyderabad." }
+            { question: "What is the event date and venue?", answer: "Founders Meet 2026 is on 14 April 2026 at T-HUB, Hyderabad." },
+            { question: "What are the available passes?", answer: "Two passes are available: Normal Pass (INR 999) and Premium Pass (INR 1299)." },
+            { question: "What does the Normal Pass include?", answer: "Normal Pass includes event access, networking opportunities, and general participation." },
+            { question: "What does the Premium Pass include?", answer: "Premium Pass includes all Normal Pass benefits, 5 to 10 minutes stage speaking opportunity, direct interaction with founders and senior professionals, and higher visibility." },
+            { question: "Is there an application or approval process?", answer: "Yes. Curated entries can use the application and approval flow where details are reviewed before proceeding." },
+            { question: "How can I register quickly?", answer: "Use Quick Registration on the event page and choose your pass to register directly." },
+            { question: "Who should I contact for support?", answer: "For support, contact devupsociety@vjit.ac.in." }
         ]
     }
 ];
