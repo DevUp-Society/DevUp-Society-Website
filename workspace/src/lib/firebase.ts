@@ -1,7 +1,7 @@
 import { getApp, getApps, initializeApp } from 'firebase/app';
 import type { FirebaseOptions } from 'firebase/app';
 import { GoogleAuthProvider, getAuth, signInWithPopup, signOut, type User } from 'firebase/auth';
-import { addDoc, arrayUnion, collection, doc, getDoc, getFirestore, increment, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getFirestore, increment, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig: FirebaseOptions = {
@@ -110,5 +110,3 @@ export async function createNotification(recipientId: string, payload: { title: 
     createdAt: serverTimestamp(),
   });
 }
-
-export { arrayUnion };
