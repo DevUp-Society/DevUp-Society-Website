@@ -5,6 +5,7 @@
 :root {
   --signal: #ccff00;
   --void: #030303;
+  color-scheme: dark;
 }
 
 html {
