@@ -56,6 +56,8 @@ export async function syncRegistrationToSheets(
     const regRow = [
       registration.id,
       registration.event_slug,
+      registration.registration_flow || 'quick',
+      registration.pass_type || 'normal',
       registration.lead_name,
       registration.lead_email,
       registration.lead_phone,
@@ -74,7 +76,7 @@ export async function syncRegistrationToSheets(
     // Append to Registrations sheet
     const response = await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: 'Registrations!A:I',
+      range: 'Registrations!A:K',
       valueInputOption: 'RAW',
       insertDataOption: 'INSERT_ROWS',
       resource: {
@@ -122,13 +124,15 @@ export async function fullBackupToSheets(supabase: any): Promise<{
     // Clear existing data
     await sheets.spreadsheets.values.clear({
       spreadsheetId: SPREADSHEET_ID,
-      range: 'Registrations!A2:I',
+      range: 'Registrations!A2:K',
     });
 
     // Format registration rows
     const regRows = registrations.map((reg: any) => [
       reg.id,
       reg.event_slug,
+      reg.registration_flow || 'quick',
+      reg.pass_type || 'normal',
       reg.lead_name,
       reg.lead_email,
       reg.lead_phone,

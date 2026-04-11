@@ -52,6 +52,8 @@ export const POST: APIRoute = async ({ request }) => {
 
     const {
       event_slug,
+      registration_flow,
+      pass_type,
       lead_name,
       lead_email,
       lead_phone,
@@ -103,6 +105,8 @@ export const POST: APIRoute = async ({ request }) => {
     // Sanitize inputs
     const sanitizedData = {
       event_slug: sanitizeInput(event_slug),
+      registration_flow: registration_flow ? sanitizeInput(registration_flow) : 'quick',
+      pass_type: pass_type ? sanitizeInput(pass_type) : 'normal',
       lead_name: sanitizeInput(lead_name),
       lead_email: lead_email.toLowerCase().trim(),
       lead_phone: cleanPhone,
@@ -116,6 +120,8 @@ export const POST: APIRoute = async ({ request }) => {
     const registrationInsert: Record<string, any> = {
       id: registrationId,
       event_slug: sanitizedData.event_slug,
+      registration_flow: sanitizedData.registration_flow,
+      pass_type: sanitizedData.pass_type,
       lead_name: sanitizedData.lead_name,
       lead_email: sanitizedData.lead_email,
       lead_phone: sanitizedData.lead_phone,
@@ -163,6 +169,8 @@ export const POST: APIRoute = async ({ request }) => {
         leadPhone: sanitizedData.lead_phone,
         leadCollege: sanitizedData.lead_college,
         designation: sanitizedData.designation,
+        registrationFlow: sanitizedData.registration_flow,
+        passType: sanitizedData.pass_type,
         message: 'Pitch Quest registration submitted successfully.',
       }),
       {
