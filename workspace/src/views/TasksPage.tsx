@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { collection, limit, orderBy, query } from 'firebase/firestore';
-import { Filter, Plus, Search } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLiveCollection } from '../lib/firestore';
 import { db } from '../lib/firebase';
@@ -16,7 +15,6 @@ const taskStatuses = ['All', 'Todo', 'In Progress', 'Blocked', 'Review', 'Comple
 
 export function TasksPage() {
   const { profile } = useAuth();
-  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<(typeof taskStatuses)[number]>('All');
   const [teamFilter, setTeamFilter] = useState('All');
@@ -69,7 +67,7 @@ export function TasksPage() {
         status: 'Todo',
       });
       setTaskForm({ title: '', description: '', teamId: '', teamName: '', assigneeId: '', assigneeName: '', priority: 'Medium', deadline: '', points: 10, type: 'feature', mode: 'Open', reviewRequired: true });
-      navigate(`/tasks/${taskId}`);
+      window.location.assign(`/tasks/${taskId}`);
     } finally {
       setSubmitting(false);
     }

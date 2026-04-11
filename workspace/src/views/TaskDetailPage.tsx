@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { collection, limit, orderBy, query, where } from 'firebase/firestore';
-import { Paperclip, Send, PlayCircle, ShieldAlert, CheckCircle2, Clock3 } from 'lucide-react';
+import { Paperclip, Clock3 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLiveCollection, useLiveDocument } from '../lib/firestore';
 import { db } from '../lib/firebase';
@@ -16,23 +15,22 @@ function formatDate(value: unknown) {
   return new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }).format(date);
 }
 
-export function TaskDetailPage() {
-  const { id } = useParams();
+export function TaskDetailPage({ taskId }: { taskId: string; }) {
   const { profile } = useAuth();
   const [updateText, setUpdateText] = useState('');
   const [commentText, setCommentText] = useState('');
   const [blockedReason, setBlockedReason] = useState('');
   const [attachment, setAttachment] = useState<File | null>(null);
 
-  const task = useLiveDocument<TaskItem>('tasks', id, null);
+  const task = useLiveDocument<TaskItem>('tasks', taskId, null);
   const updatesQuery = useMemo(() => {
-    if (!id) return null;
-    return (firestore: NonNullable<typeof db>) => query(collection(firestore, 'updates'), where('taskId', '==', id), orderBy('createdAt', 'desc'), limit(20));
-  }, [id]);
+    if (!taskId) return null;
+    return (firestore: NonNullable<typeof db>) => query(collection(firestore, 'updates'), where('taskId', '==', taskId), orderBy('createdAt', 'desc'), limit(20));
+  }, [taskId]);
   const commentsQuery = useMemo(() => {
-    if (!id) return null;
-    return (firestore: NonNullable<typeof db>) => query(collection(firestore, 'comments'), where('taskId', '==', id), orderBy('createdAt', 'desc'), limit(20));
-  }, [id]);
+    if (!taskId) return null;
+    return (firestore: NonNullable<typeof db>) => query(collection(firestore, 'comments'), where('taskId', '==', taskId), orderBy('createdAt', 'desc'), limit(20));
+  }, [taskId]);
 
   const { data: updates = [] } = useLiveCollection<UpdateItem>(updatesQuery ?? (() => null), []);
   const { data: comments = [] } = useLiveCollection<CommentItem>(commentsQuery ?? (() => null), []);
@@ -111,6 +109,7 @@ export function TaskDetailPage() {
           <Panel title="Actions" subtitle="Workflow controls" action={<Clock3 className="h-4 w-4 text-signal" />}>
             <div className="space-y-3">
               <button type="button" disabled={!canAct} onClick={() => startTask(currentTask.id)} className="w-full rounded-xl border border-zinc-800 bg-black/30 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.25em] text-zinc-300 transition-colors hover:border-signal hover:text-signal disabled:cursor-not-allowed disabled:opacity-50">Start task</button>
+              <input value={blockedReason} onChange={(event) => setBlockedReason(event.target.value)} placeholder="Blocked reason" className="w-full rounded-xl border border-zinc-800 bg-black/30 px-4 py-3 font-mono text-sm text-white placeholder:text-zinc-600 focus:border-signal focus:outline-none" />
               <button type="button" disabled={!canAct} onClick={() => markBlocked(currentTask.id, blockedReason || 'Blocked by dependency')} className="w-full rounded-xl border border-red-900/50 bg-red-950/20 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.25em] text-red-300 transition-colors hover:border-red-700 disabled:cursor-not-allowed disabled:opacity-50">Mark blocked</button>
               <button type="button" disabled={!canAct} onClick={handleComplete} className="w-full rounded-xl bg-signal px-4 py-3 font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-black btn-glitch disabled:cursor-not-allowed disabled:opacity-50">{currentTask.reviewRequired && !isLead ? 'Submit for review' : 'Complete task'}</button>
               <button type="button" disabled={!canAct || !profile} onClick={async () => { if (!profile) return; await claimTask(currentTask.id, profile.id, profile.name, profile.teamId, profile.teamName); }} className="w-full rounded-xl border border-signal/40 bg-signal/10 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.25em] text-signal transition-colors hover:bg-signal/20 disabled:cursor-not-allowed disabled:opacity-50">Pick task</button>

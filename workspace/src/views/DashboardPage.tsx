@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { Activity, BarChart3, Bell, CheckCircle2, ClipboardList, Users } from 'lucide-react';
+import { BarChart3, Bell, Users } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLiveCollection } from '../lib/firestore';
 import { buildLeaderboard, computeWorkspaceStats, topActivityMembers } from '../lib/metrics';
@@ -73,8 +72,8 @@ export function DashboardPage() {
                     : 'Member access enabled. Pick open tasks, post updates, and complete assigned work.'}
               </p>
               <div className="mt-4 flex gap-3">
-                <Link to="/tasks" className="rounded-xl bg-signal px-4 py-3 font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-black btn-glitch">Browse tasks</Link>
-                <Link to="/profile" className="rounded-xl border border-zinc-800 bg-black/40 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.25em] text-zinc-300">View profile</Link>
+                <a href="/tasks" className="rounded-xl bg-signal px-4 py-3 font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-black btn-glitch">Browse tasks</a>
+                <a href="/profile" className="rounded-xl border border-zinc-800 bg-black/40 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.25em] text-zinc-300">View profile</a>
               </div>
             </div>
           </div>
@@ -90,13 +89,13 @@ export function DashboardPage() {
 
       <section className="grid gap-6 lg:grid-cols-12">
         <div className="lg:col-span-7 space-y-6">
-          <Panel title="Assigned Tasks" subtitle="Your queue and open work" action={<Link to="/tasks" className="font-mono text-[10px] uppercase tracking-[0.25em] text-signal">View all</Link>}>
+          <Panel title="Assigned Tasks" subtitle="Your queue and open work" action={<a href="/tasks" className="font-mono text-[10px] uppercase tracking-[0.25em] text-signal">View all</a>}>
             {assignedTasks.length ? (
               <div className="space-y-4">
                 {assignedTasks.map((task) => <TaskCard key={task.id} task={task} />)}
               </div>
             ) : (
-              <EmptyState title="No assigned tasks" description="When work is assigned to you, it appears here immediately." action={<Link to="/tasks" className="rounded-xl bg-signal px-4 py-3 font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-black">Pick an open task</Link>} />
+                <EmptyState title="No assigned tasks" description="When work is assigned to you, it appears here immediately." action={<a href="/tasks" className="rounded-xl bg-signal px-4 py-3 font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-black">Pick an open task</a>} />
             )}
           </Panel>
 

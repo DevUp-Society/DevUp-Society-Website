@@ -69,7 +69,7 @@ export function LeaderboardPage() {
         <div className="lg:col-span-4 space-y-6">
           <Panel title="Top 3" subtitle="Podium view" action={<Trophy className="h-4 w-4 text-signal" />}>
             <div className="space-y-3">
-              {leaderboard.slice(0, 3).map((member, index) => (
+              {leaderboard.slice(0, 3).map((member) => (
                 <div key={member.id} className="rounded-2xl border border-zinc-800 bg-black/30 p-4">
                   <div className="flex items-center justify-between gap-3">
                     <div>

@@ -1,20 +1,16 @@
 import { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { Chrome, ShieldCheck, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Badge, Panel } from '../components/UI';
 
-export function LoginPage() {
+export function LoginPage({ redirectTo = '/dashboard' }: { redirectTo?: string; }) {
   const { signIn, user, loading, firebaseReady } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const from = (location.state as { from?: { pathname?: string } } | undefined)?.from?.pathname ?? '/dashboard';
 
   useEffect(() => {
     if (user) {
-      navigate(from, { replace: true });
+      window.location.assign(redirectTo);
     }
-  }, [from, navigate, user]);
+  }, [redirectTo, user]);
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-void text-white">
@@ -51,7 +47,7 @@ export function LoginPage() {
 
             {!firebaseReady && (
               <div className="mt-8 max-w-2xl rounded-2xl border border-yellow-900/50 bg-yellow-950/30 p-4 font-mono text-sm text-yellow-300">
-                Firebase is not configured yet. Add the <span className="text-white">VITE_FIREBASE_*</span> environment variables to enable sign-in and live data.
+                Firebase is not configured yet. Add the <span className="text-white">PUBLIC_FIREBASE_*</span> or <span className="text-white">VITE_FIREBASE_*</span> environment variables to enable sign-in and live data.
               </div>
             )}
           </div>
