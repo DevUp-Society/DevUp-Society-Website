@@ -246,7 +246,7 @@ const metaDescription = event.isHackathon
       {isFoundersMeet && (
         <section class="relative bg-[#0b0b10] text-zinc-100 border-b border-red-500/30 pt-28 md:pt-32 pb-12 md:pb-16">
           <div class="max-w-6xl mx-auto px-6">
-            <a href="/events" class="inline-flex items-center gap-2 text-zinc-400 hover:text-red-300 font-mono text-xs uppercase tracking-widest transition-colors mb-5 md:mb-8">
+            <a href="/events" data-scroll-top class="inline-flex items-center gap-2 text-zinc-400 hover:text-red-300 font-mono text-xs uppercase tracking-widest transition-colors mb-5 md:mb-8">
               <Icon name="lucide:arrow-left" />
               <span>Back</span>
             </a>
@@ -465,7 +465,7 @@ const metaDescription = event.isHackathon
         <div class="absolute inset-0 bg-gradient-to-b from-transparent via-void/50 to-void z-10 pointer-events-none"></div>
 
         <!-- Back Button -->
-        <a href="/events" class="absolute top-32 left-6 z-30 inline-flex items-center gap-2 text-zinc-400 hover:text-signal font-mono text-xs uppercase tracking-widest transition-colors">
+        <a href="/events" data-scroll-top class="absolute top-32 left-6 z-30 inline-flex items-center gap-2 text-zinc-400 hover:text-signal font-mono text-xs uppercase tracking-widest transition-colors">
           <Icon name="lucide:arrow-left" />
           <span>Back</span>
         </a>
@@ -871,7 +871,7 @@ const metaDescription = event.isHackathon
         <div class="absolute inset-0 bg-void/80 z-10"></div>
         
         <!-- Back Button -->
-        <a href="/events" class="absolute top-32 left-6 z-30 inline-flex items-center gap-2 text-zinc-500 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors">
+        <a href="/events" data-scroll-top class="absolute top-32 left-6 z-30 inline-flex items-center gap-2 text-zinc-500 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors">
           <Icon name="lucide:arrow-left" />
           <span>Back</span>
         </a>
@@ -928,6 +928,22 @@ const metaDescription = event.isHackathon
   )}
 
 </MainLayout>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    window.scrollTo({ top: 0, behavior: 'auto' });
+
+    document.querySelectorAll('[data-scroll-top]').forEach((link) => {
+      link.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  });
+</script>
 
 {isFoundersMeet && (
   <script is:inline>
