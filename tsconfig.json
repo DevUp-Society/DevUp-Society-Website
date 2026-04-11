@@ -5,6 +5,7 @@
         "jsxImportSource": "react"
     },
     "exclude": [
-        "devup-ai-assistant"
+        "devup-ai-assistant",
+        "workspace"
     ]
 }
