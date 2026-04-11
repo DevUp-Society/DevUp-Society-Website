@@ -4,7 +4,7 @@ Internal task and activity tracking platform for DevUp members.
 
 ## Stack
 
-- React 18 + Vite
+- Astro + React islands
 - Firebase Auth with Google Sign-In
 - Firestore for users, teams, tasks, updates, comments, and notifications
 - Firebase Storage for attachments
@@ -15,6 +15,8 @@ Internal task and activity tracking platform for DevUp members.
 1. Install dependencies inside this folder.
 2. Copy `.env.example` to `.env` and fill in the Firebase config values.
 3. Start the app with `npm run dev`.
+
+Astro owns routing and the shell layout; React handles the live Firebase-driven islands.
 
 ## Admin Testing
 
@@ -36,4 +38,4 @@ If a user already exists and is not Admin, update the `users/{uid}` document in 
 ## Deployment
 
 This workspace app is ready to deploy as a standalone Vercel project for `workspace.devupvjit.in`.
-Use the included `vercel.json` rewrite so client-side routes resolve correctly.
+Use Astro routes for navigation and keep React only for interactive islands.
