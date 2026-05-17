@@ -1,20 +1,12 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import { Icon } from 'astro-icon/components';
-import EventPopup from '../components/EventPopup.astro';
-import { upcomingEvents } from '../data/events';
-
-// Get the first upcoming event (if any)
-const nextEvent = upcomingEvents.length > 0 ? upcomingEvents[0] : null;
 ---
 
 <MainLayout 
   title="DevUp Society — Premier Student Developer & Innovation Community at VJIT, Hyderabad" 
   description="DevUp Society is the primary student developer community at VJIT (Vidya Jyothi Institute of Technology), Hyderabad. Join hackathons, build real-world software, contribute to open source, and launch your tech career. Free to join."
 >
-  <!-- EVENT POPUP -->
-  <EventPopup event={nextEvent} />
-
   <!-- HERO -->
   <section class="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden">
     <!-- Background Image -->
