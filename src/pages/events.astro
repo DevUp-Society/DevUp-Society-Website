@@ -18,6 +18,7 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import { upcomingEvents, pastEvents } from '../data/events';
 import { Icon } from 'astro-icon/components';
+import HackathonPopup from '../components/HackathonPopup.astro';
 
 const featuredEvent = upcomingEvents.length > 0 ? upcomingEvents[0] : null;
 
@@ -134,19 +135,7 @@ const breadcrumbSchema = {
           </div>
         )}
 
-        <div class="mt-10">
-          <div class="mb-4 text-center">
-            <span class="text-signal font-mono text-[11px] tracking-widest uppercase">Founders Meet Timeline</span>
-          </div>
-          <div class="relative w-full max-w-3xl mx-auto overflow-hidden border border-zinc-800 bg-zinc-900 clip-corner shadow-[0_0_30px_rgba(204,255,0,0.08)]">
-            <img
-              src="https://res.cloudinary.com/dmrp1d1tv/image/upload/q_auto/f_auto/v1775898653/Timeline_zsbyuj.png"
-              alt="Founders Meet Timeline"
-              class="w-full h-auto object-cover"
-              loading="lazy"
-            />
-          </div>
-        </div>
+
       </div>
     </section>
   )}
@@ -334,4 +323,5 @@ const breadcrumbSchema = {
       </a>
     </div>
   </section>
+  <HackathonPopup />
 </MainLayout>

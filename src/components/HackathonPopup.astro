@@ -1,0 +1,103 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<div id="hackathon-popup" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+  <div class="relative w-[90%] max-w-lg bg-zinc-950 border border-signal shadow-[0_0_50px_rgba(204,255,0,0.15)] rounded-xl overflow-y-auto max-h-[90vh] clip-corner transform scale-95 transition-transform duration-300" id="hackathon-popup-content">
+    
+    <!-- Close Button -->
+    <button id="close-popup" class="absolute top-3 right-3 z-20 w-8 h-8 flex items-center justify-center bg-black/50 hover:bg-signal text-white hover:text-black rounded-full transition-colors cursor-pointer">
+      <Icon name="lucide:x" class="w-5 h-5" />
+    </button>
+
+    <!-- Content Link -->
+    <a href="https://www.devupecosystem.com/hackathons/f40eb44c-138c-4b86-86bd-2da45ae60b3a" class="block group relative cursor-pointer" target="_blank" rel="noopener noreferrer">
+      <!-- Image -->
+      <div class="w-full overflow-hidden bg-zinc-900 relative">
+        <img 
+          src="/images/vynedam-hackathon.jpeg" 
+          alt="VYNEDAM Talent Hunt 2K26" 
+          class="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-500"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent"></div>
+      </div>
+
+      <!-- Text Content -->
+      <div class="p-6 relative -mt-16 z-10">
+        <div class="inline-block px-3 py-1 mb-3 text-[10px] font-mono text-black bg-signal uppercase tracking-widest font-bold shadow-lg">
+          Live Event
+        </div>
+        
+        <h3 class="text-2xl md:text-3xl font-display font-bold text-white mb-2 leading-tight">
+          VYNEDAM Talent Hunt 2K26
+        </h3>
+        
+        <p class="text-zinc-300 font-mono text-xs md:text-sm mb-6 leading-relaxed">
+          36-Hour Non-Stop Offline Innovation Challenge.<br/>
+          ₹1,00,000+ Prize Pool, Internships & More!
+        </p>
+
+        <div class="flex items-center text-black bg-signal px-6 py-3 font-mono text-xs uppercase tracking-widest font-bold hover:bg-white transition-colors justify-center gap-2 group-hover:gap-4 clip-corner">
+          <span>Register Now</span>
+          <Icon name="lucide:arrow-right" class="w-4 h-4" />
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<script>
+  window.addEventListener('load', () => {
+    // Check session storage to see if we already showed it this session
+    // Optional, but good UX. For now, we show it always per requirements, or maybe just once per load.
+    
+    // Show popup after a short delay
+    setTimeout(() => {
+      const popup = document.getElementById('hackathon-popup');
+      const content = document.getElementById('hackathon-popup-content');
+      
+      if (popup && content) {
+        popup.classList.remove('hidden');
+        // Trigger reflow
+        void popup.offsetWidth;
+        popup.classList.remove('opacity-0');
+        content.classList.remove('scale-95');
+        content.classList.add('scale-100');
+        
+        // Prevent scrolling on body
+        document.body.style.overflow = 'hidden';
+      }
+    }, 1500); // 1.5s delay before showing
+
+    const closeBtn = document.getElementById('close-popup');
+    closeBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closePopup();
+    });
+
+    const popup = document.getElementById('hackathon-popup');
+    popup?.addEventListener('click', (e) => {
+      if (e.target === popup) {
+        closePopup();
+      }
+    });
+
+    function closePopup() {
+      const popup = document.getElementById('hackathon-popup');
+      const content = document.getElementById('hackathon-popup-content');
+      
+      if (popup && content) {
+        popup.classList.add('opacity-0');
+        content.classList.remove('scale-100');
+        content.classList.add('scale-95');
+        
+        document.body.style.overflow = '';
+        
+        setTimeout(() => {
+          popup.classList.add('hidden');
+        }, 300); // Wait for transition
+      }
+    }
+  });
+</script>

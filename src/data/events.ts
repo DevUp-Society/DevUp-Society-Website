@@ -107,7 +107,7 @@ export const events: Event[] = [
         images: ["https://res.cloudinary.com/dmrp1d1tv/image/upload/q_auto/f_auto/v1775898652/Founders_Meet_Poster_lxwujw.png"],
         speakers: [],
         tags: ["FoundersMeet", "Startup", "Networking", "Mentorship", "Innovation"],
-        status: "upcoming",
+        status: "past",
         fee: 1000,
         seatsLeft: 100,
         registrationLink: "/events/founders-meet-2026/register",
@@ -126,6 +126,38 @@ export const events: Event[] = [
             { question: "How are participants selected?", answer: "Selections are made through interviews and profile screening by the event team." },
             { question: "How do I register?", answer: "Use the Register button on the event page and submit your details." },
             { question: "Who should I contact for support?", answer: "For support, contact devupsociety@vjit.ac.in." }
+        ]
+    },
+    {
+        id: "evt-003",
+        title: "VYNEDAM Talent Hunt 2K26",
+        slug: "vynedam-talent-hunt-2k26",
+        date: "2026-07-04",
+        location: "Malla Reddy University (MRDU), Hyderabad",
+        mode: "Offline",
+        shortDescription: "36-Hour Non-Stop Offline National Innovation Challenge with ₹1,00,000+ Prize Pool.",
+        fullDescription: "VYNEDAM Talent Hunt 2K26 is a 36-hour non-stop offline innovation challenge bringing together students, developers, and aspiring entrepreneurs to solve high-impact, real-world problems curated by industry veterans. Domains span AI/ML (Generative AI, Predictive Analytics), Cybersecurity & Blockchain, Web & Mobile Development, Cloud & IoT, and Social Impact.",
+        images: ["/images/vynedam-hackathon.jpeg"],
+        speakers: [],
+        tags: ["Hackathon", "AI/ML", "Cybersecurity", "WebDev", "IoT", "Innovation"],
+        status: "upcoming",
+        isHackathon: true,
+        registrationLink: "https://www.devupecosystem.com/hackathons/f40eb44c-138c-4b86-86bd-2da45ae60b3a",
+        themes: [
+            { title: "AI & ML", description: "GenAI, Predictive Analytics" },
+            { title: "Cybersecurity & Blockchain", description: "Smart contracts, Pen testing" },
+            { title: "Web & Mobile Dev", description: "Full-stack, PWA, Flutter" },
+            { title: "Cloud & IoT", description: "Edge computing, Serverless" },
+            { title: "Social Impact", description: "Accessibility, GreenTech" }
+        ],
+        prizes: [
+            { id: 1, type: "Gold", amount: "₹50,000", perks: ["Trophies for top teams", "Guaranteed internships for all participants", "Official merit & participation certificates", "Industry expert networking"] },
+            { id: 2, type: "Silver", amount: "₹30,000", perks: ["Trophies for top teams", "Guaranteed internships for all participants", "Official certificates"] },
+            { id: 3, type: "Bronze", amount: "₹20,000", perks: ["Trophies for top teams", "Official certificates"] }
+        ],
+        faqs: [
+            { question: "What is the duration?", answer: "36 hours non-stop." },
+            { question: "Who is eligible?", answer: "Students & Recent Graduates." }
         ]
     }
 ];
