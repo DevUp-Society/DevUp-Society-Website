@@ -1,0 +1,61 @@
+---
+export interface Props {
+  name: string;
+  description: string;
+  url: string;
+  image: string;
+  telephone?: string;
+  email?: string;
+  streetAddress: string;
+  addressLocality: string;
+  addressRegion: string;
+  postalCode: string;
+  addressCountry: string;
+  latitude: number;
+  longitude: number;
+  priceRange?: string;
+}
+
+const {
+  name,
+  description,
+  url,
+  image,
+  telephone = "",
+  email = "",
+  streetAddress,
+  addressLocality,
+  addressRegion,
+  postalCode,
+  addressCountry,
+  latitude,
+  longitude,
+  priceRange = "Free"
+} = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": name,
+  "image": image,
+  "url": url,
+  "telephone": telephone,
+  "email": email,
+  "description": description,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": streetAddress,
+    "addressLocality": addressLocality,
+    "addressRegion": addressRegion,
+    "postalCode": postalCode,
+    "addressCountry": addressCountry
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": latitude,
+    "longitude": longitude
+  },
+  "priceRange": priceRange
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

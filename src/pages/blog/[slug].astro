@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import BreadcrumbSchema from '../../components/SEO/BreadcrumbSchema.astro';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+const breadcrumbs = [
+  { name: "Home", url: "https://www.devupvjit.in/" },
+  { name: "Blog", url: "https://www.devupvjit.in/blog" },
+  { name: entry.data.title, url: `https://www.devupvjit.in/blog/${entry.slug}` }
+];
+
+// Map the Collection data to MainLayout props for SEO
+const seoProps = {
+  title: `${entry.data.title} | DevUp Insights`,
+  description: entry.data.description,
+  keywords: entry.data.keywords || entry.data.tags.join(', '),
+  type: "article" as const,
+  publishedTime: entry.data.pubDate.toISOString(),
+  modifiedTime: entry.data.updatedDate?.toISOString() || entry.data.pubDate.toISOString(),
+  author: entry.data.author,
+  image: entry.data.image || "https://www.devupvjit.in/assets/og-image.jpg"
+};
+---
+
+<MainLayout {...seoProps}>
+  <BreadcrumbSchema items={breadcrumbs} />
+  
+  <article class="min-h-screen pt-32 pb-20 px-6 max-w-4xl mx-auto text-white">
+    <header class="mb-12">
+      <div class="flex items-center gap-4 text-zinc-400 text-sm font-mono uppercase tracking-wider mb-6">
+        <time datetime={entry.data.pubDate.toISOString()}>
+          {entry.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+        <span>•</span>
+        <span>{entry.data.author}</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight">
+        {entry.data.title}
+      </h1>
+      
+      {entry.data.tags && entry.data.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mt-6">
+          {entry.data.tags.map(tag => (
+            <span class="bg-white/5 border border-white/10 px-3 py-1 text-xs font-mono text-signal">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="prose prose-invert prose-green prose-lg max-w-none prose-headings:font-display prose-a:text-signal prose-img:rounded-xl">
+      <Content />
+    </div>
+  </article>
+</MainLayout>

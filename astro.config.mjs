@@ -1,6 +1,7 @@
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import icon from "astro-icon";
+import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
@@ -10,8 +11,8 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     icon(),
-    // sitemap integration temporarily disabled - install locally if needed
-    // sitemap({ filter: (page) => !page.includes("/api/") }),
+    // sitemap integration enabled for SEO
+    sitemap({ filter: (page) => !page.includes("/api/") }),
   ],
   output: "hybrid",
   adapter: vercel({

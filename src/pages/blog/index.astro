@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import BreadcrumbSchema from '../../components/SEO/BreadcrumbSchema.astro';
+
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const pageTitle = "Blog - Innovation, Hackathons & Tech Career Insights | DEVTHON";
+const pageDescription = "Read the latest insights on Artificial Intelligence, Cybersecurity, Machine Learning, and how to win hackathons in India. Hosted by DevUp Society.";
+
+const breadcrumbs = [
+  { name: "Home", url: "https://www.devupvjit.in/" },
+  { name: "Blog", url: "https://www.devupvjit.in/blog" }
+];
+---
+
+<MainLayout 
+  title={pageTitle} 
+  description={pageDescription} 
+  type="website"
+>
+  <BreadcrumbSchema items={breadcrumbs} />
+  
+  <section class="min-h-screen pt-32 pb-20 px-6 max-w-5xl mx-auto text-white">
+    <header class="mb-16">
+      <h1 class="text-4xl md:text-6xl font-display font-bold mb-6">Innovation <span class="text-signal">Insights</span></h1>
+      <p class="text-zinc-400 text-lg">Deep dives into technology, hackathons, and career development.</p>
+    </header>
+
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {sortedPosts.map(post => (
+        <a href={`/blog/${post.slug}`} class="group block border border-zinc-800 bg-[#050505] overflow-hidden hover:border-signal transition-colors">
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="text-[10px] text-signal font-mono tracking-widest uppercase">
+                {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </span>
+            </div>
+            <h2 class="text-xl font-display mb-3 group-hover:text-signal transition-colors">{post.data.title}</h2>
+            <p class="text-zinc-400 text-sm line-clamp-3 mb-6">{post.data.description}</p>
+            <span class="text-xs text-zinc-500 flex items-center gap-2 font-mono uppercase">
+              Read Article
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</MainLayout>

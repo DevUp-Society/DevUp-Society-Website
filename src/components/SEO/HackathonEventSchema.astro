@@ -1,0 +1,71 @@
+---
+export interface Props {
+  name: string;
+  description: string;
+  url: string;
+  startDate: string;
+  endDate: string;
+  locationName: string;
+  locationAddress: string;
+  locationCity: string;
+  locationRegion: string;
+  locationCountry: string;
+  image: string;
+  prizePool?: string;
+  participants?: string;
+}
+
+const {
+  name,
+  description,
+  url,
+  startDate,
+  endDate,
+  locationName,
+  locationAddress,
+  locationCity,
+  locationRegion,
+  locationCountry,
+  image,
+  prizePool,
+  participants = "100+"
+} = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Hackathon",
+  "name": name,
+  "description": description,
+  "url": url,
+  "startDate": startDate,
+  "endDate": endDate,
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "location": {
+    "@type": "Place",
+    "name": locationName,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": locationAddress,
+      "addressLocality": locationCity,
+      "addressRegion": locationRegion,
+      "addressCountry": locationCountry
+    }
+  },
+  "image": image,
+  "organizer": {
+    "@type": "Organization",
+    "name": "DevUp Ecosystem",
+    "url": "https://www.devupecosystem.com/"
+  },
+  "maximumAttendeeCapacity": parseInt(participants.replace(/\D/g, '')) || 500,
+  ...(prizePool ? {
+    "workFeatured": {
+      "@type": "CreativeWork",
+      "name": "Hackathon Project Submissions",
+      "award": prizePool
+    }
+  } : {})
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

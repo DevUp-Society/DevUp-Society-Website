@@ -1,0 +1,132 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import HackathonEventSchema from '../../components/SEO/HackathonEventSchema.astro';
+import FAQSchema from '../../components/SEO/FAQSchema.astro';
+import BreadcrumbSchema from '../../components/SEO/BreadcrumbSchema.astro';
+import { locations } from '../../data/locations';
+
+export async function getStaticPaths() {
+  return locations.map((loc) => ({
+    params: { location: loc.slug },
+    props: { loc },
+  }));
+}
+
+const { loc } = Astro.props;
+
+// Meta details optimized for the location
+const pageTitle = `DEVTHON - Best Hackathon in ${loc.city}, ${loc.state} | DevUp Ecosystem`;
+const pageDescription = `Join DEVTHON, the premier national innovation hackathon and coding competition in ${loc.city}, ${loc.state}. Compete in AI, Cybersecurity, Web Development, and more. Register now!`;
+const pageKeywords = `${loc.keywords.join(', ')}, Best Hackathon in India, Upcoming Hackathon ${loc.city}, Innovation Challenge ${loc.state}`;
+
+const schemaPayload = [
+  // Additional schema can be passed dynamically here
+];
+
+const faqs = [
+  {
+    question: `What is DEVTHON in ${loc.city}?`,
+    answer: `DEVTHON is a national-level innovation hackathon taking place. We welcome students and developers from ${loc.city} and across ${loc.state} to participate in solving real-world challenges.`
+  },
+  {
+    question: `Can students from ${loc.city} participate?`,
+    answer: `Absolutely! Engineering colleges, universities, and student developers from ${loc.city} are encouraged to join DEVTHON. The platform is open for nationwide participation.`
+  },
+  {
+    question: `What are the domains for the hackathon?`,
+    answer: `DEVTHON features domains such as Artificial Intelligence (AI), Machine Learning, Cybersecurity, Blockchain, Web & Mobile App Development, IoT, and Robotics.`
+  }
+];
+
+const breadcrumbs = [
+  { name: "Home", url: "https://www.devupvjit.in/" },
+  { name: "Hackathons", url: "https://www.devupvjit.in/events" },
+  { name: `Hackathon in ${loc.city}`, url: `https://www.devupvjit.in/hackathon/${loc.slug}` }
+];
+---
+
+<MainLayout 
+  title={pageTitle} 
+  description={pageDescription} 
+  keywords={pageKeywords}
+  type="event"
+>
+  <HackathonEventSchema 
+    name={`DEVTHON ${loc.city}`}
+    description={pageDescription}
+    url={`https://www.devupvjit.in/hackathon/${loc.slug}`}
+    startDate="2026-08-15T09:00:00+05:30"
+    endDate="2026-08-16T18:00:00+05:30"
+    locationName="Vidya Jyothi Institute of Technology (National Hub)"
+    locationAddress="Aziz Nagar Gate, Chilkur Balaji Road"
+    locationCity="Hyderabad"
+    locationRegion="Telangana"
+    locationCountry="IN"
+    image="https://www.devupvjit.in/assets/og-image.jpg"
+    prizePool="₹5,00,000"
+  />
+  <FAQSchema faqs={faqs} />
+  <BreadcrumbSchema items={breadcrumbs} />
+
+  <section class="min-h-screen pt-32 pb-20 px-6 max-w-5xl mx-auto text-white">
+    <!-- Header Section -->
+    <header class="mb-16">
+      <div class="inline-block px-3 py-1 border border-signal text-signal text-[10px] font-mono tracking-widest uppercase mb-4 clip-corner">
+        National Innovation Hackathon
+      </div>
+      <h1 class="text-4xl md:text-6xl font-display font-bold mb-6">
+        The Premier Hackathon in <span class="text-signal">{loc.city}</span>, {loc.state}
+      </h1>
+      <p class="text-zinc-400 text-lg md:text-xl leading-relaxed max-w-3xl">
+        Building Asia's Largest Innovation Hackathon. Whether you're a student developer, designer, or startup enthusiast from {loc.city}, DEVTHON is your platform to build, innovate, and launch your tech career.
+      </p>
+    </header>
+
+    <!-- Deep Content for SEO (Targeting 1500+ words semantics) -->
+    <div class="prose prose-invert prose-green max-w-none prose-headings:font-display prose-a:text-signal">
+      <h2>Why Participate in DEVTHON?</h2>
+      <p>
+        If you are searching for the <strong>best hackathon in {loc.city}</strong> or looking for an <strong>innovation challenge in {loc.state}</strong>, you have arrived at the right place. DEVTHON is not just a coding competition; it is an immersive ecosystem designed for student development, internships, and startup incubation.
+      </p>
+      
+      <h3>The Ultimate Tech Competition</h3>
+      <p>
+        As one of India's most ambitious innovation ecosystems, we bring together the brightest minds in technology. Our platform bridges the gap between engineering colleges and corporate companies. Participants from {loc.city} will compete against top talent across the nation.
+      </p>
+      
+      <h3>Core Innovation Domains</h3>
+      <ul>
+        <li><strong>AI Hackathon & Machine Learning:</strong> Build cutting-edge GenAI apps and predictive models.</li>
+        <li><strong>Cybersecurity Hackathon:</strong> Engage in ethical hacking, smart contract audits, and defense mechanisms.</li>
+        <li><strong>Web Development & Cloud Computing:</strong> Develop scalable SaaS products and immersive web experiences.</li>
+        <li><strong>IoT & Robotics Competition:</strong> Hardware innovations targeting smart cities and automation.</li>
+      </ul>
+
+      <h2>Opportunities for Students in {loc.city}</h2>
+      <p>
+        This student hackathon is a gateway to massive opportunities. We partner with leading corporate companies and startups to provide:
+      </p>
+      <ul>
+        <li><strong>Placement Drives & Internships:</strong> Top performers receive direct interview calls and internship opportunities.</li>
+        <li><strong>Startup Incubation:</strong> Have a great idea? Win the startup incubation track and receive seed funding and mentorship from investors.</li>
+        <li><strong>Networking:</strong> Connect with recruiters, mentors, and industry experts.</li>
+      </ul>
+
+      <h2>Frequently Asked Questions</h2>
+      <div class="space-y-6 mt-8">
+        {faqs.map(faq => (
+          <div class="border border-zinc-800 p-6 bg-[#050505]">
+            <h4 class="text-signal mt-0 mb-2 font-display text-lg">{faq.question}</h4>
+            <p class="m-0 text-zinc-400 text-sm">{faq.answer}</p>
+          </div>
+        ))}
+      </div>
+      
+      <div class="mt-16 p-8 border border-zinc-800 bg-zinc-900/30 text-center">
+        <h3 class="text-2xl font-display mb-4">Ready to Build the Future?</h3>
+        <p class="text-zinc-400 mb-6">Join thousands of developers from {loc.city} and across India.</p>
+        <a href="https://www.devupecosystem.com" class="inline-block bg-signal text-black px-8 py-4 font-mono font-bold tracking-widest uppercase hover:bg-white transition-colors">Register Now</a>
+      </div>
+    </div>
+  </section>
+</MainLayout>
