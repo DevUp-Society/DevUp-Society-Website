@@ -140,7 +140,7 @@ export const events: Event[] = [
         images: ["/images/vynedam-hackathon.jpeg"],
         speakers: [],
         tags: ["Hackathon", "AI/ML", "Cybersecurity", "WebDev", "IoT", "Innovation"],
-        status: "upcoming",
+        status: "past",
         isHackathon: true,
         registrationLink: "https://www.devupecosystem.com/hackathons/f40eb44c-138c-4b86-86bd-2da45ae60b3a",
         themes: [
@@ -158,6 +158,44 @@ export const events: Event[] = [
         faqs: [
             { question: "What is the duration?", answer: "36 hours non-stop." },
             { question: "Who is eligible?", answer: "Students & Recent Graduates." }
+        ]
+    },
+    {
+        id: "evt-004",
+        title: "DevThon",
+        slug: "devthon",
+        date: "2026-08-20",
+        location: "Vidya Jyothi Institute Of Technology (VJIT)",
+        mode: "Offline",
+        shortDescription: "Phase 1 is LIVE! Submit your ideas by July 20th. Selected teams will be invited to the 36-Hour Offline National Innovation Challenge.",
+        fullDescription: "DevThon - Building Asia's Largest Innovation Hackathon. Where Innovation Meets Opportunity. Phase 1 is LIVE! Submit your ideas by July 20th. Selected teams will be invited to the 36-Hour Offline National Innovation Challenge.",
+        images: ["/images/hackathon-2026.jpeg"],
+        speakers: [],
+        tags: ["Hackathon", "Innovation", "DevThon", "Featured"],
+        status: "upcoming",
+        isHackathon: true,
+        registrationLink: "https://www.devupecosystem.com/hackathons/9298523b-88d7-4512-81a3-9624faf8baa8",
+        stats: {
+            participants: "1000+",
+            teams: "250+",
+            prizePool: "₹1,50,000+"
+        },
+        themes: [
+            { title: "AI & ML", description: "GenAI, Predictive Analytics" },
+            { title: "Cybersecurity & Blockchain", description: "Smart contracts, Pen testing" },
+            { title: "Web & Mobile Dev", description: "Full-stack, PWA, Flutter" },
+            { title: "Cloud & IoT", description: "Edge computing, Serverless" },
+            { title: "Social Impact", description: "Accessibility, GreenTech" }
+        ],
+        prizes: [
+            { id: 1, type: "Gold", amount: "₹75,000", perks: ["Trophies for top teams", "Internship Opportunities", "Official Certificates"] },
+            { id: 2, type: "Silver", amount: "₹45,000", perks: ["Trophies for top teams", "Internship Opportunities", "Official Certificates"] },
+            { id: 3, type: "Bronze", amount: "₹30,000", perks: ["Trophies for top teams", "Official Certificates"] }
+        ],
+        faqs: [
+            { question: "What is the duration?", answer: "36 hours non-stop offline challenge." },
+            { question: "When is the deadline?", answer: "Phase 1 idea submission ends July 20th." },
+            { question: "What are the themes?", answer: "We have 26+ domains!" }
         ]
     }
 ];
