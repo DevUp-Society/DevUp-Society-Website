@@ -28,10 +28,10 @@ export const POST: APIRoute = async () => {
     console.log('[sync-sheets] Starting manual backup...');
 
     // Initialize Supabase
-    const supabase = createClient(
-      import.meta.env.SUPABASE_URL,
-      import.meta.env.SUPABASE_SERVICE_ROLE_KEY || import.meta.env.SUPABASE_ANON_KEY
-    );
+    const supabaseUrl = import.meta.env.SUPABASE_URL || import.meta.env.PUBLIC_SUPABASE_URL || 'https://xdxkmxzkbpwbukfkxphw.supabase.co';
+    const supabaseKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY || import.meta.env.SUPABASE_ANON_KEY || 'dummy-key-for-build';
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
     // Perform full backup
     const result = await fullBackupToSheets(supabase);

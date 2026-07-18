@@ -1,8 +1,8 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL || import.meta.env.SUPABASE_URL || 'https://xdxkmxzkbpwbukfkxphw.supabase.co';
+const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || import.meta.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkeGtteHprYnB3YnVrZmt4cGh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NjA0MzAsImV4cCI6MjA4NTQzNjQzMH0.8Ao-iZPA5mIpTKlXlTMtDs0Yg_YAWwhQT8MCX4n7QrY';
 
 // Client for browser (uses localStorage)
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
