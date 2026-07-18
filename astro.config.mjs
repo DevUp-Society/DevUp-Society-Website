@@ -11,8 +11,6 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     icon(),
-    // sitemap integration enabled for SEO
-    sitemap({ filter: (page) => !page.includes("/api/") }),
   ],
   output: "hybrid",
   adapter: vercel({
